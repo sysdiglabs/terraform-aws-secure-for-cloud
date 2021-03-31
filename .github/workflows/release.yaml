@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Extract tag name
+      id: tag
+      run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/v}
+
+    - name: Create release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref }}
+        draft: true
+        prerelease: false
+        body: |
+          This is the ${{ github.ref }} release of ${{ env.GITHUB_REPOSITORY }}
+
+          ### Major Changes
+          ### Minor Changes
+          ### Bug fixes
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.SYSDIGLABS_DOCKERHUB_USER }}
+        password: ${{ secrets.SYSDIGLABS_DOCKERHUB_TOKEN }}
+        repository: ${{ env.GITHUB_REPOSITORY }}
+        add_git_labels: true
+        dockerfile: build/Dockerfile
+        tags: latest, ${{ steps.tag.outputs.VERSION }}

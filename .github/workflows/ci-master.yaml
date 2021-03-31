@@ -1,0 +1,71 @@
+name: CI - Master
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.14
+
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Cache modules
+      uses: actions/cache@v1
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    - name: Get dependencies
+      run: |
+        go get github.com/onsi/ginkgo/ginkgo
+
+    - name: Build
+      run: go build ./...
+
+    - name: Test
+      run: make test
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Lint
+      continue-on-error: true
+      uses: golangci/golangci-lint-action@v1
+      with:
+        version: v1.27
+
+  docker:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: [build-and-test, lint]
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v1
+      with:
+        username: ${{ secrets.SYSDIGLABS_DOCKERHUB_USER }}
+        password: ${{ secrets.SYSDIGLABS_DOCKERHUB_TOKEN }}
+        repository: ${{ env.GITHUB_REPOSITORY }}
+        dockerfile: build/Dockerfile
+        add_git_labels: true
+        tags: master
