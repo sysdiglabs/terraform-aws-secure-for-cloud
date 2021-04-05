@@ -29,14 +29,13 @@ No requirements.
 
 ## Modules
 
-| Name                                                                                              | Source                                                    | Version |
-| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------- | ------- |
-| <a name="module_cloud_bench"></a> [cloud\_bench](#module\_cloud\_bench)                           | sysdiglabs/cloudvision/aws/modules/aws-cloudbench         |         |
-| <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector)               | sysdiglabs/cloudvision/aws/modules/aws-cloudconnector     |         |
-| <a name="module_cloud_scanning"></a> [cloud\_scanning](#module\_cloud\_scanning)                  | sysdiglabs/cloudvision/aws/modules/aws-cloudscanning      |         |
-| <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail)                                | sysdiglabs/cloudvision/aws/modules/aws-cloudtrail         |         |
-| <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | sysdiglabs/cloudvision/aws/modules/aws-ecscluster         |         |
-| <a name="module_scanning_codebuild"></a> [scanning\_codebuild](#module\_scanning\_codebuild)      | sysdiglabs/cloudvision/aws/modules/aws-scanning-codebuild |         |
+| Name                                                                                              | Source                       | Version |
+| ------------------------------------------------------------------------------------------------- | ---------------------------- | ------- |
+| <a name="module_cloud_bench"></a> [cloud\_bench](#module\_cloud\_bench)                           | ./modules/cloudbench         |         |
+| <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector)               | ./modules/cloudconnector     |         |
+| <a name="module_cloud_scanning"></a> [cloud\_scanning](#module\_cloud\_scanning)                  | ./modules/cloudscanning      |         |
+| <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | ./modules/ecscluster         |         |
+| <a name="module_scanning_codebuild"></a> [scanning\_codebuild](#module\_scanning\_codebuild)      | ./modules/scanning-codebuild |         |
 
 ## Resources
 
@@ -50,11 +49,11 @@ No requirements.
 
 | Name                                                                                                                                                   | Description                                  | Type           | Default                       | Required |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------- | -------------- | ----------------------------- |:--------:|
+| <a name="input_cloud_trail_sns_topics"></a> [cloud\_trail\_sns\_topics](#input\_cloud\_trail\_sns\_topics)                                             | CloudTrail SNS Topics                        | `list(string)` | n/a                           |   yes    |
 | <a name="input_deploy_cloudbench"></a> [deploy\_cloudbench](#input\_deploy\_cloudbench)                                                                | Deploy the CloudBench module                 | `bool`         | `true`                        |    no    |
 | <a name="input_deploy_cloudconnector"></a> [deploy\_cloudconnector](#input\_deploy\_cloudconnector)                                                    | Deploy the CloudConnector module             | `bool`         | `true`                        |    no    |
 | <a name="input_deploy_ecr_scanning"></a> [deploy\_ecr\_scanning](#input\_deploy\_ecr\_scanning)                                                        | Deploy the ECR Scanning module               | `bool`         | `true`                        |    no    |
 | <a name="input_deploy_ecs_scanning"></a> [deploy\_ecs\_scanning](#input\_deploy\_ecs\_scanning)                                                        | Deploy the ECS Scanning module               | `bool`         | `true`                        |    no    |
-| <a name="input_existing_cloud_trail_sns_topic"></a> [existing\_cloud\_trail\_sns\_topic](#input\_existing\_cloud\_trail\_sns\_topic)                   | Use an existing CloudTrail SNS Topic         | `string`       | `""`                          |    no    |
 | <a name="input_existing_ecs_cluster"></a> [existing\_ecs\_cluster](#input\_existing\_ecs\_cluster)                                                     | Use an existing ECS cluster                  | `string`       | `""`                          |    no    |
 | <a name="input_existing_ecs_cluster_private_subnets"></a> [existing\_ecs\_cluster\_private\_subnets](#input\_existing\_ecs\_cluster\_private\_subnets) | Use the existing ECS cluster private subnets | `list(string)` | `[]`                          |    no    |
 | <a name="input_existing_ecs_cluster_vpc"></a> [existing\_ecs\_cluster\_vpc](#input\_existing\_ecs\_cluster\_vpc)                                       | Use an existing ECS cluster VPC              | `string`       | `""`                          |    no    |
