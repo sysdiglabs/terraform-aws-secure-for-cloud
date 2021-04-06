@@ -66,6 +66,16 @@ data "aws_iam_policy_document" "sns_topic_policy" {
     actions   = ["SNS:Publish"]
     resources = [aws_sns_topic.sns.arn]
   }
+
+  statement {
+    effect    = "Allow"
+    principals {
+      identifiers = [var.main_account_id]
+      type        = "AWS"
+    }
+    actions   = ["SNS:Subscribe"]
+    resources = [aws_sns_topic.sns.arn]
+  }
 }
 
 resource "aws_cloudtrail" "trail" {
@@ -192,21 +202,4 @@ data "aws_iam_policy_document" "kms_key_policy" {
 resource "aws_kms_alias" "cloudtrail" {
   target_key_id = aws_kms_key.cloudtrail.id
   name          = "alias/${var.name}"
-}
-
-data "aws_iam_policy_document" "cloudtrail-watched" {
-  statement {
-    effect    = "Allow"
-    principals {
-      identifiers = [var.main_account_id]
-      type        = "AWS"
-    }
-    actions   = ["sns:Subscribe"]
-    resources = [aws_sns_topic.sns.arn]
-  }
-}
-
-resource "aws_sns_topic_policy" "cloudtrail-watched" {
-  arn    = aws_sns_topic.sns.arn
-  policy = data.aws_iam_policy_document.cloudtrail-watched.json
 }
