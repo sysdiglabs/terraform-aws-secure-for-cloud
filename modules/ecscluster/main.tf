@@ -13,7 +13,7 @@ module "vpc" {
   private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
 
-  azs                  = data.aws_availability_zones.zones.names
+  azs                  = [data.aws_availability_zones.zones.names[0], data.aws_availability_zones.zones.names[1]]
   enable_nat_gateway   = true
   enable_vpn_gateway   = false
   enable_dns_hostnames = true

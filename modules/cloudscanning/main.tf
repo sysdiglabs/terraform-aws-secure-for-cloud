@@ -24,10 +24,10 @@ locals {
       name  = "ECS_DEPLOYED"
       value = tostring(var.deploy_ecs)
     },
-  ], flatten([for env_key, env_value in var.extra_env_vars : [{
-    name  = env_key,
-    value = env_value
-  }]])
+    ], flatten([for env_key, env_value in var.extra_env_vars : [{
+      name  = env_key,
+      value = env_value
+    }]])
   )
 }
 
@@ -46,13 +46,13 @@ resource "aws_sqs_queue" "sqs" {
 
 data "aws_iam_policy_document" "sqs_queue" {
   statement {
-    sid       = "Allow CloudTrail to send messages"
-    effect    = "Allow"
+    sid    = "Allow CloudTrail to send messages"
+    effect = "Allow"
     principals {
       identifiers = ["sns.amazonaws.com"]
       type        = "Service"
     }
-    actions   = [
+    actions = [
       "sqs:SendMessage",
       "sqs:SendMessageBatch"
     ]
@@ -71,10 +71,10 @@ resource "aws_sqs_queue_policy" "sqs" {
 }
 
 resource "aws_sns_topic_subscription" "sns" {
-  for_each  = toset(var.sns_topic_arns)
+  count     = length(var.sns_topic_arns)
   endpoint  = aws_sqs_queue.sqs.arn
   protocol  = "sqs"
-  topic_arn = each.value
+  topic_arn = var.sns_topic_arns[count.index]
 }
 
 resource "aws_cloudwatch_log_group" "log" {
@@ -84,7 +84,7 @@ resource "aws_cloudwatch_log_group" "log" {
 
 data "aws_iam_policy_document" "task_assume_role" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     principals {
       identifiers = ["ecs-tasks.amazonaws.com"]
       type        = "Service"
@@ -100,8 +100,8 @@ resource "aws_iam_role" "task" {
 
 data "aws_iam_policy_document" "iam_role_task_policy" {
   statement {
-    effect    = "Allow"
-    actions   = [// TODO Do not add so much permissions
+    effect = "Allow"
+    actions = [ // TODO Do not add so much permissions
       "s3:GetObject",
       "sqs:DeleteMessage",
       "sqs:DeleteMessageBatch",
@@ -119,8 +119,8 @@ resource "aws_iam_role_policy" "task" {
 
 data "aws_iam_policy_document" "task_definition_reader" {
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "ecs:DescribeTaskDefinition",
     ]
     resources = ["*"]
@@ -134,8 +134,8 @@ resource "aws_iam_role_policy" "task_definition_reader" {
 
 data "aws_iam_policy_document" "trigger_scan" {
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "codebuild:StartBuild",
     ]
     resources = [var.codebuild_project]
@@ -149,8 +149,8 @@ resource "aws_iam_role_policy" "trigger_scan" {
 
 data "aws_iam_policy_document" "secrets_reader" {
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "kms:Decrypt",
       "secretsmanager:GetSecretValue"
     ]
@@ -165,8 +165,8 @@ resource "aws_iam_role_policy" "secrets_reader" {
 
 data "aws_iam_policy_document" "ecr_reader" {
   statement {
-    effect    = "Allow"
-    actions   = [// TODO Do not add so much permissions
+    effect = "Allow"
+    actions = [ // TODO Do not add so much permissions
       "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability",
       "ecr:GetDownloadUrlForLayer",
@@ -191,7 +191,7 @@ resource "aws_iam_role_policy" "ecr_reader" {
 
 data "aws_iam_policy_document" "execution_assume_role" {
   statement {
-    effect  = "Allow"
+    effect = "Allow"
     principals {
       identifiers = ["ecs-tasks.amazonaws.com"]
       type        = "Service"
@@ -207,8 +207,8 @@ resource "aws_iam_role" "execution" {
 
 data "aws_iam_policy_document" "execution" {
   statement {
-    effect    = "Allow"
-    actions   = [
+    effect = "Allow"
+    actions = [
       "logs:CreateLogStream",
       "logs:PutLogEvents",
     ]
@@ -253,11 +253,11 @@ resource "aws_ecs_task_definition" "task_definition" {
 
   container_definitions = jsonencode([
     {
-      environment      = local.task_env_vars
-      name             = "CloudScanning"
-      image            = var.image
-      essential        = true
-      secrets          = [
+      environment = local.task_env_vars
+      name        = "CloudScanning"
+      image       = var.image
+      essential   = true
+      secrets = [
         {
           name      = "SECURE_URL"
           valueFrom = data.aws_ssm_parameter.endpoint.arn
@@ -269,7 +269,7 @@ resource "aws_ecs_task_definition" "task_definition" {
       ]
       logConfiguration = {
         logDriver = "awslogs"
-        options   = {
+        options = {
           awslogs-group         = aws_cloudwatch_log_group.log.id
           awslogs-region        = data.aws_region.current.name
           awslogs-stream-prefix = "ecs"
@@ -295,7 +295,7 @@ resource "aws_security_group" "sg" {
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags        = {
+  tags = {
     "Name" : var.name
   }
 }
@@ -305,10 +305,10 @@ data "aws_ecs_cluster" "ecs" {
 }
 
 resource "aws_ecs_service" "service" {
-  name            = var.name
-  cluster         = data.aws_ecs_cluster.ecs.id
-  desired_count   = 1
-  launch_type     = "FARGATE"
+  name          = var.name
+  cluster       = data.aws_ecs_cluster.ecs.id
+  desired_count = 1
+  launch_type   = "FARGATE"
   network_configuration {
     subnets         = var.subnets
     security_groups = [aws_security_group.sg.id]

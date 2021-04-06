@@ -57,8 +57,8 @@ resource "aws_sns_topic_policy" "sns" {
 
 data "aws_iam_policy_document" "sns_topic_policy" {
   statement {
-    sid       = "AWSCloudTrailSNSPolicy20131101"
-    effect    = "Allow"
+    sid    = "AWSCloudTrailSNSPolicy20131101"
+    effect = "Allow"
     principals {
       identifiers = ["cloudtrail.amazonaws.com"]
       type        = "Service"
@@ -68,7 +68,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
   }
 
   statement {
-    effect    = "Allow"
+    effect = "Allow"
     principals {
       identifiers = [var.main_account_id]
       type        = "AWS"
@@ -98,8 +98,8 @@ resource "aws_kms_key" "cloudtrail" {
 
 data "aws_iam_policy_document" "kms_key_policy" {
   statement {
-    sid       = "Enable IAM User Permissions"
-    effect    = "Allow"
+    sid    = "Enable IAM User Permissions"
+    effect = "Allow"
     principals {
       identifiers = ["arn:aws:iam::${data.aws_caller_identity.me.account_id}:root"]
       type        = "AWS"
@@ -109,8 +109,8 @@ data "aws_iam_policy_document" "kms_key_policy" {
   }
 
   statement {
-    sid       = "Allow CloudTrail to encrypt logs"
-    effect    = "Allow"
+    sid    = "Allow CloudTrail to encrypt logs"
+    effect = "Allow"
     principals {
       identifiers = ["cloudtrail.amazonaws.com"]
       type        = "Service"
@@ -125,8 +125,8 @@ data "aws_iam_policy_document" "kms_key_policy" {
   }
 
   statement {
-    sid       = "Allow CloudTrail to describe key"
-    effect    = "Allow"
+    sid    = "Allow CloudTrail to describe key"
+    effect = "Allow"
     principals {
       identifiers = ["cloudtrail.amazonaws.com"]
       type        = "Service"
@@ -136,8 +136,8 @@ data "aws_iam_policy_document" "kms_key_policy" {
   }
 
   statement {
-    sid       = "Allow principals in the account to decrypt log files"
-    effect    = "Allow"
+    sid    = "Allow principals in the account to decrypt log files"
+    effect = "Allow"
     principals {
       identifiers = ["*"]
       type        = "AWS"
@@ -157,8 +157,8 @@ data "aws_iam_policy_document" "kms_key_policy" {
   }
 
   statement {
-    sid       = "Allow alias creation during setup"
-    effect    = "Allow"
+    sid    = "Allow alias creation during setup"
+    effect = "Allow"
     principals {
       identifiers = ["*"]
       type        = "AWS"
@@ -178,8 +178,8 @@ data "aws_iam_policy_document" "kms_key_policy" {
   }
 
   statement {
-    sid       = "Enable cross account log decryption"
-    effect    = "Allow"
+    sid    = "Enable cross account log decryption"
+    effect = "Allow"
     principals {
       identifiers = ["*"]
       type        = "AWS"
