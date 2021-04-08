@@ -45,9 +45,10 @@ variable "existing_ecs_cluster_private_subnets" {
   description = "Use the existing ECS cluster private subnets"
 }
 
-variable "cloud_trail_sns_topics" {
-  type        = list(string)
-  description = "CloudTrail SNS Topics"
+variable "existing_cloud_trail_sns_topic" {
+  type        = string
+  default     = ""
+  description = "Use an existing CloudTrail SNS Topic"
 }
 
 variable "sysdig_secure_api_token" {

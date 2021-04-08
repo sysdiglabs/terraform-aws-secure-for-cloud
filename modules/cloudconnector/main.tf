@@ -71,11 +71,6 @@ data "aws_iam_policy_document" "sqs_queue" {
       "sqs:SendMessageBatch"
     ]
     resources = [aws_sqs_queue.sqs.arn]
-    condition {
-      test     = "ArnEquals"
-      values   = var.sns_topic_arns
-      variable = "aws:SourceArn"
-    }
   }
 }
 
@@ -85,10 +80,9 @@ resource "aws_sqs_queue_policy" "sqs" {
 }
 
 resource "aws_sns_topic_subscription" "sns" {
-  count     = length(var.sns_topic_arns)
   endpoint  = aws_sqs_queue.sqs.arn
   protocol  = "sqs"
-  topic_arn = var.sns_topic_arns[count.index]
+  topic_arn = var.sns_topic_arn
 }
 
 resource "aws_cloudwatch_log_group" "log" {

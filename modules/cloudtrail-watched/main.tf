@@ -44,6 +44,21 @@ data "aws_iam_policy_document" "s3_bucket_policy" {
       variable = "s3:x-amz-acl"
     }
   }
+  statement {
+    effect    = "Allow"
+    principals {
+      identifiers = [var.main_account_id]
+      type        = "AWS"
+    }
+    resources = [
+      aws_s3_bucket.cloudtrail.arn,
+      "${aws_s3_bucket.cloudtrail.arn}/*"
+    ]
+    actions   = [
+      "s3:GetObject",
+      "s3:ListBucket",
+    ]
+  }
 }
 
 resource "aws_sns_topic" "sns" {
@@ -66,6 +81,17 @@ data "aws_iam_policy_document" "sns_topic_policy" {
     actions   = ["SNS:Publish"]
     resources = [aws_sns_topic.sns.arn]
   }
+
+  statement {
+    effect = "Allow"
+    principals {
+      identifiers = [var.main_account_id]
+      type        = "AWS"
+    }
+    actions   = ["SNS:Subscribe"]
+    resources = [aws_sns_topic.sns.arn]
+  }
+
 }
 
 resource "aws_cloudtrail" "trail" {

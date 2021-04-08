@@ -70,7 +70,7 @@ variable "image" {
   description = "Image of the cloud connector to deploy"
 }
 
-variable "sns_topic_arns" {
-  type        = list(string)
-  description = "ARNs of the SNS Topics to subscribe"
+variable "sns_topic_arn" {
+  type        = string
+  description = "ARN of the SNS Topic to subscribe"
 }
