@@ -69,7 +69,7 @@ data "aws_iam_policy_document" "sns_topic_policy" {
 }
 
 resource "aws_cloudtrail" "trail" {
-  depends_on                    = [aws_s3_bucket.cloudtrail, aws_sns_topic_policy.sns]
+  depends_on                    = [aws_s3_bucket.cloudtrail, aws_sns_topic_policy.sns, aws_s3_bucket_policy.cloudtrail]
   name                          = var.name
   s3_bucket_name                = aws_s3_bucket.cloudtrail.id
   enable_logging                = true
