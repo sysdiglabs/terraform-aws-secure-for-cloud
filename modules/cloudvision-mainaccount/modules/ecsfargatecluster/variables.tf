@@ -1,20 +1,3 @@
-variable "existing_cloudtrail_sns_topic" {
-  type        = string
-  default     = ""
-  description = "Provide an existing CloudTrail SNS Topic, or leave it blank to let us to deploy the infrastructure required for running Sysdig for Cloud."
-}
-
-variable "multi_region_trail" {
-  type    = bool
-  default = true
-}
-
-variable "cloudtrail_log_retention" {
-  type        = number
-  default     = 5
-  description = "Days to keep logs from CloudTrail in S3 bucket."
-}
-
 variable "naming_prefix" {
   type        = string
   default     = "SysdigCloud"

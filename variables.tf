@@ -3,25 +3,25 @@ variable "name" {
   description = "Name for the Cloud Vision deployment"
 }
 
-variable "deploy_cloudbench" {
+variable "cloudbench_deploy" {
   type        = bool
   default     = true
   description = "Deploy the CloudBench module"
 }
 
-variable "deploy_cloudconnector" {
+variable "cloudconnector_deploy" {
   type        = bool
   default     = true
   description = "Deploy the CloudConnector module"
 }
 
-variable "deploy_ecr_scanning" {
+variable "ecr_image_scanning_deploy" {
   type        = bool
   default     = true
   description = "Deploy the ECR Scanning module"
 }
 
-variable "deploy_ecs_scanning" {
+variable "ecs_image_scanning_deploy" {
   type        = bool
   default     = true
   description = "Deploy the ECS Scanning module"
@@ -45,7 +45,7 @@ variable "existing_ecs_cluster_private_subnets" {
   description = "Use the existing ECS cluster private subnets"
 }
 
-variable "existing_cloud_trail_sns_topic" {
+variable "existing_cloudtrail_sns_topic" {
   type        = string
   default     = ""
   description = "Use an existing CloudTrail SNS Topic"

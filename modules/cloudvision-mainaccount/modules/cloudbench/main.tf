@@ -1,11 +1,16 @@
 locals {
-  default_config = <<CONFIG
+  single_account              = length(var.accounts_and_regions) == 0
+  accounts_and_regions_string = join(",", [for a in var.accounts_and_regions : "${a.account_id}:${a.region}"])
+  account_role                = local.single_account ? "" : "${var.naming_prefix}-CloudBenchRole"
+  default_config              = <<CONFIG
 secureURL: "value overriden by SECURE_URL env var"
 logLevel: "debug"
 schedule: "24h"
 benchmarkType: "aws"
 outputDir: "/tmp/cloud-custodian"
 policyFile: "/home/custodian/aws-benchmarks.yml"
+accountsAndRegions: ${local.accounts_and_regions_string}
+accountRole: ${local.account_role}
 CONFIG
   task_env_vars = concat([
     {
@@ -20,7 +25,7 @@ CONFIG
   config_env_vars = [
     {
       name  = "BUCKET"
-      value = var.config_bucket
+      value = var.s3_config_bucket
     },
     {
       name  = "KEY"
@@ -48,7 +53,7 @@ data "aws_ssm_parameter" "api_token" {
 data "aws_region" "current" {}
 
 resource "aws_cloudwatch_log_group" "log" {
-  name_prefix       = var.name
+  name_prefix       = "${var.naming_prefix}-CloudBench"
   retention_in_days = var.log_retention
 }
 
@@ -63,12 +68,26 @@ data "aws_iam_policy_document" "task_assume_role" {
   }
 }
 
-resource "aws_iam_role" "task" {
-  assume_role_policy = data.aws_iam_policy_document.task_assume_role.json
-  path               = "/"
+data "aws_iam_policy_document" "config_bucket_access" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:ListBucket",
+    ]
+    resources = ["arn:aws:s3:::${var.s3_config_bucket}"]
+  }
+
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject",
+      "s3:PutObject",
+    ]
+    resources = ["arn:aws:s3:::${var.s3_config_bucket}/*"]
+  }
 }
 
-data "aws_iam_policy_document" "iam_role_task_policy" {
+data "aws_iam_policy_document" "cloud_custodian_executor" {
   statement {
     effect = "Allow"
     actions = [ // TODO Do not add so much permissions
@@ -125,9 +144,41 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
   }
 }
 
-resource "aws_iam_role_policy" "task" {
-  policy = data.aws_iam_policy_document.iam_role_task_policy.json
-  role   = aws_iam_role.task.id
+data "aws_iam_policy_document" "assume_role" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole",
+    ]
+    resources = ["arn:aws:iam::*:role/${var.naming_prefix}-CloudBenchRole"]
+  }
+}
+
+resource "aws_iam_role" "task" {
+  name               = "${var.naming_prefix}-CloudBenchTaskRole"
+  assume_role_policy = data.aws_iam_policy_document.task_assume_role.json
+  path               = "/"
+
+  inline_policy {
+    name   = "ConfigBucketAccess"
+    policy = data.aws_iam_policy_document.config_bucket_access.json
+  }
+
+  dynamic "inline_policy" {
+    for_each = local.single_account ? [1] : []
+    content {
+      name   = "CloudCustodianExecutor"
+      policy = data.aws_iam_policy_document.cloud_custodian_executor.json
+    }
+  }
+
+  dynamic "inline_policy" {
+    for_each = local.single_account ? [] : [1]
+    content {
+      name   = "AssumeRole"
+      policy = data.aws_iam_policy_document.assume_role.json
+    }
+  }
 }
 
 data "aws_iam_policy_document" "execution_assume_role" {
@@ -141,12 +192,7 @@ data "aws_iam_policy_document" "execution_assume_role" {
   }
 }
 
-resource "aws_iam_role" "execution" {
-  assume_role_policy = data.aws_iam_policy_document.execution_assume_role.json
-  path               = "/"
-}
-
-data "aws_iam_policy_document" "execution" {
+data "aws_iam_policy_document" "execution_role_policy" {
   statement {
     effect = "Allow"
     actions = [
@@ -157,40 +203,41 @@ data "aws_iam_policy_document" "execution" {
   }
 }
 
-resource "aws_iam_role_policy" "execution" {
-  name   = "${var.name}-ExecutionRolePolicy"
-  policy = data.aws_iam_policy_document.execution.json
-  role   = aws_iam_role.execution.id
-}
-
-
 data "aws_iam_policy_document" "task_read_parameters" {
   statement {
-    effect    = "Allow"
-    actions   = ["ssm:GetParameters"]
-    resources = [data.aws_ssm_parameter.endpoint.arn, data.aws_ssm_parameter.api_token.arn]
+    effect  = "Allow"
+    actions = ["ssm:GetParameters"]
+    resources = [
+      data.aws_ssm_parameter.endpoint.arn,
+      data.aws_ssm_parameter.api_token.arn
+    ]
   }
 }
 
-resource "aws_iam_role_policy" "task_read_parameters" {
-  name   = "${var.name}-TaskReadParameters"
-  policy = data.aws_iam_policy_document.task_read_parameters.json
-  role   = aws_iam_role.execution.id
+resource "aws_iam_role" "execution" {
+  name               = "${var.naming_prefix}-CloudBenchExecutionRole"
+  assume_role_policy = data.aws_iam_policy_document.execution_assume_role.json
+  path               = "/"
+
+  inline_policy {
+    name   = "ExecutionRolePolicy"
+    policy = data.aws_iam_policy_document.execution_role_policy.json
+  }
+
+  inline_policy {
+    name   = "TaskReadParameters"
+    policy = data.aws_iam_policy_document.task_read_parameters.json
+  }
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family = "cloud_bench"
-
   requires_compatibilities = ["FARGATE"]
-
-  network_mode = "awsvpc"
-
-  task_role_arn = aws_iam_role.task.arn
-
-  execution_role_arn = aws_iam_role.execution.arn
-
-  cpu    = "256"
-  memory = "512"
+  family                   = "cloud_bench"
+  network_mode             = "awsvpc"
+  task_role_arn            = aws_iam_role.task.arn
+  execution_role_arn       = aws_iam_role.execution.arn
+  cpu                      = "256"
+  memory                   = "512"
 
   volume {
     name = "config"
@@ -261,7 +308,8 @@ resource "aws_ecs_task_definition" "task_definition" {
 
 resource "aws_security_group" "sg" {
   vpc_id      = var.vpc
-  name        = var.name
+  name_prefix = "${var.naming_prefix}-CloudBench"
+
   description = "CloudConnector workload Security Group"
   ingress {
     from_port   = 0
@@ -276,7 +324,7 @@ resource "aws_security_group" "sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   tags = {
-    "Name" : var.name
+    "Name" : "${var.naming_prefix}-CloudBench"
   }
 }
 
@@ -285,7 +333,7 @@ data "aws_ecs_cluster" "ecs" {
 }
 
 resource "aws_ecs_service" "service" {
-  name          = var.name
+  name          = "${var.naming_prefix}-CloudBench"
   cluster       = data.aws_ecs_cluster.ecs.id
   desired_count = 1
   launch_type   = "FARGATE"
@@ -297,7 +345,7 @@ resource "aws_ecs_service" "service" {
 }
 
 data "aws_s3_bucket" "config" {
-  bucket = var.config_bucket
+  bucket = var.s3_config_bucket
 }
 
 resource "aws_s3_bucket_object" "config" {

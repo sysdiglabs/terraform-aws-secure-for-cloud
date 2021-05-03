@@ -1,9 +1,3 @@
-variable "name" {
-  type        = string
-  default     = "cloud-bench"
-  description = "Name for the Cloud Bench deployment"
-}
-
 variable "log_retention" {
   type        = number
   default     = 5
@@ -38,10 +32,10 @@ variable "ssm_token" {
 variable "extra_env_vars" {
   type        = map(string)
   default     = {}
-  description = "Extra environment variables for the Cloud Bench deployment"
+  description = "Extra environment variables for the Cloud Connector deployment"
 }
 
-variable "config_bucket" {
+variable "s3_config_bucket" {
   type        = string
   description = "Name of a bucket (must exist) where the configuration YAML files will be stored"
 }
@@ -66,12 +60,26 @@ variable "config_source" {
 
 variable "image" {
   type        = string
-  default     = "sysdiglabs/cloud-bench:latest"
-  description = "Image of the cloud Bench to deploy"
+  default     = "sysdiglabs/cloud-connector:airadier-test"
+  description = "Image of the cloud connector to deploy"
 }
 
-variable "config_image" {
+variable "naming_prefix" {
   type        = string
-  default     = "sysdiglabs/cloud-connector-s3-bucket-config:latest"
-  description = "Image of the cloud Bench configuration image to deploy"
+  default     = "SysdigCloud"
+  description = "Prefix for resource names. Use the default unless you need to install multiple instances, and modify the deployment at the main account accordingly"
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9\\-]+$", var.naming_prefix)) && length(var.naming_prefix) > 1 && length(var.naming_prefix) <= 64
+    error_message = "Must enter a naming prefix up to 64 alphanumeric characters."
+  }
+}
+
+variable "accounts_and_regions" {
+  type = list(object({
+    account_id = string
+    region     = string
+  }))
+  default     = []
+  description = "A list of child AWS accounts and regions where CloudTrail is enabled."
 }

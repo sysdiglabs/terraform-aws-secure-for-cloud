@@ -11,7 +11,7 @@ data "aws_ssm_parameter" "api_token" {
 }
 
 resource "aws_cloudwatch_log_group" "log" {
-  name_prefix       = var.name
+  name_prefix       = "${var.naming_prefix}-CloudScanning-BuildProject"
   retention_in_days = var.log_retention
 }
 
@@ -24,11 +24,6 @@ data "aws_iam_policy_document" "assume_role" {
     }
     actions = ["sts:AssumeRole"]
   }
-}
-
-resource "aws_iam_role" "service" {
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
-  path               = "/"
 }
 
 data "aws_iam_policy_document" "logs_publisher" {
@@ -45,11 +40,6 @@ data "aws_iam_policy_document" "logs_publisher" {
   }
 }
 
-resource "aws_iam_role_policy" "logs_publisher" {
-  policy = data.aws_iam_policy_document.logs_publisher.json
-  role   = aws_iam_role.service.id
-}
-
 data "aws_iam_policy_document" "parameter_reader" {
   statement {
     effect = "Allow"
@@ -60,17 +50,29 @@ data "aws_iam_policy_document" "parameter_reader" {
     ]
     resources = [data.aws_ssm_parameter.endpoint.arn, data.aws_ssm_parameter.api_token.arn]
   }
+
 }
 
-resource "aws_iam_role_policy" "parameter_reader" {
-  policy = data.aws_iam_policy_document.parameter_reader.json
-  role   = aws_iam_role.service.id
+resource "aws_iam_role" "service" {
+  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  path               = "/"
+
+  inline_policy {
+    name   = "LogsPublisher"
+    policy = data.aws_iam_policy_document.logs_publisher.json
+  }
+
+  inline_policy {
+    name   = "ParameterReader"
+    policy = data.aws_iam_policy_document.parameter_reader.json
+  }
 }
 
 resource "aws_codebuild_project" "build_project" {
-  name         = var.name
+  name         = "${var.naming_prefix}-CloudScanningProject"
   description  = "CodeBuild project which scans images using inline technology"
   service_role = aws_iam_role.service.arn
+
   artifacts {
     type = "NO_ARTIFACTS"
   }

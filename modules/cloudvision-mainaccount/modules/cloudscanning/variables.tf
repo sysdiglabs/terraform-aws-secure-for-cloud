@@ -1,9 +1,3 @@
-variable "name" {
-  type        = string
-  default     = "cloud-scanning"
-  description = "Name for the Cloud Scanning deployment"
-}
-
 variable "log_retention" {
   type        = number
   default     = 5
@@ -49,13 +43,8 @@ variable "verify_ssl" {
 
 variable "image" {
   type        = string
-  default     = "sysdiglabs/cloud-scanning:latest"
+  default     = "sysdiglabs/cloud-scanning:airadier-test"
   description = "Image of the cloud scanning to deploy"
-}
-
-variable "sns_topic_arn" {
-  type        = string
-  description = "ARN of the SNS Topic to subscribe"
 }
 
 variable "deploy_ecr" {
@@ -68,7 +57,22 @@ variable "deploy_ecs" {
   description = "Enable ECS integration"
 }
 
-variable "codebuild_project" {
+variable "naming_prefix" {
   type        = string
-  description = "CodeBuild project that executes the inline-scan"
+  default     = "SysdigCloud"
+  description = "Prefix for resource names. Use the default unless you need to install multiple instances, and modify the deployment at the main account accordingly"
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9\\-]+$", var.naming_prefix)) && length(var.naming_prefix) > 1 && length(var.naming_prefix) <= 64
+    error_message = "Must enter a naming prefix up to 64 alphanumeric characters."
+  }
+}
+
+variable "accounts_and_regions" {
+  type = list(object({
+    account_id = string
+    region     = string
+  }))
+  default     = []
+  description = "A list of child AWS accounts and regions where CloudTrail is enabled."
 }
