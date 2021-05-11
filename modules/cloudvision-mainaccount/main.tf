@@ -32,7 +32,7 @@ resource "aws_ssm_parameter" "secure_endpoint" {
 module "ecs_fargate_cluster" {
   count = local.deploy_new_ecs_cluster ? 1 : 0
 
-  source = "./modules/ecsfargatecluster"
+  source = "../ecsfargatecluster"
 
   naming_prefix = var.naming_prefix
 }
@@ -45,7 +45,7 @@ module "cloud_connector" {
     aws_ssm_parameter.secure_api_token,
   ]
 
-  source = "./modules/cloudconnector"
+  source = "../cloudconnector"
 
   ecs_cluster          = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].id : var.existing_ecs_cluster
   vpc                  = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].vpc_id : var.existing_ecs_cluster_vpc
@@ -66,7 +66,7 @@ module "cloud_scanning" {
     aws_ssm_parameter.secure_api_token,
   ]
 
-  source = "./modules/cloudscanning"
+  source = "../cloudscanning"
 
   ecs_cluster          = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].id : var.existing_ecs_cluster
   vpc                  = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].vpc_id : var.existing_ecs_cluster_vpc
@@ -88,7 +88,7 @@ module "cloud_bench" {
     aws_ssm_parameter.secure_api_token,
   ]
 
-  source = "./modules/cloudbench"
+  source = "../cloudbench"
 
   ecs_cluster          = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].id : var.existing_ecs_cluster
   vpc                  = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].vpc_id : var.existing_ecs_cluster_vpc
