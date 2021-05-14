@@ -5,8 +5,9 @@ variable "existing_cloudtrail_sns_topic" {
 }
 
 variable "multi_region_trail" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Specify if the cloud trail to create needs to be multi regional"
 }
 
 variable "cloudtrail_log_retention" {

@@ -90,7 +90,7 @@ data "aws_iam_policy_document" "config_bucket_access" {
 data "aws_iam_policy_document" "cloud_custodian_executor" {
   statement {
     effect = "Allow"
-    actions = [ // TODO Do not add so much permissions
+    actions = [ # TODO Do not add so much permissions
       "access-analyzer:List*",
       "acm:List*",
       "cloudtrail:DescribeTrails",
@@ -139,7 +139,7 @@ data "aws_iam_policy_document" "cloud_custodian_executor" {
       "sns:ListSubscriptionsByTopic",
       "tag:GetResources",
     ]
-    // TODO Add the only resources needed for this policy to work with
+    # TODO Add the only resources needed for this policy to work with
     resources = ["*"]
   }
 }

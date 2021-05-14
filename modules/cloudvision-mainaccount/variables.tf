@@ -28,23 +28,27 @@ variable "bench_accounts_and_regions" {
 }
 
 variable "cloudconnector_deploy" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Whether to deploy or not the Cloud Connector component"
 }
 
 variable "cloudbench_deploy" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Whether to deploy or not the Cloud Bench component"
 }
 
 variable "ecr_image_scanning_deploy" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Whether to deploy or not the ECR Image Scanning component"
 }
 
 variable "ecs_image_scanning_deploy" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Whether to deploy or not the ECS Image Scanning component"
 }
 
 variable "existing_ecs_cluster" {

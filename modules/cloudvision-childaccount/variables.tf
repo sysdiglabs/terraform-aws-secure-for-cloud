@@ -20,17 +20,20 @@ variable "main_account_id" {
 }
 
 variable "cloudconnector_deploy" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Whether to deploy or not the Cloud Connector component"
 }
 
 variable "cloudbench_deploy" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Whether to deploy or not the Cloud Bench component"
 }
 
 variable "cloudscanning_deploy" {
-  type    = bool
-  default = true
+  type        = bool
+  default     = true
+  description = "Whether to deploy or not the Cloud Scanning component"
 }
 
