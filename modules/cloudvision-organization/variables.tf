@@ -9,43 +9,28 @@ variable "naming_prefix" {
   }
 }
 
-variable "trail_accounts_and_regions" {
-  type = list(object({
-    account_id = string
-    region     = string
-  }))
-  default     = []
-  description = "A list of child AWS accounts and regions where CloudTrail is enabled."
-}
-
-variable "bench_accounts" {
-  type        = list(string)
-  default     = []
-  description = "A list of child AWS account where benchmarks will run."
+variable "cloudbench_deploy" {
+  type        = bool
+  default     = true
+  description = "Deploy the CloudBench module"
 }
 
 variable "cloudconnector_deploy" {
   type        = bool
   default     = true
-  description = "Whether to deploy or not the Cloud Connector component"
-}
-
-variable "cloudbench_deploy" {
-  type        = bool
-  default     = true
-  description = "Whether to deploy or not the Cloud Bench component"
+  description = "Deploy the CloudConnector module"
 }
 
 variable "ecr_image_scanning_deploy" {
   type        = bool
   default     = true
-  description = "Whether to deploy or not the ECR Image Scanning component"
+  description = "Deploy the ECR Scanning module"
 }
 
 variable "ecs_image_scanning_deploy" {
   type        = bool
   default     = true
-  description = "Whether to deploy or not the ECS Image Scanning component"
+  description = "Deploy the ECS Scanning module"
 }
 
 variable "existing_ecs_cluster" {
@@ -66,6 +51,12 @@ variable "existing_ecs_cluster_private_subnets" {
   description = "Use the existing ECS cluster private subnets"
 }
 
+variable "existing_cloudtrail_sns_topic" {
+  type        = string
+  default     = ""
+  description = "Organization CloudTrail SNS Topic. It must be in the current region"
+}
+
 variable "sysdig_secure_api_token" {
   type        = string
   sensitive   = true
@@ -76,5 +67,11 @@ variable "sysdig_secure_endpoint" {
   type        = string
   default     = "https://secure.sysdig.com"
   description = "Sysdig Secure API endpoint"
+}
+
+variable "bench_accounts" {
+  type        = list(string)
+  default     = []
+  description = "A list of child AWS account where benchmarks will run."
 }
 

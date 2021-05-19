@@ -81,11 +81,8 @@ variable "naming_prefix" {
   }
 }
 
-variable "accounts_and_regions" {
-  type = list(object({
-    account_id = string
-    region     = string
-  }))
+variable "accounts" {
+  type        = list(string)
   default     = []
-  description = "A comma separated list of child AWS accounts and regions."
+  description = "A list of child AWS accounts."
 }

@@ -43,7 +43,7 @@ variable "verify_ssl" {
 
 variable "image" {
   type        = string
-  default     = "sysdiglabs/cloud-scanning:airadier-test"
+  default     = "sysdiglabs/cloud-scanning:latest"
   description = "Image of the cloud scanning to deploy"
 }
 

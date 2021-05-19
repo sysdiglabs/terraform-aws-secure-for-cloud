@@ -80,7 +80,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_accounts_and_regions"></a> [accounts\_and\_regions](#input\_accounts\_and\_regions) | A comma separated list of child AWS accounts and regions. | <pre>list(object({<br>    account_id = string<br>    region     = string<br>  }))</pre> | `[]` | no |
+| <a name="input_accounts"></a> [accounts](#input\_accounts) | A list of child AWS accounts. | `list(string)` | `[]` | no |
 | <a name="input_config_content"></a> [config\_content](#input\_config\_content) | Configuration contents for the file stored in the S3 bucket | `string` | `null` | no |
 | <a name="input_config_image"></a> [config\_image](#input\_config\_image) | Image of the cloud Bench configuration image to deploy | `string` | `"sysdiglabs/cloud-connector-s3-bucket-config:latest"` | no |
 | <a name="input_config_source"></a> [config\_source](#input\_config\_source) | Configuration source file for the file stored in the S3 bucket | `string` | `null` | no |

@@ -60,7 +60,7 @@ variable "config_source" {
 
 variable "image" {
   type        = string
-  default     = "sysdiglabs/cloud-connector:airadier-test"
+  default     = "sysdiglabs/cloud-connector:latest"
   description = "Image of the cloud connector to deploy"
 }
 

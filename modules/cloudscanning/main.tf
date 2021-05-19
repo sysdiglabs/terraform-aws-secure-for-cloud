@@ -271,7 +271,7 @@ resource "aws_iam_role" "execution" {
 
 resource "aws_ecs_task_definition" "task_definition" {
   requires_compatibilities = ["FARGATE"]
-  family                   = "cloud_scanning"
+  family                   = "${var.naming_prefix}-cloud_scanning"
   network_mode             = "awsvpc"
   task_role_arn            = aws_iam_role.task.arn
   execution_role_arn       = aws_iam_role.execution.arn

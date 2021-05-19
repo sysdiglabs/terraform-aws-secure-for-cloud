@@ -7,8 +7,6 @@ locals {
   queue_name                  = local.single_account ? "" : "${var.naming_prefix}-CloudConnector"
   default_config              = <<EOF
 rules:
-  - secure:
-      url: ""
   - s3:
       bucket: ${var.s3_config_bucket}
       path: rules
@@ -23,10 +21,8 @@ notifiers:
   - cloudwatch:
       logGroup: ${aws_cloudwatch_log_group.log.name}
       logStream: ${aws_cloudwatch_log_stream.stream.name}
-  - securityhub:
-      productArn: arn:aws:securityhub:${data.aws_region.current.name}::product/sysdig/sysdig-cloud-connector
-  - secure:
-      url: ""
+  #- securityhub:
+  #    productArn: arn:aws:securityhub:${data.aws_region.current.name}::product/sysdig/sysdig-cloud-connector
 EOF
   task_env_vars = concat([
     {
@@ -240,7 +236,7 @@ resource "aws_iam_role" "execution" {
 
 resource "aws_ecs_task_definition" "task_definition" {
   requires_compatibilities = ["FARGATE"]
-  family                   = "cloud_connector"
+  family                   = "${var.naming_prefix}-cloud_connector"
   network_mode             = "awsvpc"
   task_role_arn            = aws_iam_role.task.arn
   execution_role_arn       = aws_iam_role.execution.arn

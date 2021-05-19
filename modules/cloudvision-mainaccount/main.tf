@@ -90,13 +90,13 @@ module "cloud_bench" {
 
   source = "../cloudbench"
 
-  ecs_cluster          = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].id : var.existing_ecs_cluster
-  vpc                  = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].vpc_id : var.existing_ecs_cluster_vpc
-  subnets              = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].private_subnets : var.existing_ecs_cluster_private_subnets
-  ssm_endpoint         = aws_ssm_parameter.secure_endpoint.name
-  ssm_token            = aws_ssm_parameter.secure_api_token.name
-  s3_config_bucket     = aws_s3_bucket.s3_config_bucket.id
-  verify_ssl           = local.verify_ssl
-  accounts_and_regions = var.bench_accounts_and_regions
-  naming_prefix        = var.naming_prefix
+  ecs_cluster      = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].id : var.existing_ecs_cluster
+  vpc              = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].vpc_id : var.existing_ecs_cluster_vpc
+  subnets          = local.deploy_new_ecs_cluster ? module.ecs_fargate_cluster[0].private_subnets : var.existing_ecs_cluster_private_subnets
+  ssm_endpoint     = aws_ssm_parameter.secure_endpoint.name
+  ssm_token        = aws_ssm_parameter.secure_api_token.name
+  s3_config_bucket = aws_s3_bucket.s3_config_bucket.id
+  verify_ssl       = local.verify_ssl
+  accounts         = var.bench_accounts
+  naming_prefix    = var.naming_prefix
 }

@@ -101,7 +101,7 @@ module "cloudscanning" {
 | <a name="input_deploy_ecs"></a> [deploy\_ecs](#input\_deploy\_ecs) | Enable ECS integration | `bool` | n/a | yes |
 | <a name="input_ecs_cluster"></a> [ecs\_cluster](#input\_ecs\_cluster) | ECS Fargate Cluster where deploy the CloudConnector workload | `string` | n/a | yes |
 | <a name="input_extra_env_vars"></a> [extra\_env\_vars](#input\_extra\_env\_vars) | Extra environment variables for the Cloud Scanning deployment | `map(string)` | `{}` | no |
-| <a name="input_image"></a> [image](#input\_image) | Image of the cloud scanning to deploy | `string` | `"sysdiglabs/cloud-scanning:airadier-test"` | no |
+| <a name="input_image"></a> [image](#input\_image) | Image of the cloud scanning to deploy | `string` | `"sysdiglabs/cloud-scanning:latest"` | no |
 | <a name="input_log_retention"></a> [log\_retention](#input\_log\_retention) | Days to keep logs for CloudConnector | `number` | `5` | no |
 | <a name="input_naming_prefix"></a> [naming\_prefix](#input\_naming\_prefix) | Prefix for resource names. Use the default unless you need to install multiple instances, and modify the deployment at the main account accordingly | `string` | `"SysdigCloud"` | no |
 | <a name="input_ssm_endpoint"></a> [ssm\_endpoint](#input\_ssm\_endpoint) | Name of the parameter in SSM containing the Sysdig Secure Endpoint URL | `string` | n/a | yes |

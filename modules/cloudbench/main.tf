@@ -1,15 +1,15 @@
 locals {
-  single_account              = length(var.accounts_and_regions) == 0
-  accounts_and_regions_string = join(",", [for a in var.accounts_and_regions : "${a.account_id}:${a.region}"])
-  account_role                = local.single_account ? "" : "${var.naming_prefix}-CloudBenchRole"
-  default_config              = <<CONFIG
+  single_account  = length(var.accounts) == 0
+  accounts_string = join(",", var.accounts)
+  account_role    = local.single_account ? "" : "${var.naming_prefix}-CloudBenchRole"
+  default_config  = <<CONFIG
 secureURL: "value overriden by SECURE_URL env var"
 logLevel: "debug"
 schedule: "24h"
 benchmarkType: "aws"
 outputDir: "/tmp/cloud-custodian"
 policyFile: "/home/custodian/aws-benchmarks.yml"
-accountsAndRegions: ${local.accounts_and_regions_string}
+accounts: ${local.accounts_string}
 accountRole: ${local.account_role}
 CONFIG
   task_env_vars = concat([
@@ -232,7 +232,7 @@ resource "aws_iam_role" "execution" {
 
 resource "aws_ecs_task_definition" "task_definition" {
   requires_compatibilities = ["FARGATE"]
-  family                   = "cloud_bench"
+  family                   = "${var.naming_prefix}-cloud_bench"
   network_mode             = "awsvpc"
   task_role_arn            = aws_iam_role.task.arn
   execution_role_arn       = aws_iam_role.execution.arn
