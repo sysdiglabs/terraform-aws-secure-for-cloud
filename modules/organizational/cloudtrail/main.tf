@@ -1,24 +1,54 @@
 data "aws_caller_identity" "me" {}
 
+
+##########################################
+# rg
+##########################################
+resource "aws_resourcegroups_group" "cloudvision" {
+  name = "cloudvision-${var.cloudtrail_name}"
+
+  resource_query {
+    query = <<JSON
+{
+  "ResourceTypeFilters": [
+    "AWS::AllSupported"
+  ],
+  "TagFilters": [
+    {
+      "Key": "product",
+      "Values": ["cloudvision"]
+    }
+  ]
+}
+JSON
+  }
+}
+
+
+##########################################
+# S3 bucket
+##########################################
 resource "aws_s3_bucket" "cloudtrail" {
-  bucket        = var.bucket_name
+  bucket        = var.s3_bucket_name
   acl           = "private"
   force_destroy = true
 
   lifecycle_rule {
     enabled = true
     expiration {
-      days = var.bucket_expiration_days
+      days = var.s3_bucket_expiration_days
     }
   }
+
+  tags = var.cloudvision_product_tags
 }
 
 resource "aws_s3_bucket_policy" "cloudtrail" {
   bucket = aws_s3_bucket.cloudtrail.id
-  policy = data.aws_iam_policy_document.s3_bucket_policy.json
+  policy = data.aws_iam_policy_document.cloudtrail_s3.json
 }
 
-data "aws_iam_policy_document" "s3_bucket_policy" {
+data "aws_iam_policy_document" "cloudtrail_s3" {
   statement {
     sid       = "AWSCloudTrailAclCheck20150319"
     actions   = ["s3:GetBucketAcl"]
@@ -47,16 +77,21 @@ data "aws_iam_policy_document" "s3_bucket_policy" {
   }
 }
 
-resource "aws_sns_topic" "sns" {
-  name = var.name
+
+##########################################
+# SNS
+##########################################
+resource "aws_sns_topic" "cloudtrail" {
+  name = var.cloudtrail_name
+  tags = var.cloudvision_product_tags
 }
 
-resource "aws_sns_topic_policy" "sns" {
-  arn    = aws_sns_topic.sns.arn
-  policy = data.aws_iam_policy_document.sns_topic_policy.json
+resource "aws_sns_topic_policy" "cloudtrail" {
+  arn    = aws_sns_topic.cloudtrail.arn
+  policy = data.aws_iam_policy_document.cloudtrail_sns.json
 }
 
-data "aws_iam_policy_document" "sns_topic_policy" {
+data "aws_iam_policy_document" "cloudtrail_sns" {
   statement {
     sid    = "AWSCloudTrailSNSPolicy20131101"
     effect = "Allow"
@@ -65,12 +100,16 @@ data "aws_iam_policy_document" "sns_topic_policy" {
       type        = "Service"
     }
     actions   = ["SNS:Publish"]
-    resources = [aws_sns_topic.sns.arn]
+    resources = [aws_sns_topic.cloudtrail.arn]
   }
 }
 
-resource "aws_cloudtrail" "trail" {
-  name                          = var.name
+
+##########################################
+# cloudtrail
+##########################################
+resource "aws_cloudtrail" "cloudtrail" {
+  name                          = var.cloudtrail_name
   s3_bucket_name                = aws_s3_bucket.cloudtrail.id
   enable_logging                = true
   is_multi_region_trail         = true
@@ -78,16 +117,30 @@ resource "aws_cloudtrail" "trail" {
   is_organization_trail         = true
   enable_log_file_validation    = true
   kms_key_id                    = aws_kms_key.cloudtrail.arn
-  sns_topic_name                = aws_sns_topic.sns.id
+  sns_topic_name                = aws_sns_topic.cloudtrail.id
+  tags                          = var.cloudvision_product_tags
 }
 
+
+
+##########################################
+# ksm
+##########################################
 resource "aws_kms_key" "cloudtrail" {
   is_enabled          = true
   enable_key_rotation = true
-  policy              = data.aws_iam_policy_document.kms_key_policy.json
+  policy              = data.aws_iam_policy_document.cloudtrail_kms.json
+  tags                = var.cloudvision_product_tags
 }
 
-data "aws_iam_policy_document" "kms_key_policy" {
+
+resource "aws_kms_alias" "cloudtrail" {
+  target_key_id = aws_kms_key.cloudtrail.id
+  name          = "alias/${var.cloudtrail_name}"
+}
+
+
+data "aws_iam_policy_document" "cloudtrail_kms" {
   statement {
     sid    = "Enable IAM User Permissions"
     effect = "Allow"
@@ -188,9 +241,4 @@ data "aws_iam_policy_document" "kms_key_policy" {
       variable = "kms:EncryptionContext:aws:cloudtrail:arn"
     }
   }
-}
-
-resource "aws_kms_alias" "cloudtrail" {
-  target_key_id = aws_kms_key.cloudtrail.id
-  name          = "alias/${var.name}"
 }

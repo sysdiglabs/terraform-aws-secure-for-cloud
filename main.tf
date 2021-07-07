@@ -4,6 +4,6 @@ provider "aws" {
 module "cloudtrail_organizational" {
   source = "./modules/organizational/cloudtrail"
 
-  name        = "cloudtrail-org-tf"
-  bucket_name = "cloudtrail-org-tf"
+  cloudtrail_name   = "cloudtrail-org-tf"
+  s3_bucket_name    = "cloudtrail-org-tf"
 }

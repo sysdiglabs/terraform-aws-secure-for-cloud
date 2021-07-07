@@ -6,6 +6,20 @@ deploy the components of the CloudVision stack.
 Each module can be used on its own to deploy the components in existing infrastructure, or can be specified as
 parameters.
 
+## Prerequisites
+
+- Organization with CloudTrail service enabled
+- AWS env vars with access-key [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
+
+> You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
+
+```bash
+export AWS_ACCESS_KEY_ID=""
+export AWS_SECRET_ACCESS_KEY=""
+export AWS_DEFAULT_REGION=""
+```
+
+
 ## Usage
 
 ```hcl
