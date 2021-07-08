@@ -26,7 +26,7 @@ export AWS_DEFAULT_REGION=""
 module "cloudvision" {
   source = "sysdiglabs/cloudvision/aws"
   name   = "cloudvision-stack"
-  
+
   sysdig_secure_api_token = "<API_TOKEN>"
 }
 ```

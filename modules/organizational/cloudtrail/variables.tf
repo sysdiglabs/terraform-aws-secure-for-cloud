@@ -22,8 +22,8 @@ variable "s3_bucket_expiration_days" {
   description = "Number of days that the logs will persist in the bucket"
 }
 
-variable "cloudvision_product_tags"{
-  type=map(string)
+variable "cloudvision_product_tags" {
+  type = map(string)
   default = {
     "product" = "cloudvision"
   }
