@@ -14,9 +14,13 @@ parameters.
 > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
 
 ```bash
-export AWS_ACCESS_KEY_ID=""
-export AWS_SECRET_ACCESS_KEY=""
-export AWS_DEFAULT_REGION=""
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+export AWS_DEFAULT_REGION=
+
+-- optional TF_VAR override for main module
+export TF_VAR_sysdig_secure_endpoint=
+export TF_VAR_sysdig_secure_api_token=
 ```
 
 
@@ -31,6 +35,18 @@ module "cloudvision" {
 }
 ```
 
+
+## Troubleshooting
+
+- Q: How can I **validate cloudvision provisioning** is working as expected?<br/>
+A: Check each pipeline resource is working as expected (from high to low lvl)
+  - [ ] are events shown in sysdig secure platform?
+  - [ ] are there any errors in the ECS task logs? can also check cloudwatch logs
+  - [ ] are events consumed in the sqs queue, or are they pending?
+  - [ ] are events being sent to sns topic?
+
+
+<!-- BEGIN_TF_DOCS -->  
 ## Requirements
 
 No requirements.
@@ -78,6 +94,7 @@ No requirements.
 ## Outputs
 
 No outputs.
+<!-- END_TF_DOCS -->
 
 ## Authors
 

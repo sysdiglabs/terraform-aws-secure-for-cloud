@@ -51,3 +51,11 @@ No requirements.
 | <a name="output_public_subnets"></a> [public\_subnets](#output\_public\_subnets) | VPC Public Subnets |
 | <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | VPC ID |
 <!-- END_TF_DOCS -->
+
+## Authors
+
+Module is maintained by [Sysdig](https://sysdig.com).
+
+## License
+
+Apache 2 Licensed. See LICENSE for full details.

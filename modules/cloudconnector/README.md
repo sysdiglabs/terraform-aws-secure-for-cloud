@@ -102,21 +102,29 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_config_bucket"></a> [config\_bucket](#input\_config\_bucket) | Name of a bucket (must exist) where the configuration YAML files will be stored | `string` | n/a | yes |
-| <a name="input_config_content"></a> [config\_content](#input\_config\_content) | Configuration contents for the file stored in the S3 bucket | `string` | `null` | no |
-| <a name="input_config_source"></a> [config\_source](#input\_config\_source) | Configuration source file for the file stored in the S3 bucket | `string` | `null` | no |
 | <a name="input_ecs_cluster"></a> [ecs\_cluster](#input\_ecs\_cluster) | ECS Fargate Cluster where deploy the CloudConnector workload | `string` | n/a | yes |
-| <a name="input_extra_env_vars"></a> [extra\_env\_vars](#input\_extra\_env\_vars) | Extra environment variables for the Cloud Connector deployment | `map(string)` | `{}` | no |
-| <a name="input_image"></a> [image](#input\_image) | Image of the cloud connector to deploy | `string` | `"sysdiglabs/cloud-connector:latest"` | no |
-| <a name="input_log_retention"></a> [log\_retention](#input\_log\_retention) | Days to keep logs for CloudConnector | `number` | `5` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Connector deployment | `string` | `"cloud-connector"` | no |
 | <a name="input_sns_topic_arn"></a> [sns\_topic\_arn](#input\_sns\_topic\_arn) | ARN of the SNS Topic to subscribe | `string` | n/a | yes |
 | <a name="input_ssm_endpoint"></a> [ssm\_endpoint](#input\_ssm\_endpoint) | Name of the parameter in SSM containing the Sysdig Secure Endpoint URL | `string` | n/a | yes |
 | <a name="input_ssm_token"></a> [ssm\_token](#input\_ssm\_token) | Name of the parameter in SSM containing the Sysdig Secure API Token | `string` | n/a | yes |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets where the CloudConnector will be deployed | `list(string)` | n/a | yes |
-| <a name="input_verify_ssl"></a> [verify\_ssl](#input\_verify\_ssl) | Whether to verify the SSL certificate of the endpoint or not | `bool` | `true` | no |
 | <a name="input_vpc"></a> [vpc](#input\_vpc) | VPC where the workload is deployed | `string` | n/a | yes |
+| <a name="input_cloudwatch_log_retention"></a> [cloudwatch\_log\_retention](#input\_cloudwatch\_log\_retention) | Days to keep logs for CloudConnector | `number` | `5` | no |
+| <a name="input_config_content"></a> [config\_content](#input\_config\_content) | Configuration contents for the file stored in the S3 bucket | `string` | `null` | no |
+| <a name="input_config_source"></a> [config\_source](#input\_config\_source) | Configuration source file for the file stored in the S3 bucket | `string` | `null` | no |
+| <a name="input_extra_env_vars"></a> [extra\_env\_vars](#input\_extra\_env\_vars) | Extra environment variables for the Cloud Connector deployment | `map(string)` | `{}` | no |
+| <a name="input_image"></a> [image](#input\_image) | Image of the cloud connector to deploy | `string` | `"sysdiglabs/cloud-connector:latest"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Connector deployment | `string` | `"cloud-connector"` | no |
+| <a name="input_verify_ssl"></a> [verify\_ssl](#input\_verify\_ssl) | Whether to verify the SSL certificate of the endpoint or not | `bool` | `true` | no |
 
 ## Outputs
 
 No outputs.
 <!-- END_TF_DOCS -->
+
+## Authors
+
+Module is maintained by [Sysdig](https://sysdig.com).
+
+## License
+
+Apache 2 Licensed. See LICENSE for full details.

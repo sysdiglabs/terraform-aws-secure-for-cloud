@@ -58,3 +58,11 @@ No modules.
 |------|-------------|
 | <a name="output_sns_topic_arn"></a> [sns\_topic\_arn](#output\_sns\_topic\_arn) | ARN of the SNS topic |
 <!-- END_TF_DOCS -->
+
+## Authors
+
+Module is maintained by [Sysdig](https://sysdig.com).
+
+## License
+
+Apache 2 Licensed. See LICENSE for full details.

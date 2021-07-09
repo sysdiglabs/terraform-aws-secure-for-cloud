@@ -1,6 +1,6 @@
 resource "aws_cloudwatch_log_group" "log" {
   name_prefix       = var.name
-  retention_in_days = var.log_retention
+  retention_in_days = var.cloudwatch_log_retention
 }
 
 resource "aws_cloudwatch_log_stream" "stream" {

@@ -4,7 +4,7 @@ variable "name" {
   description = "Name for the Cloud Connector deployment"
 }
 
-variable "log_retention" {
+variable "cloudwatch_log_retention" {
   type        = number
   default     = 5
   description = "Days to keep logs for CloudConnector"
