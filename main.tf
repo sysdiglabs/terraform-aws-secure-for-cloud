@@ -6,7 +6,7 @@ provider "aws" {
 # common
 ##########################
 locals {
-  verify_ssl = false #length(regexall("https://.*?\\.sysdig.com/?", var.sysdig_secure_endpoint)) == 0
+  verify_ssl = length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1
 }
 
 resource "aws_ssm_parameter" "secure_endpoint" {
