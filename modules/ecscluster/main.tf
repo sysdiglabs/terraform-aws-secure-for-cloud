@@ -1,8 +1,7 @@
 resource "aws_ecs_cluster" "ecs_cluster" {
   name = var.name
+  tags = var.cloudvision_product_tags
 }
-
-
 
 data "aws_availability_zones" "zones" {}
 
@@ -21,7 +20,11 @@ module "vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  tags = {
-    Name = var.name
-  }
+
+  tags = var.cloudvision_product_tags
+
+  # TODO merge both?
+  #tags = {
+  #  Name = var.name
+  #}
 }

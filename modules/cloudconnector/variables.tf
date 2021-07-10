@@ -74,3 +74,10 @@ variable "sns_topic_arn" {
   type        = string
   description = "ARN of the SNS Topic to subscribe"
 }
+
+variable "cloudvision_product_tags"{
+  type=map(string)
+  default = {
+    "product" = "cloudvision"
+  }
+}

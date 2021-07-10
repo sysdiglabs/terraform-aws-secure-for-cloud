@@ -12,6 +12,7 @@ resource "aws_ecs_service" "service" {
     security_groups = [aws_security_group.sg.id]
   }
   task_definition = aws_ecs_task_definition.task_definition.arn
+  tags = var.cloudvision_product_tags
 }
 
 resource "aws_ecs_task_definition" "task_definition" {
@@ -52,4 +53,5 @@ resource "aws_ecs_task_definition" "task_definition" {
       }
     },
   ])
+  tags = var.cloudvision_product_tags
 }

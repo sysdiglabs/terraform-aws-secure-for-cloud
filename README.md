@@ -8,24 +8,39 @@ parameters.
 
 ## Prerequisites
 
-- Organization with CloudTrail service enabled
-- AWS env vars with access-key [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
+1.  Organization with CloudTrail service enabled
+1.  AWS env vars for both `master` and `member` profiles.
+    - `master` credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
+    > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
 
-> You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
 
 ```bash
-export AWS_ACCESS_KEY_ID=
-export AWS_SECRET_ACCESS_KEY=
-export AWS_DEFAULT_REGION=
+-- ~/.aws/credentials
 
--- optional TF_VAR override for main module
-export TF_VAR_sysdig_secure_endpoint=
-export TF_VAR_sysdig_secure_api_token=
+[master]
+aws_access_key_id=
+aws_secret_access_key=
+
+[member]
+aws_access_key_id=
+aws_secret_access_key=
+```
+
+```bash
+-- sysdig secure api token env var
+export TF_VAR_sysdig_secure_api_token=XXX
+
+# optional 
+# export TF_VAR_sysdig_secure_endpoint=
 ```
 
 
 ## Usage
 
+@see installation/provider.tf
+
+
+deprecated version
 ```hcl
 module "cloudvision" {
   source = "sysdiglabs/cloudvision/aws"

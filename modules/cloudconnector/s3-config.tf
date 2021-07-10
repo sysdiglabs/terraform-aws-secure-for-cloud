@@ -7,6 +7,7 @@ resource "aws_s3_bucket_object" "config" {
   key     = "cloud-connector.yaml"
   content = (var.config_content == null && var.config_source == null) ? local.default_config : var.config_content
   //  source  = var.config_source # TODO content or source, not both
+  tags = var.cloudvision_product_tags
 }
 
 locals {

@@ -1,24 +1,22 @@
-provider "aws" {
-}
-
-
-##########################
-# common
-##########################
+###################################
+# cloud_services common resources
+###################################
 locals {
-  verify_ssl = length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1
+  verify_ssl = var.verify_ssl == "auto" ? length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1 : var.verify_ssl == "true"
 }
 
 resource "aws_ssm_parameter" "secure_endpoint" {
   name  = "${var.name}-sysdig-secure-endpoint"
   type  = "SecureString"
   value = var.sysdig_secure_endpoint
+  tags = var.cloudvision_product_tags
 }
 
 resource "aws_ssm_parameter" "secure_api_token" {
   name  = "${var.name}-sysdig-secure-api-token"
   type  = "SecureString"
   value = var.sysdig_secure_api_token
+  tags = var.cloudvision_product_tags
 }
 
 resource "aws_s3_bucket" "s3_config_bucket" {
@@ -28,35 +26,30 @@ resource "aws_s3_bucket" "s3_config_bucket" {
   versioning {
     enabled = true
   }
+  tags = var.cloudvision_product_tags
 }
-
-module "ecs_fargate_cluster" {
-  name   = "${var.name}-ecscluster"
-  source = "./modules/ecscluster"
-}
-
 
 
 
 ##########################
 # modules
 ##########################
-module "cloudtrail_organizational" {
-  source = "./modules/organizational/cloudtrail"
 
-  cloudtrail_name = "${var.name}-cloudtrail-org"
-  s3_bucket_name  = "${var.name}-cloudtrail-org"
+module "ecs_fargate_cluster" {
+  name   = "${var.name}-ecscluster"
+  source = "./../../ecscluster"
+  cloudvision_product_tags = var.cloudvision_product_tags
 }
 
 
 module "cloud_connector" {
-  source = "./modules/cloudconnector"
+  source = "./../../cloudconnector"
 
   name         = "${var.name}-cloudconnector"
   ssm_endpoint = aws_ssm_parameter.secure_endpoint.name
   ssm_token    = aws_ssm_parameter.secure_api_token.name
 
-  sns_topic_arn = module.cloudtrail_organizational.sns_topic_arn
+  sns_topic_arn = var.cloudtrail_sns_topic_arn
   config_bucket = aws_s3_bucket.s3_config_bucket.id
 
   ecs_cluster = module.ecs_fargate_cluster.id
@@ -65,5 +58,6 @@ module "cloud_connector" {
 
   verify_ssl = local.verify_ssl
 
+  cloudvision_product_tags = var.cloudvision_product_tags
   depends_on = [aws_ssm_parameter.secure_endpoint, aws_ssm_parameter.secure_api_token] # requires explicit aws_ssm dependency
 }

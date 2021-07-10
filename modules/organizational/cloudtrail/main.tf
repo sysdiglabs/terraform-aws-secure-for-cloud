@@ -1,35 +1,10 @@
 data "aws_caller_identity" "me" {}
 
-
-##########################################
-# rg
-##########################################
-resource "aws_resourcegroups_group" "cloudvision" {
-  name = "cloudvision-${var.cloudtrail_name}"
-
-  resource_query {
-    query = <<JSON
-{
-  "ResourceTypeFilters": [
-    "AWS::AllSupported"
-  ],
-  "TagFilters": [
-    {
-      "Key": "product",
-      "Values": ["cloudvision"]
-    }
-  ]
-}
-JSON
-  }
-}
-
-
 ##########################################
 # S3 bucket
 ##########################################
 resource "aws_s3_bucket" "cloudtrail" {
-  bucket        = var.s3_bucket_name
+  bucket        = "${var.s3_bucket_name}-nonrandom"
   acl           = "private"
   force_destroy = true
 
@@ -39,7 +14,6 @@ resource "aws_s3_bucket" "cloudtrail" {
       days = var.s3_bucket_expiration_days
     }
   }
-
   tags = var.cloudvision_product_tags
 }
 
@@ -49,6 +23,7 @@ resource "aws_s3_bucket_policy" "cloudtrail" {
 }
 
 data "aws_iam_policy_document" "cloudtrail_s3" {
+
   statement {
     sid       = "AWSCloudTrailAclCheck20150319"
     actions   = ["s3:GetBucketAcl"]
@@ -89,17 +64,29 @@ resource "aws_sns_topic" "cloudtrail" {
 resource "aws_sns_topic_policy" "cloudtrail" {
   arn    = aws_sns_topic.cloudtrail.arn
   policy = data.aws_iam_policy_document.cloudtrail_sns.json
+
 }
 
 data "aws_iam_policy_document" "cloudtrail_sns" {
   statement {
-    sid    = "AWSCloudTrailSNSPolicy20131101"
+    sid    = "1"
     effect = "Allow"
     principals {
       identifiers = ["cloudtrail.amazonaws.com"]
       type        = "Service"
     }
     actions   = ["SNS:Publish"]
+    resources = [aws_sns_topic.cloudtrail.arn]
+  }
+
+  statement {
+    sid    = "2"
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    actions   = ["SNS:Subscribe"]
     resources = [aws_sns_topic.cloudtrail.arn]
   }
 }

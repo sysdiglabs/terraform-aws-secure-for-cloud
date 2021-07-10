@@ -16,15 +16,15 @@ variable "s3_bucket_name" {
 ############################
 # optionals - with default
 ############################
+variable "cloudvision_product_tags"{
+  type=map(string)
+  default = {
+    "product" = "cloudvision"
+  }
+}
+
 variable "s3_bucket_expiration_days" {
   type        = number
   default     = 5
   description = "Number of days that the logs will persist in the bucket"
-}
-
-variable "cloudvision_product_tags" {
-  type = map(string)
-  default = {
-    "product" = "cloudvision"
-  }
 }

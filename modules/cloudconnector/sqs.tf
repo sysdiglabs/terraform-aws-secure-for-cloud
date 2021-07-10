@@ -1,4 +1,5 @@
 resource "aws_sqs_queue" "sqs" {
+  tags = var.cloudvision_product_tags
 }
 
 resource "aws_sns_topic_subscription" "sns" {

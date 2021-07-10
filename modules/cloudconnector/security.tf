@@ -14,7 +14,10 @@ resource "aws_security_group" "sg" {
     to_port     = 0
     cidr_blocks = ["0.0.0.0/0"]
   }
-  tags = {
-    "Name" : var.name
-  }
+
+  tags = var.cloudvision_product_tags
+  # TODO, merge both?
+//  tags = {
+//    "Name" : var.name
+//  }
 }
