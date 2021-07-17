@@ -17,13 +17,23 @@ parameters.
 ```bash
 -- ~/.aws/credentials
 [default]
-aws_access_key_id=
-aws_secret_access_key=
+aws_access_key_id=<access key id>
+aws_secret_access_key=<aws secret access key>
 ```
 
 ```bash
 -- sysdig secure api token env var
-export TF_VAR_sysdig_secure_api_token=XXX
+export TF_VAR_sysdig_secure_api_token=<api token>
+
+
+-- organizational sysdig account provisioning parameterization
+-- beware, this account's deletion is not approached easily and requires manual attention
+-- https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info
+
+-- create new account (testing purpose)
+export TF_VAR_sysdig_account='{create=true, param_creation_email="<an email>"}'
+-- use existing account
+export TF_VAR_sysdig_account='{create=false, param_use_account_id="<account id>"}'
 
 # optional
 # export TF_VAR_sysdig_secure_endpoint=

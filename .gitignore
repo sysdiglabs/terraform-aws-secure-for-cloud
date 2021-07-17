@@ -25,4 +25,4 @@ override.tf.json
 *_override.tf.json
 
 .terraform.lock.hcl
-/.envrc
+**/.envrc

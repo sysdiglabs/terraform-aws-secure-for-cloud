@@ -1,6 +1,27 @@
 provider "aws" {
   alias   = "master"
   profile = var.terraform_connection_profile
+  region  = var.region
+}
+
+#-------------------------------------
+# cloudvision-account
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_account
+#-------------------------------------
+resource "aws_organizations_account" "cloudvision" {
+  count    = (var.aws_organization_sysdig_account.create) ? 1 : 0
+  provider = aws.master
+  name     = "cloudvision"
+  email    = var.aws_organization_sysdig_account.param_creation_email
+  tags     = var.tags
+}
+
+provider "aws" {
+  alias  = "cloudvision"
+  region = var.region
+  assume_role {
+    role_arn = "arn:aws:iam::${(var.aws_organization_sysdig_account.create) ? aws_organizations_account.cloudvision[0].id : var.aws_organization_sysdig_account.param_use_account_id}:role/OrganizationAccountAccessRole"
+  }
 }
 
 #-------------------------------------
@@ -19,7 +40,7 @@ data "aws_iam_policy_document" "cloud_vision_role_trusted" {
     effect = "Allow"
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${aws_organizations_account.cloudvision.id}:role/OrganizationAccountAccessRole"]
+      identifiers = ["arn:aws:iam::${(var.aws_organization_sysdig_account.create) ? aws_organizations_account.cloudvision[0].id : var.aws_organization_sysdig_account.param_use_account_id}:role/OrganizationAccountAccessRole"]
     }
     actions = ["sts:AssumeRole"]
   }
@@ -39,27 +60,6 @@ data "aws_iam_policy_document" "cloud_vision_role_s3" {
   }
 }
 
-
-#-------------------------------------
-# cloudvision-account
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_account
-#-------------------------------------
-
-resource "aws_organizations_account" "cloudvision" {
-  provider = aws.master
-  name     = "cloudvision"
-  email    = var.aws_organizations_account_email
-  tags     = var.tags
-}
-
-provider "aws" {
-  alias  = "cloudvision"
-  region = var.region
-  assume_role {
-    role_arn = "arn:aws:iam::${aws_organizations_account.cloudvision.id}:role/OrganizationAccountAccessRole"
-  }
-}
-
 #-------------------------------------
 # cloudvision submodules
 #-------------------------------------
@@ -70,7 +70,7 @@ module "cloudtrail_organizational" {
     aws = aws.master
   }
 
-  cloudvision_account_id = aws_organizations_account.cloudvision.id
+  cloudvision_account_id = (var.aws_organization_sysdig_account.create) ? aws_organizations_account.cloudvision[0].id : var.aws_organization_sysdig_account.param_use_account_id
   is_multi_region_trail  = var.cloudtrail_organizational_is_multi_region_trail
   s3_kms_enable          = var.cloudtrail_organizational_s3_kms_enable
   tags                   = var.tags
