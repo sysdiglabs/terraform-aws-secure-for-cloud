@@ -24,11 +24,11 @@ variable "s3_bucket_name" {
 }
 
 variable "tags" {
-  type = map(string)
+  type        = map(string)
+  description = "sysdig cloudvision tags"
   default = {
-    "product" = "cloudvision"
+    "product" = "sysdig-cloudvision"
   }
-  description = "cloudvision tags"
 }
 
 variable "s3_bucket_expiration_days" {

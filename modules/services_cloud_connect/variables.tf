@@ -61,11 +61,11 @@ variable "cloudwatch_log_retention" {
 }
 
 variable "tags" {
-  type = map(string)
+  type        = map(string)
+  description = "sysdig cloudvision tags"
   default = {
-    "product" = "cloudvision"
+    "product" = "sysdig-cloudvision"
   }
-  description = "cloudvision tags"
 }
 
 variable "config_content" {

@@ -47,9 +47,9 @@ variable "terraform_connection_profile" {
 
 variable "tags" {
   type        = map(string)
-  description = "cloudvision tags"
+  description = "sysdig cloudvision tags"
   default = {
-    "product" = "cloudvision"
+    "product" = "sysdig-cloudvision"
   }
 }
 

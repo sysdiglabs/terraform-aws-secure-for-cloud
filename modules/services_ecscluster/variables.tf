@@ -4,9 +4,9 @@ variable "name" {
 }
 
 variable "tags" {
-  type = map(string)
+  type        = map(string)
+  description = "sysdig cloudvision tags"
   default = {
-    "product" = "cloudvision"
+    "product" = "sysdig-cloudvision"
   }
-  description = "cloudvision tags"
 }
