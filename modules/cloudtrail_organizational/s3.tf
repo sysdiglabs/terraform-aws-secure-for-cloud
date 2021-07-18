@@ -26,7 +26,7 @@ resource "aws_s3_bucket_public_access_block" "cloudtrail" {
   bucket              = aws_s3_bucket.cloudtrail.id
   block_public_acls   = true
   block_public_policy = true
-  //  depends_on = [aws_s3_bucket.cloudtrail] // required for destroy order force
+  depends_on          = [aws_s3_bucket_policy.cloudtrail_s3] # https://github.com/hashicorp/terraform-provider-aws/issues/7628
 }
 
 
