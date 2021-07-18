@@ -31,9 +31,9 @@ export TF_VAR_sysdig_secure_api_token=<api token>
 -- https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info
 
 -- create new account (testing purpose)
-export TF_VAR_sysdig_account='{create=true, param_creation_email="<an email>"}'
+export TF_VAR_aws_organization_sysdig_account='{create=true, param_creation_email="<an email>"}'
 -- use existing account
-export TF_VAR_sysdig_account='{create=false, param_use_account_id="<account id>"}'
+export TF_VAR_aws_organization_sysdig_account='{create=false, param_use_account_id="<account id>"}'
 
 # optional
 # export TF_VAR_sysdig_secure_endpoint=

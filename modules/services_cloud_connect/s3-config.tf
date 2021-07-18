@@ -5,7 +5,8 @@ data "aws_s3_bucket" "config" {
 resource "aws_s3_bucket_object" "config" {
   bucket  = data.aws_s3_bucket.config.id
   key     = "cloud-connector.yaml"
-  content = (var.config_content == null && var.config_source == null) ? local.default_config : var.config_content
+  content = local.default_config
+  // content = (var.config_content == null && var.config_source == null) ? local.default_config : var.config_content
   //  source  = var.config_source # TODO content or source, not both
   tags = var.tags
 }
@@ -22,6 +23,7 @@ rules:
 ingestors:
   - cloudtrail-sns-sqs:
       queueURL: ${aws_sqs_queue.sqs.id}
+      assumeRole: ${var.services_assume_role_arn}
       interval: 25s
 notifiers:
   - cloudwatch:
@@ -56,28 +58,3 @@ CONFIG
     }]])
   )
 }
-
-
-##
-## s3-config policy
-##
-// not required, defiend in ecs-service-security.tf
-//resource "aws_s3_bucket_policy" "config" {
-//  bucket = data.aws_s3_bucket.config.id
-//  policy = data.aws_iam_policy_document.s3_config.json
-//}
-//
-//data "aws_iam_policy_document" "s3_config" {
-//
-//  statement {
-//    sid    = "Allow get AWSLogs to ECS"
-//
-//    effect = "Allow"
-//    principals {
-//      identifiers = ["ecs-tasks.amazonaws.com"]
-//      type        = "Service"
-//    }
-//    actions   = ["s3:GetObject", "s3:ListBucket"]
-//    resources = ["${data.aws_s3_bucket.config}/*"]
-//  }
-//}

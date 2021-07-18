@@ -26,11 +26,8 @@ provider "aws" {
 
 #-------------------------------------
 # cloudvision required organizational roles
-# TODO move to organizational module?
 #-------------------------------------
-
 resource "aws_iam_role" "cloudvision_role" {
-  //  name = "CloudConnectoCloudtrailS3ReadOnlyAccess"
   name               = "SysdigCloudVisionRole"
   assume_role_policy = data.aws_iam_policy_document.cloud_vision_role_trusted.json
   tags               = var.tags
@@ -60,6 +57,7 @@ data "aws_iam_policy_document" "cloud_vision_role_s3" {
   }
 }
 
+
 #-------------------------------------
 # cloudvision submodules
 #-------------------------------------
@@ -83,9 +81,9 @@ module "services" {
     aws = aws.cloudvision
   }
 
-  services_assume_role_arn = aws_iam_role.cloudvision_role.arn
   sysdig_secure_endpoint   = var.sysdig_secure_endpoint
   sysdig_secure_api_token  = var.sysdig_secure_api_token
   cloudtrail_sns_topic_arn = module.cloudtrail_organizational.sns_topic_arn
+  services_assume_role_arn = aws_iam_role.cloudvision_role.arn
   tags                     = var.tags
 }
