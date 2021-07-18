@@ -16,3 +16,5 @@ resource "aws_cloudtrail" "cloudtrail" {
   tags       = var.tags
   depends_on = [aws_s3_bucket_policy.cloudtrail_s3]
 }
+
+data "aws_caller_identity" "me" {}

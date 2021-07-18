@@ -3,7 +3,7 @@
 #
 
 resource "aws_s3_bucket" "cloudtrail" {
-  bucket        = "${var.s3_bucket_name}-nonrandom" // FIXME
+  bucket        = "${var.s3_bucket_name}-${data.aws_caller_identity.me.account_id}"
   acl           = "private"
   force_destroy = true
 

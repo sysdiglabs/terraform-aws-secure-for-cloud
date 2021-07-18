@@ -33,7 +33,7 @@ variable "tags" {
 variable "name" {
   type        = string
   description = "Name for the Cloud Vision deployment"
-  default     = "cloudvision"
+  default     = "sysdig-cloudvision"
 }
 
 variable "sysdig_secure_endpoint" {
