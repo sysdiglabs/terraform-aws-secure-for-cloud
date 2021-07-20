@@ -60,12 +60,32 @@ module "cloudvision" {
 
 ## Troubleshooting
 
-- Q: How can I **validate cloudvision provisioning** is working as expected?<br/>
+- Q: How to **validate cloudvision provisioning** is working as expected?<br/>
 A: Check each pipeline resource is working as expected (from high to low lvl)
   - [ ] are events shown in sysdig secure platform?
   - [ ] are there any errors in the ECS task logs? can also check cloudwatch logs
   - [ ] are events consumed in the sqs queue, or are they pending?
   - [ ] are events being sent to sns topic?
+
+
+- Q: How to iterate **cloud-connect modification testing**
+<br/>A: Build a custom docker image of cloud-connect `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
+  Modify the [var.image](./modules/services_cloud_connect/variables.tf) variable to point to your image and deploy
+
+
+- Q: How can I iterate **ECS testing**
+<br/>A: After applying your modifications (vía terraform for example) restart the service
+    ```
+    $ aws ecs update-service --force-new-deployment --cluster sysdig-cloudvision-ecscluster --service sysdig-cloudvision-cloudconnector --profile <AWS_PROFILE>
+    ```
+
+    For the AWS_PROFILE, set your `~/.aws/config` to impersonate
+    ```
+    [profile cloudvision]
+    region=eu-central-1
+    role_arn=arn:aws:iam::<AWS_MASTER_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
+    source_profile=<AWS_MASTER_ACCOUNT_PROFILE>
+    ```
 
 
 <!-- BEGIN_TF_DOCS -->

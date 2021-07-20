@@ -17,6 +17,10 @@ data "aws_iam_policy_document" "task_assume_role" {
       identifiers = ["ecs-tasks.amazonaws.com"]
       type        = "Service"
     }
+    //    principals {
+    //      identifiers = [var.services_assume_role_arn]
+    //      type        = "AWS"
+    //    }
     actions = ["sts:AssumeRole"]
   }
 }
@@ -29,7 +33,7 @@ resource "aws_iam_role_policy" "task" {
 data "aws_iam_policy_document" "iam_role_task_policy" {
   statement {
     effect = "Allow"
-    actions = [ // TODO Do not add so much permissions
+    actions = [ // TODO Do not add so many permissions
       "s3:*",
       "sts:AssumeRole",
 
@@ -50,25 +54,20 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
   }
 }
 
-
-//resource "aws_iam_role_policy" "s3_access" {
-//  name   = "${var.name}-S3AccessPolicy"
-//  role   = aws_iam_role.task.id
-//  policy = data.aws_iam_policy_document.s3_access.json
-//}
-//data "aws_iam_policy_document" "s3_access" {
-//  statement {
-//    effect = "Allow"
-//    actions = [
-//      "s3:*"
-//    ]
-//    resources = [
-//      "arn:aws:s3:::cloudtrail-org-nonrandom/*",
-//      "arn:aws:s3:::cloudtrail-org-nonrandom"
-//    ]
-//  }
-//}
-
+resource "aws_iam_role_policy" "enable_assume_cloudvision_role" {
+  name   = "${var.name}-EnableCloudvisionRole"
+  role   = aws_iam_role.task.id
+  policy = data.aws_iam_policy_document.enable_assume_cloudvision_role.json
+}
+data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole"
+    ]
+    resources = [var.services_assume_role_arn]
+  }
+}
 
 
 ##################################
@@ -90,12 +89,6 @@ data "aws_iam_policy_document" "execution_assume_role" {
     }
     actions = ["sts:AssumeRole"]
   }
-
-  //  statement {
-  //    effect = "Allow"
-  //    actions = ["sts:AssumeRole"]
-  //    resources = ["arn:aws:iam::522353683035:role/CloudConnectoCloudtrailS3ReadOnlyAccess"]
-  //  }
 }
 
 
@@ -128,16 +121,3 @@ data "aws_iam_policy_document" "execution" {
     resources = ["*"]
   }
 }
-//
-//resource "aws_iam_role_policy" "assume_master_role" {
-//  name   = "${var.name}-ExecutionRolePolicy"
-//  policy = data.aws_iam_policy_document.assume_master_role.json
-//  role   = aws_iam_role.execution.id
-//}
-//data "aws_iam_policy_document" "assume_master_role" {
-//  statement {
-//    effect  = "Allow"
-//    actions = ["sts:AssumeRole"]
-//    resources = [var.services_assume_role_arn]
-//  }
-//}

@@ -25,10 +25,10 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
     sid    = "2"
     effect = "Allow"
     principals {
-      identifiers = ["*"] // TODO, why does it not work with Service:ecs-tasks.amazonaws.com?
+      identifiers = ["*"] // FIXME, why does it not work with Service:ecs-tasks.amazonaws.com?
       type        = "AWS"
     }
-    actions   = ["SNS:Subscribe"]
+    actions   = ["sns:Subscribe"]
     resources = [aws_sns_topic.cloudtrail.arn]
   }
 }

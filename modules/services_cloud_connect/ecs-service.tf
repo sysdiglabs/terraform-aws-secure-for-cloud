@@ -8,7 +8,7 @@ resource "aws_ecs_service" "service" {
   cluster       = data.aws_ecs_cluster.ecs.id
   desired_count = 1
   launch_type   = "FARGATE"
-  iam_role      = ""
+
   network_configuration {
     subnets         = var.subnets
     security_groups = [aws_security_group.sg.id]
@@ -18,10 +18,11 @@ resource "aws_ecs_service" "service" {
 }
 
 
-## Test iru
-data "aws_iam_role" "ecs_task_execution_role" {
-  name = "OrganizationAccountAccessRole"
-}
+//## use OrganizationAccountAccessRole with access with admin access to all resources?
+//## FIXME. use more refined permissions use-case specific?
+//data "aws_iam_role" "ecs_task_execution_role" {
+//  name = "OrganizationAccountAccessRole"
+//}
 
 
 resource "aws_ecs_task_definition" "task_definition" {
@@ -30,8 +31,9 @@ resource "aws_ecs_task_definition" "task_definition" {
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.execution.arn // ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume
   task_role_arn            = aws_iam_role.task.arn      // ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services.
-  cpu                      = "256"
-  memory                   = "512"
+  //  task_role_arn            = data.aws_iam_role.ecs_task_execution_role.arn
+  cpu    = "256"
+  memory = "512"
 
   container_definitions = jsonencode([
     {
