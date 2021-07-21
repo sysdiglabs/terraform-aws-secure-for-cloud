@@ -16,10 +16,10 @@ For other cloud providers check:
 
 Minimum requirements:
 
-1.  Have an existing AWS master account with an organization
-    - Organzational cloudTrail service must be enabled
-1.  AWS profile credentials configuration of the `master account of the organization
-    - `master` account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
+1.  Have an existing AWS account as the organization master account
+    - organzational cloudTrail service must be enabled
+1.  AWS profile credentials configuration of the `master` account of the organization
+    - this account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
         > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
     - credentials will be picked from `default` aws profile, but can be changed vía [vars.terraform\_connection\_profile](#input\_terraform\_connection\_profile)
     - cloudvision organizational member account id, as input variable value
