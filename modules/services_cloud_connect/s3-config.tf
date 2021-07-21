@@ -13,7 +13,7 @@ resource "aws_s3_bucket_object" "config" {
 
 locals {
   default_config = <<CONFIG
-logging: debug
+logging: info
 rules:
   - secure:
       url: ""
