@@ -1,16 +1,12 @@
-############################
-##  required
-############################
 variable "cloudvision_account_id" {
   type        = string
   description = "cloudvision member account id"
 }
 
 
-############################
+#---------------------------------
 # optionals - with defaults
-
-############################
+#---------------------------------
 variable "cloudtrail_name" {
   type        = string
   default     = "sysdig-cloudvision"

@@ -1,7 +1,3 @@
-############################
-# required
-############################
-
 variable "sysdig_secure_api_token" {
   type        = string
   sensitive   = true
@@ -18,9 +14,9 @@ variable "services_assume_role_arn" {
   description = "Cloudvision service required assumeRole arn"
 }
 
-############################
+#---------------------------------
 # optionals - with default
-############################
+#---------------------------------
 
 variable "tags" {
   type        = map(string)

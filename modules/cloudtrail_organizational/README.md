@@ -16,13 +16,13 @@ module "cloudtrail" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.2.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.2.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
 
 ## Modules
 
@@ -55,7 +55,7 @@ No modules.
 | <a name="input_s3_bucket_expiration_days"></a> [s3\_bucket\_expiration\_days](#input\_s3\_bucket\_expiration\_days) | Number of days that the logs will persist in the bucket | `number` | `5` | no |
 | <a name="input_s3_bucket_name"></a> [s3\_bucket\_name](#input\_s3\_bucket\_name) | S3 bucket name that will be created with the CloudTrail resources, where the logs will be saved. | `string` | `"sysdig-cloudvision"` | no |
 | <a name="input_s3_kms_enable"></a> [s3\_kms\_enable](#input\_s3\_kms\_enable) | true/false whether s3 should be encrypted | `bool` | `true` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | cloudvision tags | `map(string)` | <pre>{<br>  "product": "cloudvision"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
 
 ## Outputs
 

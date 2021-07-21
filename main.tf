@@ -1,7 +1,13 @@
+locals {
+  cloudvision_account_id = var.aws_orgranization_cloudvision_account_creation_email != "" ? aws_organizations_account.cloudvision[0].id : var.aws_organization_cloudvision_account_id
+}
+
 provider "aws" {
-  alias   = "master"
-  profile = var.terraform_connection_profile
-  region  = var.region
+  alias  = "cloudvision"
+  region = var.region
+  assume_role {
+    role_arn = "arn:aws:iam::${local.cloudvision_account_id}:role/OrganizationAccountAccessRole"
+  }
 }
 
 #-------------------------------------
@@ -10,11 +16,8 @@ provider "aws" {
 
 module "cloudtrail_organizational" {
   source = "./modules/cloudtrail_organizational"
-  providers = {
-    aws = aws.master
-  }
 
-  cloudvision_account_id = (var.aws_organization_sysdig_account.create) ? aws_organizations_account.cloudvision[0].id : var.aws_organization_sysdig_account.param_use_account_id
+  cloudvision_account_id = local.cloudvision_account_id
   is_multi_region_trail  = var.cloudtrail_organizational_is_multi_region_trail
   s3_kms_enable          = var.cloudtrail_organizational_s3_kms_enable
   tags                   = var.tags

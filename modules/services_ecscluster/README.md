@@ -17,13 +17,13 @@ module "ecs_fargate_cluster" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.2.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.2.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
 
 ## Modules
 
@@ -40,7 +40,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_name"></a> [name](#input\_name) | Deployment name | `string` | n/a | yes |
-| <a name="input_tags"></a> [tags](#input\_tags) | cloudvision tags | `map(string)` | <pre>{<br>  "product": "cloudvision"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
 
 ## Outputs
 

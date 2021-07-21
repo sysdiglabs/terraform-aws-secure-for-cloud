@@ -1,92 +1,41 @@
-# Cloud Vision deploy in AWS
+# Cloud Vision deployment in AWS
 
-This module deploys the CloudVision stack in AWS. It depends on multiple modules that create the infrastructure and
-deploy the components of the CloudVision stack.
+This module deploys the **CloudVision stack** in **AWS**.
 
-Each module can be used on its own to deploy the components in existing infrastructure, or can be specified as
-parameters.
+Currently supported cloudvision components:
+- [X] cloud-connector
+- [ ] cloud-scanner
+- [ ] cloud-bench
+
+
+For other cloud providers check:
+- [terraform-azure-cloudvision](https://github.com/sysdiglabs/terraform-azurerm-cloudvion)
+- [terraform-google-cloudvision](https://github.com/sysdiglabs/terraform-google-cloudvion)
 
 ## Prerequisites
 
-1.  Organization with CloudTrail service enabled
-1.  AWS env vars for both `master` and `member` profiles.
-    - `master` credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
-    > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
+Minimum requirements:
 
+1.  Have an existing AWS master account with an organization
+    - Organzational cloudTrail service must be enabled
+1.  AWS profile credentials configuration of the `master account of the organization
+    - `master` account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
+        > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
+    - credentials will be picked from `default` aws profile, but can be changed vía [vars.terraform\_connection\_profile](#input\_terraform\_connection\_profile)
+    - cloudvision organizational member account id, as input variable value
+        ```
+       aws_organization_cloudvision_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
+        ```
+1. Secure requirements, as input variable value
+    ```
+    sysdig_secure_api_token=<SECURE_API_TOKEN>
+    ```
 
-```bash
--- ~/.aws/credentials
-[default]
-aws_access_key_id=<access key id>
-aws_secret_access_key=<aws secret access key>
-```
-
-```bash
--- sysdig secure api token env var
-export TF_VAR_sysdig_secure_api_token=<api token>
-
-
--- organizational sysdig account provisioning parameterization
--- beware, this account's deletion is not approached easily and requires manual attention
--- https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info
-
--- create new account (testing purpose)
-export TF_VAR_aws_organization_sysdig_account='{create=true, param_creation_email="<an email>"}'
--- use existing account
-export TF_VAR_aws_organization_sysdig_account='{create=false, param_use_account_id="<account id>"}'
-
-# optional
-# export TF_VAR_sysdig_secure_endpoint=
-```
-
+See main module [variables.tf](./variables.tf) file for more optional configuration.
 
 ## Usage
 
-@see `/examples` folder
-
-```hcl
-module "cloudvision" {
-
-  source  = "sysdiglabs/cloudvision/aws"
-  name    = "cloudvision-stack"
-
-  region                            = "eu-central-1"
-  sysdig_secure_api_token           = "<API_TOKEN>"
-  aws_organizations_account_email   = "<CLOUDVISION_ACCOUNT_EMAIL>"
-
-}
-```
-
-
-## Troubleshooting
-
-- Q: How to **validate cloudvision provisioning** is working as expected?<br/>
-A: Check each pipeline resource is working as expected (from high to low lvl)
-  - [ ] are events shown in sysdig secure platform?
-  - [ ] are there any errors in the ECS task logs? can also check cloudwatch logs
-  - [ ] are events consumed in the sqs queue, or are they pending?
-  - [ ] are events being sent to sns topic?
-
-
-- Q: How to iterate **cloud-connect modification testing**
-<br/>A: Build a custom docker image of cloud-connect `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
-  Modify the [var.image](./modules/services_cloud_connect/variables.tf) variable to point to your image and deploy
-
-
-- Q: How can I iterate **ECS testing**
-<br/>A: After applying your modifications (vía terraform for example) restart the service
-    ```
-    $ aws ecs update-service --force-new-deployment --cluster sysdig-cloudvision-ecscluster --service sysdig-cloudvision-cloudconnector --profile <AWS_PROFILE>
-    ```
-
-    For the AWS_PROFILE, set your `~/.aws/config` to impersonate
-    ```
-    [profile cloudvision]
-    region=eu-central-1
-    role_arn=arn:aws:iam::<AWS_MASTER_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
-    source_profile=<AWS_MASTER_ACCOUNT_PROFILE>
-    ```
-
+see [/examples](./examples) folder for current use-cases.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
@@ -134,6 +83,39 @@ No requirements.
 
 No outputs.
 <!-- END_TF_DOCS -->
+
+---
+## Troubleshooting
+
+- Q: How to **validate cloudvision provisioning** is working as expected?<br/>
+  A: Check each pipeline resource is working as expected (from high to low lvl)
+    - are events shown in sysdig secure platform?
+    - are there any errors in the ECS task logs? can also check cloudwatch logs
+    - are events consumed in the sqs queue, or are they pending?
+    - are events being sent to sns topic?
+
+
+- Q: How to iterate **cloud-connect modification testing**
+  <br/>A: Build a custom docker image of cloud-connect `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
+  Modify the [var.image](./modules/services_cloud_connect/variables.tf) variable to point to your image and deploy
+
+
+- Q: How can I iterate **ECS testing**
+  <br/>A: After applying your modifications (vía terraform for example) restart the service
+    ```
+    $ aws ecs update-service --force-new-deployment --cluster sysdig-cloudvision-ecscluster --service sysdig-cloudvision-cloudconnector --profile <AWS_PROFILE>
+    ```
+
+  For the AWS_PROFILE, set your `~/.aws/config` to impersonate
+    ```
+    [profile cloudvision]
+    region=eu-central-1
+    role_arn=arn:aws:iam::<AWS_MASTER_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
+    source_profile=<AWS_MASTER_ACCOUNT_PROFILE>
+    ```
+
+
+---
 
 ## Authors
 
