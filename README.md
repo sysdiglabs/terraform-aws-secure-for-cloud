@@ -1,6 +1,6 @@
 # Cloud Vision deployment in AWS
 
-Terraform module that deploys the **CloudVision stack** in **AWS**.
+Terraform module that deploys the **Sysdig CloudVision** stack in **AWS**.
 
 Currently supported cloudvision components:
 - [X] cloud-connector
