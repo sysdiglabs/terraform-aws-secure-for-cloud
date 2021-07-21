@@ -9,8 +9,8 @@ Currently supported cloudvision components:
 
 
 For other cloud providers check:
-- [terraform-azure-cloudvision](https://github.com/sysdiglabs/terraform-azurerm-cloudvion)
-- [terraform-google-cloudvision](https://github.com/sysdiglabs/terraform-google-cloudvion)
+- [terraform-azure-cloudvision](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
+- [terraform-google-cloudvision](https://github.com/sysdiglabs/terraform-google-cloudvision)
 
 ## Prerequisites
 
