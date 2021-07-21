@@ -38,9 +38,9 @@ variable "services_assume_role_arn" {
   description = "Cloudvision service required assumeRole arn"
 }
 
-############################
+#---------------------------------
 # optionals - with default
-############################
+#---------------------------------
 
 variable "name" {
   type        = string
@@ -50,7 +50,7 @@ variable "name" {
 
 variable "image" {
   type        = string
-  default     = "sysdiglabs/cloud-connector:latest"
+  default     = "sysdiglabs/cloud-connector:master"
   description = "Image of the cloud connector to deploy"
 }
 
