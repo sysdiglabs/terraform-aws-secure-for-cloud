@@ -1,5 +1,5 @@
 locals {
-  cloudvision_account_id = var.aws_orgranization_cloudvision_account_creation_email != "" ? aws_organizations_account.cloudvision[0].id : var.aws_organization_cloudvision_account_id
+  cloudvision_account_id = var.org_cloudvision_account_creation_email != "" ? aws_organizations_account.cloudvision[0].id : var.org_cloudvision_account_id
 }
 
 provider "aws" {
@@ -18,8 +18,8 @@ module "cloudtrail_organizational" {
   source = "./modules/cloudtrail_organizational"
 
   cloudvision_account_id = local.cloudvision_account_id
-  is_multi_region_trail  = var.cloudtrail_organizational_is_multi_region_trail
-  s3_kms_enable          = var.cloudtrail_organizational_s3_kms_enable
+  is_multi_region_trail  = var.cloudtrail_org_is_multi_region_trail
+  s3_kms_enable          = var.cloudtrail_org_s3_kms_enable
   tags                   = var.tags
 }
 

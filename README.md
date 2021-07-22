@@ -24,7 +24,7 @@ Minimum requirements:
     - credentials will be picked from `default` aws profile, but can be changed vía [vars.terraform\_connection\_profile](#input\_terraform\_connection\_profile)
     - cloudvision organizational member account id, as input variable value
         ```
-       aws_organization_cloudvision_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
+       org_cloudvision_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
         ```
 1. Secure requirements, as input variable value
     ```
@@ -42,13 +42,13 @@ see [/examples](./examples) folder for current use-cases.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | \>= 3.50.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | \>= 3.50.0 |
 
 ## Modules
 
@@ -72,15 +72,15 @@ see [/examples](./examples) folder for current use-cases.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_aws_organization_cloudvision_account_id"></a> [aws\_organization\_cloudvision\_account\_id](#input\_aws\_organization\_cloudvision\_account\_id) | the account\_id **within the organization** to be used as cloudvision account | `string` | n/a | yes |
-| <a name="input_aws_orgranization_cloudvision_account_creation_email"></a> [aws\_orgranization\_cloudvision\_account\_creation\_email](#input\_aws\_orgranization\_cloudvision\_account\_creation\_email) | testing-purpose-only, if you want terraform to create the cloudvision account<br/>The email address of the owner to assign to the new member account.<br>This email address must not already be associated with another AWS account | `string` | `""` | no |
-| <a name="input_cloudtrail_organizational_is_multi_region_trail"></a> [cloudtrail\_organizational\_is\_multi\_region\_trail](#input\_cloudtrail\_organizational\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
-| <a name="input_cloudtrail_organizational_s3_kms_enable"></a> [cloudtrail\_organizational\_s3\_kms\_enable](#input\_cloudtrail\_organizational\_s3\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
+| <a name="input_aws_connection_profile"></a> [aws\_connection\_profile](#input\_aws\_connection\_profile) | AWS connection profile to be used on ~/.aws/credentials for organization master account | `string` | `"default"` | no |
+| <a name="input_cloudtrail_org_is_multi_region_trail"></a> [cloudtrail\_org\_is\_multi\_region\_trail](#input\_cloudtrail\_org\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
+| <a name="input_cloudtrail_org_s3_kms_enable"></a> [cloudtrail\_org\_s3\_kms\_enable](#input\_cloudtrail\_org\_s3\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
+| <a name="input_org_cloudvision_account_creation_email"></a> [org\_cloudvision\_account\_creation\_email](#input\_org\_cloudvision\_account\_creation\_email) | testing-purpose-only, if you want terraform to create the cloudvision account<br/>The email address of the owner to assign to the new member account.<br>This email address must not already be associated with another AWS account | `string` | `""` | no |
+| <a name="input_org_cloudvision_account_id"></a> [org\_cloudvision\_account\_id](#input\_org\_cloudvision\_account\_id) | the account\_id **within the organization** to be used as cloudvision account | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | default region for provisioning | `string` | `"eu-central-1"` | no |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
-| <a name="input_terraform_connection_profile"></a> [terraform\_connection\_profile](#input\_terraform\_connection\_profile) | AWS connection profile to be used on ~/.aws/credentials for organization master account | `string` | `"default"` | no |
 
 ## Outputs
 

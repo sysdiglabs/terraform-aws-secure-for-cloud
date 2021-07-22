@@ -5,7 +5,7 @@ variable "sysdig_secure_api_token" {
 }
 
 
-variable "aws_organization_cloudvision_account_id" {
+variable "org_cloudvision_account_id" {
   type        = string
   description = "the account_id **within the organization** to be used as cloudvision account"
 
@@ -20,7 +20,7 @@ variable "sysdig_secure_endpoint" {
   description = "Sysdig Secure API endpoint"
 }
 
-variable "terraform_connection_profile" {
+variable "aws_connection_profile" {
   type        = string
   default     = "default"
   description = "AWS connection profile to be used on ~/.aws/credentials for organization master account"
@@ -40,7 +40,7 @@ variable "tags" {
   }
 }
 
-variable "aws_orgranization_cloudvision_account_creation_email" {
+variable "org_cloudvision_account_creation_email" {
   type        = string
   default     = ""
   description = "testing-purpose-only, if you want terraform to create the cloudvision account<br/>The email address of the owner to assign to the new member account.<br>This email address must not already be associated with another AWS account"
@@ -50,13 +50,13 @@ variable "aws_orgranization_cloudvision_account_creation_email" {
 # cloudtrail configuration
 # --------------------
 
-variable "cloudtrail_organizational_is_multi_region_trail" {
+variable "cloudtrail_org_is_multi_region_trail" {
   type        = bool
   default     = true
   description = "testing/economization purpose. true/false whether cloudtrail will ingest multiregional events"
 }
 
-variable "cloudtrail_organizational_s3_kms_enable" {
+variable "cloudtrail_org_s3_kms_enable" {
   type        = bool
   default     = true
   description = "testing/economization purpose. true/false whether s3 should be encrypted"
