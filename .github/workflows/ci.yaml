@@ -37,7 +37,7 @@ jobs:
       id: plan
       if: github.event_name == 'pull_request'
       run: |
-        set -x
+#        set -x
         pwd
         tree -L 2
         cd terraform-aws-cloudvision/examples/organizational_cloudvision
