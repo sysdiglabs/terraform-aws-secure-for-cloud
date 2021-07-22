@@ -32,14 +32,14 @@ jobs:
       id: validate
       run: terraform validate -no-color
 
-    # FIXME. matrix per example
+    # FIXME. matrix-strategy per example use-case
     - name: Terraform Plan
       id: plan
       if: github.event_name == 'pull_request'
       run: |
         set -x
-#        cd ./examples/organizational_cloudvision
-#        terraform plan -no-color -var sysdig_secure_api_token=foo -var organizational_cloudvision_account_id=whatever
+        cd ${GITHUB_WORKSPACE}/terraform-aws-cloudvision/examples/organizational_cloudvision
+        terraform plan -no-color -var sysdig_secure_api_token=foo -var org_cloudvision_account_id=bar
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
