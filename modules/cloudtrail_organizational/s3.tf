@@ -1,7 +1,3 @@
-#
-# bucket
-#
-
 resource "aws_s3_bucket" "cloudtrail" {
   bucket        = "${var.s3_bucket_name}-${data.aws_caller_identity.me.account_id}"
   acl           = "private"
@@ -18,15 +14,17 @@ resource "aws_s3_bucket" "cloudtrail" {
 
 
 
-#
-# bucket policy ACL + IAM policies
-#
+# --------------------------
+# iam, acl
+# -------------------------
 
 resource "aws_s3_bucket_public_access_block" "cloudtrail" {
-  bucket              = aws_s3_bucket.cloudtrail.id
-  block_public_acls   = true
-  block_public_policy = true
-  depends_on          = [aws_s3_bucket_policy.cloudtrail_s3] # https://github.com/hashicorp/terraform-provider-aws/issues/7628
+  bucket                  = aws_s3_bucket.cloudtrail.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+  depends_on              = [aws_s3_bucket_policy.cloudtrail_s3] # https://github.com/hashicorp/terraform-provider-aws/issues/7628
 }
 
 
