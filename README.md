@@ -42,13 +42,13 @@ see [/examples](./examples) folder for current use-cases.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | \>= 3.50.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | \>= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
 
 ## Modules
 
@@ -63,7 +63,6 @@ see [/examples](./examples) folder for current use-cases.
 |------|------|
 | [aws_iam_role.cloudvision_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role_policy.cloudtrail_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_organizations_account.cloudvision](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/organizations_account) | resource |
 | [aws_resourcegroups_group.sysdig-cloudvision](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/resourcegroups_group) | resource |
 | [aws_iam_policy_document.cloud_vision_role_trusted](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.cloudtrail_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -75,7 +74,6 @@ see [/examples](./examples) folder for current use-cases.
 | <a name="input_aws_connection_profile"></a> [aws\_connection\_profile](#input\_aws\_connection\_profile) | AWS connection profile to be used on ~/.aws/credentials for organization master account | `string` | `"default"` | no |
 | <a name="input_cloudtrail_org_is_multi_region_trail"></a> [cloudtrail\_org\_is\_multi\_region\_trail](#input\_cloudtrail\_org\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_cloudtrail_org_s3_kms_enable"></a> [cloudtrail\_org\_s3\_kms\_enable](#input\_cloudtrail\_org\_s3\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
-| <a name="input_org_cloudvision_account_creation_email"></a> [org\_cloudvision\_account\_creation\_email](#input\_org\_cloudvision\_account\_creation\_email) | testing-purpose-only, if you want terraform to create the cloudvision account<br/>The email address of the owner to assign to the new member account.<br>This email address must not already be associated with another AWS account | `string` | `""` | no |
 | <a name="input_org_cloudvision_account_id"></a> [org\_cloudvision\_account\_id](#input\_org\_cloudvision\_account\_id) | the account\_id **within the organization** to be used as cloudvision account | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | default region for provisioning | `string` | `"eu-central-1"` | no |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
