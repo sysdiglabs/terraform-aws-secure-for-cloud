@@ -40,11 +40,6 @@ variable "tags" {
   }
 }
 
-variable "org_cloudvision_account_creation_email" {
-  type        = string
-  default     = ""
-  description = "testing-purpose-only, if you want terraform to create the cloudvision account<br/>The email address of the owner to assign to the new member account.<br>This email address must not already be associated with another AWS account"
-}
 
 # --------------------
 # cloudtrail configuration

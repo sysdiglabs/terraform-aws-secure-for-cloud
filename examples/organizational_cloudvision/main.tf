@@ -6,12 +6,10 @@ provider "aws" {
 module "cloudvision" {
   source = "../../"
 
-  region                                 = "eu-central-1"
-  sysdig_secure_api_token                = var.sysdig_secure_api_token
-  sysdig_secure_endpoint                 = var.sysdig_secure_endpoint
-  org_cloudvision_account_id             = var.org_cloudvision_account_id
-  org_cloudvision_account_creation_email = var.org_cloudvision_account_creation_email
-
+  region                     = "eu-central-1"
+  sysdig_secure_api_token    = var.sysdig_secure_api_token
+  sysdig_secure_endpoint     = var.sysdig_secure_endpoint
+  org_cloudvision_account_id = var.org_cloudvision_account_id
 
   // economization
   cloudtrail_org_is_multi_region_trail = false
