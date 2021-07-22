@@ -1,4 +1,5 @@
 data "aws_availability_zones" "zones" {}
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 

@@ -9,9 +9,13 @@ resource "aws_sns_topic_policy" "cloudtrail" {
 
 }
 
+
+# --------------------------
+# acl
+# -------------------------
 data "aws_iam_policy_document" "cloudtrail_sns" {
   statement {
-    sid    = "1"
+    sid    = "AllowCloudtrailPublish"
     effect = "Allow"
     principals {
       identifiers = ["cloudtrail.amazonaws.com"]
@@ -22,11 +26,15 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
   }
 
   statement {
-    sid    = "2"
+    sid    = "AllowECSTaskService"
     effect = "Allow"
+    //    principals {
+    //      identifiers = [""] //FIXME. unharcode, but may produce cyclic. can be service too with only cloudvision account
+    //      type        = "AWS"
+    //    }
     principals {
-      identifiers = ["*"] // FIXME, why does it not work with Service:ecs-tasks.amazonaws.com?
-      type        = "AWS"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+      type        = "Service"
     }
     actions   = ["sns:Subscribe"]
     resources = [aws_sns_topic.cloudtrail.arn]
