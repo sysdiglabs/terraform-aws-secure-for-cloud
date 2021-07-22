@@ -9,7 +9,11 @@ from diagrams.aws.compute import ECS, ElasticContainerServiceService
 from diagrams.aws.security import IAMRole
 
 
-with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), filename="diagram", show=True):
+diagram_attr = {
+    "margin":"-2, -2"
+}
+
+with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram", show=True):
 
     with Cluster("organization"):
 
