@@ -37,6 +37,11 @@ See main module [variables.tf](./variables.tf) file for more optional configurat
 
 see [/examples](./examples) folder for current use-cases.
 
+### use-cases
+
+- organizational cloudtrail
+![organizational diagram](examples/organizational_cloudvision/diagram.png)
+
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
 
