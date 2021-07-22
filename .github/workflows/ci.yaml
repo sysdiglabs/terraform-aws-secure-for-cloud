@@ -34,6 +34,7 @@ jobs:
     - name: Terraform Validate
       id: validate
       run: |
+        cd examples/organizational_cloudvision
         terraform validate -no-color
 
 # FIXME. requires aws credentials setup
