@@ -6,11 +6,17 @@ from diagrams.aws.storage import S3, SimpleStorageServiceS3Bucket
 from diagrams.aws.integration import SNS
 from diagrams.aws.integration import SQS
 from diagrams.aws.compute import ECS, ElasticContainerServiceService
-from diagrams.aws.security import IAMRole
+from diagrams.aws.security import IAMRole,IAM
 
 
 diagram_attr = {
-    "margin":"-2, -2"
+    "pad":"0.25"
+}
+
+role_attr = {
+   "height":"0.75",
+   "width":"0.75",
+   "fontsize":"8",
 }
 
 with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram", show=True):
@@ -20,27 +26,30 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
         with Cluster("other accounts (member)"):
             member_accounts = [General("account-1"),General("..."),General("account-n")]
 
-            org_member_role = IAMRole("OrganizationAccountAccessRole", width="1")
+            org_member_role = IAMRole("OrganizationAccountAccessRole", **role_attr)
 
 
         with Cluster("master account"):
 
-            cloudtrail_legend = ("* for clarity purpose events received from cloudvision member account{}\
-                    and master account have been removed from diagram, but will be processed too ")
+            
+            cloudtrail          = Cloudtrail("cloudtrail", shape="plaintext")
+            cloudtrail_legend = ("for clarity purpose events received from cloudvision member account\n\
+                                    and master account have been removed from diagram, but will be processed too ")
+            Node(label=cloudtrail_legend, width="5",shape="plaintext", labelloc="t", fontsize="8")
 
-            Node(label=cloudtrail_legend.format("\n"), width="10",shape="plaintext", labelloc="\l")
 
-            cloudvision_role    = IAMRole("Sysdig-Cloudvision-Role", width="1")
-            cloudtrail          = Cloudtrail("cloudtrail *", shape="plaintext")
-            cloudtrail_s3       = S3("cloudtrail-s3-data")
-            sns                 = SNS("cloudtrail-sns-events")
+            master_credentials = IAM("master-credentials \n permissions: cloudtrail, role creation", fontsize="8")
+            cloudvision_role    = IAMRole("Sysdig-Cloudvision-Role", **role_attr)
+            master_credentials - cloudvision_role
+            cloudtrail_s3       = S3("cloudtrail")
+            sns                 = SNS("cloudtrail-sns-events", comment="i'm a graph")
 
             cloudtrail >> cloudtrail_s3
             cloudtrail >> sns
 
         with Cluster("cloudvision account (member)"):
 
-            org_member_role = IAMRole("OrganizationAccountAccessRole", width="1")
+            org_member_role = IAMRole("OrganizationAccountAccessRole", **role_attr) 
 
             with Cluster("ecs"):
                 ecs = ECS("cloudvision")
@@ -48,12 +57,12 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
                 ecs - cloud_connect
 
             sqs = SQS("cloudtrail-sqs")
-            s3_config = SimpleStorageServiceS3Bucket("cloud-connect-config")
+            s3_config = S3("cloud-connect-config")
 
             sqs << cloud_connect
-            s3_config - cloud_connect
+            cloud_connect - s3_config
 
 
         member_accounts >> Edge(color="darkgreen", style="dashed") >>  cloudtrail
         sns >> Edge(color="firebrick", style="dashed") >> sqs
-        cloud_connect >> cloudtrail_s3
+        cloudtrail_s3 - cloud_connect
