@@ -28,13 +28,9 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
   statement {
     sid    = "AllowECSTaskService"
     effect = "Allow"
-    //    principals {
-    //      identifiers = [""] //FIXME. unharcode, but may produce cyclic. can be service too with only cloudvision account
-    //      type        = "AWS"
-    //    }
     principals {
-      identifiers = ["ecs-tasks.amazonaws.com"]
-      type        = "Service"
+      identifiers = ["arn:aws:iam::${var.cloudvision_account_id}:role/OrganizationAccountAccessRole"]
+      type        = "AWS"
     }
     actions   = ["sns:Subscribe"]
     resources = [aws_sns_topic.cloudtrail.arn]

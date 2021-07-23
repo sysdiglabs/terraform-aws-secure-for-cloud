@@ -23,6 +23,8 @@ resource "aws_s3_bucket_public_access_block" "s3_config_bucket" {
   ignore_public_acls      = true
   restrict_public_buckets = true
 
+  depends_on = [aws_s3_bucket_policy.allow_cloudvision_role] # https://github.com/hashicorp/terraform-provider-aws/issues/7628
+
 }
 
 resource "aws_s3_bucket_policy" "allow_cloudvision_role" {
