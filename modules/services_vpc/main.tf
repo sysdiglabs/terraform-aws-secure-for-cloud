@@ -16,5 +16,12 @@ module "vpc" {
   enable_nat_gateway   = true
   enable_vpn_gateway   = false
 
+
+
   tags = var.tags
+
+  # TODO merge both?
+  #tags = {
+  #  Name = var.name
+  #}
 }
