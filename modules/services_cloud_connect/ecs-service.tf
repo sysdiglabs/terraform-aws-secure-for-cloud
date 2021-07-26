@@ -10,12 +10,19 @@ resource "aws_ecs_service" "service" {
   launch_type   = "FARGATE"
 
   network_configuration {
-    subnets         = var.services_vpc_private_subnets
-    security_groups = [var.services_sg_id]
+    subnets         = var.subnets
+    security_groups = [aws_security_group.sg.id]
   }
   task_definition = aws_ecs_task_definition.task_definition.arn
   tags            = var.tags
 }
+
+
+//## use OrganizationAccountAccessRole with access with admin access to all resources?
+//## FIXME. use more refined permissions use-case specific?
+//data "aws_iam_role" "ecs_task_execution_role" {
+//  name = "OrganizationAccountAccessRole"
+//}
 
 
 resource "aws_ecs_task_definition" "task_definition" {

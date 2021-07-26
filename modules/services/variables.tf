@@ -14,36 +14,9 @@ variable "services_assume_role_arn" {
   description = "Cloudvision service required assumeRole arn"
 }
 
-
-#---------------------------------
-# vpc
-#---------------------------------
-
-variable "services_vpc_id" {
-  type        = string
-  description = "services vpc id"
-}
-
-variable "services_vpc_private_subnets" {
-  type        = list(string)
-  description = "services vpc private subnets"
-}
-
-variable "services_sg_id" {
-  type        = string
-  description = "services security group id"
-}
-
-
 #---------------------------------
 # optionals - with default
 #---------------------------------
-
-variable "name" {
-  type        = string
-  description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-cloudvision"
-}
 
 variable "tags" {
   type        = map(string)
@@ -51,6 +24,12 @@ variable "tags" {
   default = {
     "product" = "sysdig-cloudvision"
   }
+}
+
+variable "name" {
+  type        = string
+  description = "Name for the Cloud Vision deployment"
+  default     = "sysdig-cloudvision"
 }
 
 variable "sysdig_secure_endpoint" {

@@ -56,9 +56,9 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
     }
     actions = ["s3:PutObject"]
     condition {
-      variable = "s3:x-amz-acl"
       test     = "StringEquals"
       values   = ["bucket-owner-full-control"]
+      variable = "s3:x-amz-acl"
     }
     resources = ["${aws_s3_bucket.cloudtrail.arn}/AWSLogs/*"]
   }
@@ -66,7 +66,7 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
 
 
   statement {
-    sid    = "AllowReadAccessToCloudvision"
+    sid    = "AllowS3BucketAndObjectReadAccess"
     effect = "Allow"
     actions = [
       "s3:ListBucket",
@@ -77,30 +77,6 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
       identifiers = [
         "arn:aws:iam::${var.cloudvision_account_id}:role/OrganizationAccountAccessRole"
       ]
-    }
-    resources = [
-      aws_s3_bucket.cloudtrail.arn,
-      "${aws_s3_bucket.cloudtrail.arn}/AWSLogs/*"
-    ]
-  }
-
-  statement {
-    sid    = "DenyReadIfNotCloudvisionVPC"
-    effect = "Deny"
-    actions = [
-      "s3:ListBucket",
-      "s3:GetObject"
-    ]
-    principals {
-      type = "AWS"
-      identifiers = [
-        "arn:aws:iam::${var.cloudvision_account_id}:role/OrganizationAccountAccessRole"
-      ]
-    }
-    condition {
-      test     = "StringNotEquals"
-      values   = [var.cloudvision_vpc_id]
-      variable = "aws:sourceVpce"
     }
     resources = [
       aws_s3_bucket.cloudtrail.arn,

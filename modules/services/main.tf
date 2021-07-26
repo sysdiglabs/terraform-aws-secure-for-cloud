@@ -29,32 +29,26 @@ resource "aws_ssm_parameter" "secure_api_token" {
 module "ecs_fargate_cluster" {
   name   = "${var.name}-ecscluster"
   source = "../services_ecscluster"
-
-  services_vpc_id              = var.services_vpc_id
-  services_vpc_private_subnets = var.services_vpc_private_subnets
-  services_sg_id               = var.services_sg_id
-
-  tags = var.tags
+  tags   = var.tags
 }
 
 
 module "cloud_connector" {
   source = "../services_cloud_connect"
 
-  name = "${var.name}-cloudconnector"
+  name         = "${var.name}-cloudconnector"
+  ssm_endpoint = aws_ssm_parameter.secure_endpoint.name
+  ssm_token    = aws_ssm_parameter.secure_api_token.name
 
   sns_topic_arn            = var.cloudtrail_sns_topic_arn
   services_assume_role_arn = var.services_assume_role_arn
   config_bucket            = aws_s3_bucket.s3_config_bucket.id
-  ecs_cluster              = module.ecs_fargate_cluster.id
 
-  ssm_endpoint = aws_ssm_parameter.secure_endpoint.name
-  ssm_token    = aws_ssm_parameter.secure_api_token.name
-  verify_ssl   = local.verify_ssl
+  ecs_cluster = module.ecs_fargate_cluster.id
+  vpc         = module.vpc.vpc_id
+  subnets     = module.vpc.private_subnets
 
-  services_vpc_id              = var.services_vpc_id
-  services_vpc_private_subnets = var.services_vpc_private_subnets
-  services_sg_id               = var.services_sg_id
+  verify_ssl = local.verify_ssl
 
   tags = var.tags
 
