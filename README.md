@@ -39,7 +39,7 @@ see [/examples](./examples) folder for current use-cases.
 
 ### use-cases
 
-- organizational cloudtrail
+- organizational cloudtrail (cloud-connect)
 ![organizational diagram](examples/organizational_cloudvision/diagram.png)
 
 <!-- BEGIN_TF_DOCS -->
