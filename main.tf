@@ -1,6 +1,6 @@
 provider "aws" {
   alias  = "cloudvision"
-  region = var.region
+  region = var.org_cloudvision_account_region
   assume_role {
     role_arn = "arn:aws:iam::${var.org_cloudvision_account_id}:role/OrganizationAccountAccessRole"
   }

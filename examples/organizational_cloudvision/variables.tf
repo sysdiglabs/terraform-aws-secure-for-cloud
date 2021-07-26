@@ -29,8 +29,14 @@ variable "aws_connection_profile" {
   description = "AWS connection profile to be used on ~/.aws/credentials for organization master account"
 }
 
-variable "region" {
+variable "org_master_account_region" {
   type        = string
-  description = "default region for provisioning"
+  description = "default master account region for cloudtrail provisioning"
+  default     = "eu-central-1"
+}
+
+variable "org_cloudvision_account_region" {
+  type        = string
+  description = "default cloudvision member account region for services provisioning"
   default     = "eu-central-1"
 }
