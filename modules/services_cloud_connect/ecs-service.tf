@@ -18,13 +18,6 @@ resource "aws_ecs_service" "service" {
 }
 
 
-//## use OrganizationAccountAccessRole with access with admin access to all resources?
-//## FIXME. use more refined permissions use-case specific?
-//data "aws_iam_role" "ecs_task_execution_role" {
-//  name = "OrganizationAccountAccessRole"
-//}
-
-
 resource "aws_ecs_task_definition" "task_definition" {
   family                   = "cloud_connector"
   requires_compatibilities = ["FARGATE"]

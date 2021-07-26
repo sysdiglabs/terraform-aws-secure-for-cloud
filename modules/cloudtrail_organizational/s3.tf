@@ -56,9 +56,9 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
     }
     actions = ["s3:PutObject"]
     condition {
+      variable = "s3:x-amz-acl"
       test     = "StringEquals"
       values   = ["bucket-owner-full-control"]
-      variable = "s3:x-amz-acl"
     }
     resources = ["${aws_s3_bucket.cloudtrail.arn}/AWSLogs/*"]
   }
@@ -66,7 +66,7 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
 
 
   statement {
-    sid    = "AllowS3BucketAndObjectReadAccess"
+    sid    = "AllowReadAccessToCloudvision"
     effect = "Allow"
     actions = [
       "s3:ListBucket",

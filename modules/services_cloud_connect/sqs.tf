@@ -1,12 +1,12 @@
+resource "aws_sqs_queue" "sqs" {
+  name = var.name
+  tags = var.tags
+}
+
 resource "aws_sns_topic_subscription" "sns" {
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.sqs.arn
   topic_arn = var.sns_topic_arn
-}
-
-resource "aws_sqs_queue" "sqs" {
-  name = var.name
-  tags = var.tags
 }
 
 resource "aws_sqs_queue_policy" "cloudtrail_sns" {

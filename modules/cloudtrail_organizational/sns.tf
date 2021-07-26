@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
   }
 
   statement {
-    sid    = "AllowECSTaskService"
+    sid    = "AllowCloudvisionSubscribe"
     effect = "Allow"
     principals {
       identifiers = ["arn:aws:iam::${var.cloudvision_account_id}:role/OrganizationAccountAccessRole"]
