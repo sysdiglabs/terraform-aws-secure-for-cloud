@@ -1,4 +1,5 @@
 data "aws_availability_zones" "zones" {}
+
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
@@ -15,12 +16,5 @@ module "vpc" {
   enable_nat_gateway   = true
   enable_vpn_gateway   = false
 
-
-
   tags = var.tags
-
-  # TODO merge both?
-  #tags = {
-  #  Name = var.name
-  #}
 }

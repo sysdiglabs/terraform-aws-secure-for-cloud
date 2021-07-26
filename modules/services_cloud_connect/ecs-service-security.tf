@@ -1,9 +1,9 @@
 
 
 
-##################################
+#---------------------------------
 # task role
-##################################
+#---------------------------------
 resource "aws_iam_role" "task" {
   name               = "${var.name}-ECSTaskRole"
   assume_role_policy = data.aws_iam_policy_document.task_assume_role.json
@@ -17,10 +17,6 @@ data "aws_iam_policy_document" "task_assume_role" {
       identifiers = ["ecs-tasks.amazonaws.com"]
       type        = "Service"
     }
-    //    principals {
-    //      identifiers = [var.services_assume_role_arn]
-    //      type        = "AWS"
-    //    }
     actions = ["sts:AssumeRole"]
   }
 }
@@ -33,24 +29,32 @@ resource "aws_iam_role_policy" "task" {
 data "aws_iam_policy_document" "iam_role_task_policy" {
   statement {
     effect = "Allow"
-    actions = [ // TODO Do not add so many permissions
-      "s3:*",
+    actions = [
+      "s3:*", // FIXME. refine only for Get and List
       "sts:AssumeRole",
-
-      "securityhub:GetFindings",
-      "securityhub:BatchImportFindings",
 
       "logs:DescribeLogStreams",
       "logs:GetLogEvents",
       "logs:FilterLogEvents",
       "logs:PutLogEvents",
 
+      // FIXME. this should be done over the specific resource
       "sqs:DeleteMessage",
       "sqs:DeleteMessageBatch",
       "sqs:ReceiveMessage"
     ]
     // TODO Add the only resources needed for this policy to work with
     resources = ["*"] // TODO specific
+  }
+
+  statement {
+    sid    = "AllowSecurityHub"
+    effect = "Allow"
+    actions = [
+      "securityhub:GetFindings",
+      "securityhub:BatchImportFindings",
+    ]
+    resources = ["arn:aws:securityhub:${data.aws_region.current.name}::product/sysdig/sysdig-cloud-connector"]
   }
 }
 
@@ -70,10 +74,10 @@ data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
 }
 
 
-##################################
+#---------------------------------
 # execution role
 # This role is required by tasks to pull container images and publish container logs to Amazon CloudWatch on your behalf.
-##################################
+#---------------------------------
 resource "aws_iam_role" "execution" {
   name               = "${var.name}-ECSTaskExecutionRole"
   assume_role_policy = data.aws_iam_policy_document.execution_assume_role.json

@@ -9,9 +9,13 @@ resource "aws_sns_topic_policy" "cloudtrail" {
 
 }
 
+
+# --------------------------
+# acl
+# -------------------------
 data "aws_iam_policy_document" "cloudtrail_sns" {
   statement {
-    sid    = "1"
+    sid    = "AllowCloudtrailPublish"
     effect = "Allow"
     principals {
       identifiers = ["cloudtrail.amazonaws.com"]
@@ -22,10 +26,10 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
   }
 
   statement {
-    sid    = "2"
+    sid    = "AllowCloudvisionSubscribe"
     effect = "Allow"
     principals {
-      identifiers = ["*"] // FIXME, why does it not work with Service:ecs-tasks.amazonaws.com?
+      identifiers = ["arn:aws:iam::${var.cloudvision_account_id}:role/OrganizationAccountAccessRole"]
       type        = "AWS"
     }
     actions   = ["sns:Subscribe"]

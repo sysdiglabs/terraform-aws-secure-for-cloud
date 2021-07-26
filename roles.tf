@@ -9,8 +9,7 @@ data "aws_iam_policy_document" "cloud_vision_role_trusted" {
     principals {
       type = "AWS"
       identifiers = [
-        "arn:aws:iam::${local.cloudvision_account_id}:role/OrganizationAccountAccessRole",
-        "arn:aws:iam::${local.cloudvision_account_id}:role/sysdig-cloudvision-cloudconnector-ECSTaskRole" // FIXME. is this required or just service:ecs-task?
+        "arn:aws:iam::${var.org_cloudvision_account_id}:role/sysdig-cloudvision-cloudconnector-ECSTaskRole"
       ]
     }
 

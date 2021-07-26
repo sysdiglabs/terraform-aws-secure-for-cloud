@@ -1,7 +1,6 @@
-###################################
+#----------------------------
 # cloud_services common resources
-# TODO refact. all these common should be used in non-organizational too
-###################################
+#----------------------------
 locals {
   verify_ssl = var.verify_ssl == "auto" ? length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1 : var.verify_ssl == "true"
 }
@@ -23,9 +22,9 @@ resource "aws_ssm_parameter" "secure_api_token" {
 
 
 
-##########################
+#----------------------------
 # modules
-##########################
+#----------------------------
 
 module "ecs_fargate_cluster" {
   name   = "${var.name}-ecscluster"
@@ -54,6 +53,5 @@ module "cloud_connector" {
   tags = var.tags
 
   # requires explicit aws_ssm dependency
-  # need to remove this to use providers within module :(
   depends_on = [aws_ssm_parameter.secure_endpoint, aws_ssm_parameter.secure_api_token]
 }
