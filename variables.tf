@@ -51,7 +51,7 @@ variable "cloudtrail_org_is_multi_region_trail" {
   description = "testing/economization purpose. true/false whether cloudtrail will ingest multiregional events"
 }
 
-variable "cloudtrail_org_s3_kms_enable" {
+variable "cloudtrail_org_kms_enable" {
   type        = bool
   default     = true
   description = "testing/economization purpose. true/false whether s3 should be encrypted"

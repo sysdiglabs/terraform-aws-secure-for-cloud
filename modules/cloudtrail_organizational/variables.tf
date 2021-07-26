@@ -33,7 +33,7 @@ variable "s3_bucket_expiration_days" {
   description = "Number of days that the logs will persist in the bucket"
 }
 
-variable "s3_kms_enable" {
+variable "cloudtrail_kms_enable" {
   type        = bool
   default     = true
   description = "true/false whether s3 should be encrypted"

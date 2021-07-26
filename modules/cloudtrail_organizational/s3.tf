@@ -63,24 +63,4 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
     resources = ["${aws_s3_bucket.cloudtrail.arn}/AWSLogs/*"]
   }
   // end
-
-
-  statement {
-    sid    = "AllowReadAccessToCloudvision"
-    effect = "Allow"
-    actions = [
-      "s3:ListBucket",
-      "s3:GetObject"
-    ]
-    principals {
-      type = "AWS"
-      identifiers = [
-        "arn:aws:iam::${var.cloudvision_account_id}:role/OrganizationAccountAccessRole"
-      ]
-    }
-    resources = [
-      aws_s3_bucket.cloudtrail.arn,
-      "${aws_s3_bucket.cloudtrail.arn}/AWSLogs/*"
-    ]
-  }
 }

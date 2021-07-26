@@ -13,5 +13,5 @@ module "cloudvision" {
 
   // economization
   cloudtrail_org_is_multi_region_trail = false
-  cloudtrail_org_s3_kms_enable         = false
+  cloudtrail_org_kms_enable            = false
 }

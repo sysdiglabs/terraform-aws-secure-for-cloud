@@ -15,7 +15,7 @@ module "cloudtrail_organizational" {
 
   cloudvision_account_id = var.org_cloudvision_account_id
   is_multi_region_trail  = var.cloudtrail_org_is_multi_region_trail
-  s3_kms_enable          = var.cloudtrail_org_s3_kms_enable
+  cloudtrail_kms_enable  = var.cloudtrail_org_kms_enable
   tags                   = var.tags
 }
 
