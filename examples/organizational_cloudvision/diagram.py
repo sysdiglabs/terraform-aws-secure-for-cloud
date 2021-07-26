@@ -7,6 +7,7 @@ from diagrams.aws.integration import SNS
 from diagrams.aws.integration import SQS
 from diagrams.aws.compute import ECS, ElasticContainerServiceService
 from diagrams.aws.security import IAMRole,IAM
+from diagrams.aws.management import Cloudwatch
 
 
 diagram_attr = {
@@ -14,16 +15,18 @@ diagram_attr = {
 }
 
 role_attr = {
-   "height":"0.75",
-   "width":"0.75",
-   "fontsize":"8",
+   "height":"0.8",
+   "width":"0.8",
+   "fontsize":"9",
 }
+
+event_color="firebrick"
 
 with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram", show=True):
 
     with Cluster("organization"):
 
-        with Cluster("other accounts (member)"):
+        with Cluster("other accounts (member)", graph_attr={"bgcolor":"lightblue"}):
             member_accounts = [General("account-1"),General("..."),General("account-n")]
 
             org_member_role = IAMRole("OrganizationAccountAccessRole", **role_attr)
@@ -38,16 +41,14 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
             Node(label=cloudtrail_legend, width="5",shape="plaintext", labelloc="t", fontsize="8")
 
 
-            master_credentials = IAM("master-credentials \n permissions: cloudtrail, role creation", fontsize="8")
+            master_credentials = IAM("master-credentials \n permissions: cloudtrail, role creation", fontsize="10")
             cloudvision_role    = IAMRole("Sysdig-Cloudvision-Role", **role_attr)
-            master_credentials - cloudvision_role
-            cloudtrail_s3       = S3("cloudtrail")
+            cloudtrail_s3       = S3("cloudtrail-s3-events")
             sns                 = SNS("cloudtrail-sns-events", comment="i'm a graph")
 
-            cloudtrail >> cloudtrail_s3
-            cloudtrail >> sns
+            cloudtrail >> Edge(color=event_color, style="dashed") >> cloudtrail_s3 >> Edge(color=event_color, style="dashed") >> sns
 
-        with Cluster("cloudvision account (member)"):
+        with Cluster("cloudvision account (member)", graph_attr={"bgcolor":"seashell2"}):
 
             org_member_role = IAMRole("OrganizationAccountAccessRole", **role_attr) 
 
@@ -58,11 +59,13 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
 
             sqs = SQS("cloudtrail-sqs")
             s3_config = S3("cloud-connect-config")
+            cloudwatch = Cloudwatch("cloudwatch\nlogs and alarms")
 
-            sqs << cloud_connect
+            sqs << Edge(color=event_color) << cloud_connect
             cloud_connect - s3_config
+            cloud_connect - cloudwatch
 
 
-        member_accounts >> Edge(color="darkgreen", style="dashed") >>  cloudtrail
-        sns >> Edge(color="firebrick", style="dashed") >> sqs
-        cloudtrail_s3 - cloud_connect
+        member_accounts >> Edge(color=event_color, style="dashed") >>  cloudtrail
+        sns >> Edge(color=event_color, style="dashed") >> sqs
+        cloudtrail_s3 << Edge(color=event_color) << cloud_connect

@@ -93,10 +93,14 @@ No outputs.
 ---
 ## Troubleshooting
 
-- Q: How to **validate cloudvision provisioning** is working as expected?<br/>
+- Q: How to **validate cloudvision cloud-connect (thread-detection) provisioning** is working as expected?<br/>
   A: Check each pipeline resource is working as expected (from high to low lvl)
-    - are events shown in sysdig secure platform?
+    - select a rule to break manually, from the 'Sysdig AWS Best Practices' policies. for example, 'Delete Bucket Public Access Block'. can you see the event?
     - are there any errors in the ECS task logs? can also check cloudwatch logs
+      for previous example we should see the event
+      ```
+      {"level":"info","component":"console-notifier","time":"2021-07-26T12:45:25Z","message":"A pulic access block for a bucket has been deleted (requesting  user=OrganizationAccountAccessRole, requesting IP=x.x.x.x, AWS  region=eu-central-1, bucket=sysdig-cloudvision-nnnnnn-config)"}
+      ```
     - are events consumed in the sqs queue, or are they pending?
     - are events being sent to sns topic?
 
