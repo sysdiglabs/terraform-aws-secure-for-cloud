@@ -3,6 +3,10 @@ variable "cloudvision_account_id" {
   description = "cloudvision member account id"
 }
 
+variable "cloudvision_vpc_id" {
+  type        = string
+  description = "cloudvision vpc id"
+}
 
 #---------------------------------
 # optionals - with defaults

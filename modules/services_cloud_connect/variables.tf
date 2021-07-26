@@ -1,23 +1,3 @@
-variable "ssm_endpoint" {
-  type        = string
-  description = "Name of the parameter in SSM containing the Sysdig Secure Endpoint URL"
-}
-
-variable "ssm_token" {
-  type        = string
-  description = "Name of the parameter in SSM containing the Sysdig Secure API Token"
-}
-
-variable "vpc" {
-  type        = string
-  description = "VPC where the workload is deployed"
-}
-
-variable "subnets" {
-  type        = list(string)
-  description = "Subnets where the CloudConnector will be deployed"
-}
-
 variable "ecs_cluster" {
   type        = string
   description = "ECS Fargate Cluster where deploy the CloudConnector workload"
@@ -37,6 +17,42 @@ variable "services_assume_role_arn" {
   type        = string
   description = "Cloudvision service required assumeRole arn"
 }
+
+
+#---------------------------------
+# vpc
+#---------------------------------
+
+variable "services_vpc_id" {
+  type        = string
+  description = "services vpc id"
+}
+
+variable "services_vpc_private_subnets" {
+  type        = list(string)
+  description = "services vpc private subnets"
+}
+
+variable "services_sg_id" {
+  type        = string
+  description = "services security group id"
+}
+
+
+#---------------------------------
+# cloud-connect parametrization
+#---------------------------------
+
+variable "ssm_endpoint" {
+  type        = string
+  description = "Name of the parameter in SSM containing the Sysdig Secure Endpoint URL"
+}
+
+variable "ssm_token" {
+  type        = string
+  description = "Name of the parameter in SSM containing the Sysdig Secure API Token"
+}
+
 
 #---------------------------------
 # optionals - with default

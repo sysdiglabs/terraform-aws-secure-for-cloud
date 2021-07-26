@@ -24,7 +24,6 @@ resource "aws_s3_bucket_public_access_block" "s3_config_bucket" {
   restrict_public_buckets = true
 
   depends_on = [aws_s3_bucket_policy.allow_cloudvision_role] # https://github.com/hashicorp/terraform-provider-aws/issues/7628
-
 }
 
 resource "aws_s3_bucket_policy" "allow_cloudvision_role" {
@@ -46,4 +45,23 @@ data "aws_iam_policy_document" "allow_cloudvision_role" {
     ]
     resources = [aws_s3_bucket.s3_config_bucket.arn]
   }
+}
+
+
+# --------------------------
+# vpc
+# -------------------------
+data "aws_vpc_endpoint_service" "s3" {
+  service      = "s3"
+  service_type = "Interface"
+}
+
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id             = var.services_vpc_id
+  service_name       = data.aws_vpc_endpoint_service.s3.service_name
+  vpc_endpoint_type  = "Interface"
+  security_group_ids = [var.services_sg_id]
+  subnet_ids         = var.services_vpc_private_subnets
+  //  private_dns_enabled = true
+  tags = var.tags
 }
