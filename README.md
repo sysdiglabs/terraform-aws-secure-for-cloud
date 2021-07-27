@@ -35,6 +35,16 @@ See main module [variables.tf](./variables.tf) file for more optional configurat
 
 ## Usage
 
+```terraform
+module "cloudvision_aws" {
+  source = "sysdiglabs/cloudvision/aws"
+
+  sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
+  org_cloudvision_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
+  org_cloudvision_account_region = "<REGION_CLOUDVISION_RESOURCES; eg: eu-central-1>"
+}
+```
+
 see [/examples](./examples) folder for current use-cases.
 
 ### use-cases
