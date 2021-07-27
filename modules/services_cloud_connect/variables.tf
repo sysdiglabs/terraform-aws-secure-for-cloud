@@ -77,18 +77,6 @@ variable "tags" {
   }
 }
 
-variable "config_content" {
-  type        = string
-  description = "Configuration contents for the file stored in the S3 bucket"
-  default     = null
-}
-
-variable "config_source" {
-  type        = string
-  description = "Configuration source file for the file stored in the S3 bucket"
-  default     = null
-}
-
 variable "verify_ssl" {
   type        = bool
   default     = true

@@ -16,7 +16,7 @@ data "aws_iam_policy_document" "cloudtrail_kms" {
     sid    = "Enable IAM User Permissions"
     effect = "Allow"
     principals {
-      //      identifiers = ["arn:aws:iam::${data.aws_caller_identity.me.account_id}:root"]
+      # identifiers = ["arn:aws:iam::${data.aws_caller_identity.me.account_id}:root"]
       identifiers = ["*"]
       type        = "AWS"
     }
@@ -99,25 +99,25 @@ data "aws_iam_policy_document" "cloudtrail_kms" {
   statement {
     sid    = "Enable cross account log decryption"
     effect = "Allow"
-    //    principals {
-    //      identifiers = ["*"]
-    //      type        = "AWS"
-    //    }
+    #    principals {
+    #      identifiers = ["*"]
+    #      type        = "AWS"
+    #    }
     principals {
       identifiers = ["ecs-tasks.amazonaws.com"]
       type        = "Service"
     }
     actions   = ["kms:Decrypt", "kms:ReEncryptFrom"]
     resources = ["*"]
-    //    condition {
-    //      test     = "StringEquals"
-    //      values   = [data.aws_caller_identity.me.account_id]
-    //      variable = "kms:CallerAccount"
-    //    }
-    //    condition {
-    //      test     = "StringLike"
-    //      values   = ["arn:aws:cloudtrail:*:${data.aws_caller_identity.me.account_id}:trail/*"]
-    //      variable = "kms:EncryptionContext:aws:cloudtrail:arn"
-    //    }
+    #        condition {
+    #          test     = "StringEquals"
+    #          values   = [data.aws_caller_identity.me.account_id]
+    #          variable = "kms:CallerAccount"
+    #        }
+    #        condition {
+    #          test     = "StringLike"
+    #          values   = ["arn:aws:cloudtrail:*:${data.aws_caller_identity.me.account_id}:trail/*"]
+    #          variable = "kms:EncryptionContext:aws:cloudtrail:arn"
+    #        }
   }
 }

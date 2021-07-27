@@ -35,7 +35,7 @@ resource "aws_s3_bucket_policy" "cloudtrail_s3" {
 }
 data "aws_iam_policy_document" "cloudtrail_s3" {
 
-  // begin. required policies as requested in aws_cloudtrail resource documentation
+  # begin. required policies as requested in aws_cloudtrail resource documentation
   statement {
     sid    = "AWSCloudTrailAclCheck"
     effect = "Allow"
@@ -62,5 +62,5 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
     }
     resources = ["${aws_s3_bucket.cloudtrail.arn}/AWSLogs/*"]
   }
-  // end
+  # end
 }

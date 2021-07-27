@@ -1,8 +1,32 @@
-<!-- BEGIN_TF_DOCS -->
+# AWS Services module
+
+## Usage
+
+```hcl
+module "cloudtrail" {
+    source = "sysdiglabs/cloudvision/aws/modules/services"
+
+    # aws provider for cloudvision organizational member account
+    providers = {
+      aws = aws.cloudvision
+    }
+
+    sysdig_secure_endpoint   = "<SYSDIS_SECURE_ENDPOINT>"
+    sysdig_secure_api_token  = "<SYSDIG_SECURE_API_TOKEN"
+    cloudtrail_sns_topic_arn = "<ORGANIZATIONAL CLOUDTRAIL SNS TOPIC ARN>"
+    services_assume_role_arn = "<CLOUD_CONNECT_ASSUME_ROLE>"
+    tags                     = "<INHERITED TAGS FROM RESOURCE-GROUP>"
+  }
+}
+```
+
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
 
 ## Providers
@@ -23,7 +47,7 @@
 
 | Name | Type |
 |------|------|
-| [aws_resourcegroups_group.sysdig-cloudvision](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/resourcegroups_group) | resource |
+| [aws_resourcegroups_group.sysdig_cloudvision](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/resourcegroups_group) | resource |
 | [aws_s3_bucket.s3_config_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_policy.allow_cloudvision_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_policy) | resource |
 | [aws_s3_bucket_public_access_block.s3_config_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
@@ -48,4 +72,4 @@
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

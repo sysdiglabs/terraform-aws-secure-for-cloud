@@ -13,7 +13,7 @@ data "aws_iam_policy_document" "cloud_vision_role_trusted" {
       ]
     }
 
-    // enable use OrganizationalRole as TaskExecution role for ECS Task
+    # enable use OrganizationalRole as TaskExecution role for ECS Task
     principals {
       type        = "Service"
       identifiers = ["ecs-tasks.amazonaws.com"]

@@ -42,12 +42,6 @@ variable "sysdig_secure_endpoint" {
   description = "Sysdig Secure API endpoint"
 }
 
-variable "aws_connection_profile" {
-  type        = string
-  default     = "default"
-  description = "AWS connection profile to be used on ~/.aws/credentials for organization master account"
-}
-
 variable "tags" {
   type        = map(string)
   description = "sysdig cloudvision tags"

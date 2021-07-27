@@ -4,18 +4,19 @@
 
 ```hcl
 module "cloudtrail" {
-  source = "sysdiglabs/cloudvision/aws/modules/organizational/cloudtrail"
+  source = "sysdiglabs/cloudvision/aws/modules/cloudtrail_organizational"
 
   cloudtrail_name   = "cloudtrail-org-tf"
   s3_bucket_name    = "cloudtrail-org-tf"
 }
 ```
 
-<!-- BEGIN_TF_DOCS -->
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
 
 ## Providers
@@ -63,7 +64,7 @@ No modules.
 |------|-------------|
 | <a name="output_s3_bucket_arn"></a> [s3\_bucket\_arn](#output\_s3\_bucket\_arn) | Cloudtrail S3 bucket ARN |
 | <a name="output_sns_topic_arn"></a> [sns\_topic\_arn](#output\_sns\_topic\_arn) | Cloudtrail SNS topic ARN |
-<!-- END_TF_DOCS -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors
 

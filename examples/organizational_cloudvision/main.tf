@@ -12,7 +12,7 @@ module "cloudvision" {
   org_cloudvision_account_id     = var.org_cloudvision_account_id
   org_cloudvision_account_region = "eu-central-1"
 
-  // (optional) testing purpose; economization
+  #  (optional) testing purpose; economization
   cloudtrail_org_is_multi_region_trail = false
   cloudtrail_org_kms_enable            = false
 }

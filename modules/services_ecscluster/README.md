@@ -1,22 +1,20 @@
 # AWS ECS Cluster deployment module
 
-This repository contains a Module for how to deploy a Fargate ECS Cluster.
-
 ## Usage
 
 ```hcl
 module "ecs_fargate_cluster" {
-  source = "sysdiglabs/cloudvision/aws/modules/ecscluster"
-
+  source = "sysdiglabs/cloudvision/aws/modules/services_ecscluster"
   name = "ecscluster"
 }
 ```
 
-<!-- BEGIN_TF_DOCS -->
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.14.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
 
 ## Providers
@@ -47,7 +45,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_id"></a> [id](#output\_id) | ECS Cluster ID |
-<!-- END_TF_DOCS -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors
 

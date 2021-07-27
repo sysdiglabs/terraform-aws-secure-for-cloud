@@ -1,4 +1,4 @@
-resource "aws_resourcegroups_group" "sysdig-cloudvision" {
+resource "aws_resourcegroups_group" "sysdig_cloudvision" {
   name = "sysdig-cloudvision"
   tags = var.tags
 

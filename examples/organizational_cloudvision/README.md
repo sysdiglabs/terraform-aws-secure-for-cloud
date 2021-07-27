@@ -1,7 +1,7 @@
 # UseCase: Organizational Cloudvision
 
 - AWS Organization usage approach, where all the member accounts will report to a single `Organizational Cloudtrail`
-- When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which cloudvision module will use for member-account provisioning 
+- When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which cloudvision module will use for member-account provisioning
 - Cloudvision member account will be created, where all the cloudvision service-related resources will be created
 - An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read s3 bucket events
 
@@ -50,5 +50,5 @@ $ terraform init
 $ terraform plan
 $ terraform apply
 ```
-Note that this example may create resources which can cost money (AWS Elastic IP, for example). 
+Note that this example may create resources which can cost money (AWS Elastic IP, for example).
 Run `terraform destroy` when you don't need these resources

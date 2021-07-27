@@ -30,7 +30,7 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:*", // FIXME. refine only for Get and List
+      "s3:*", # FIXME. refine only for Get and List
       "sts:AssumeRole",
 
       "logs:DescribeLogStreams",
@@ -38,13 +38,12 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       "logs:FilterLogEvents",
       "logs:PutLogEvents",
 
-      // FIXME. this should be done over the specific resource
+      # FIXME. this should be done over the specific resource
       "sqs:DeleteMessage",
       "sqs:DeleteMessageBatch",
       "sqs:ReceiveMessage"
     ]
-    // TODO Add the only resources needed for this policy to work with
-    resources = ["*"] // TODO specific
+    resources = ["*"] # FIXME. make more specific?
   }
 
   statement {

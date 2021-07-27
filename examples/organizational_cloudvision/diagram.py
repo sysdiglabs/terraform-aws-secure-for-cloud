@@ -34,7 +34,7 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
 
         with Cluster("master account"):
 
-            
+
             cloudtrail          = Cloudtrail("cloudtrail", shape="plaintext")
             cloudtrail_legend = ("for clarity purpose events received from cloudvision member account\n\
                                     and master account have been removed from diagram, but will be processed too ")
@@ -50,7 +50,7 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
 
         with Cluster("cloudvision account (member)", graph_attr={"bgcolor":"seashell2"}):
 
-            org_member_role = IAMRole("OrganizationAccountAccessRole\ncreated by AWS for org. member accounts", **role_attr) 
+            org_member_role = IAMRole("OrganizationAccountAccessRole\ncreated by AWS for org. member accounts", **role_attr)
 
             with Cluster("ecs"):
                 ecs = ECS("cloudvision")

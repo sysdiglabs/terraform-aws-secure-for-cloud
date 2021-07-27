@@ -13,7 +13,7 @@ resource "aws_sqs_queue_policy" "cloudtrail_sns" {
   queue_url = aws_sqs_queue.sqs.id
   policy    = data.aws_iam_policy_document.cloudtrail_sns.json
 
-  // required to avoid  error reading SQS Queue Policy; empty result
+  # required to avoid  error reading SQS Queue Policy; empty result
   depends_on = [aws_sqs_queue.sqs]
 }
 
