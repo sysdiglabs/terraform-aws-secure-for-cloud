@@ -15,7 +15,7 @@ diagram_attr = {
 }
 
 role_attr = {
-   "height":"0.8",
+   "height":"1",
    "width":"0.8",
    "fontsize":"9",
 }
@@ -29,7 +29,7 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
         with Cluster("other accounts (member)", graph_attr={"bgcolor":"lightblue"}):
             member_accounts = [General("account-1"),General("..."),General("account-n")]
 
-            org_member_role = IAMRole("OrganizationAccountAccessRole", **role_attr)
+            org_member_role = IAMRole("OrganizationAccountAccessRole\ncreated by AWS for org. member accounts", **role_attr)
 
 
         with Cluster("master account"):
@@ -38,10 +38,10 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
             cloudtrail          = Cloudtrail("cloudtrail", shape="plaintext")
             cloudtrail_legend = ("for clarity purpose events received from cloudvision member account\n\
                                     and master account have been removed from diagram, but will be processed too ")
-            Node(label=cloudtrail_legend, width="5",shape="plaintext", labelloc="t", fontsize="8")
+            Node(label=cloudtrail_legend, width="5",shape="plaintext", labelloc="t", fontsize="10")
 
 
-            master_credentials = IAM("master-credentials \n permissions: cloudtrail, role creation", fontsize="10")
+            master_credentials = IAM("master-credentials \npermissions: cloudtrail, role creation", fontsize="10")
             cloudvision_role    = IAMRole("Sysdig-Cloudvision-Role", **role_attr)
             cloudtrail_s3       = S3("cloudtrail-s3-events")
             sns                 = SNS("cloudtrail-sns-events", comment="i'm a graph")
@@ -50,7 +50,7 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
 
         with Cluster("cloudvision account (member)", graph_attr={"bgcolor":"seashell2"}):
 
-            org_member_role = IAMRole("OrganizationAccountAccessRole", **role_attr) 
+            org_member_role = IAMRole("OrganizationAccountAccessRole\ncreated by AWS for org. member accounts", **role_attr) 
 
             with Cluster("ecs"):
                 ecs = ECS("cloudvision")
@@ -68,4 +68,5 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
 
         member_accounts >> Edge(color=event_color, style="dashed") >>  cloudtrail
         sns >> Edge(color=event_color, style="dashed") >> sqs
-        cloudtrail_s3 << Edge(color=event_color) << cloud_connect
+#        cloudtrail_s3 << Edge(color=event_color) << cloud_connect
+        (cloudtrail_s3 << Edge(color=event_color) << cloudvision_role) -  Edge(xlabel="assumeRole", color=event_color) - cloud_connect
