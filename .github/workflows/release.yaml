@@ -30,7 +30,7 @@ jobs:
           sudo mv git-chglog /usr/local/bin/
 
       - name: Generate changelog
-        run: git-chglog -c .github/git-chglog/config.yml -o RELEASE_CHANGELOG.md $(git describe --tags $(git rev-list --tags --max-count=1))
+        run: git-chglog -c .github/git-chglog/config.yaml -o RELEASE_CHANGELOG.md $(git describe --tags $(git rev-list --tags --max-count=1))
 
       - name: Create Release
         id: create_release
