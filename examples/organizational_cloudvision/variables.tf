@@ -1,7 +1,6 @@
 variable "org_cloudvision_account_id" {
   type        = string
   description = "the account_id **within the organization** to be used as cloudvision account"
-
 }
 
 variable "sysdig_secure_api_token" {
@@ -9,8 +8,6 @@ variable "sysdig_secure_api_token" {
   type        = string
   description = "Sysdig Secure API token"
 }
-
-
 
 
 #------------------------------
@@ -21,22 +18,4 @@ variable "sysdig_secure_endpoint" {
   type        = string
   default     = "https://secure.sysdig.com"
   description = "Sysdig Secure API endpoint"
-}
-
-variable "aws_connection_profile" {
-  type        = string
-  default     = "default"
-  description = "AWS connection profile to be used on ~/.aws/credentials for organization master account"
-}
-
-variable "org_master_account_region" {
-  type        = string
-  description = "default master account region for cloudtrail provisioning"
-  default     = "eu-central-1"
-}
-
-variable "org_cloudvision_account_region" {
-  type        = string
-  description = "default cloudvision member account region for services provisioning"
-  default     = "eu-central-1"
 }

@@ -12,9 +12,9 @@ For other cloud providers check:
 - [terraform-azure-cloudvision](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
 - [terraform-google-cloudvision](https://github.com/sysdiglabs/terraform-google-cloudvision)
 
-## Prerequisites
+## Use-Case: Organizational Cloudvision
 
-Minimum requirements:
+### Prerequisites
 
 1.  Have an existing AWS account as the organization master account
     - organzational cloudTrail service must be enabled
@@ -33,7 +33,7 @@ Minimum requirements:
 
 See main module [variables.tf](./variables.tf) file for more optional configuration.
 
-## Usage
+####  Usage
 
 ```terraform
 module "cloudvision_aws" {
@@ -45,12 +45,18 @@ module "cloudvision_aws" {
 }
 ```
 
-see [/examples](./examples) folder for current use-cases.
-
-### use-cases
-
-- organizational cloudtrail (cloud-connect)
+#### Insights
+More info in the [`./examples/organizational_cloudvision/README.md`](./examples/organizational_cloudvision/README.md)
 ![organizational diagram](examples/organizational_cloudvision/diagram.png)
+
+
+---
+## Tags
+
+- all created resources will be created within the tags `product:sysdig-cloudvision` 
+- within the resource-group `sysdig-cloudvision`
+
+---
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
