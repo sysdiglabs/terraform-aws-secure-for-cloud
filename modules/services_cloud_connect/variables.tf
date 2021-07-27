@@ -59,7 +59,7 @@ variable "name" {
 
 variable "image" {
   type        = string
-  default     = "sysdiglabs/cloud-connector:master"
+  default     = "sysdiglabs/cloud-connector:latest"
   description = "Image of the cloud connector to deploy"
 }
 
