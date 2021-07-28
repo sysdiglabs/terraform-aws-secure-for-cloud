@@ -1,4 +1,4 @@
-# UseCase: Organizational Cloudvision
+# Example: Organizational Cloudvision
 
 - AWS Organization usage approach, where all the member accounts will report to a single `Organizational Cloudtrail`
 - When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which cloudvision module will use for member-account provisioning
