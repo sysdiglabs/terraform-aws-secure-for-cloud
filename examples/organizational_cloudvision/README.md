@@ -2,8 +2,10 @@
 
 - AWS Organization usage approach, where all the member accounts will report to a single `Organizational Cloudtrail`
 - When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which cloudvision module will use for member-account provisioning
-- Cloudvision member account will be created, where all the cloudvision service-related resources will be created
-- An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read s3 bucket events
+- In the Cloudvision member account
+    - An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read s3 bucket events
+    - All the cloudvision service-related resources will be created
+    - Cloudwatch `cloud-connect` logs and event-alerts files will be generated
 
 ![organizational diagram](./diagram.png)
 
@@ -44,7 +46,7 @@ module "cloudvision_aws" {
 }
 ```
 
-To run this example you need to execute:
+To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
 $ terraform init
 $ terraform plan
