@@ -14,6 +14,11 @@ variable "services_assume_role_arn" {
   description = "Cloudvision service required assumeRole arn"
 }
 
+variable "cloudbench_account_ids" {
+  type        = list(string)
+  description = "The list of accountIDs in which to create a cloudbench role"
+}
+
 #---------------------------------
 # optionals - with default
 #---------------------------------

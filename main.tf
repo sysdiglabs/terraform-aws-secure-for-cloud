@@ -6,6 +6,11 @@ provider "aws" {
   }
 }
 
+provider "sysdig" {
+  sysdig_secure_url       = var.sysdig_secure_endpoint
+  sysdig_secure_api_token = var.sysdig_secure_api_token
+}
+
 #-------------------------------------
 # cloudvision submodules
 #-------------------------------------
@@ -31,4 +36,6 @@ module "services" {
   cloudtrail_sns_topic_arn = module.cloudtrail_organizational.sns_topic_arn
   services_assume_role_arn = aws_iam_role.cloudvision_role.arn
   tags                     = var.tags
+
+  cloudbench_account_ids = [var.aws_organization_cloudvision_account_id] // TODO populate this with all accounts in org
 }

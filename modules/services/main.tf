@@ -55,3 +55,11 @@ module "cloud_connector" {
   # requires explicit aws_ssm dependency
   depends_on = [aws_ssm_parameter.secure_endpoint, aws_ssm_parameter.secure_api_token]
 }
+
+module "cloud_bench" {
+  source = "../services_cloud_bench"
+
+  for_each   = toset(var.cloudbench_account_ids)
+  account_id = each.key
+  tags       = var.tags
+}
