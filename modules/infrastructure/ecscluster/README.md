@@ -4,7 +4,7 @@
 
 ```hcl
 module "ecs_fargate_cluster" {
-  source = "sysdiglabs/cloudvision/aws/modules/services_ecscluster"
+  source = "sysdiglabs/cloudvision/aws/modules/infrastructure/ecscluster"
   name = "ecscluster"
 }
 ```
@@ -25,13 +25,16 @@ module "ecs_fargate_cluster" {
 
 ## Modules
 
-No modules.
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws |  |
 
 ## Resources
 
 | Name | Type |
 |------|------|
 | [aws_ecs_cluster.ecs_cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster) | resource |
+| [aws_availability_zones.zones](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
 
 ## Inputs
 
@@ -45,6 +48,8 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_id"></a> [id](#output\_id) | ECS Cluster ID |
+| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | vpc id |
+| <a name="output_vpc_subnets"></a> [vpc\_subnets](#output\_vpc\_subnets) | vpc privates subnets |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors

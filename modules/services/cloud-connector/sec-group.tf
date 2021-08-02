@@ -1,5 +1,5 @@
 resource "aws_security_group" "sg" {
-  vpc_id      = var.vpc
+  vpc_id      = var.vpc_id
   name        = var.name
   description = "CloudConnector workload Security Group"
 

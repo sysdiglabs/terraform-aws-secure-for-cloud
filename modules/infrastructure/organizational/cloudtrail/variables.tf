@@ -1,6 +1,6 @@
-variable "cloudvision_account_id" {
+variable "org_cloudvision_account_id" {
   type        = string
-  description = "cloudvision member account id"
+  description = "organization cloudvision member account id"
 }
 
 

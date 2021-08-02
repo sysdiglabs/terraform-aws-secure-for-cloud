@@ -3,53 +3,51 @@ variable "ecs_cluster" {
   description = "ECS Fargate Cluster where deploy the CloudConnector workload"
 }
 
-variable "config_bucket" {
-  type        = string
-  description = "Name of a bucket (must exist) where the configuration YAML files will be stored"
-}
-
-variable "sns_topic_arn" {
-  type        = string
-  description = "ARN of the SNS Topic to subscribe"
-}
-
 variable "services_assume_role_arn" {
   type        = string
   description = "Cloudvision service required assumeRole arn"
 }
 
+
 #---------------------------------
 # vpc
 #---------------------------------
-variable "vpc" {
+variable "vpc_id" {
   type        = string
   description = "VPC where the workload is deployed"
 }
 
-variable "subnets" {
+variable "vpc_subnets" {
   type        = list(string)
   description = "Subnets where the CloudConnector will be deployed"
 }
 
 
 #---------------------------------
-# cloud-connect parametrization
+# cloud-connector parametrization
 #---------------------------------
 
-variable "ssm_endpoint" {
+variable "sysdig_secure_api_token" {
   type        = string
-  description = "Name of the parameter in SSM containing the Sysdig Secure Endpoint URL"
+  sensitive   = true
+  description = "Sysdig Secure API token"
 }
 
-variable "ssm_token" {
+variable "sns_topic_arn" {
   type        = string
-  description = "Name of the parameter in SSM containing the Sysdig Secure API Token"
+  description = "CloudTrail module created SNS Topic ARN"
 }
 
 
 #---------------------------------
 # optionals - with default
 #---------------------------------
+
+variable "sysdig_secure_endpoint" {
+  type        = string
+  default     = "https://secure.sysdig.com"
+  description = "Sysdig Secure API endpoint"
+}
 
 variable "name" {
   type        = string

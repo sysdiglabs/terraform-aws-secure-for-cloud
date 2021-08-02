@@ -104,7 +104,7 @@ data "aws_iam_policy_document" "task_read_parameters" {
   statement {
     effect    = "Allow"
     actions   = ["ssm:GetParameters"]
-    resources = [data.aws_ssm_parameter.endpoint.arn, data.aws_ssm_parameter.api_token.arn]
+    resources = [aws_ssm_parameter.secure_endpoint.arn, aws_ssm_parameter.secure_api_token.arn]
   }
 }
 

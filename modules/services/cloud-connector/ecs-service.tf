@@ -10,7 +10,7 @@ resource "aws_ecs_service" "service" {
   launch_type   = "FARGATE"
 
   network_configuration {
-    subnets         = var.subnets
+    subnets         = var.vpc_subnets
     security_groups = [aws_security_group.sg.id]
   }
   task_definition = aws_ecs_task_definition.task_definition.arn
@@ -23,7 +23,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.execution.arn # ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume
-  task_role_arn            = aws_iam_role.task.arn      # ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services.
+  task_role_arn            = aws_iam_role.task.arn      # ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS resource-group.
   cpu                      = "256"
   memory                   = "512"
 
@@ -36,11 +36,11 @@ resource "aws_ecs_task_definition" "task_definition" {
       secrets = [
         {
           name      = "SECURE_URL"
-          valueFrom = data.aws_ssm_parameter.endpoint.arn
+          valueFrom = aws_ssm_parameter.secure_endpoint.name
         },
         {
           name      = "SECURE_API_TOKEN"
-          valueFrom = data.aws_ssm_parameter.api_token.arn
+          valueFrom = aws_ssm_parameter.secure_api_token.name
         }
       ]
       portMappings = [{

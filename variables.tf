@@ -36,6 +36,12 @@ variable "cloudtrail_org_kms_enable" {
 #---------------------------------
 # optionals - with defaults
 #---------------------------------
+variable "name" {
+  type        = string
+  description = "Name for the Cloud Vision deployment"
+  default     = "sysdig-cloudvision"
+}
+
 variable "sysdig_secure_endpoint" {
   type        = string
   default     = "https://secure.sysdig.com"

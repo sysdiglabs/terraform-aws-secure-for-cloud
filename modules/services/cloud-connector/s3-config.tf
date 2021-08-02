@@ -1,9 +1,10 @@
-data "aws_s3_bucket" "config" {
-  bucket = var.config_bucket
+
+locals {
+  s3_bucket_config_id = aws_s3_bucket.s3_config_bucket.id
 }
 
 resource "aws_s3_bucket_object" "config" {
-  bucket  = data.aws_s3_bucket.config.id
+  bucket  = local.s3_bucket_config_id
   key     = "cloud-connector.yaml"
   content = local.default_config
   tags    = var.tags
@@ -14,7 +15,7 @@ locals {
 logging: info
 rules:
   - s3:
-      bucket: ${var.config_bucket}
+      bucket: ${local.s3_bucket_config_id}
       path: rules
 ingestors:
   - cloudtrail-sns-sqs:
@@ -30,7 +31,7 @@ CONFIG
   task_env_vars = concat([
     {
       name  = "VERIFY_SSL"
-      value = tostring(var.verify_ssl)
+      value = tostring(local.verify_ssl)
     },
     {
       name  = "TELEMETRY_DEPLOYMENT_METHOD"
@@ -42,7 +43,7 @@ CONFIG
     },
     {
       name  = "CONFIG_PATH"
-      value = "s3://${var.config_bucket}/cloud-connector.yaml"
+      value = "s3://${local.s3_bucket_config_id}/cloud-connector.yaml"
     }
     ], flatten([for env_key, env_value in var.extra_env_vars : [{
       name  = env_key,

@@ -23,12 +23,12 @@ data "aws_iam_policy_document" "cloud_vision_role_trusted" {
 }
 
 
-resource "aws_iam_role_policy" "cloudtrail_s3" {
+resource "aws_iam_role_policy" "cloudvision_role_s3" {
   name   = "AllowCloudtrailS3Policy"
   role   = aws_iam_role.cloudvision_role.id
-  policy = data.aws_iam_policy_document.cloudtrail_s3.json
+  policy = data.aws_iam_policy_document.cloudvision_role_s3.json
 }
-data "aws_iam_policy_document" "cloudtrail_s3" {
+data "aws_iam_policy_document" "cloudvision_role_s3" {
   statement {
     effect = "Allow"
     actions = [
@@ -36,8 +36,8 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
       "s3:GetObject"
     ]
     resources = [
-      module.cloudtrail_organizational.s3_bucket_arn,
-      "${module.cloudtrail_organizational.s3_bucket_arn}/*"
+      aws_s3_bucket.cloudtrail.arn,
+      "${aws_s3_bucket.cloudtrail.arn}/*"
     ]
   }
 }

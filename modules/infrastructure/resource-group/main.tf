@@ -1,7 +1,8 @@
 resource "aws_resourcegroups_group" "sysdig_cloudvision" {
-  name = "sysdig-cloudvision"
+  name = var.name
   tags = var.tags
 
+  # FIXME. convert tags to JSON resource_query
   resource_query {
     query = <<JSON
 {
