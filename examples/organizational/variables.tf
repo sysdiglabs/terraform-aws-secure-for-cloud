@@ -1,4 +1,4 @@
-variable "org_cloudvision_account_id" {
+variable "org_cloudvision_member_account_id" {
   type        = string
   description = "the account_id **within the organization** to be used as cloudvision account"
 }

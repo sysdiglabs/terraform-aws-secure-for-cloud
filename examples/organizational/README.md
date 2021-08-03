@@ -21,7 +21,7 @@ Minimum requirements:
     - credentials will be picked from `default` aws profile, but can be changed vía [provider profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#profile)
     - cloudvision organizational member account id, as input variable value
         ```
-       org_cloudvision_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
+       org_cloudvision_member_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
         ```
 1. Secure requirements, as input variable value
     ```
@@ -41,7 +41,7 @@ module "cloudvision_aws" {
   source = "sysdiglabs/cloudvision/aws"
 
   sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
-  org_cloudvision_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
+  org_cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
   org_cloudvision_account_region = "<REGION_CLOUDVISION_RESOURCES; eg: eu-central-1>"
 }
 ```

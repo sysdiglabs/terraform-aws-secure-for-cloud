@@ -57,20 +57,6 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
   }
 }
 
-resource "aws_iam_role_policy" "enable_assume_cloudvision_role" {
-  name   = "${var.name}-EnableCloudvisionRole"
-  role   = aws_iam_role.task.id
-  policy = data.aws_iam_policy_document.enable_assume_cloudvision_role.json
-}
-data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "sts:AssumeRole"
-    ]
-    resources = [var.services_assume_role_arn]
-  }
-}
 
 
 #---------------------------------

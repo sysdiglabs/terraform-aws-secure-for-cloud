@@ -4,8 +4,8 @@
 
 ```hcl
 module "ecs_fargate_cluster" {
-  source = "sysdiglabs/cloudvision/aws/modules/infrastructure/ecscluster"
-  name = "ecscluster"
+  source = "sysdiglabs/cloudvision/aws/modules/infrastructure/ecs-fargate-cluster"
+  name = "ecs-fargate-cluster"
 }
 ```
 

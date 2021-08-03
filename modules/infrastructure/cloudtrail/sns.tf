@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
     sid    = "AllowCloudvisionSubscribe"
     effect = "Allow"
     principals {
-      identifiers = ["arn:aws:iam::${var.org_cloudvision_account_id}:role/OrganizationAccountAccessRole"]
+      identifiers = ["arn:aws:iam::${var.org_cloudvision_member_account_id}:role/OrganizationAccountAccessRole"]
       type        = "AWS"
     }
     actions   = ["sns:Subscribe"]

@@ -4,7 +4,7 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
-variable "org_cloudvision_account_id" {
+variable "org_cloudvision_member_account_id" {
   type        = string
   description = "the **account id within the organization** to be used as cloudvision account"
 }

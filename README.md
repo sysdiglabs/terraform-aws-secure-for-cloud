@@ -37,7 +37,7 @@ More info in the [`./examples/organizational_cloudvision/README.md`](examples/or
     - credentials will be picked from `default` aws profile, but can be changed vía [provider profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#profile)
     - cloudvision organizational member account id, as input variable value
         ```
-       org_cloudvision_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
+       org_cloudvision_member_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
         ```
 1. Secure requirements, as input variable value
     ```
@@ -53,7 +53,7 @@ module "cloudvision_aws" {
   source = "sysdiglabs/cloudvision/aws"
 
   sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
-  org_cloudvision_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
+  org_cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
   org_cloudvision_account_region = "<REGION_CLOUDVISION_RESOURCES; eg: eu-central-1>"
 }
 ```
@@ -78,8 +78,9 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector) | ./modules/services/cloud-connector |  |
-| <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | ./modules/infrastructure/ecscluster |  |
-| <a name="module_org_cloudtrail"></a> [org\_cloudtrail](#module\_org\_cloudtrail) | ./modules/infrastructure/organizational/cloudtrail |  |
+| <a name="module_cloudvision_role"></a> [cloudvision\_role](#module\_cloudvision\_role) | ./modules/infrastructure/organizational/cloudvision-role |  |
+| <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | ./modules/infrastructure/ecs-fargate-cluster |  |
+| <a name="module_org_cloudtrail"></a> [org\_cloudtrail](#module\_org\_cloudtrail) | ./modules/infrastructure/cloudtrail |  |
 | <a name="module_resource_group_cloudvision_member"></a> [resource\_group\_cloudvision\_member](#module\_resource\_group\_cloudvision\_member) | ./modules/infrastructure/resource-group |  |
 | <a name="module_resource_group_master"></a> [resource\_group\_master](#module\_resource\_group\_master) | ./modules/infrastructure/resource-group |  |
 
@@ -91,8 +92,8 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_org_cloudvision_account_id"></a> [org\_cloudvision\_account\_id](#input\_org\_cloudvision\_account\_id) | the **account id within the organization** to be used as cloudvision account | `string` | n/a | yes |
 | <a name="input_org_cloudvision_account_region"></a> [org\_cloudvision\_account\_region](#input\_org\_cloudvision\_account\_region) | default cloudvision member account region for services provisioning | `string` | n/a | yes |
+| <a name="input_org_cloudvision_member_account_id"></a> [org\_cloudvision\_member\_account\_id](#input\_org\_cloudvision\_member\_account\_id) | the **account id within the organization** to be used as cloudvision account | `string` | n/a | yes |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_cloudtrail_org_is_multi_region_trail"></a> [cloudtrail\_org\_is\_multi\_region\_trail](#input\_cloudtrail\_org\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_cloudtrail_org_kms_enable"></a> [cloudtrail\_org\_kms\_enable](#input\_cloudtrail\_org\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
