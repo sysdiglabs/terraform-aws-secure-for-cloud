@@ -44,6 +44,11 @@ jobs:
         with:
           directory: ${{ matrix.directory }}
 
+      - name: Echo Terraform min/max versions
+        run: |
+          echo "min version ${{ steps.minMax.outputs.minVersion }}"
+          echo "max version ${{ steps.minMax.outputs.maxVersion }}"
+
       - name: Install Terraform v${{ steps.minMax.outputs.minVersion }}
         uses: hashicorp/setup-terraform@v1
         with:

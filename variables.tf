@@ -4,7 +4,7 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
-variable "org_cloudvision_account_id" {
+variable "org_cloudvision_member_account_id" {
   type        = string
   description = "the **account id within the organization** to be used as cloudvision account"
 }
@@ -36,6 +36,12 @@ variable "cloudtrail_org_kms_enable" {
 #---------------------------------
 # optionals - with defaults
 #---------------------------------
+variable "name" {
+  type        = string
+  description = "Name for the Cloud Vision deployment"
+  default     = "sysdig-cloudvision"
+}
+
 variable "sysdig_secure_endpoint" {
   type        = string
   default     = "https://secure.sysdig.com"
