@@ -23,7 +23,7 @@ module "org_cloudtrail" {
 module "cloudvision_role" {
   source = "./modules/infrastructure/organizational/cloudvision-role"
   providers = {
-    aws.cloudvision = aws.cloudvision_org_member
+    aws.member = aws.member
   }
 
   name = var.name
@@ -40,7 +40,7 @@ module "cloudvision_role" {
 # with 'organizational' aws provider alias
 #-------------------------------------
 provider "aws" {
-  alias  = "cloudvision_org_member"
+  alias  = "member"
   region = var.org_cloudvision_account_region
   assume_role {
     role_arn = "arn:aws:iam::${var.org_cloudvision_member_account_id}:role/OrganizationAccountAccessRole"
@@ -51,7 +51,7 @@ provider "aws" {
 
 module "resource_group_cloudvision_member" {
   providers = {
-    aws = aws.cloudvision_org_member
+    aws = aws.member
   }
   source = "./modules/infrastructure/resource-group"
   name   = var.name
@@ -61,7 +61,7 @@ module "resource_group_cloudvision_member" {
 
 module "ecs_fargate_cluster" {
   providers = {
-    aws = aws.cloudvision_org_member
+    aws = aws.member
   }
   source = "./modules/infrastructure/ecs-fargate-cluster"
   name   = var.name
@@ -71,7 +71,7 @@ module "ecs_fargate_cluster" {
 
 module "cloud_connector" {
   providers = {
-    aws = aws.cloudvision_org_member
+    aws = aws.member
   }
   source = "./modules/services/cloud-connector"
   name   = "${var.name}-cloudconnector"

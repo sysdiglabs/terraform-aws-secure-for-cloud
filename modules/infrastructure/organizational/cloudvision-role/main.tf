@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "cloudvision_role_s3" {
 # ecs task role
 # ------------------------------
 resource "aws_iam_role_policy" "enable_assume_cloudvision_role" {
-  provider = aws.cloudvision
+  provider = aws.member
   name     = "${var.name}-EnableCloudvisionRole"
   role     = var.cloudconnect_ecs_task_role_name
   policy   = data.aws_iam_policy_document.enable_assume_cloudvision_role.json
