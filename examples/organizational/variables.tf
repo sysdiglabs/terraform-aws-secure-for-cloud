@@ -14,6 +14,12 @@ variable "sysdig_secure_api_token" {
 # optionals - with defaults
 #------------------------------
 
+variable "name" {
+  type        = string
+  default     = "sysdig-cloudvision"
+  description = "Name to be assigned to all child resources"
+}
+
 variable "sysdig_secure_endpoint" {
   type        = string
   default     = "https://secure.sysdig.com"

@@ -14,10 +14,13 @@ module "resource_group_master" {
 module "org_cloudtrail" {
   source = "./modules/infrastructure/cloudtrail"
 
+  name = var.name
+
   org_cloudvision_member_account_id = var.org_cloudvision_member_account_id
   is_multi_region_trail             = var.cloudtrail_org_is_multi_region_trail
   cloudtrail_kms_enable             = var.cloudtrail_org_kms_enable
-  tags                              = var.tags
+
+  tags = var.tags
 }
 
 module "cloudvision_role" {

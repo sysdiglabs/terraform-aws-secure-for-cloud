@@ -1,5 +1,5 @@
 resource "aws_sns_topic" "cloudtrail" {
-  name = var.cloudtrail_name
+  name = var.name
   tags = var.tags
 }
 
