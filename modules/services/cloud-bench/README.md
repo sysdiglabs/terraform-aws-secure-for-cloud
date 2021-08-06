@@ -45,11 +45,11 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_iam_role.cloudbench_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy_attachment.cloudbench_security_audit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/aws_iam_role_policy_attachment) | resource |
+| [aws_iam_policy.SecurityAudit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
 | [aws_iam_policy_document.trust_relationship](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_role_policy.cloudbench_permissions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_policy_document.permissions](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [sysdig_secure_cloud_account.cloud_account](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs/resources/sysdig_secure_cloud_account) | resource |
-| [sysdig_cloud_bench_user.trusted_sysdig_role](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs/data-sources/sysdig_cloud_bench_user) | data source |
+| [sysdig_secure_cloud_bench_user.trusted_sysdig_role](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs/data-sources/sysdig_secure_cloud_bench_user) | data source |
 
 ## Inputs
 
