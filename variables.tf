@@ -4,14 +4,27 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
-variable "org_cloudvision_member_account_id" {
-  type        = string
-  description = "the **account id within the organization** to be used as cloudvision account"
-}
+variable "cloudvision_organizational_setup" {
+  type = object({
+    is_organization_trail             = bool
+    org_cloudvision_member_account_id = string
+    org_cloudvision_account_region    = string
+  })
+  default = {
+    is_organization_trail             = false
+    org_cloudvision_member_account_id = null
+    org_cloudvision_account_region    = null
+  }
+  description = "whether organization_trail setup is to be enabled. if true, cloudvision_member_account_id must be given, to enable reading permission, and region set"
+  validation {
+    condition     = var.cloudvision_organizational_setup.is_organization_trail == false || (var.cloudvision_organizational_setup.is_organization_trail == true && can(tostring(var.cloudvision_organizational_setup.org_cloudvision_member_account_id)))
+    error_message = "If is_organization_trail=true, org_cloudvision_member_account_id must not be null."
+  }
 
-variable "org_cloudvision_account_region" {
-  type        = string
-  description = "default cloudvision member account region for services provisioning"
+  validation {
+    condition     = var.cloudvision_organizational_setup.is_organization_trail == false || (var.cloudvision_organizational_setup.is_organization_trail == true && can(tostring(var.cloudvision_organizational_setup.org_cloudvision_account_region)))
+    error_message = "If is_organization_trail=true, org_cloudvision_account_region must not be null."
+  }
 }
 
 

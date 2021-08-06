@@ -1,6 +1,17 @@
-variable "org_cloudvision_member_account_id" {
-  type        = string
-  description = "organization cloudvision member account id"
+variable "organizational_setup" {
+  type = object({
+    is_organization_trail             = bool
+    org_cloudvision_member_account_id = string
+  })
+  default = {
+    is_organization_trail             = false
+    org_cloudvision_member_account_id = null
+  }
+  description = "whether organization_trail setup is to be enabled. if true, cloudvision_member_account_id must be given, to enable reading permission"
+  validation {
+    condition     = var.organizational_setup.is_organization_trail == false || (var.organizational_setup.is_organization_trail == true && can(tostring(var.organizational_setup.org_cloudvision_member_account_id)))
+    error_message = "If is_organization_trail=true, org_cloudvision_member_account_id must not be null."
+  }
 }
 
 

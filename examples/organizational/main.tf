@@ -10,8 +10,11 @@ module "cloudvision" {
   sysdig_secure_endpoint  = var.sysdig_secure_endpoint
   sysdig_secure_api_token = var.sysdig_secure_api_token
 
-  org_cloudvision_member_account_id = var.org_cloudvision_member_account_id
-  org_cloudvision_account_region    = "eu-central-1"
+  cloudvision_organizational_setup = {
+    is_organization_trail             = false
+    org_cloudvision_account_region    = "eu-central-1"
+    org_cloudvision_member_account_id = var.org_cloudvision_member_account_id
+  }
 
   #  (optional) testing purpose; economization
   cloudtrail_org_is_multi_region_trail = false

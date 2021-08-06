@@ -92,11 +92,10 @@ No resources.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_org_cloudvision_account_region"></a> [org\_cloudvision\_account\_region](#input\_org\_cloudvision\_account\_region) | default cloudvision member account region for services provisioning | `string` | n/a | yes |
-| <a name="input_org_cloudvision_member_account_id"></a> [org\_cloudvision\_member\_account\_id](#input\_org\_cloudvision\_member\_account\_id) | the **account id within the organization** to be used as cloudvision account | `string` | n/a | yes |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_cloudtrail_org_is_multi_region_trail"></a> [cloudtrail\_org\_is\_multi\_region\_trail](#input\_cloudtrail\_org\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_cloudtrail_org_kms_enable"></a> [cloudtrail\_org\_kms\_enable](#input\_cloudtrail\_org\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
+| <a name="input_cloudvision_organizational_setup"></a> [cloudvision\_organizational\_setup](#input\_cloudvision\_organizational\_setup) | whether organization\_trail setup is to be enabled. if true, cloudvision\_member\_account\_id must be given, to enable reading permission, and region set | <pre>object({<br>    is_organization_trail             = bool<br>    org_cloudvision_member_account_id = string<br>    org_cloudvision_account_region    = string<br>  })</pre> | <pre>{<br>  "is_organization_trail": false,<br>  "org_cloudvision_account_region": null,<br>  "org_cloudvision_member_account_id": null<br>}</pre> | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Vision deployment | `string` | `"sysdig-cloudvision"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |

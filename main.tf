@@ -16,14 +16,17 @@ module "org_cloudtrail" {
 
   name = var.name
 
-  org_cloudvision_member_account_id = var.org_cloudvision_member_account_id
-  is_multi_region_trail             = var.cloudtrail_org_is_multi_region_trail
-  cloudtrail_kms_enable             = var.cloudtrail_org_kms_enable
+  organizational_setup  = var.cloudvision_organizational_setup
+  is_multi_region_trail = var.cloudtrail_org_is_multi_region_trail
+  cloudtrail_kms_enable = var.cloudtrail_org_kms_enable
 
   tags = var.tags
 }
 
 module "cloudvision_role" {
+  # FIXME, conflicts with provider :/
+  #  count = var.cloudvision_organizational_setup.is_organization_trail ? 1 : 0
+
   source = "./modules/infrastructure/organizational/cloudvision-role"
   providers = {
     aws.member = aws.member
@@ -44,9 +47,9 @@ module "cloudvision_role" {
 #-------------------------------------
 provider "aws" {
   alias  = "member"
-  region = var.org_cloudvision_account_region
+  region = var.cloudvision_organizational_setup.org_cloudvision_account_region
   assume_role {
-    role_arn = "arn:aws:iam::${var.org_cloudvision_member_account_id}:role/OrganizationAccountAccessRole"
+    role_arn = "arn:aws:iam::${var.cloudvision_organizational_setup.org_cloudvision_member_account_id}:role/OrganizationAccountAccessRole"
   }
 }
 

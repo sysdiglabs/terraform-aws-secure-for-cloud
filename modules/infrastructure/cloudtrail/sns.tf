@@ -3,15 +3,15 @@ resource "aws_sns_topic" "cloudtrail" {
   tags = var.tags
 }
 
-resource "aws_sns_topic_policy" "cloudtrail" {
-  arn    = aws_sns_topic.cloudtrail.arn
-  policy = data.aws_iam_policy_document.cloudtrail_sns.json
-}
 
 
 # --------------------------
 # acl
 # -------------------------
+resource "aws_sns_topic_policy" "allow_cloudtrail_publish" {
+  arn    = aws_sns_topic.cloudtrail.arn
+  policy = data.aws_iam_policy_document.cloudtrail_sns.json
+}
 data "aws_iam_policy_document" "cloudtrail_sns" {
   statement {
     sid    = "AllowCloudtrailPublish"
@@ -23,12 +23,22 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
     actions   = ["SNS:Publish"]
     resources = [aws_sns_topic.cloudtrail.arn]
   }
+}
 
+
+resource "aws_sns_topic_policy" "allow_cloudvision_subscribe" {
+  count  = var.organizational_setup.is_organization_trail ? 1 : 0
+  arn    = aws_sns_topic.cloudtrail.arn
+  policy = data.aws_iam_policy_document.cloudtrail_cloudvision[0].json
+}
+
+data "aws_iam_policy_document" "cloudtrail_cloudvision" {
+  count = var.organizational_setup.is_organization_trail ? 1 : 0
   statement {
     sid    = "AllowCloudvisionSubscribe"
     effect = "Allow"
     principals {
-      identifiers = ["arn:aws:iam::${var.org_cloudvision_member_account_id}:role/OrganizationAccountAccessRole"]
+      identifiers = ["arn:aws:iam::${var.organizational_setup.org_cloudvision_member_account_id}:role/OrganizationAccountAccessRole"]
       type        = "AWS"
     }
     actions   = ["sns:Subscribe"]
