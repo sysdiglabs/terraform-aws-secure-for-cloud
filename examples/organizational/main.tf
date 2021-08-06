@@ -11,7 +11,7 @@ module "cloudvision" {
   sysdig_secure_api_token = var.sysdig_secure_api_token
 
   cloudvision_organizational_setup = {
-    is_organization_trail             = false
+    is_organization_trail             = true
     org_cloudvision_account_region    = "eu-central-1"
     org_cloudvision_member_account_id = var.org_cloudvision_member_account_id
   }
