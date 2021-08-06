@@ -10,12 +10,14 @@ provider "aws" {
 
 
 resource "aws_iam_role" "cloudvision_role" {
+  count              = var.create ? 1 : 0
   name               = "SysdigCloudVisionRole"
-  assume_role_policy = data.aws_iam_policy_document.cloud_vision_role_trusted.json
+  assume_role_policy = data.aws_iam_policy_document.cloud_vision_role_trusted[0].json
   tags               = var.tags
 }
 
 data "aws_iam_policy_document" "cloud_vision_role_trusted" {
+  count = var.create ? 1 : 0
   statement {
     effect = "Allow"
     principals {
@@ -30,11 +32,13 @@ data "aws_iam_policy_document" "cloud_vision_role_trusted" {
 
 
 resource "aws_iam_role_policy" "cloudvision_role_s3" {
+  count  = var.create ? 1 : 0
   name   = "AllowCloudtrailS3Policy"
-  role   = aws_iam_role.cloudvision_role.id
-  policy = data.aws_iam_policy_document.cloudvision_role_s3.json
+  role   = aws_iam_role.cloudvision_role[0].id
+  policy = data.aws_iam_policy_document.cloudvision_role_s3[0].json
 }
 data "aws_iam_policy_document" "cloudvision_role_s3" {
+  count = var.create ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
@@ -53,17 +57,19 @@ data "aws_iam_policy_document" "cloudvision_role_s3" {
 # ecs task role
 # ------------------------------
 resource "aws_iam_role_policy" "enable_assume_cloudvision_role" {
+  count    = var.create ? 1 : 0
   provider = aws.member
   name     = "${var.name}-EnableCloudvisionRole"
   role     = var.cloudconnect_ecs_task_role_name
-  policy   = data.aws_iam_policy_document.enable_assume_cloudvision_role.json
+  policy   = data.aws_iam_policy_document.enable_assume_cloudvision_role[0].json
 }
 data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
+  count = var.create ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
       "sts:AssumeRole"
     ]
-    resources = [aws_iam_role.cloudvision_role.arn]
+    resources = [aws_iam_role.cloudvision_role[0].arn]
   }
 }

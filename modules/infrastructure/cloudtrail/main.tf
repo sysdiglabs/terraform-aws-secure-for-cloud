@@ -1,9 +1,10 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudtrail
 resource "aws_cloudtrail" "cloudtrail" {
 
-  name                  = var.name
+  name = var.name
+
+  is_organization_trail = var.organizational_setup.is_organizational
   s3_bucket_name        = aws_s3_bucket.cloudtrail.id
-  is_organization_trail = var.organizational_setup.is_organization_trail
   is_multi_region_trail = var.is_multi_region_trail
 
   kms_key_id     = var.cloudtrail_kms_enable ? aws_kms_key.cloudtrail_kms.arn : null

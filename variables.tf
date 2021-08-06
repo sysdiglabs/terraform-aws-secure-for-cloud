@@ -4,26 +4,20 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
+
 variable "cloudvision_organizational_setup" {
   type = object({
-    is_organization_trail             = bool
+    is_organizational                 = bool
     org_cloudvision_member_account_id = string
-    org_cloudvision_account_region    = string
   })
   default = {
-    is_organization_trail             = false
+    is_organizational                 = false
     org_cloudvision_member_account_id = null
-    org_cloudvision_account_region    = null
   }
-  description = "whether organization_trail setup is to be enabled. if true, cloudvision_member_account_id must be given, to enable reading permission, and region set"
+  description = "whether is_organizational setup is to be enabled. if true, cloudvision_member_account_id must be given, to enable reading permission"
   validation {
-    condition     = var.cloudvision_organizational_setup.is_organization_trail == false || (var.cloudvision_organizational_setup.is_organization_trail == true && can(tostring(var.cloudvision_organizational_setup.org_cloudvision_member_account_id)))
-    error_message = "If is_organization_trail=true, org_cloudvision_member_account_id must not be null."
-  }
-
-  validation {
-    condition     = var.cloudvision_organizational_setup.is_organization_trail == false || (var.cloudvision_organizational_setup.is_organization_trail == true && can(tostring(var.cloudvision_organizational_setup.org_cloudvision_account_region)))
-    error_message = "If is_organization_trail=true, org_cloudvision_account_region must not be null."
+    condition     = var.cloudvision_organizational_setup.is_organizational == false || (var.cloudvision_organizational_setup.is_organizational == true && can(tostring(var.cloudvision_organizational_setup.org_cloudvision_member_account_id)))
+    error_message = "If is_organizational=true, org_cloudvision_member_account_id must not be null."
   }
 }
 

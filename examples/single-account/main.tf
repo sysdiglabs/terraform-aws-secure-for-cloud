@@ -3,29 +3,22 @@ provider "aws" {
   region  = "eu-central-1"
 }
 
-provider "aws" {
-  alias  = "member"
-  region = "eu-central-1"
-  assume_role {
-    role_arn = "arn:aws:iam::${var.org_cloudvision_member_account_id}:role/OrganizationAccountAccessRole"
-  }
-}
-
 module "cloudvision" {
   source = "../../"
 
   providers = {
-    aws.cloudvision = aws.member
+    aws.cloudvision = aws
   }
-
   name                    = var.name
   sysdig_secure_endpoint  = var.sysdig_secure_endpoint
   sysdig_secure_api_token = var.sysdig_secure_api_token
 
   cloudvision_organizational_setup = {
-    is_organizational                 = true
-    org_cloudvision_member_account_id = var.org_cloudvision_member_account_id
+    is_organizational                 = false
+    org_cloudvision_member_account_id = null #FIXME add experimental optional vartype?
+    cloudvision_role_arn              = null #FIXME add experimental optional vartype?
   }
+
 
   #  (optional) testing purpose; economization
   cloudtrail_org_is_multi_region_trail = false

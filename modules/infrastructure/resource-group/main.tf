@@ -1,4 +1,6 @@
 resource "aws_resourcegroups_group" "sysdig_cloudvision" {
+  count = var.create ? 1 : 0
+
   name = var.name
   tags = var.tags
 

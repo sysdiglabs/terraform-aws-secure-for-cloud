@@ -20,7 +20,9 @@ rules:
 ingestors:
   - cloudtrail-sns-sqs:
       queueURL: ${aws_sqs_queue.sqs.id}
-      assumeRole: ${var.services_assume_role_arn}
+%{if var.organizational_setup.is_organizational}
+      assumeRole: ${var.organizational_setup.services_assume_role_arn}
+%{endif~}
       interval: 25s
 notifiers:
   - cloudwatch:

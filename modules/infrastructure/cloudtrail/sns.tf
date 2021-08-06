@@ -27,13 +27,13 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
 
 
 resource "aws_sns_topic_policy" "allow_cloudvision_subscribe" {
-  count  = var.organizational_setup.is_organization_trail ? 1 : 0
+  count  = var.organizational_setup.is_organizational ? 1 : 0
   arn    = aws_sns_topic.cloudtrail.arn
   policy = data.aws_iam_policy_document.cloudtrail_cloudvision[0].json
 }
 
 data "aws_iam_policy_document" "cloudtrail_cloudvision" {
-  count = var.organizational_setup.is_organization_trail ? 1 : 0
+  count = var.organizational_setup.is_organizational ? 1 : 0
   statement {
     sid    = "AllowCloudvisionSubscribe"
     effect = "Allow"
