@@ -31,6 +31,11 @@ module "cloudtrail" {
 # with cloudvision provider, which can be master or member config
 #-------------------------------------
 
+provider "sysdig" {
+  sysdig_secure_url       = var.sysdig_secure_endpoint
+  sysdig_secure_api_token = var.sysdig_secure_api_token
+}
+
 module "ecs_fargate_cluster" {
   providers = {
     aws = aws.cloudvision
@@ -78,6 +83,17 @@ module "cloud_connector" {
   depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.ssm]
 }
 
+module "cloud_bench" {
+  providers = {
+    aws = aws.member
+  }
+  source = "./modules/services/cloud-bench"
+
+  sysdig_secure_endpoint = var.sysdig_secure_endpoint
+
+  account_id  = var.org_cloudvision_member_account_id
+  tags       = var.tags
+}
 
 
 ## FIXME? if this is a non-shared resource, move its usage to scanning service?
