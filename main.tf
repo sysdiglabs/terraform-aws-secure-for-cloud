@@ -89,8 +89,6 @@ module "cloud_bench" {
   }
   source = "./modules/services/cloud-bench"
 
-  sysdig_secure_endpoint = var.sysdig_secure_endpoint
-
   account_id  = var.org_cloudvision_member_account_id
   tags       = var.tags
 }

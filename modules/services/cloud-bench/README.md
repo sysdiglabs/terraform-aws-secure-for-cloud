@@ -49,14 +49,13 @@ No modules.
 | [aws_iam_policy.SecurityAudit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
 | [aws_iam_policy_document.trust_relationship](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [sysdig_secure_cloud_account.cloud_account](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs/resources/sysdig_secure_cloud_account) | resource |
-| [sysdig_secure_cloud_bench_user.trusted_sysdig_role](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs/data-sources/sysdig_secure_cloud_bench_user) | data source |
+| [sysdig_secure_trusted_cloud_user.trusted_sysdig_role](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs/data-sources/sysdig_secure_trusted_cloud_user) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="account_id"></a> [tags](#input\_account_id) | the account_id in which to provision the cloud-bench IAM role | `string` | `123456789012` | n/a | yes |
-| <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

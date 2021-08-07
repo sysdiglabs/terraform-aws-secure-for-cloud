@@ -10,11 +10,7 @@ resource "aws_iam_role" "cloudbench_role" {
   tags = var.tags
 }
 
-data "sysdig_secure_cloud_bench_user" "trusted_sysdig_role" {
-  sysdig_secure_endpoint = var.sysdig_secure_endpoint
-
-  // TODO this should come from the provider based on the secure URL.
-  arn = "arn:aws:iam::059797578166:user/noah.kraemer"
+data "sysdig_secure_trusted_cloud_user" "trusted_sysdig_role" {
 }
 
 data "aws_iam_policy_document" "trust_relationship" {
@@ -23,7 +19,7 @@ data "aws_iam_policy_document" "trust_relationship" {
     actions = ["sts:AssumeRole"]
     principals {
       type = "AWS"
-      identifiers = [data.sysdig_secure_cloud_bench_user.trusted_sysdig_role.arn]
+      identifiers = [data.sysdig_secure_trusted_cloud_user.trusted_sysdig_role.arn]
     }
     condition {
       test = "StringEquals"
