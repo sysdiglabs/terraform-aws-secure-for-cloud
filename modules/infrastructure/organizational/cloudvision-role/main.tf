@@ -12,11 +12,11 @@ provider "aws" {
 resource "aws_iam_role" "cloudvision_role" {
   count              = var.create ? 1 : 0
   name               = "SysdigCloudVisionRole"
-  assume_role_policy = data.aws_iam_policy_document.cloud_vision_role_trusted[0].json
+  assume_role_policy = element(data.aws_iam_policy_document.cloudvision_role_trusted, 0).json
   tags               = var.tags
 }
 
-data "aws_iam_policy_document" "cloud_vision_role_trusted" {
+data "aws_iam_policy_document" "cloudvision_role_trusted" {
   count = var.create ? 1 : 0
   statement {
     effect = "Allow"
