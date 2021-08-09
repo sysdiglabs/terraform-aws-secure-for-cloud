@@ -79,9 +79,7 @@ No providers.
 |------|--------|---------|
 | <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector) | ./modules/services/cloud-connector |  |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ./modules/infrastructure/cloudtrail |  |
-| <a name="module_cloudvision_role"></a> [cloudvision\_role](#module\_cloudvision\_role) | ./modules/infrastructure/organizational/cloudvision-role |  |
 | <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | ./modules/infrastructure/ecs-fargate-cluster |  |
-| <a name="module_resource_group_cloudvision_member"></a> [resource\_group\_cloudvision\_member](#module\_resource\_group\_cloudvision\_member) | ./modules/infrastructure/resource-group |  |
 | <a name="module_resource_group_master"></a> [resource\_group\_master](#module\_resource\_group\_master) | ./modules/infrastructure/resource-group |  |
 
 ## Resources
@@ -95,14 +93,16 @@ No resources.
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_cloudtrail_org_is_multi_region_trail"></a> [cloudtrail\_org\_is\_multi\_region\_trail](#input\_cloudtrail\_org\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_cloudtrail_org_kms_enable"></a> [cloudtrail\_org\_kms\_enable](#input\_cloudtrail\_org\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
-| <a name="input_cloudvision_organizational_setup"></a> [cloudvision\_organizational\_setup](#input\_cloudvision\_organizational\_setup) | whether is\_organizational setup is to be enabled. if true, cloudvision\_member\_account\_id must be given, to enable reading permission | <pre>object({<br>    is_organizational                 = bool<br>    org_cloudvision_member_account_id = string<br>  })</pre> | <pre>{<br>  "is_organizational": false,<br>  "org_cloudvision_member_account_id": null<br>}</pre> | no |
+| <a name="input_cloudvision_organizational_setup"></a> [cloudvision\_organizational\_setup](#input\_cloudvision\_organizational\_setup) | whether organizational setup is to be enabled. if true,<br><ul><li>cloudvision\_member\_account\_id must be given, to enable reading permission,</li><li>org\_cloudvision\_role for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and ecs cluster task role name which has been granted assumeRole trusted relationship</li></ul> | <pre>object({<br>    is_organizational                 = bool<br>    connector_ecs_task_role_name      = string<br>    org_cloudvision_member_account_id = string<br>    org_cloudvision_role              = string<br>  })</pre> | <pre>{<br>  "connector_ecs_task_role_name": "connector-ECSTaskRole",<br>  "is_organizational": false,<br>  "org_cloudvision_member_account_id": null,<br>  "org_cloudvision_role": null<br>}</pre> | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Vision deployment | `string` | `"sysdig-cloudvision"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | cloudtrail s3 arn |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ---
@@ -149,3 +149,45 @@ Module is maintained by [Sysdig](https://sysdig.com).
 ## License
 
 Apache 2 Licensed. See LICENSE for full details.
+
+<!-- BEGIN_TF_DOCS -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
+
+## Providers
+
+No providers.
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector) | ./modules/services/cloud-connector |  |
+| <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ./modules/infrastructure/cloudtrail |  |
+| <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | ./modules/infrastructure/ecs-fargate-cluster |  |
+| <a name="module_resource_group_master"></a> [resource\_group\_master](#module\_resource\_group\_master) | ./modules/infrastructure/resource-group |  |
+
+## Resources
+
+No resources.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
+| <a name="input_cloudtrail_org_is_multi_region_trail"></a> [cloudtrail\_org\_is\_multi\_region\_trail](#input\_cloudtrail\_org\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
+| <a name="input_cloudtrail_org_kms_enable"></a> [cloudtrail\_org\_kms\_enable](#input\_cloudtrail\_org\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
+| <a name="input_cloudvision_organizational_setup"></a> [cloudvision\_organizational\_setup](#input\_cloudvision\_organizational\_setup) | whether organizational setup is to be enabled. if true,<br><ul><li>cloudvision\_member\_account\_id must be given, to enable reading permission,</li><li>plus org\_cloudvision\_role for cloud-connect assumeRole in order to read cloudtrail s3 events</li></ul> | <pre>object({<br>    is_organizational                 = bool<br>    org_cloudvision_member_account_id = string<br>    org_cloudvision_role              = string<br>  })</pre> | <pre>{<br>  "is_organizational": false,<br>  "org_cloudvision_member_account_id": null,<br>  "org_cloudvision_role": null<br>}</pre> | no |
+| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Vision deployment | `string` | `"sysdig-cloudvision"` | no |
+| <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
+
+## Outputs
+
+No outputs.
+<!-- END_TF_DOCS -->

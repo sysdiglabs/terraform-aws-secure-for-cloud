@@ -24,6 +24,8 @@ module "cloudvision" {
 
   cloudvision_organizational_setup = {
     is_organizational                 = true
+    connector_ecs_task_role_name      = var.connector_ecs_task_role_name
+    org_cloudvision_role              = module.cloudvision_role.cloudvision_role_arn
     org_cloudvision_member_account_id = var.org_cloudvision_member_account_id
   }
 

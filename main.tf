@@ -28,7 +28,10 @@ module "cloudtrail" {
 
   name = var.name
 
-  organizational_setup  = var.cloudvision_organizational_setup
+  organizational_setup = {
+    is_organizational                 = var.cloudvision_organizational_setup.is_organizational
+    org_cloudvision_member_account_id = var.cloudvision_organizational_setup.org_cloudvision_member_account_id
+  }
   is_multi_region_trail = var.cloudtrail_org_is_multi_region_trail
   cloudtrail_kms_enable = var.cloudtrail_org_kms_enable
 
@@ -36,44 +39,6 @@ module "cloudtrail" {
 }
 
 
-#-------------------------------------
-# master/member account - only organizational use-case
-#-------------------------------------
-module "cloudvision_role" {
-  # FIXME. count workaround for providers conflict within module
-  create = var.cloudvision_organizational_setup.is_organizational
-
-  source = "./modules/infrastructure/organizational/cloudvision-role"
-  providers = {
-    aws.member = aws.cloudvision
-  }
-
-  name = var.name
-
-  cloudtrail_s3_arn               = module.cloudtrail.s3_bucket_arn
-  cloudconnect_ecs_task_role_arn  = module.cloud_connector.ecs_task_role_arn
-  cloudconnect_ecs_task_role_name = module.cloud_connector.ecs_task_role_name
-
-  tags = var.tags
-}
-
-
-module "resource_group_cloudvision_member" {
-  # FIXME. count workaround for providers conflict within module
-  create = var.cloudvision_organizational_setup.is_organizational
-
-  providers = {
-    aws = aws.cloudvision
-  }
-  source = "./modules/infrastructure/resource-group"
-  name   = var.name
-  tags   = var.tags
-}
-
-#-------------------------------------
-# member account - cloudvision services
-# with 'organizational' aws provider alias
-#-------------------------------------
 module "ecs_fargate_cluster" {
   providers = {
     aws = aws.cloudvision
@@ -95,8 +60,9 @@ module "cloud_connector" {
   sysdig_secure_api_token = var.sysdig_secure_api_token
 
   organizational_setup = {
-    is_organizational        = var.cloudvision_organizational_setup.is_organizational
-    services_assume_role_arn = module.cloudvision_role.cloudvision_role_arn #note. if non-organizational won't be used
+    is_organizational            = var.cloudvision_organizational_setup.is_organizational
+    services_assume_role_arn     = var.cloudvision_organizational_setup.org_cloudvision_role
+    connector_ecs_task_role_name = var.cloudvision_organizational_setup.connector_ecs_task_role_name
   }
   sns_topic_arn = module.cloudtrail.sns_topic_arn
 

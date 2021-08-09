@@ -5,19 +5,22 @@ variable "ecs_cluster" {
 
 variable "organizational_setup" {
   type = object({
-    is_organizational        = bool
-    services_assume_role_arn = string
+    is_organizational            = bool
+    connector_ecs_task_role_name = string
+    services_assume_role_arn     = string
   })
   default = {
-    is_organizational        = false
-    services_assume_role_arn = null
+    is_organizational            = false
+    connector_ecs_task_role_name = "connector-ECSTaskRole"
+    services_assume_role_arn     = null
   }
-  description = "whether organizational setup is to be enabled. if true, services_assume_role_arn, for cloud_connect to assumeRole and read events on master account"
+  description = "whether organizational setup is to be enabled. if true, services_assume_role_arn, for cloud_connect to assumeRole and be able read events on master account"
   validation {
     condition     = var.organizational_setup.is_organizational == false || (var.organizational_setup.is_organizational == true && can(tostring(var.organizational_setup.services_assume_role_arn)))
     error_message = "If is_organizational=true, services_assume_role_arn must not be null."
   }
 }
+
 
 #---------------------------------
 # vpc
@@ -61,7 +64,7 @@ variable "sysdig_secure_endpoint" {
 
 variable "name" {
   type        = string
-  default     = "cloud-connector"
+  default     = "connector"
   description = "Name for the Cloud Connector deployment"
 }
 

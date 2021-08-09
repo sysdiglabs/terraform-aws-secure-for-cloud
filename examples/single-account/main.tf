@@ -15,8 +15,9 @@ module "cloudvision" {
 
   cloudvision_organizational_setup = {
     is_organizational                 = false
-    org_cloudvision_member_account_id = null #FIXME add experimental optional vartype?
-    cloudvision_role_arn              = null #FIXME add experimental optional vartype?
+    org_cloudvision_member_account_id = null                             #FIXME add experimental optional vartype?
+    org_cloudvision_role              = null                             #FIXME add experimental optional vartype?
+    connector_ecs_task_role_name      = var.connector_ecs_task_role_name #FIXME add experimental optional vartype?
   }
 
 
