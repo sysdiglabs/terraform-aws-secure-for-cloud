@@ -7,12 +7,6 @@ variable "account_id" {
 # optionals - with default
 #---------------------------------
 
-variable "sysdig_secure_endpoint" {
-  type        = string
-  default     = "https://secure.sysdig.com"
-  description = "Sysdig Secure API endpoint"
-}
-
 variable "tags" {
   type        = map(string)
   description = "sysdig cloudvision tags"
