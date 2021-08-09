@@ -11,6 +11,7 @@ resource "aws_iam_role" "cloudbench_role" {
 }
 
 data "sysdig_secure_trusted_cloud_user" "trusted_sysdig_role" {
+  cloud_provider = "aws"
 }
 
 data "aws_iam_policy_document" "trust_relationship" {
