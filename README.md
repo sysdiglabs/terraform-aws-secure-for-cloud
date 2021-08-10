@@ -25,12 +25,12 @@ For other cloud providers check:
 ### Single-Account
 
 More info in the [`./examples/single-account/README.md`](examples/single-account/README.md)
-![single-account diagram](examples/single-account/diagram.png)
+![single-account diagram](examples/single-account/diagram-single.png)
 
 ###  Organizational
 
 More info in the [`./examples/organizational_cloudvision/README.md`](examples/organizational/README.md)
-![organizational diagram](examples/organizational/diagram.png)
+![organizational diagram](examples/organizational/diagram-org.png)
 
 ---
 
