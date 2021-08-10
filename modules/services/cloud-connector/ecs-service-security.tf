@@ -1,16 +1,26 @@
-
-
+locals {
+  ecs_task_role_id  = var.organizational_setup.is_organizational ? data.aws_iam_role.task_inherited[0].id : aws_iam_role.task[0].id
+  ecs_task_role_arn = var.organizational_setup.is_organizational ? data.aws_iam_role.task_inherited[0].arn : aws_iam_role.task[0].arn
+}
 
 #---------------------------------
 # task role
+# notes
+# - duplicated in /examples/organizational/utils.tf, where root lvl role is created, to avoid cyclic dependencies
 #---------------------------------
+data "aws_iam_role" "task_inherited" {
+  count = var.organizational_setup.is_organizational ? 1 : 0
+  name  = var.organizational_setup.connector_ecs_task_role_name
+}
 resource "aws_iam_role" "task" {
-  name               = "${var.name}-ECSTaskRole"
-  assume_role_policy = data.aws_iam_policy_document.task_assume_role.json
+  count              = var.organizational_setup.is_organizational ? 0 : 1
+  name               = var.organizational_setup.connector_ecs_task_role_name
+  assume_role_policy = data.aws_iam_policy_document.task_assume_role[0].json
   path               = "/"
   tags               = var.tags
 }
 data "aws_iam_policy_document" "task_assume_role" {
+  count = var.organizational_setup.is_organizational ? 0 : 1
   statement {
     effect = "Allow"
     principals {
@@ -23,7 +33,7 @@ data "aws_iam_policy_document" "task_assume_role" {
 
 resource "aws_iam_role_policy" "task" {
   name   = "${var.name}-TaskPolicy"
-  role   = aws_iam_role.task.id
+  role   = local.ecs_task_role_id
   policy = data.aws_iam_policy_document.iam_role_task_policy.json
 }
 data "aws_iam_policy_document" "iam_role_task_policy" {
@@ -56,8 +66,6 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
     resources = ["arn:aws:securityhub:${data.aws_region.current.name}::product/sysdig/sysdig-cloud-connector"]
   }
 }
-
-
 
 #---------------------------------
 # execution role

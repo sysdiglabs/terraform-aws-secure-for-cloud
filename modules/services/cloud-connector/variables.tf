@@ -3,9 +3,22 @@ variable "ecs_cluster" {
   description = "ECS Fargate Cluster where deploy the CloudConnector workload"
 }
 
-variable "services_assume_role_arn" {
-  type        = string
-  description = "Cloudvision service required assumeRole arn"
+variable "organizational_setup" {
+  type = object({
+    is_organizational            = bool
+    connector_ecs_task_role_name = string
+    services_assume_role_arn     = string
+  })
+  default = {
+    is_organizational            = false
+    connector_ecs_task_role_name = "connector-ECSTaskRole"
+    services_assume_role_arn     = null
+  }
+  description = "whether organizational setup is to be enabled. if true, services_assume_role_arn, for cloud_connect to assumeRole and be able read events on master account"
+  validation {
+    condition     = var.organizational_setup.is_organizational == false || (var.organizational_setup.is_organizational == true && can(tostring(var.organizational_setup.services_assume_role_arn)))
+    error_message = "If is_organizational=true, services_assume_role_arn must not be null."
+  }
 }
 
 
@@ -51,7 +64,7 @@ variable "sysdig_secure_endpoint" {
 
 variable "name" {
   type        = string
-  default     = "cloud-connector"
+  default     = "connector"
   description = "Name for the Cloud Connector deployment"
 }
 

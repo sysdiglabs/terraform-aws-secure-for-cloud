@@ -4,14 +4,35 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
-variable "org_cloudvision_member_account_id" {
-  type        = string
-  description = "the **account id within the organization** to be used as cloudvision account"
-}
 
-variable "org_cloudvision_account_region" {
-  type        = string
-  description = "default cloudvision member account region for services provisioning"
+variable "cloudvision_organizational_setup" {
+  type = object({
+    is_organizational                 = bool
+    connector_ecs_task_role_name      = string
+    org_cloudvision_member_account_id = string
+    org_cloudvision_role              = string
+  })
+  default = {
+    is_organizational                 = false
+    connector_ecs_task_role_name      = "connector-ECSTaskRole"
+    org_cloudvision_member_account_id = null
+    org_cloudvision_role              = null
+  }
+
+  description = <<-EOT
+    whether organizational setup is to be enabled. if true,
+    <ul><li>cloudvision_member_account_id must be given, to enable reading permission,</li><li>org_cloudvision_role for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and ecs cluster task role name which has been granted assumeRole trusted relationship</li></ul>
+  EOT
+
+  validation {
+    condition     = var.cloudvision_organizational_setup.is_organizational == false || (var.cloudvision_organizational_setup.is_organizational == true && can(tostring(var.cloudvision_organizational_setup.org_cloudvision_member_account_id)))
+    error_message = "If is_organizational=true, org_cloudvision_member_account_id must not be null."
+  }
+
+  validation {
+    condition     = var.cloudvision_organizational_setup.is_organizational == false || (var.cloudvision_organizational_setup.is_organizational == true && can(tostring(var.cloudvision_organizational_setup.org_cloudvision_role)))
+    error_message = "If is_organizational=true, org_cloudvision_role must not be null."
+  }
 }
 
 

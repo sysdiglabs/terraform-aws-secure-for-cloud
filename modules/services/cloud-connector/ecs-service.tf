@@ -23,7 +23,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.execution.arn # ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume
-  task_role_arn            = aws_iam_role.task.arn      # ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS resource-group.
+  task_role_arn            = local.ecs_task_role_arn    # ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS resource-group.
   cpu                      = "256"
   memory                   = "512"
 
@@ -57,4 +57,30 @@ resource "aws_ecs_task_definition" "task_definition" {
     },
   ])
   tags = var.tags
+}
+
+
+locals {
+  task_env_vars = concat([
+    {
+      name  = "VERIFY_SSL"
+      value = tostring(local.verify_ssl)
+    },
+    {
+      name  = "TELEMETRY_DEPLOYMENT_METHOD"
+      value = "terraform"
+    },
+    {
+      name  = "FEAT_REGISTER_ACCOUNT_IN_SECURE"
+      value = "true"
+    },
+    {
+      name  = "CONFIG_PATH"
+      value = "s3://${local.s3_bucket_config_id}/cloud-connector.yaml"
+    }
+    ], flatten([for env_key, env_value in var.extra_env_vars : [{
+      name  = env_key,
+      value = env_value
+    }]])
+  )
 }
