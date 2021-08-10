@@ -5,7 +5,7 @@
     - All the cloudvision service-related resources will be created
     - Cloudwatch `cloud-connect` logs and event-alerts files will be generated
 
-![organizational diagram](./diagram.png)
+![organizational diagram](./diagram-single.png)
 
 ## Prerequisites
 
