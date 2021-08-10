@@ -4,7 +4,7 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
-variable "org_cloudvision_member_account_id" {
+variable "cloudvision_member_account_id" {
   type        = string
   description = "the account_id **within the organization** to be used as cloudvision account"
 }
@@ -13,16 +13,16 @@ variable "org_cloudvision_member_account_id" {
 # optionals - with defaults
 #------------------------------
 
-variable "name" {
-  type        = string
-  default     = "sysdig-cloudvision"
-  description = "Name to be assigned to all child resources"
-}
-
 variable "connector_ecs_task_role_name" {
   type        = string
   default     = "sysdig-cloudvision-connector-ECSTaskRole"
   description = "Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach"
+}
+
+variable "name" {
+  type        = string
+  default     = "sysdig-cloudvision"
+  description = "Name to be assigned to all child resources"
 }
 
 variable "sysdig_secure_endpoint" {
