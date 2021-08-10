@@ -13,6 +13,12 @@ variable "cloudvision_member_account_id" {
 # optionals - with defaults
 #------------------------------
 
+variable "region" {
+  type        = string
+  default     = "eu-central-1"
+  description = "Default region for resource creation in both organization master and cloudvision member account"
+}
+
 variable "connector_ecs_task_role_name" {
   type        = string
   default     = "sysdig-cloudvision-connector-ECSTaskRole"

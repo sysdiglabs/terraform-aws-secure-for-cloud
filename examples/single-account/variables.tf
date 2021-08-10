@@ -9,6 +9,12 @@ variable "sysdig_secure_api_token" {
 # optionals - with defaults
 #------------------------------
 
+variable "region" {
+  type        = string
+  default     = "eu-central-1"
+  description = "Default region for resource creation in the account"
+}
+
 variable "name" {
   type        = string
   default     = "sysdig-cloudvision"

@@ -20,44 +20,17 @@ For other cloud providers check:
 - within the resource-group `sysdig-cloudvision`
 ---
 
-## Examples
+## Example / Use-Cases
 
-###  Organizational Cloudvision
+### Single-Account
+
+More info in the [`./examples/single-account/README.md`](examples/single-account/README.md)
+![single-account diagram](examples/single-account/diagram.png)
+
+###  Organizational
 
 More info in the [`./examples/organizational_cloudvision/README.md`](examples/organizational/README.md)
 ![organizational diagram](examples/organizational/diagram.png)
-
-#### Prerequisites
-
-1.  Have an existing AWS account as the organization master account
-    - organzational cloudTrail service must be enabled
-1.  AWS profile credentials configuration of the `master` account of the organization
-    - this account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
-        > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
-    - credentials will be picked from `default` aws profile, but can be changed vía [provider profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#profile)
-    - cloudvision organizational member account id, as input variable value
-        ```
-       org_cloudvision_member_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
-        ```
-1. Secure requirements, as input variable value
-    ```
-    sysdig_secure_api_token=<SECURE_API_TOKEN>
-    ```
-
-See main module [variables.tf](./variables.tf) file for more optional configuration.
-
-####  Usage
-
-```terraform
-module "cloudvision_aws" {
-  source = "sysdiglabs/cloudvision/aws"
-
-  sysdig_secure_api_token               = "00000000-1111-2222-3333-444444444444"
-  org_cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
-  org_cloudvision_account_region        = "<REGION_CLOUDVISION_RESOURCES; eg: eu-central-1>"
-}
-```
-
 
 ---
 
@@ -103,7 +76,7 @@ No resources.
 
 | Name | Description |
 |------|-------------|
-| <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | cloudtrail s3 arn |
+| <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | sydig-cloudvision cloudtrail s3 arn, required for organizational use case, in order to give proper permissions to cloudconnector role to assume |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ---

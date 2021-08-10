@@ -1,11 +1,10 @@
 provider "aws" {
-  profile = "default"
-  region  = "eu-central-1"
+  region = var.region
 }
 
 provider "aws" {
   alias  = "member"
-  region = "eu-central-1"
+  region = var.region
   assume_role {
     role_arn = "arn:aws:iam::${var.cloudvision_member_account_id}:role/OrganizationAccountAccessRole"
   }

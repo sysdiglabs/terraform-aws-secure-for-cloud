@@ -22,7 +22,7 @@ role_attr = {
 
 event_color="firebrick"
 
-with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram", show=True):
+with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram-org", show=True):
 
     with Cluster("organization"):
 

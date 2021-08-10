@@ -18,10 +18,9 @@ Minimum requirements:
 1.  AWS profile credentials configuration of the `master` account of the organization
     - this account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
-    - credentials will be picked from `default` aws profile, but can be changed vía [provider profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#profile)
     - cloudvision organizational member account id, as input variable value
         ```
-       org_cloudvision_member_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
+       cloudvision_member_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
         ```
 1. Secure requirements, as input variable value
     ```
@@ -34,23 +33,24 @@ See main module [variables.tf](./variables.tf) file for more optional configurat
 
 ## Usage
 
-Insert this snippet on your terraform files to access `sysdiglabs/cloudvision/aws` provider
+For quick testing, use this snippet on your terraform files
 
 ```terraform
-module "cloudvision_aws" {
-  source = "sysdiglabs/cloudvision/aws"
+module "aws_cloudvision_organizational" {
+  source = "sysdiglabs/cloudvision/aws//examples/organizational"
 
   sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
-  org_cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
-  org_cloudvision_account_region = "<REGION_CLOUDVISION_RESOURCES; eg: eu-central-1>"
+  cloudvision_member_account_id  = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
 }
 ```
 
-To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
+To run this example you need have your [aws master-account `default` profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
 $ terraform init
 $ terraform plan
 $ terraform apply
 ```
-Note that this example may create resources which can cost money (AWS Elastic IP, for example).
-Run `terraform destroy` when you don't need these resources
+
+Note that:
+  - This example will create resources that cost money. Run `terraform destroy` when you don't need them anymore
+  - For more detailed configuration inspect both main module and example input variables
