@@ -7,16 +7,17 @@ provider "aws" {
   alias = "member"
 }
 
-# ---------------------------------------------
-# ecs task role 1/2
-# trust ecs-task-role identifier to assumeRole
-# ---------------------------------------------
-
 resource "aws_iam_role" "cloudvision_role" {
   name               = "SysdigCloudVisionRole"
   assume_role_policy = data.aws_iam_policy_document.cloudvision_role_trusted.json
   tags               = var.tags
 }
+
+
+# ---------------------------------------------
+# ecs task role 1/2
+# trust ecs-task-role identifier to assumeRole
+# ---------------------------------------------
 
 data "aws_iam_role" "ecs_task_role" {
   provider = aws.member
