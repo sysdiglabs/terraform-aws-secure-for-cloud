@@ -1,15 +1,3 @@
-#
-# empty provider to pass `terraform validate`
-# will be overrided by parent in real execution
-# https://github.com/hashicorp/terraform/issues/21416
-#
-provider "aws" {
-  alias = "cloudvision"
-}
-
-
-
-
 #-------------------------------------
 # master account
 # with default provider

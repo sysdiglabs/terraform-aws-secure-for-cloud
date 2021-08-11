@@ -1,12 +1,3 @@
-#
-# empty provider to pass `terraform validate`
-# will be overrided by parent in real execution
-# https://github.com/hashicorp/terraform/issues/21416
-#
-provider "aws" {
-  alias = "member"
-}
-
 resource "aws_iam_role" "cloudvision_role" {
   name               = "SysdigCloudVisionRole"
   assume_role_policy = data.aws_iam_policy_document.cloudvision_role_trusted.json
