@@ -19,7 +19,7 @@ resource "aws_ecs_service" "service" {
 
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "cloud_connector"
+  family                   = "${var.name}-cloud_connector"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.execution.arn # ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume

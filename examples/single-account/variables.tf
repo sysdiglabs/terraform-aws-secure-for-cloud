@@ -26,3 +26,11 @@ variable "sysdig_secure_endpoint" {
   default     = "https://secure.sysdig.com"
   description = "Sysdig Secure API endpoint"
 }
+
+variable "tags" {
+  type        = map(string)
+  description = "sysdig cloudvision tags"
+  default = {
+    "product" = "sysdig-cloudvision"
+  }
+}

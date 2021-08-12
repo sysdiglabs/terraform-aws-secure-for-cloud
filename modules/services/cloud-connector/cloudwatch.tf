@@ -5,6 +5,6 @@ resource "aws_cloudwatch_log_group" "log" {
 }
 
 resource "aws_cloudwatch_log_stream" "stream" {
-  name           = "alerts"
+  name           = "${var.name}-alerts"
   log_group_name = aws_cloudwatch_log_group.log.name
 }

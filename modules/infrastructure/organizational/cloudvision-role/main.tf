@@ -1,5 +1,5 @@
 resource "aws_iam_role" "cloudvision_role" {
-  name               = "SysdigCloudVisionRole"
+  name               = "${var.name}-SysdigCloudVisionRole"
   assume_role_policy = data.aws_iam_policy_document.cloudvision_role_trusted.json
   tags               = var.tags
 }
@@ -58,7 +58,7 @@ data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
 # ------------------------------
 
 resource "aws_iam_role_policy" "cloudvision_role_s3" {
-  name   = "AllowCloudtrailS3Policy"
+  name   = "${var.name}-AllowCloudtrailS3Policy"
   role   = aws_iam_role.cloudvision_role.id
   policy = data.aws_iam_policy_document.cloudvision_role_s3.json
 }
