@@ -36,7 +36,7 @@ module "cloudvision_aws" {
   source = "github.com/sysdiglabs/cloudvision/aws//examples/organizational"
 
   sysdig_secure_api_token               = "00000000-1111-2222-3333-444444444444"
-  org_cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
+  cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
 }
 ```
 See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
