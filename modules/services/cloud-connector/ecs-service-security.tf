@@ -1,6 +1,7 @@
 locals {
-  ecs_task_role_id  = var.organizational_setup.is_organizational ? data.aws_iam_role.task_inherited[0].id : aws_iam_role.task[0].id
-  ecs_task_role_arn = var.organizational_setup.is_organizational ? data.aws_iam_role.task_inherited[0].arn : aws_iam_role.task[0].arn
+  ecs_task_role_id          = var.is_organizational ? data.aws_iam_role.task_inherited[0].id : aws_iam_role.task[0].id
+  ecs_task_role_arn         = var.is_organizational ? data.aws_iam_role.task_inherited[0].arn : aws_iam_role.task[0].arn
+  ecs_task_role_name_suffix = var.is_organizational ? var.oragnizational_config.connector_ecs_task_role_name : var.connector_ecs_task_role_name
 }
 
 #---------------------------------
@@ -9,18 +10,18 @@ locals {
 # - duplicated in /examples/organizational/utils.tf, where root lvl role is created, to avoid cyclic dependencies
 #---------------------------------
 data "aws_iam_role" "task_inherited" {
-  count = var.organizational_setup.is_organizational ? 1 : 0
-  name  = var.organizational_setup.connector_ecs_task_role_name
+  count = var.is_organizational ? 1 : 0
+  name  = var.oragnizational_config.connector_ecs_task_role_name
 }
 resource "aws_iam_role" "task" {
-  count              = var.organizational_setup.is_organizational ? 0 : 1
-  name               = var.organizational_setup.connector_ecs_task_role_name
+  count              = var.is_organizational ? 0 : 1
+  name               = "${var.name}-${local.ecs_task_role_name_suffix}"
   assume_role_policy = data.aws_iam_policy_document.task_assume_role[0].json
   path               = "/"
   tags               = var.tags
 }
 data "aws_iam_policy_document" "task_assume_role" {
-  count = var.organizational_setup.is_organizational ? 0 : 1
+  count = var.is_organizational ? 0 : 1
   statement {
     effect = "Allow"
     principals {

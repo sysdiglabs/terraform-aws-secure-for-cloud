@@ -3,7 +3,11 @@ resource "aws_cloudtrail" "cloudtrail" {
 
   name = var.name
 
+<<<<<<< HEAD
   is_organization_trail = var.organizational_setup.is_organizational
+=======
+  is_organization_trail = var.is_organizational
+>>>>>>> master
   s3_bucket_name        = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = var.is_multi_region_trail
 

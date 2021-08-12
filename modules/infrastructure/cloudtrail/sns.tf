@@ -23,14 +23,24 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
     actions   = ["sns:Publish"]
     resources = [aws_sns_topic.cloudtrail.arn]
   }
+<<<<<<< HEAD
   
   dynamic "statement" {
     for_each = var.organizational_setup.is_organizational ? [1] : []
+=======
+
+  dynamic "statement" {
+    for_each = var.is_organizational ? [1] : []
+>>>>>>> master
     content {
       sid    = "AllowCloudvisionSubscribe"
       effect = "Allow"
       principals {
+<<<<<<< HEAD
         identifiers = ["arn:aws:iam::${var.organizational_setup.org_cloudvision_member_account_id}:role/OrganizationAccountAccessRole"]
+=======
+        identifiers = ["arn:aws:iam::${var.organizational_config.cloudvision_member_account_id}:role/OrganizationAccountAccessRole"]
+>>>>>>> master
         type        = "AWS"
       }
       actions   = ["sns:Subscribe"]

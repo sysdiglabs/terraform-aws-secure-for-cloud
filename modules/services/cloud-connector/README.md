@@ -112,13 +112,15 @@ No modules.
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC where the workload is deployed | `string` | n/a | yes |
 | <a name="input_vpc_subnets"></a> [vpc\_subnets](#input\_vpc\_subnets) | Subnets where the CloudConnector will be deployed | `list(string)` | n/a | yes |
 | <a name="input_cloudwatch_log_retention"></a> [cloudwatch\_log\_retention](#input\_cloudwatch\_log\_retention) | Days to keep logs for CloudConnector | `number` | `5` | no |
+| <a name="input_connector_ecs_task_role_name"></a> [connector\_ecs\_task\_role\_name](#input\_connector\_ecs\_task\_role\_name) | Default ecs cloudconnector task role name | `string` | `"connector-ECSTaskRole"` | no |
 | <a name="input_extra_env_vars"></a> [extra\_env\_vars](#input\_extra\_env\_vars) | Extra environment variables for the Cloud Connector deployment | `map(string)` | `{}` | no |
 | <a name="input_image"></a> [image](#input\_image) | Image of the cloud connector to deploy | `string` | `"sysdiglabs/cloud-connector:latest"` | no |
+| <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether cloudvision should be deployed in an organizational setup | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Connector deployment | `string` | `"connector"` | no |
-| <a name="input_organizational_setup"></a> [organizational\_setup](#input\_organizational\_setup) | whether organizational setup is to be enabled. if true, services\_assume\_role\_arn, for cloud\_connect to assumeRole and be able read events on master account | <pre>object({<br>    is_organizational            = bool<br>    connector_ecs_task_role_name = string<br>    services_assume_role_arn     = string<br>  })</pre> | <pre>{<br>  "connector_ecs_task_role_name": "connector-ECSTaskRole",<br>  "is_organizational": false,<br>  "services_assume_role_arn": null<br>}</pre> | no |
+| <a name="input_oragnizational_config"></a> [oragnizational\_config](#input\_oragnizational\_config) | oragnizational\_config. following attributes must be given<br><ul><li>`cloudvision_role_arn` for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision\_role</li></ul> | <pre>object({<br>    cloudvision_role_arn         = string<br>    connector_ecs_task_role_name = string<br>  })</pre> | <pre>{<br>  "cloudvision_role_arn": null,<br>  "connector_ecs_task_role_name": null<br>}</pre> | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
-| <a name="input_verify_ssl"></a> [verify\_ssl](#input\_verify\_ssl) | true/false to determine ssl verification | `bool` | `true` | no |
+| <a name="input_verify_ssl"></a> [verify\_ssl](#input\_verify\_ssl) | true/false to determine ssl verification for sysdig\_secure\_endpoint | `bool` | `true` | no |
 
 ## Outputs
 

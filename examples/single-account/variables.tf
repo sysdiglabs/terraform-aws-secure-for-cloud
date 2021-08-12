@@ -9,10 +9,17 @@ variable "sysdig_secure_api_token" {
 # optionals - with defaults
 #------------------------------
 
+<<<<<<< HEAD
 variable "connector_ecs_task_role_name" {
   type        = string
   default     = "sysdig-cloudvision-connector-ECSTaskRole"
   description = "Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach"
+=======
+variable "region" {
+  type        = string
+  default     = "eu-central-1"
+  description = "Default region for resource creation in the account"
+>>>>>>> master
 }
 
 variable "name" {
@@ -26,6 +33,7 @@ variable "sysdig_secure_endpoint" {
   default     = "https://secure.sysdig.com"
   description = "Sysdig Secure API endpoint"
 }
+<<<<<<< HEAD
 
 variable "tags" {
   type        = map(string)
@@ -34,3 +42,5 @@ variable "tags" {
     "product" = "sysdig-cloudvision"
   }
 }
+=======
+>>>>>>> master

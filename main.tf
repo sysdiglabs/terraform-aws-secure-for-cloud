@@ -36,9 +36,9 @@ module "cloudtrail" {
 
   name = var.name
 
-  organizational_setup = {
-    is_organizational                 = var.cloudvision_organizational_setup.is_organizational
-    org_cloudvision_member_account_id = var.cloudvision_organizational_setup.org_cloudvision_member_account_id
+  is_organizational = var.is_organizational
+  organizational_config = {
+    cloudvision_member_account_id = var.organizational_config.cloudvision_member_account_id
   }
 
   is_multi_region_trail = var.cloudtrail_org_is_multi_region_trail
@@ -69,11 +69,12 @@ module "cloud_connector" {
   sysdig_secure_api_token = var.sysdig_secure_api_token
   sysdig_secure_endpoint  = var.sysdig_secure_endpoint
 
-  organizational_setup = {
-    is_organizational            = var.cloudvision_organizational_setup.is_organizational
-    services_assume_role_arn     = var.cloudvision_organizational_setup.org_cloudvision_role
-    connector_ecs_task_role_name = var.cloudvision_organizational_setup.connector_ecs_task_role_name
+  is_organizational = var.is_organizational
+  oragnizational_config = {
+    cloudvision_role_arn         = var.organizational_config.cloudvision_role_arn
+    connector_ecs_task_role_name = var.organizational_config.connector_ecs_task_role_name
   }
+
   sns_topic_arn = module.cloudtrail.sns_topic_arn
 
   ecs_cluster = module.ecs_fargate_cluster.id
