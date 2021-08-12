@@ -33,13 +33,13 @@ If no [examples](./examples) fit your use-case, be free to self-configure your o
 
 ```terraform
 module "cloudvision_aws" {
-  source = "github.com/sysdiglabs/cloudvision/aws"
+  source = "github.com/sysdiglabs/terraform-aws-cloudvision"
 
   # required to specify cloudvision stack on default AWS provider
   providers = {
     aws.cloudvision = aws
   }
-  sysdig_secure_api_token               = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_api_token  = "00000000-1111-2222-3333-444444444444"
 }
 
 ```
