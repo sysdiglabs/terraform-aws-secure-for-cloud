@@ -33,7 +33,7 @@ For quick testing, use this snippet on your terraform files
 
 ```terraform
 module "cloudvision_aws_organizational" {
-  source = "github.com/sysdiglabs/cloudvision/aws//examples/organizational"
+  source = "github.com/sysdiglabs/terraform-aws-cloudvision//examples/organizational"
 
   sysdig_secure_api_token           = "00000000-1111-2222-3333-444444444444"
   cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
