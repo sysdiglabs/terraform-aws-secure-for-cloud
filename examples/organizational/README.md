@@ -32,13 +32,14 @@ Minimum requirements:
 For quick testing, use this snippet on your terraform files
 
 ```terraform
-module "cloudvision_aws" {
+module "cloudvision_aws_organizational" {
   source = "github.com/sysdiglabs/cloudvision/aws//examples/organizational"
 
-  sysdig_secure_api_token               = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_api_token           = "00000000-1111-2222-3333-444444444444"
   cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
 }
 ```
+
 See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
@@ -55,6 +56,7 @@ Note that:
 
 
 ---
+
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
