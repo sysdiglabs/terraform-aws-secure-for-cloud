@@ -3,9 +3,14 @@ variable "ecs_cluster" {
   description = "ECS Fargate Cluster where deploy the CloudConnector workload"
 }
 
-variable "services_assume_role_arn" {
+variable "build_project_arn" {
   type        = string
-  description = "Cloudvision service required assumeRole arn"
+  description = "Code Build project arn"
+}
+
+variable "build_project_name" {
+  type        = string
+  description = "Code Build project name"
 }
 
 
@@ -24,7 +29,7 @@ variable "vpc_subnets" {
 
 
 #---------------------------------
-# cloud-connector parametrization
+# cloud-scanning parametrization
 #---------------------------------
 
 variable "sysdig_secure_api_token" {
@@ -51,20 +56,21 @@ variable "sysdig_secure_endpoint" {
 
 variable "name" {
   type        = string
-  default     = "cloud-connector"
-  description = "Name for the Cloud Connector deployment"
+  default     = "cloud-scanning"
+  description = "Name for the Cloud Scanning deployment"
 }
 
 variable "image" {
-  type        = string
-  default     = "sysdiglabs/cloud-connector:latest"
-  description = "Image of the cloud connector to deploy"
+  type = string
+  //FIXME: rollback to latest
+  default     = "sysdiglabs/cloud-scanning:master"
+  description = "Image of the cloud scanning to deploy"
 }
 
 variable "cloudwatch_log_retention" {
   type        = number
   default     = 5
-  description = "Days to keep logs for CloudConnector"
+  description = "Days to keep logs for CloudScanning"
 }
 
 variable "tags" {
@@ -83,25 +89,19 @@ variable "verify_ssl" {
 
 
 variable "ECRDeployed" {
-  type        = bool
-  default     = true
+  type        = string
+  default     = "true"
   description = "True/false to determine whether ECR is deployed"
 }
 
 variable "ECSDeployed" {
-  type        = bool
-  default     = true
-  description = "True/false to determine whether ECS is deployed"
-}
-
-variable "BuildProject" {
   type        = string
-  default     = ""
-  description = "Build project arguments"
+  default     = "true"
+  description = "True/false to determine whether ECS is deployed"
 }
 
 variable "extra_env_vars" {
   type        = map(string)
   default     = {}
-  description = "Extra environment variables for the Cloud Connector deployment"
+  description = "Extra environment variables for the Cloud Scanning deployment"
 }

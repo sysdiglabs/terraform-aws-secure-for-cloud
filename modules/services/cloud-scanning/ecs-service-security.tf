@@ -1,3 +1,4 @@
+data "aws_caller_identity" "me" {}
 #---------------------------------
 # task role
 #---------------------------------
@@ -28,9 +29,9 @@ data "aws_iam_policy_document" "iam_role_task_role_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:Get",
+      "s3:Get*",
       "s3:List",
-      "s3:Put",
+      "s3:Put*",
       "s3:Head",
 
       "sqs:DeleteMessage",
@@ -52,7 +53,7 @@ data "aws_iam_policy_document" "trigger_scan" {
     actions = [
       "codebuild:StartBuild"
     ]
-    resources = ["arn:aws:codebuild:${data.aws_region.current.name}:${data.aws_caller_identity.me.account_id}:project/${var.BuildProject}"]
+    resources = [var.build_project_arn]
   }
 }
 

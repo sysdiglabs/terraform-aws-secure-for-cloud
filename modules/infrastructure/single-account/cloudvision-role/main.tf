@@ -1,12 +1,3 @@
-#
-# empty provider to pass `terraform validate`
-# will be overrided by parent in real execution
-# https://github.com/hashicorp/terraform/issues/21416
-#
-provider "aws" {
-  alias = "member"
-}
-
 # ---------------------------------------------
 # ecs task role 1/2
 # trust ecs-task-role identifier to assumeRole
@@ -19,8 +10,7 @@ resource "aws_iam_role" "cloudvision_role" {
 }
 
 data "aws_iam_role" "ecs_task_role" {
-  provider = aws.member
-  name     = var.cloudconnect_ecs_task_role_name
+  name = var.cloudconnect_ecs_task_role_name
 }
 
 data "aws_iam_policy_document" "cloudvision_role_trusted" {
@@ -43,8 +33,7 @@ data "aws_iam_policy_document" "cloudvision_role_trusted" {
 # ---------------------------------------------
 
 resource "aws_iam_role_policy" "enable_assume_cloudvision_role" {
-  provider = aws.member
-  name     = "${var.name}-EnableCloudvisionRole"
+  name = "${var.name}-EnableCloudvisionRole"
 
   role   = var.cloudconnect_ecs_task_role_name
   policy = data.aws_iam_policy_document.enable_assume_cloudvision_role.json
@@ -66,7 +55,7 @@ data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
 # ------------------------------
 
 resource "aws_iam_role_policy" "cloudvision_role_s3" {
-  name   = "${var-name}-AllowCloudtrailS3Policy"
+  name   = "${var.name}-AllowCloudtrailS3Policy"
   role   = aws_iam_role.cloudvision_role.id
   policy = data.aws_iam_policy_document.cloudvision_role_s3.json
 }

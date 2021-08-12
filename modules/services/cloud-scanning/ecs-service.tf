@@ -2,7 +2,6 @@ data "aws_ecs_cluster" "ecs" {
   cluster_name = var.ecs_cluster
 }
 
-
 resource "aws_ecs_service" "service" {
   name          = var.name
   cluster       = data.aws_ecs_cluster.ecs.id
@@ -19,7 +18,7 @@ resource "aws_ecs_service" "service" {
 
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "cloud_scanning"
+  family                   = "${var.name}-cloud_scanning"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.execution.arn # ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume
@@ -34,10 +33,6 @@ resource "aws_ecs_task_definition" "task_definition" {
       image       = var.image
       essential   = true
       secrets = [
-        {
-          name      = "SECURE_URL"
-          valueFrom = aws_ssm_parameter.secure_endpoint.name
-        },
         {
           name      = "SECURE_API_TOKEN"
           valueFrom = aws_ssm_parameter.secure_api_token.name
@@ -70,8 +65,8 @@ locals {
       value = "terraform"
     },
     {
-      name  = "FEAT_REGISTER_ACCOUNT_IN_SECURE"
-      value = "true"
+      name  = "SECURE_URL"
+      value = var.sysdig_secure_endpoint
     },
     {
       name  = "SQS_QUEUE_URL"
@@ -83,16 +78,11 @@ locals {
     },
     {
       name  = "CODEBUILD_PROJECT"
-      value = var.BuildProject
+      value = var.build_project_name
     },
     {
-      name  = "ECR_DEPLOYED"
-      value = var.ECRDeployed
-    }
-    ,
-    {
-      name  = "ECS_DEPLOYED"
-      value = var.ECSDeployed
+      name  = "SECURE_API_TOKEN_SECRET"
+      value = aws_ssm_parameter.secure_api_token.name
     }
     ], flatten([for env_key, env_value in var.extra_env_vars : [{
       name  = env_key,

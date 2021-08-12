@@ -23,7 +23,7 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
     actions   = ["sns:Publish"]
     resources = [aws_sns_topic.cloudtrail.arn]
   }
-
+  
   dynamic "statement" {
     for_each = var.organizational_setup.is_organizational ? [1] : []
     content {
