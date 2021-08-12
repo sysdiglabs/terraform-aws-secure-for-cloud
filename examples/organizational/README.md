@@ -27,24 +27,21 @@ Minimum requirements:
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
 
-See main module [variables.tf](./variables.tf) file for more optional configuration.
-
-
-
 ## Usage
 
 For quick testing, use this snippet on your terraform files
 
 ```terraform
-module "aws_cloudvision_organizational" {
-  source = "sysdiglabs/cloudvision/aws//examples/organizational"
+module "cloudvision_aws" {
+  source = "github.com/sysdiglabs/cloudvision/aws//examples/organizational"
 
-  sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
-  cloudvision_member_account_id  = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
+  sysdig_secure_api_token               = "00000000-1111-2222-3333-444444444444"
+  org_cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
 }
 ```
+See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
 
-To run this example you need have your [aws master-account `default` profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
+To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
 $ terraform init
 $ terraform plan
@@ -54,3 +51,50 @@ $ terraform apply
 Note that:
   - This example will create resources that cost money. Run `terraform destroy` when you don't need them anymore
   - For more detailed configuration inspect both main module and example input variables
+
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
+
+## Providers
+
+No providers.
+
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| <a name="module_cloudvision"></a> [cloudvision](#module\_cloudvision) | ../../ |  |
+
+## Resources
+
+No resources.
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_org_cloudvision_member_account_id"></a> [org\_cloudvision\_member\_account\_id](#input\_org\_cloudvision\_member\_account\_id) | the account\_id **within the organization** to be used as cloudvision account | `string` | n/a | yes |
+| <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources | `string` | `"sysdig-cloudvision"` | no |
+| <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
+
+## Outputs
+
+No outputs.
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+
+---
+
+## Authors
+
+Module is maintained by [Sysdig](https://sysdig.com).
+
+## License
+
+Apache 2 Licensed. See LICENSE for full details.
