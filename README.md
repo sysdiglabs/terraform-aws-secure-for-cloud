@@ -12,12 +12,6 @@ For other cloud providers check:
 - [terraform-azure-cloudvision](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
 - [terraform-google-cloudvision](https://github.com/sysdiglabs/terraform-google-cloudvision)
 
-
----
-## Notes
-
-- all created resources will be created within the tags `product:sysdig-cloudvision`
-- within the resource-group `sysdig-cloudvision`
 ---
 
 ## Example / Use-Cases
@@ -31,6 +25,39 @@ More info in the [`./examples/single-account/README.md`](examples/single-account
 
 More info in the [`./examples/organizational_cloudvision/README.md`](examples/organizational/README.md)
 ![organizational diagram](examples/organizational/diagram-org.png)
+
+
+### Self-Baked Usage
+
+If no [examples](./examples) fit your use-case, be free to self-configure your own `cloudvision` module.
+
+```terraform
+module "cloudvision_aws" {
+  source = "github.com/sysdiglabs/cloudvision/aws"
+
+  # required to specify cloudvision stack on default AWS provider
+  providers = {
+    aws.cloudvision = aws
+  }
+  sysdig_secure_api_token               = "00000000-1111-2222-3333-444444444444"
+}
+
+```
+See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
+
+To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
+```terraform
+$ terraform init
+$ terraform plan
+$ terraform apply
+```
+
+Note that:
+- This example will create resources that cost money. Run `terraform destroy` when you don't need them anymore
+- For more detailed configuration inspect both main module and example input variables
+- All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
+
+
 
 ---
 
@@ -66,6 +93,7 @@ No resources.
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_cloudtrail_org_is_multi_region_trail"></a> [cloudtrail\_org\_is\_multi\_region\_trail](#input\_cloudtrail\_org\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_cloudtrail_org_kms_enable"></a> [cloudtrail\_org\_kms\_enable](#input\_cloudtrail\_org\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
+| <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether cloudvision should be deployed in an organizational setup | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Vision deployment | `string` | `"sysdig-cloudvision"` | no |
 | <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config) | oragnizational\_config. following attributes must be given<br><ul><li>`cloudvision_member_account_id` to enable reading permission,</li><li>`cloudvision_role_arn` for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision\_role</li></ul> | <pre>object({<br>    cloudvision_member_account_id = string<br>    cloudvision_role_arn          = string<br>    connector_ecs_task_role_name  = string<br>  })</pre> | <pre>{<br>  "cloudvision_member_account_id": null,<br>  "cloudvision_role_arn": null,<br>  "connector_ecs_task_role_name": null<br>}</pre> | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
