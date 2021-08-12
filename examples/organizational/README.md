@@ -28,23 +28,19 @@ Minimum requirements:
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
 
-See main module [variables.tf](./variables.tf) file for more optional configuration.
-
-
-
 ## Usage
 
 Insert this snippet on your terraform files to access `sysdiglabs/cloudvision/aws` provider
 
 ```terraform
 module "cloudvision_aws" {
-  source = "sysdiglabs/cloudvision/aws"
+  source = "github.com/sysdiglabs/cloudvision/aws//examples/organizational"
 
-  sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_api_token               = "00000000-1111-2222-3333-444444444444"
   org_cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
-  org_cloudvision_account_region = "<REGION_CLOUDVISION_RESOURCES; eg: eu-central-1>"
 }
 ```
+See main module [variables.tf](./variables.tf) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
