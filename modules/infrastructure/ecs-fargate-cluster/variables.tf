@@ -1,6 +1,11 @@
+#---------------------------------
+# optionals - with defaults
+#---------------------------------
+
 variable "name" {
   type        = string
   description = "Deployment name"
+  default     = "sysdig-cloudvision"
 }
 
 variable "tags" {

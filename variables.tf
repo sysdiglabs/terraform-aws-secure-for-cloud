@@ -4,20 +4,46 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
-variable "org_cloudvision_member_account_id" {
-  type        = string
-  description = "the **account id within the organization** to be used as cloudvision account"
+
+
+#---------------------------------
+# optionals - with defaults
+#---------------------------------
+
+#
+# module composition
+#
+
+variable "is_organizational" {
+  type        = bool
+  default     = false
+  description = "whether cloudvision should be deployed in an organizational setup"
 }
 
-variable "org_cloudvision_account_region" {
-  type        = string
-  description = "default cloudvision member account region for services provisioning"
+variable "organizational_config" {
+
+  type = object({
+    cloudvision_member_account_id = string
+    cloudvision_role_arn          = string
+    connector_ecs_task_role_name  = string
+  })
+
+  default = {
+    cloudvision_member_account_id = null
+    cloudvision_role_arn          = null
+    connector_ecs_task_role_name  = null
+  }
+
+  description = <<-EOT
+    oragnizational_config. following attributes must be given
+    <ul><li>`cloudvision_member_account_id` to enable reading permission,</li><li>`cloudvision_role_arn` for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision_role</li></ul>
+  EOT
 }
 
 
-# --------------------
+#
 # cloudtrail configuration
-# --------------------
+#
 
 variable "cloudtrail_org_is_multi_region_trail" {
   type        = bool
@@ -32,10 +58,10 @@ variable "cloudtrail_org_kms_enable" {
 }
 
 
+#
+# misc
+#
 
-#---------------------------------
-# optionals - with defaults
-#---------------------------------
 variable "name" {
   type        = string
   description = "Name for the Cloud Vision deployment"

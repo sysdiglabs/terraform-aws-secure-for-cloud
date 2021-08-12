@@ -1,33 +1,61 @@
-#
-# empty provider to pass `terraform validate`
-# will be overrided by parent in real execution
-# https://github.com/hashicorp/terraform/issues/21416
-#
-provider "aws" {
-  alias = "member"
-}
-
-
-
 resource "aws_iam_role" "cloudvision_role" {
   name               = "SysdigCloudVisionRole"
-  assume_role_policy = data.aws_iam_policy_document.cloud_vision_role_trusted.json
+  assume_role_policy = data.aws_iam_policy_document.cloudvision_role_trusted.json
   tags               = var.tags
 }
 
-data "aws_iam_policy_document" "cloud_vision_role_trusted" {
+
+# ---------------------------------------------
+# ecs task role 1/2
+# trust ecs-task-role identifier to assumeRole
+# ---------------------------------------------
+
+data "aws_iam_role" "ecs_task_role" {
+  provider = aws.member
+  name     = var.cloudconnect_ecs_task_role_name
+}
+
+data "aws_iam_policy_document" "cloudvision_role_trusted" {
   statement {
     effect = "Allow"
     principals {
       type = "AWS"
       identifiers = [
-        var.cloudconnect_ecs_task_role_arn
+        data.aws_iam_role.ecs_task_role.arn
       ]
     }
     actions = ["sts:AssumeRole"]
   }
 }
 
+
+# ---------------------------------------------
+# ecs task role 2/2 (resource)
+# enable ecs-task resource to assumeRole
+# ---------------------------------------------
+
+resource "aws_iam_role_policy" "enable_assume_cloudvision_role" {
+  provider = aws.member
+  name     = "${var.name}-EnableCloudvisionRole"
+
+  role   = var.cloudconnect_ecs_task_role_name
+  policy = data.aws_iam_policy_document.enable_assume_cloudvision_role.json
+}
+data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole"
+    ]
+    resources = [aws_iam_role.cloudvision_role.arn]
+  }
+}
+
+
+
+# ------------------------------
+# enable cloudtrail_s3 RO access
+# ------------------------------
 
 resource "aws_iam_role_policy" "cloudvision_role_s3" {
   name   = "AllowCloudtrailS3Policy"
@@ -45,25 +73,5 @@ data "aws_iam_policy_document" "cloudvision_role_s3" {
       var.cloudtrail_s3_arn,
       "${var.cloudtrail_s3_arn}/*"
     ]
-  }
-}
-
-
-# ------------------------------
-# ecs task role
-# ------------------------------
-resource "aws_iam_role_policy" "enable_assume_cloudvision_role" {
-  provider = aws.member
-  name     = "${var.name}-EnableCloudvisionRole"
-  role     = var.cloudconnect_ecs_task_role_name
-  policy   = data.aws_iam_policy_document.enable_assume_cloudvision_role.json
-}
-data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "sts:AssumeRole"
-    ]
-    resources = [aws_iam_role.cloudvision_role.arn]
   }
 }

@@ -40,7 +40,7 @@ module "ecs_fargate_cluster" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_name"></a> [name](#input\_name) | Deployment name | `string` | n/a | yes |
+| <a name="input_name"></a> [name](#input\_name) | Deployment name | `string` | `"sysdig-cloudvision"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
 
 ## Outputs
