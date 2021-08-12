@@ -3,7 +3,7 @@
 Terraform module that deploys the **Sysdig CloudVision** stack in **AWS**.
 
 Currently supported cloudvision components:
-- [X] cloud-connector (organizational use-case only)
+- [X] cloud-connector (organizational, single-account)
 - [ ] cloud-scanner
 - [ ] cloud-bench
 
