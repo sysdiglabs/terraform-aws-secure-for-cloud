@@ -44,8 +44,6 @@ More info in the [`./examples/organizational_cloudvision/README.md`](examples/or
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
 
-See main module [variables.tf](./variables.tf) file for more optional configuration.
-
 ####  Usage
 
 ```terraform
@@ -57,8 +55,18 @@ module "cloudvision_aws" {
   org_cloudvision_account_region        = "<REGION_CLOUDVISION_RESOURCES; eg: eu-central-1>"
 }
 ```
+See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
 
+To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 
+```terraform
+$ terraform init
+$ terraform plan
+$ terraform apply
+```
+
+Note that this example may create resources which can cost money (AWS Elastic IP, for example).
+Run `terraform destroy` when you don't need these resources
 ---
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
