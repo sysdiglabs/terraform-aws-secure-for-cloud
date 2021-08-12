@@ -24,7 +24,7 @@ event_color="firebrick"
 
 with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram", show=True):
 
-    with Cluster("organization"):
+    with Cluster("AWS organization"):
 
         with Cluster("other accounts (member)", graph_attr={"bgcolor":"lightblue"}):
             member_accounts = [General("account-1"),General("..."),General("account-n")]
