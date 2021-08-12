@@ -23,7 +23,7 @@ For quick testing, use this snippet on your terraform files
 
 ```terraform
 module "aws_cloudvision_single_account" {
-  source = "github.com/sysdiglabs/cloudvision/aws//examples/single-account"
+  source = "github.com/sysdiglabs/terraform-aws-cloudvision//examples/single-account"
 
   sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
 }
