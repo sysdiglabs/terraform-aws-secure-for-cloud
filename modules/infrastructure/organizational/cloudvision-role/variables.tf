@@ -1,14 +1,7 @@
-variable "cloudconnect_ecs_task_role_arn" {
-  type        = string
-  description = "cloudconnect ecs task role arn"
-}
-
-
 variable "cloudconnect_ecs_task_role_name" {
   type        = string
   description = "cloudconnect ecs task role name"
 }
-
 
 variable "cloudtrail_s3_arn" {
   type        = string
