@@ -35,7 +35,7 @@ If no [examples](./examples) fit your use-case, be free to self-configure your o
 module "cloudvision_aws" {
   source = "github.com/sysdiglabs/terraform-aws-cloudvision"
 
-  # required to specify cloudvision stack on default AWS provider
+  # required to pin cloudvision stack on single-account single-provider
   providers = {
     aws.cloudvision = aws
   }
