@@ -17,7 +17,7 @@ resource "aws_codebuild_project" "build-project" {
 
   logs_config {
     cloudwatch_logs {
-      group_name = aws_cloudwatch_log_group.log.name_prefix
+      group_name = aws_cloudwatch_log_group.log.name
     }
   }
 

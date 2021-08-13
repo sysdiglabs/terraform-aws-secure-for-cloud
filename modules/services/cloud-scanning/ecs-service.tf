@@ -18,7 +18,7 @@ resource "aws_ecs_service" "service" {
 
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "${var.name}-cloud_scanning"
+  family                   = "${var.name}-cloudscanning"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.execution.arn # ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume
@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "task_definition" {
       secrets = [
         {
           name      = "SECURE_API_TOKEN"
-          valueFrom = aws_ssm_parameter.secure_api_token.name
+          valueFrom = var.secure_api_token_secret_name
         }
       ]
       portMappings = [{
@@ -82,7 +82,7 @@ locals {
     },
     {
       name  = "SECURE_API_TOKEN_SECRET"
-      value = aws_ssm_parameter.secure_api_token.name
+      value = var.secure_api_token_secret_name
     }
     ], flatten([for env_key, env_value in var.extra_env_vars : [{
       name  = env_key,

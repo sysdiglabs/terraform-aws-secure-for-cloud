@@ -1,7 +1,9 @@
 data "aws_region" "current" {}
 data "aws_caller_identity" "me" {}
 data "aws_partition" "current_partition" {}
-data "aws_cloudwatch_log_group" "log_group" {}
+data "aws_ssm_parameter" "sysdig_secure_api_token" {
+  name = var.secure_api_token_secret_name
+}
 
 resource "aws_iam_role" "service" {
   name               = "${var.name}-ECRScanningRole"
@@ -35,8 +37,8 @@ data "aws_iam_policy_document" "logs_publisher" {
       "logs:PutLogEvents"
     ]
     resources = [
-      "arn:asn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me}:log-group:${data.aws_cloudwatch_log_group.log_group.name}",
-      "arn:asn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me}:log-group:${data.aws_cloudwatch_log_group.log_group.name}:*"
+      "arn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me.account_id}:log-group:${aws_codebuild_project.build-project.logs_config[0].cloudwatch_logs[0].group_name}",
+      "arn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me.account_id}:log-group:${aws_codebuild_project.build-project.logs_config[0].cloudwatch_logs[0].group_name}:*"
     ]
   }
 }
@@ -50,8 +52,8 @@ data "aws_iam_policy_document" "task_read_parameters" {
   statement {
     effect = "Allow"
     actions = [
-      "ssm:DescribeParameters"
+      "ssm:GetParameters"
     ]
-    resources = [aws_ssm_parameter.secure_endpoint.arn, aws_ssm_parameter.secure_api_token.arn]
+    resources = [data.aws_ssm_parameter.sysdig_secure_api_token.arn]
   }
 }

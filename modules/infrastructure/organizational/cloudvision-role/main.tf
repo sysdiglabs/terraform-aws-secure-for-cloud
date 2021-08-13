@@ -4,34 +4,16 @@ resource "aws_iam_role" "cloudvision_role" {
   tags               = var.tags
 }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 # ---------------------------------------------
 # ecs task role 1/2
 # trust ecs-task-role identifier to assumeRole
 # ---------------------------------------------
 
-<<<<<<< HEAD
-resource "aws_iam_role" "cloudvision_role" {
-  name               = "${var.name}-SysdigCloudVisionRole"
-  assume_role_policy = data.aws_iam_policy_document.cloudvision_role_trusted.json
-  tags               = var.tags
-}
-
 data "aws_iam_role" "ecs_task_role" {
   provider = aws.member
   name     = var.cloudconnect_ecs_task_role_name
 }
 
-=======
-data "aws_iam_role" "ecs_task_role" {
-  provider = aws.member
-  name     = var.cloudconnect_ecs_task_role_name
-}
-
->>>>>>> master
 data "aws_iam_policy_document" "cloudvision_role_trusted" {
   statement {
     effect = "Allow"
@@ -75,11 +57,7 @@ data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
 # ------------------------------
 
 resource "aws_iam_role_policy" "cloudvision_role_s3" {
-<<<<<<< HEAD
-  name   = "${var-name}-AllowCloudtrailS3Policy"
-=======
   name   = "AllowCloudtrailS3Policy"
->>>>>>> master
   role   = aws_iam_role.cloudvision_role.id
   policy = data.aws_iam_policy_document.cloudvision_role_s3.json
 }

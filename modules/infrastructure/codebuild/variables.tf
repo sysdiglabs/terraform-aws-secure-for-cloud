@@ -4,6 +4,11 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
+variable "secure_api_token_secret_name" {
+  type        = string
+  description = "Sysdig Secure API token SSM parameter name"
+}
+
 #------------------------------
 # optionals - with defaults
 #------------------------------

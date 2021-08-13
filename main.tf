@@ -21,20 +21,28 @@ module "resource_group_master" {
   tags   = var.tags
 }
 
+module "ssm" {
+  source                  = "./modules/infrastructure/ssm"
+  name                    = var.name
+  sysdig_secure_api_token = var.sysdig_secure_api_token
+}
+
 module "codebuild" {
   source = "./modules/infrastructure/codebuild"
-
-  name = var.name
+  name   = var.name
 
   sysdig_secure_api_token = var.sysdig_secure_api_token
   sysdig_secure_endpoint  = var.sysdig_secure_endpoint
+
+  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
+
+  depends_on = [module.ssm]
 }
 
 
 module "cloudtrail" {
   source = "./modules/infrastructure/cloudtrail"
-
-  name = var.name
+  name   = var.name
 
   is_organizational = var.is_organizational
   organizational_config = {
@@ -81,8 +89,10 @@ module "cloud_connector" {
   vpc_id      = module.ecs_fargate_cluster.vpc_id
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
 
+  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
+
   tags       = var.tags
-  depends_on = [module.cloudtrail, module.ecs_fargate_cluster]
+  depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.ssm]
 }
 
 
@@ -93,7 +103,7 @@ module "cloud_scanning" {
   }
 
   source = "./modules/services/cloud-scanning"
-  name   = var.name
+  name   = "${var.name}-cloudscanning"
 
   sysdig_secure_api_token = var.sysdig_secure_api_token
   sysdig_secure_endpoint  = var.sysdig_secure_endpoint
@@ -104,9 +114,12 @@ module "cloud_scanning" {
   vpc_id      = module.ecs_fargate_cluster.vpc_id
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
 
-  build_project_arn  = module.codebuild.project_arn
-  build_project_name = module.codebuild.project_name
+  build_project_arn            = module.codebuild.project_arn
+  build_project_name           = module.codebuild.project_name
+  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
+
 
   tags       = var.tags
-  depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.codebuild]
+  depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.codebuild, module.ssm]
+
 }

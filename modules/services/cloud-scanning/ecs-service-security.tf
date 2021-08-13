@@ -1,4 +1,7 @@
 data "aws_caller_identity" "me" {}
+data "aws_ssm_parameter" "sysdig_secure_api_token" {
+  name = var.secure_api_token_secret_name
+}
 #---------------------------------
 # task role
 #---------------------------------
@@ -162,6 +165,6 @@ data "aws_iam_policy_document" "task_read_parameters" {
   statement {
     effect    = "Allow"
     actions   = ["ssm:GetParameters"]
-    resources = [aws_ssm_parameter.secure_endpoint.arn, aws_ssm_parameter.secure_api_token.arn]
+    resources = [data.aws_ssm_parameter.sysdig_secure_api_token.arn]
   }
 }

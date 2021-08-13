@@ -4,6 +4,10 @@ locals {
   ecs_task_role_name_suffix = var.is_organizational ? var.oragnizational_config.connector_ecs_task_role_name : var.connector_ecs_task_role_name
 }
 
+data "aws_ssm_parameter" "sysdig_secure_api_token" {
+  name = var.secure_api_token_secret_name
+}
+
 #---------------------------------
 # task role
 # notes
@@ -100,7 +104,7 @@ data "aws_iam_policy_document" "task_read_parameters" {
   statement {
     effect    = "Allow"
     actions   = ["ssm:GetParameters"]
-    resources = [aws_ssm_parameter.secure_endpoint.arn, aws_ssm_parameter.secure_api_token.arn]
+    resources = [data.aws_ssm_parameter.sysdig_secure_api_token.arn]
   }
 }
 

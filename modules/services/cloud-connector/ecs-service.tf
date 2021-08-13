@@ -35,12 +35,8 @@ resource "aws_ecs_task_definition" "task_definition" {
       essential   = true
       secrets = [
         {
-          name      = "SECURE_URL"
-          valueFrom = aws_ssm_parameter.secure_endpoint.name
-        },
-        {
           name      = "SECURE_API_TOKEN"
-          valueFrom = aws_ssm_parameter.secure_api_token.name
+          valueFrom = var.secure_api_token_secret_name
         }
       ]
       portMappings = [{
@@ -77,6 +73,10 @@ locals {
     {
       name  = "CONFIG_PATH"
       value = "s3://${local.s3_bucket_config_id}/cloud-connector.yaml"
+    },
+    {
+      name  = "SECURE_URL",
+      value = var.sysdig_secure_endpoint
     }
     ], flatten([for env_key, env_value in var.extra_env_vars : [{
       name  = env_key,

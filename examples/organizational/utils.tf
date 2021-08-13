@@ -23,11 +23,6 @@ module "cloudvision_role" {
 }
 
 
-# -----------------------------------------------------------------
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 # cloudvision_role <-> ecs_role trust relationship
 # note:
 # - definition of a ROOT lvl cloudvision_connector_ecs_tas_role to avoid cyclic dependencies

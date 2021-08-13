@@ -27,6 +27,10 @@ variable "vpc_subnets" {
   description = "Subnets where the CloudScanning will be deployed"
 }
 
+variable "secure_api_token_secret_name" {
+  type        = string
+  description = "Sysdig Secure API Token secret name"
+}
 
 #---------------------------------
 # cloud-scanning parametrization
