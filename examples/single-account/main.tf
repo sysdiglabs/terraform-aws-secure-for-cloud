@@ -13,9 +13,9 @@ module "cloudvision" {
   sysdig_secure_endpoint  = var.sysdig_secure_endpoint
   sysdig_secure_api_token = var.sysdig_secure_api_token
 
-  #  (optional) testing purpose; economization
-  cloudtrail_org_is_multi_region_trail = false
-  cloudtrail_org_kms_enable            = false
+  #  testing purpose; economization
+  cloudtrail_org_is_multi_region_trail = var.cloudtrail_org_is_multi_region_trail
+  cloudtrail_org_kms_enable            = var.cloudtrail_org_kms_enable
 
   tags = var.tags
 }
