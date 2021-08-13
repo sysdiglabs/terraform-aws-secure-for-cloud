@@ -1,5 +1,8 @@
 data "aws_region" "current" {}
 data "aws_caller_identity" "me" {}
+data "aws_partition" "current_partition" {}
+data "aws_cloudwatch_log_group" "log_group" {}
+
 resource "aws_iam_role" "service" {
   name               = "${var.name}-ECRScanningRole"
   assume_role_policy = data.aws_iam_policy_document.service_assume_role.json
@@ -32,8 +35,8 @@ data "aws_iam_policy_document" "logs_publisher" {
       "logs:PutLogEvents"
     ]
     resources = [
-      aws_cloudwatch_log_group.log.arn,
-      "${aws_cloudwatch_log_group.log.arn}:*"
+      "arn:asn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me}:log-group:${data.aws_cloudwatch_log_group.log_group.name}",
+      "arn:asn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me}:log-group:${data.aws_cloudwatch_log_group.log_group.name}:*"
     ]
   }
 }
