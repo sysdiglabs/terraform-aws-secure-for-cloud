@@ -1,3 +1,11 @@
+#
+# requirements
+# - install pre-commit (latest)
+# - install terraform-docs (0.13)
+# - see .github/workflows/ci-pull-request.yaml for more info on what's being valiated on CI
+#
+
+
 repos:
   # create a custom terraform validate for the examples, as launching the validation in the root dir won't work and give
   # "Error: Provider configuration not present" error
