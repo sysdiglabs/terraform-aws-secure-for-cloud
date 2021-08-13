@@ -28,7 +28,9 @@ module "cloudvision" {
     cloudvision_role_arn          = module.cloudvision_role.cloudvision_role_arn
   }
 
-  #  (optional) testing purpose; economization
-  cloudtrail_org_is_multi_region_trail = false
-  cloudtrail_org_kms_enable            = false
+  #  testing purpose; economization
+  cloudtrail_org_is_multi_region_trail = var.cloudtrail_org_is_multi_region_trail
+  cloudtrail_org_kms_enable            = var.cloudtrail_org_kms_enable
+
+  tags = var.tags
 }

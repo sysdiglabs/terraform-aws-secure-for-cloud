@@ -10,9 +10,32 @@ variable "cloudvision_member_account_id" {
   description = "the account_id **within the organization** to be used as cloudvision account"
 }
 
+
 #------------------------------
 # optionals - with defaults
 #------------------------------
+
+
+#
+# cloudtrail configuration
+#
+
+variable "cloudtrail_org_is_multi_region_trail" {
+  type        = bool
+  default     = true
+  description = "testing/economization purpose. true/false whether cloudtrail will ingest multiregional events"
+}
+
+variable "cloudtrail_org_kms_enable" {
+  type        = bool
+  default     = true
+  description = "testing/economization purpose. true/false whether s3 should be encrypted"
+}
+
+
+#
+# misc
+#
 
 variable "region" {
   type        = string

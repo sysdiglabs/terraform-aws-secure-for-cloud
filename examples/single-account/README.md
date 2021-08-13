@@ -16,29 +16,27 @@
 
 Minimum requirements:
 
-1.  AWS profile credentials configuration of the desired account
+1. AWS profile credentials configuration of the desired credentials
 1. Secure requirements, as input variable value
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
-
-See main module [variables.tf](./variables.tf) file for more optional configuration.
-
-
 
 ## Usage
 
 For quick testing, use this snippet on your terraform files
 
 ```terraform
-module "aws_cloudvision_organizational" {
-  source = "sysdiglabs/cloudvision/aws//examples/single-account"
+module "aws_cloudvision_single_account" {
+  source = "github.com/sysdiglabs/terraform-aws-cloudvision//examples/single-account"
 
   sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
 }
 ```
 
-To run this example you need have your [aws master-account `default` profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
+See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
+
+To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
 $ terraform init
 $ terraform plan
@@ -80,9 +78,12 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
+| <a name="input_cloudtrail_org_is_multi_region_trail"></a> [cloudtrail\_org\_is\_multi\_region\_trail](#input\_cloudtrail\_org\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
+| <a name="input_cloudtrail_org_kms_enable"></a> [cloudtrail\_org\_kms\_enable](#input\_cloudtrail\_org\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources | `string` | `"sysdig-cloudvision"` | no |
 | <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in the account | `string` | `"eu-central-1"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
 
 ## Outputs
 

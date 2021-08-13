@@ -9,6 +9,7 @@ variable "sysdig_secure_api_token" {
 # optionals - with defaults
 #------------------------------
 
+
 variable "connector_ecs_task_role_name" {
   type        = string
   default     = "sysdig-cloudvision-connector-ECSTaskRole"

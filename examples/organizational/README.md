@@ -32,13 +32,14 @@ Minimum requirements:
 For quick testing, use this snippet on your terraform files
 
 ```terraform
-module "cloudvision_aws" {
-  source = "github.com/sysdiglabs/cloudvision/aws//examples/organizational"
+module "cloudvision_aws_organizational" {
+  source = "github.com/sysdiglabs/terraform-aws-cloudvision//examples/organizational"
 
-  sysdig_secure_api_token               = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_api_token           = "00000000-1111-2222-3333-444444444444"
   cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
 }
 ```
+
 See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
@@ -55,6 +56,7 @@ Note that:
 
 
 ---
+
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -91,6 +93,8 @@ Note that:
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudvision_member_account_id"></a> [cloudvision\_member\_account\_id](#input\_cloudvision\_member\_account\_id) | the account\_id **within the organization** to be used as cloudvision account | `string` | n/a | yes |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
+| <a name="input_cloudtrail_org_is_multi_region_trail"></a> [cloudtrail\_org\_is\_multi\_region\_trail](#input\_cloudtrail\_org\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
+| <a name="input_cloudtrail_org_kms_enable"></a> [cloudtrail\_org\_kms\_enable](#input\_cloudtrail\_org\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
 | <a name="input_connector_ecs_task_role_name"></a> [connector\_ecs\_task\_role\_name](#input\_connector\_ecs\_task\_role\_name) | Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach | `string` | `"sysdig-cloudvision-connector-ECSTaskRole"` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources | `string` | `"sysdig-cloudvision"` | no |
 | <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in both organization master and cloudvision member account | `string` | `"eu-central-1"` | no |
