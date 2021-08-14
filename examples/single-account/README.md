@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# Example: Single Account Cloudvision
-
-#TODO
-=======
 # Example: Single-Account Cloudvision
 
 - A single AWS account usage approach, where resources will report to the account `Cloudtrail`service
@@ -99,4 +94,3 @@ Module is maintained by [Sysdig](https://sysdig.com).
 ## License
 
 Apache 2 Licensed. See LICENSE for full details.
->>>>>>> master
