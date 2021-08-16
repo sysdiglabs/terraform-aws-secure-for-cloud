@@ -48,7 +48,7 @@ variable "is_organizational" {
 }
 
 
-variable "oragnizational_config" {
+variable "organizational_config" {
   type = object({
     cloudvision_role_arn         = string
     connector_ecs_task_role_name = string
@@ -59,7 +59,7 @@ variable "oragnizational_config" {
   }
 
   description = <<-EOT
-    oragnizational_config. following attributes must be given
+    organizational_config. following attributes must be given
     <ul><li>`cloudvision_role_arn` for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision_role</li></ul>
   EOT
 }

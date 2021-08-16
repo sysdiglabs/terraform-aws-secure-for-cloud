@@ -70,7 +70,7 @@ module "cloud_connector" {
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   is_organizational = var.is_organizational
-  oragnizational_config = {
+  organizational_config = {
     cloudvision_role_arn         = var.organizational_config.cloudvision_role_arn
     connector_ecs_task_role_name = var.organizational_config.connector_ecs_task_role_name
   }
