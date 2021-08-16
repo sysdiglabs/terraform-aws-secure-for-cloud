@@ -1,55 +1,8 @@
-# Cloud Connector deploy in AWS Module
+# Cloud Connector
 
 [Cloud Connector](https://github.com/sysdiglabs/cloud-connector)
-
 Deploys a Cloud Connector in AWS as an ECS container deployment that will detect events in your infrastructure.
 
-## Usage
-
-```hcl
-provider "aws" {
-  region = "us-east-1"
-}
-
-module "cloud_connector_aws" {
-  source = "sysdiglabs/cloudvision/aws/modules/cloudconnector"
-
-  name     = "cloud-connector"
-  config_bucket = "cloud-connector-config-s3-bucket"
-  ecs_cluster   = "existing_ecs_cluster"
-
-  sns_topic_arn = "arn:topic"
-
-  ssm_endpoint = "sysdig_secure_url_secret"
-  ssm_token    = "sysdig_secure_api_token_secret"
-
-  subnets = ["0.0.0.0/0"]
-  vpc     = "existing_vpc_id"
-
-
-  config_content = <<EOF
-logging: info
-rules:
-  - secure:
-      url: "" // Will be retrieved from the ssm_endpoint
-  - s3:
-      bucket: config_bucket_name
-      path: rules
-ingestors:
-  - cloudtrail-sns-sqs:
-      queueURL: "https://aws.sqs.queue.url/" // Fill your own SQS Queue URL
-      interval: 25s
-notifiers:
-  - cloudwatch:
-      logGroup: "aws_cloudwatch_log_group_name"
-      logStream: "aws_cloudwatch_log_stream_name"
-  - securityhub:
-      productArn: arn:aws:securityhub:<REGION>::product/sysdig/sysdig-cloud-connector
-  - secure:
-      url: "" // Will be retrieved from the ssm_endpoint
-EOF
-}
-```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements

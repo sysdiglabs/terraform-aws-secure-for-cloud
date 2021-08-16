@@ -1,6 +1,8 @@
-# Cloud Scanning deploy in AWS Module
+# Cloud Connector
 
-[Cloud Scanning](https://github.com/sysdiglabs/cloud-connector)
+[Cloud Scanning](https://github.com/sysdiglabs/cloud-connector) (contained within cloud-connector project)
+Deploys a Cloud Scanning in AWS as an ECS container deployment that will detect events in your infrastructure.
+
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
