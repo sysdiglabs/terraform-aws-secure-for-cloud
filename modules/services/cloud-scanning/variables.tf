@@ -1,7 +1,6 @@
-variable "ecs_cluster" {
-  type        = string
-  description = "ECS Fargate Cluster where deploy the CloudConnector workload"
-}
+#---------------------------------
+# cloud-scanning parametrization
+#---------------------------------
 
 variable "build_project_arn" {
   type        = string
@@ -11,6 +10,17 @@ variable "build_project_arn" {
 variable "build_project_name" {
   type        = string
   description = "Code Build project name"
+}
+
+
+variable "sns_topic_arn" {
+  type        = string
+  description = "CloudTrail module created SNS Topic ARN"
+}
+
+variable "ecs_cluster" {
+  type        = string
+  description = "ECS Fargate Cluster where deploy the CloudConnector workload"
 }
 
 
@@ -30,15 +40,6 @@ variable "vpc_subnets" {
 variable "secure_api_token_secret_name" {
   type        = string
   description = "Sysdig Secure API Token secret name"
-}
-
-#---------------------------------
-# cloud-scanning parametrization
-#---------------------------------
-
-variable "sns_topic_arn" {
-  type        = string
-  description = "CloudTrail module created SNS Topic ARN"
 }
 
 

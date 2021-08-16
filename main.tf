@@ -1,6 +1,6 @@
 
 #-------------------------------------
-# master account
+# resources deployed always in master account
 # with default provider
 #-------------------------------------
 
@@ -17,12 +17,10 @@ module "ssm" {
 }
 
 module "codebuild" {
-  source = "./modules/infrastructure/codebuild"
-  name   = var.name
-
+  source                       = "./modules/infrastructure/codebuild"
+  name                         = var.name
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
-
-  depends_on = [module.ssm]
+  depends_on                   = [module.ssm]
 }
 
 
@@ -40,6 +38,13 @@ module "cloudtrail" {
 
   tags = var.tags
 }
+
+
+#-------------------------------------
+# resources deployed in master OR member account
+# with cloudvision provider, which can be master or member config
+#-------------------------------------
+
 
 
 module "ecs_fargate_cluster" {
@@ -60,7 +65,8 @@ module "cloud_connector" {
   source = "./modules/services/cloud-connector"
   name   = "${var.name}-cloudconnector"
 
-  sysdig_secure_endpoint = var.sysdig_secure_endpoint
+  sysdig_secure_endpoint       = var.sysdig_secure_endpoint
+  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   is_organizational = var.is_organizational
   oragnizational_config = {
@@ -73,8 +79,6 @@ module "cloud_connector" {
   ecs_cluster = module.ecs_fargate_cluster.id
   vpc_id      = module.ecs_fargate_cluster.vpc_id
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
-
-  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   tags       = var.tags
   depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.ssm]
@@ -90,7 +94,11 @@ module "cloud_scanning" {
   source = "./modules/services/cloud-scanning"
   name   = "${var.name}-cloudscanning"
 
-  sysdig_secure_endpoint = var.sysdig_secure_endpoint
+  sysdig_secure_endpoint       = var.sysdig_secure_endpoint
+  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
+
+  build_project_arn  = module.codebuild.project_arn
+  build_project_name = module.codebuild.project_name
 
   sns_topic_arn = module.cloudtrail.sns_topic_arn
 
@@ -98,13 +106,6 @@ module "cloud_scanning" {
   vpc_id      = module.ecs_fargate_cluster.vpc_id
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
 
-  build_project_arn  = module.codebuild.project_arn
-  build_project_name = module.codebuild.project_name
-
-  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
-
-
   tags       = var.tags
   depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.codebuild, module.ssm]
-
 }
