@@ -2,23 +2,6 @@
 
 Deploys the required IAM Role and IAM Policies to allow Sysdig to run AWS Benchmarks on your behalf.
 
-## Usage
-
-```hcl
-provider "aws" {
-  region = "us-east-1"
-}
-
-provider "sysdig" {
-  sysdig_secure_api_token = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-}
-
-module "cloud_bench_aws" {
-  source = "sysdiglabs/cloudvision/aws/modules/cloudbench"
-
-  account_id = "123456789012"
-}
-```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -49,7 +32,7 @@ No modules.
 | [aws_iam_policy.SecurityAudit](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy) | data source |
 | [aws_iam_policy_document.trust_relationship](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [sysdig_secure_cloud_account.cloud_account](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs/resources/sysdig_secure_cloud_account) | resource |
-| [sysdig_secure_trusted_cloud_user.trusted_sysdig_role](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs/data-sources/sysdig_secure_trusted_cloud_user) | data source |
+| [sysdig_secure_trusted_cloud_identity.trusted_sysdig_role](https://registry.terraform.io/providers/sysdiglabs/sysdig/latest/docs/data-sources/sysdig_secure_trusted_cloud_identity) | data source |
 
 ## Inputs
 

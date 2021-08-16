@@ -5,12 +5,12 @@ resource "sysdig_secure_cloud_account" "cloud_account" {
 }
 
 resource "aws_iam_role" "cloudbench_role" {
-  name = "SysdigCloudBenchRole"
+  name = "SysdigCloudBench"
   assume_role_policy = data.aws_iam_policy_document.trust_relationship.json
   tags = var.tags
 }
 
-data "sysdig_secure_trusted_cloud_user" "trusted_sysdig_role" {
+data "sysdig_secure_trusted_cloud_identity" "trusted_sysdig_role" {
   cloud_provider = "aws"
 }
 
@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "trust_relationship" {
     actions = ["sts:AssumeRole"]
     principals {
       type = "AWS"
-      identifiers = [data.sysdig_secure_trusted_cloud_user.trusted_sysdig_role.arn]
+      identifiers = [data.sysdig_secure_trusted_cloud_identity.trusted_sysdig_role.identity]
     }
     condition {
       test = "StringEquals"

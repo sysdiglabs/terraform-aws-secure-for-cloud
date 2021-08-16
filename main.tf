@@ -1,3 +1,7 @@
+provider "sysdig" {
+  sysdig_secure_url       = var.sysdig_secure_endpoint
+  sysdig_secure_api_token = var.sysdig_secure_api_token
+}
 
 #-------------------------------------
 # resources deployed always in master account
@@ -30,11 +34,6 @@ module "cloudtrail" {
 # resources deployed in master OR member account
 # with cloudvision provider, which can be master or member config
 #-------------------------------------
-
-provider "sysdig" {
-  sysdig_secure_url       = var.sysdig_secure_endpoint
-  sysdig_secure_api_token = var.sysdig_secure_api_token
-}
 
 module "ecs_fargate_cluster" {
   providers = {
@@ -85,11 +84,11 @@ module "cloud_connector" {
 
 module "cloud_bench" {
   providers = {
-    aws = aws.member
+    aws = aws.cloudvision
   }
   source = "./modules/services/cloud-bench"
 
-  account_id  = var.org_cloudvision_member_account_id
+  account_id = var.organizational_config.cloudvision_member_account_id
   tags       = var.tags
 }
 
