@@ -16,6 +16,7 @@ module "ssm" {
   sysdig_secure_api_token = var.sysdig_secure_api_token
 }
 
+# FIXME? if this is a non-shared resource, move its usage to scanning service
 module "codebuild" {
   source                       = "./modules/infrastructure/codebuild"
   name                         = var.name
