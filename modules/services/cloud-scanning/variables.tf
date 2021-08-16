@@ -48,7 +48,7 @@ variable "vpc_subnets" {
 # optionals - with default
 #---------------------------------
 
-# 
+#
 # cloud-scanning specific
 #
 

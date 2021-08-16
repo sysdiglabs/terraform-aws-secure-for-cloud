@@ -16,14 +16,6 @@ module "ssm" {
   sysdig_secure_api_token = var.sysdig_secure_api_token
 }
 
-# FIXME? if this is a non-shared resource, move its usage to scanning service
-module "codebuild" {
-  source                       = "./modules/infrastructure/codebuild"
-  name                         = var.name
-  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
-  depends_on                   = [module.ssm]
-}
-
 
 module "cloudtrail" {
   source = "./modules/infrastructure/cloudtrail"
@@ -87,6 +79,15 @@ module "cloud_connector" {
   depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.ssm]
 }
 
+
+
+# FIXME? if this is a non-shared resource, move its usage to scanning service?
+module "codebuild" {
+  source                       = "./modules/infrastructure/codebuild"
+  name                         = var.name
+  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
+  depends_on                   = [module.ssm]
+}
 
 
 module "cloud_scanning" {
