@@ -15,8 +15,10 @@ resource "aws_cloudtrail" "cloudtrail" {
   enable_log_file_validation    = true
   include_global_service_events = true
 
-  tags       = var.tags
-  depends_on = [aws_s3_bucket_policy.cloudtrail_s3]
+  tags = var.tags
+
+  ## note: seems required to avoid raicing conditions (InsufficientSnsTopicPolicyException on cloudtrail creation) /shrug
+  depends_on = [aws_s3_bucket_policy.cloudtrail_s3, aws_sns_topic_policy.allow_cloudtrail_publish]
 }
 
 data "aws_caller_identity" "me" {}
