@@ -11,6 +11,29 @@ variable "sysdig_secure_api_token" {
 # module composition
 #
 
+
+variable "enable_service_threat_detection" {
+  type        = bool
+  default     = true
+  description = "whether cloudconnector is to be enabled for threat-detection"
+}
+
+
+variable "enable_service_image_scanning" {
+  type        = bool
+  default     = true
+  description = "whether cloudscanning is to be enabled for threat-detection"
+}
+
+
+#variable "enable_service_benchmark" {
+#  type        = bool
+#  default     = true
+#  description = "whether cloudbench is to be enabled for threat-detection"
+#}
+
+
+
 variable "is_organizational" {
   type        = bool
   default     = false
@@ -32,7 +55,7 @@ variable "organizational_config" {
   }
 
   description = <<-EOT
-    oragnizational_config. following attributes must be given
+    organizational_config. following attributes must be given
     <ul><li>`cloudvision_member_account_id` to enable reading permission,</li><li>`cloudvision_role_arn` for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision_role</li></ul>
   EOT
 }

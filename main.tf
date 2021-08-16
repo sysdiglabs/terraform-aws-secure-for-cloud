@@ -63,14 +63,16 @@ module "cloud_connector" {
   providers = {
     aws = aws.cloudvision
   }
-  source = "./modules/services/cloud-connector"
+
+  source = "./modules/wrappers/cloud-connector"
   name   = "${var.name}-cloudconnector"
+  enable = var.enable_service_threat_detection
 
   sysdig_secure_endpoint       = var.sysdig_secure_endpoint
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   is_organizational = var.is_organizational
-  oragnizational_config = {
+  organizational_config = {
     cloudvision_role_arn         = var.organizational_config.cloudvision_role_arn
     connector_ecs_task_role_name = var.organizational_config.connector_ecs_task_role_name
   }
@@ -92,8 +94,9 @@ module "cloud_scanning" {
     aws = aws.cloudvision
   }
 
-  source = "./modules/services/cloud-scanning"
+  source = "./modules/wrappers/cloud-scanning"
   name   = "${var.name}-cloudscanning"
+  enable = var.enable_service_image_scanning
 
   sysdig_secure_endpoint       = var.sysdig_secure_endpoint
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name

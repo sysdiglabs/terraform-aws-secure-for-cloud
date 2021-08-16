@@ -10,6 +10,32 @@ variable "sysdig_secure_api_token" {
 # optionals - with defaults
 #------------------------------
 
+
+#
+# module composition
+#
+variable "enable_service_threat_detection" {
+  type        = bool
+  default     = true
+  description = "whether cloudconnector is to be enabled for threat-detection"
+}
+
+
+variable "enable_service_image_scanning" {
+  type        = bool
+  default     = true
+  description = "whether cloudscanning is to be enabled for threat-detection"
+}
+
+
+#variable "enable_service_benchmark" {
+#  type        = bool
+#  default     = true
+#  description = "whether cloudbench is to be enabled for threat-detection"
+#}
+
+
+
 #
 # cloudtrail configuration
 #

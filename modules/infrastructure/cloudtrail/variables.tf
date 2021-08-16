@@ -21,7 +21,7 @@ variable "organizational_config" {
     cloudvision_member_account_id = null
   }
   description = <<-EOT
-    oragnizational_config. following attributes must be given
+    organizational_config. following attributes must be given
     <ul><li>`cloudvision_member_account_id` to enable reading permission</ul>
   EOT
 }

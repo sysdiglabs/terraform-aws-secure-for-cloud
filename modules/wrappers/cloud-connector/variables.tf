@@ -41,6 +41,13 @@ variable "sns_topic_arn" {
 # module composition
 #
 
+variable "enable" {
+  type        = bool
+  default     = true
+  description = "true / false, whether module is to be enabled"
+}
+
+
 variable "is_organizational" {
   type        = bool
   default     = false
@@ -62,40 +69,6 @@ variable "organizational_config" {
     organizational_config. following attributes must be given
     <ul><li>`cloudvision_role_arn` for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision_role</li></ul>
   EOT
-}
-
-#
-# module config
-#
-
-variable "connector_ecs_task_role_name" {
-  type        = string
-  default     = "connector-ECSTaskRole"
-  description = "Default ecs cloudconnector task role name"
-}
-
-variable "image" {
-  type        = string
-  default     = "sysdiglabs/cloud-connector:latest"
-  description = "Image of the cloud connector to deploy"
-}
-
-variable "cloudwatch_log_retention" {
-  type        = number
-  default     = 5
-  description = "Days to keep logs for CloudConnector"
-}
-
-variable "verify_ssl" {
-  type        = bool
-  default     = true
-  description = "true/false to determine ssl verification for sysdig_secure_endpoint"
-}
-
-variable "extra_env_vars" {
-  type        = map(string)
-  default     = {}
-  description = "Extra environment variables for the Cloud Connector deployment"
 }
 
 #
