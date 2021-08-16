@@ -10,12 +10,6 @@ module "resource_group_master" {
   tags   = var.tags
 }
 
-module "ssm" {
-  source                  = "./modules/infrastructure/ssm"
-  name                    = var.name
-  sysdig_secure_api_token = var.sysdig_secure_api_token
-}
-
 module "cloudtrail" {
   source = "./modules/infrastructure/cloudtrail"
   name   = var.name
@@ -37,8 +31,6 @@ module "cloudtrail" {
 # with cloudvision provider, which can be master or member config
 #-------------------------------------
 
-
-
 module "ecs_fargate_cluster" {
   providers = {
     aws = aws.cloudvision
@@ -46,6 +38,16 @@ module "ecs_fargate_cluster" {
   source = "./modules/infrastructure/ecs-fargate-cluster"
   name   = var.name
   tags   = var.tags
+}
+
+
+module "ssm" {
+  providers = {
+    aws = aws.cloudvision
+  }
+  source                  = "./modules/infrastructure/ssm"
+  name                    = var.name
+  sysdig_secure_api_token = var.sysdig_secure_api_token
 }
 
 
