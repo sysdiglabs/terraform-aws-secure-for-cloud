@@ -31,9 +31,6 @@ module "codebuild" {
   source = "./modules/infrastructure/codebuild"
   name   = var.name
 
-  sysdig_secure_api_token = var.sysdig_secure_api_token
-  sysdig_secure_endpoint  = var.sysdig_secure_endpoint
-
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   depends_on = [module.ssm]
@@ -74,8 +71,7 @@ module "cloud_connector" {
   source = "./modules/services/cloud-connector"
   name   = "${var.name}-cloudconnector"
 
-  sysdig_secure_api_token = var.sysdig_secure_api_token
-  sysdig_secure_endpoint  = var.sysdig_secure_endpoint
+  sysdig_secure_endpoint = var.sysdig_secure_endpoint
 
   is_organizational = var.is_organizational
   oragnizational_config = {
@@ -105,8 +101,7 @@ module "cloud_scanning" {
   source = "./modules/services/cloud-scanning"
   name   = "${var.name}-cloudscanning"
 
-  sysdig_secure_api_token = var.sysdig_secure_api_token
-  sysdig_secure_endpoint  = var.sysdig_secure_endpoint
+  sysdig_secure_endpoint = var.sysdig_secure_endpoint
 
   sns_topic_arn = module.cloudtrail.sns_topic_arn
 
@@ -114,8 +109,9 @@ module "cloud_scanning" {
   vpc_id      = module.ecs_fargate_cluster.vpc_id
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
 
-  build_project_arn            = module.codebuild.project_arn
-  build_project_name           = module.codebuild.project_name
+  build_project_arn  = module.codebuild.project_arn
+  build_project_name = module.codebuild.project_name
+
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
 

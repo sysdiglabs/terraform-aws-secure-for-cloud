@@ -1,3 +1,8 @@
+variable "sysdig_secure_api_token" {
+  sensitive   = true
+  type        = string
+  description = "Sysdig Secure API token"
+}
 #---------------------------------
 # optionals - with defaults
 #---------------------------------
