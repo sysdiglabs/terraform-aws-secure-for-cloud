@@ -29,8 +29,8 @@ module "cloudvision" {
   }
 
   #  testing purpose; economization
-  cloudtrail_org_is_multi_region_trail = var.cloudtrail_org_is_multi_region_trail
-  cloudtrail_org_kms_enable            = var.cloudtrail_org_kms_enable
+  cloudtrail_is_multi_region_trail = var.cloudtrail_is_multi_region_trail
+  cloudtrail_kms_enable            = var.cloudtrail_kms_enable
 
   tags = var.tags
 }
