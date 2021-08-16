@@ -4,7 +4,6 @@ resource "aws_iam_role" "cloudvision_role" {
   tags               = var.tags
 }
 
-
 # ---------------------------------------------
 # ecs task role 1/2
 # trust ecs-task-role identifier to assumeRole

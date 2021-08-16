@@ -2,7 +2,6 @@ data "aws_ecs_cluster" "ecs" {
   cluster_name = var.ecs_cluster
 }
 
-
 resource "aws_ecs_service" "service" {
   name          = var.name
   cluster       = data.aws_ecs_cluster.ecs.id
@@ -19,18 +18,18 @@ resource "aws_ecs_service" "service" {
 
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "${var.name}-cloud_connector"
+  family                   = "${var.name}-cloudscanning"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.execution.arn # ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume
-  task_role_arn            = local.ecs_task_role_arn    # ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS resource-group.
+  task_role_arn            = aws_iam_role.task.arn      # ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS resource-group.
   cpu                      = "256"
   memory                   = "512"
 
   container_definitions = jsonencode([
     {
       environment = local.task_env_vars
-      name        = "CloudConnector"
+      name        = "CloudScanning"
       image       = var.image
       essential   = true
       secrets = [
@@ -55,7 +54,6 @@ resource "aws_ecs_task_definition" "task_definition" {
   tags = var.tags
 }
 
-
 locals {
   task_env_vars = concat([
     {
@@ -67,16 +65,24 @@ locals {
       value = "terraform"
     },
     {
-      name  = "FEAT_REGISTER_ACCOUNT_IN_SECURE"
-      value = "true"
-    },
-    {
-      name  = "CONFIG_PATH"
-      value = "s3://${local.s3_bucket_config_id}/cloud-connector.yaml"
-    },
-    {
-      name  = "SECURE_URL",
+      name  = "SECURE_URL"
       value = var.sysdig_secure_endpoint
+    },
+    {
+      name  = "SQS_QUEUE_URL"
+      value = aws_sqs_queue.sqs.id
+    },
+    {
+      name  = "SQS_QUEUE_INTERVAL"
+      value = "30s"
+    },
+    {
+      name  = "CODEBUILD_PROJECT"
+      value = var.build_project_name
+    },
+    {
+      name  = "SECURE_API_TOKEN_SECRET"
+      value = var.secure_api_token_secret_name
     }
     ], flatten([for env_key, env_value in var.extra_env_vars : [{
       name  = env_key,

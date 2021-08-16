@@ -4,6 +4,7 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
+
 variable "cloudvision_member_account_id" {
   type        = string
   description = "the account_id **within the organization** to be used as cloudvision account"
@@ -53,6 +54,7 @@ variable "name" {
   default     = "sysdig-cloudvision"
   description = "Name to be assigned to all child resources"
 }
+
 
 variable "sysdig_secure_endpoint" {
   type        = string

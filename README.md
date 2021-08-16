@@ -78,9 +78,12 @@ No providers.
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector) | ./modules/services/cloud-connector |  |
+| <a name="module_cloud_scanning"></a> [cloud\_scanning](#module\_cloud\_scanning) | ./modules/services/cloud-scanning |  |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ./modules/infrastructure/cloudtrail |  |
+| <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ./modules/infrastructure/codebuild |  |
 | <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | ./modules/infrastructure/ecs-fargate-cluster |  |
 | <a name="module_resource_group_master"></a> [resource\_group\_master](#module\_resource\_group\_master) | ./modules/infrastructure/resource-group |  |
+| <a name="module_ssm"></a> [ssm](#module\_ssm) | ./modules/infrastructure/ssm |  |
 
 ## Resources
 

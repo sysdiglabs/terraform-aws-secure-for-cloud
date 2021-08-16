@@ -3,9 +3,6 @@ variable "sysdig_secure_api_token" {
   type        = string
   description = "Sysdig Secure API token"
 }
-
-
-
 #---------------------------------
 # optionals - with defaults
 #---------------------------------

@@ -5,10 +5,10 @@ variable "sysdig_secure_api_token" {
 }
 
 
+
 #------------------------------
 # optionals - with defaults
 #------------------------------
-
 
 #
 # cloudtrail configuration
@@ -26,11 +26,9 @@ variable "cloudtrail_org_kms_enable" {
   description = "testing/economization purpose. true/false whether s3 should be encrypted"
 }
 
-
 #
 # misc
 #
-
 
 variable "region" {
   type        = string

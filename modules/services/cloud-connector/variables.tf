@@ -3,6 +3,11 @@ variable "ecs_cluster" {
   description = "ECS Fargate Cluster where deploy the CloudConnector workload"
 }
 
+variable "secure_api_token_secret_name" {
+  type        = string
+  description = "Sysdig Secure API token SSM parameter name"
+}
+
 
 #---------------------------------
 # vpc
@@ -21,12 +26,6 @@ variable "vpc_subnets" {
 #---------------------------------
 # cloud-connector parametrization
 #---------------------------------
-
-variable "sysdig_secure_api_token" {
-  type        = string
-  sensitive   = true
-  description = "Sysdig Secure API token"
-}
 
 variable "sns_topic_arn" {
   type        = string

@@ -24,6 +24,7 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
     resources = [aws_sns_topic.cloudtrail.arn]
   }
 
+
   dynamic "statement" {
     for_each = var.is_organizational ? [1] : []
     content {

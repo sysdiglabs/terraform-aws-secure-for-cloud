@@ -28,3 +28,6 @@ override.tf.json
 **/.envrc
 
 *.patch
+
+# MacOS
+.DS_Store

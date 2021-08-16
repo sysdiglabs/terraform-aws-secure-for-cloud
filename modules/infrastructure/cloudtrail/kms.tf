@@ -41,7 +41,6 @@ data "aws_iam_policy_document" "cloudtrail_kms" {
   }
 
 
-
   statement {
     sid    = "Allow CloudTrail to describe key"
     effect = "Allow"
