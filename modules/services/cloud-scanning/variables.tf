@@ -36,12 +36,6 @@ variable "secure_api_token_secret_name" {
 # cloud-scanning parametrization
 #---------------------------------
 
-variable "sysdig_secure_api_token" {
-  type        = string
-  sensitive   = true
-  description = "Sysdig Secure API token"
-}
-
 variable "sns_topic_arn" {
   type        = string
   description = "CloudTrail module created SNS Topic ARN"
@@ -66,7 +60,7 @@ variable "name" {
 
 variable "image" {
   type = string
-  //FIXME: rollback to latest
+  # FIXME: rollback to latest
   default     = "sysdiglabs/cloud-scanning:master"
   description = "Image of the cloud scanning to deploy"
 }
@@ -89,19 +83,6 @@ variable "verify_ssl" {
   type        = bool
   default     = true
   description = "true/false to determine ssl verification"
-}
-
-
-variable "ECRDeployed" {
-  type        = string
-  default     = "true"
-  description = "True/false to determine whether ECR is deployed"
-}
-
-variable "ECSDeployed" {
-  type        = string
-  default     = "true"
-  description = "True/false to determine whether ECS is deployed"
 }
 
 variable "extra_env_vars" {

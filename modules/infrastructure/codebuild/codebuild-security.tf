@@ -37,8 +37,8 @@ data "aws_iam_policy_document" "logs_publisher" {
       "logs:PutLogEvents"
     ]
     resources = [
-      "arn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me.account_id}:log-group:${aws_codebuild_project.build-project.logs_config[0].cloudwatch_logs[0].group_name}",
-      "arn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me.account_id}:log-group:${aws_codebuild_project.build-project.logs_config[0].cloudwatch_logs[0].group_name}:*"
+      "arn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me.account_id}:log-group:${aws_codebuild_project.build_project.logs_config[0].cloudwatch_logs[0].group_name}",
+      "arn:${data.aws_partition.current_partition.id}:logs:${data.aws_region.current.name}:${data.aws_caller_identity.me.account_id}:log-group:${aws_codebuild_project.build_project.logs_config[0].cloudwatch_logs[0].group_name}:*"
     ]
   }
 }

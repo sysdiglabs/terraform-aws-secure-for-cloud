@@ -27,12 +27,6 @@ variable "vpc_subnets" {
 # cloud-connector parametrization
 #---------------------------------
 
-variable "sysdig_secure_api_token" {
-  type        = string
-  sensitive   = true
-  description = "Sysdig Secure API token"
-}
-
 variable "sns_topic_arn" {
   type        = string
   description = "CloudTrail module created SNS Topic ARN"

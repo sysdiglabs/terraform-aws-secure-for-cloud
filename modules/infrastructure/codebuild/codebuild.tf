@@ -1,4 +1,4 @@
-resource "aws_codebuild_project" "build-project" {
+resource "aws_codebuild_project" "build_project" {
   name        = "${var.name}-BuildProject"
   description = "CodeBuild project which scans images using inline technology"
 
