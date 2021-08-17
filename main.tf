@@ -90,7 +90,7 @@ module "cloud_bench" {
   }
   source = "./modules/services/cloud-bench"
 
-  account_id = is_organizational ? var.organizational_config.cloudvision_member_account_id : data.aws_caller_identity.me.account_id
+  account_id = var.is_organizational ? var.organizational_config.cloudvision_member_account_id : data.aws_caller_identity.me.account_id
   tags       = var.tags
 }
 
