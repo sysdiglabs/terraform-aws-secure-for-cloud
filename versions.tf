@@ -6,7 +6,7 @@ terraform {
       configuration_aliases = [aws.cloudvision]
     }
     sysdig = {
-      source = "sysdiglabs/sysdig"
+      source  = "sysdiglabs/sysdig"
       version = ">= 0.5.17"
     }
   }
