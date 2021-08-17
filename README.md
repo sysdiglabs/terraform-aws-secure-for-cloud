@@ -1,33 +1,29 @@
-# Cloud Vision deployment in AWS
+# Sysdig Secure for Cloud in AWS
 
-Terraform module that deploys the **Sysdig CloudVision** stack in **AWS**.
+Terraform module that deploys the **Sysdig Secure for Cloud** stack in **AWS**. It provides unified threat detection, compliance, forensics and analysis.
 
-Currently supported cloudvision components:
-- [X] cloud-connector (organizational, single-account)
-- [ ] cloud-scanner
-- [ ] cloud-bench
+There are three major component:
 
+* Cloud Threat Detection: Tracks abnormal and suspicious activities in your cloud environment based on Falco language.
+* CSPM/Compliance: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediations you need to fix.
+* Cloud Scanning: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account.
 
-For other cloud providers check:
-- [terraform-azure-cloudvision](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
-- [terraform-google-cloudvision](https://github.com/sysdiglabs/terraform-google-cloudvision)
+For other Cloud providers check:
+
+* [GCP](https://github.com/sysdiglabs/terraform-google-cloudvision)
+* [Azure](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
 
 ---
 
-## Example / Use-Cases
+## Usage
 
-### Single-Account
+There are several ways to deploy this in you AWS infrastructure:
 
-More info in the [`./examples/single-account/README.md`](examples/single-account/README.md)
-![single-account diagram](examples/single-account/diagram-single.png)
+* The single account (more info in the [`./examples/single-account/README.md`](examples/single-account/README.md))
+* Using an organizational trail (more info in the [`./examples/organizational_cloudvision/README.md`](examples/organizational/README.md))
+* Cooking your own
 
-###  Organizational
-
-More info in the [`./examples/organizational_cloudvision/README.md`](examples/organizational/README.md)
-![organizational diagram](examples/organizational/diagram-org.png)
-
-
-### Self-Baked Usage
+### Self-Baked
 
 If no [examples](./examples) fit your use-case, be free to self-configure your own `cloudvision` module.
 
@@ -52,12 +48,10 @@ $ terraform plan
 $ terraform apply
 ```
 
-Note that:
+Notice that:
 - This example will create resources that cost money. Run `terraform destroy` when you don't need them anymore
 - For more detailed configuration inspect both main module and example input variables
 - All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
-
-
 
 ---
 
@@ -96,7 +90,7 @@ No resources.
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
 | <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether cloudvision should be deployed in an organizational setup | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Vision deployment | `string` | `"sysdig-cloudvision"` | no |
-| <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config) | organizational\_config. following attributes must be given<br><ul><li>`cloudvision_member_account_id` to enable reading permission,</li><li>`cloudvision_role_arn` for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision\_role</li></ul> | <pre>object({<br>    cloudvision_member_account_id = string<br>    cloudvision_role_arn          = string<br>    connector_ecs_task_role_name  = string<br>  })</pre> | <pre>{<br>  "cloudvision_member_account_id": null,<br>  "cloudvision_role_arn": null,<br>  "connector_ecs_task_role_name": null<br>}</pre> | no |
+| <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config) | organizational\_config. following attributes must be given<br><ul><li>`member_account_id` to enable reading permission,</li><li>`role_arn` for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision\_role</li></ul> | <pre>object({<br>    member_account_id = string<br>    role_arn          = string<br>    connector_ecs_task_role_name  = string<br>  })</pre> | <pre>{<br>  "member_account_id": null,<br>  "role_arn": null,<br>  "connector_ecs_task_role_name": null<br>}</pre> | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
 
@@ -146,7 +140,7 @@ No resources.
 
 ## Authors
 
-Module is maintained by [Sysdig](https://sysdig.com).
+Module is maintained and supported by [Sysdig](https://sysdig.com).
 
 ## License
 

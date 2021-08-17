@@ -1,9 +1,7 @@
-# Example: Single-Account Cloudvision
+# Sysdig Secure for Cloud in AWS: Single-Account
 
-- A single AWS account usage approach, where resources will report to the account `Cloudtrail`service
-- In this account,
-    - All the cloudvision service-related resources will be created
-    - Cloudwatch `cloud-connect` logs and event-alerts files will be generated
+Deploy Sysdig Secure for Cloud in a single AWS account. All the required resources and workloads will be run
+under the same AWS account.
 
 ![organizational diagram](./diagram-single.png)
 
@@ -22,8 +20,8 @@ Minimum requirements:
 For quick testing, use this snippet on your terraform files
 
 ```terraform
-module "aws_cloudvision_single_account" {
-  source = "github.com/sysdiglabs/terraform-aws-cloudvision//examples/single-account"
+module "cloudvision_aws_single_account" {
+  source = "sysdiglabs/cloudvision/aws//examples/single-account"
 
   sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
 }
@@ -89,7 +87,7 @@ No outputs.
 
 ## Authors
 
-Module is maintained by [Sysdig](https://sysdig.com).
+Module is maintained and supported by [Sysdig](https://sysdig.com).
 
 ## License
 
