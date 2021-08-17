@@ -82,13 +82,15 @@ module "cloud_connector" {
   depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.ssm]
 }
 
+data "aws_caller_identity" "me" {}
+
 module "cloud_bench" {
   providers = {
     aws = aws.cloudvision
   }
   source = "./modules/services/cloud-bench"
 
-  account_id = var.organizational_config.cloudvision_member_account_id
+  account_id = is_organizational ? var.organizational_config.cloudvision_member_account_id : data.aws_caller_identity.me.account_id
   tags       = var.tags
 }
 
