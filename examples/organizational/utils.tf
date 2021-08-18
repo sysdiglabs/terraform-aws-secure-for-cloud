@@ -31,7 +31,7 @@ module "cloudvision_role" {
 # -----------------------------------------------------------------
 resource "aws_iam_role" "task" {
   provider           = aws.member
-  name               = var.connector_ecs_task_role_name
+  name               = "${var.name}-${var.connector_ecs_task_role_name}"
   assume_role_policy = data.aws_iam_policy_document.task_assume_role.json
   path               = "/"
   tags               = var.tags
