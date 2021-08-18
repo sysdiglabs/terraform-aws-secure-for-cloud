@@ -3,6 +3,7 @@
 # - install pre-commit (latest)
 # - install terraform-docs (0.13)
 # - see .github/workflows/ci-pull-request.yaml for more info on what's being valiated on CI
+# `$ pre-commit run --color=always --show-diff-on-failure --all-files`
 #
 
 
