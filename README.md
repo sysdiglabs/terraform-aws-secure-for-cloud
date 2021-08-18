@@ -26,7 +26,7 @@ More info in the [`./examples/single-account/README.md`](https://github.com/sysd
 ### Organizational
 
 Using an organizational configuration Cloudtrail.
-More info in the [`./examples/organizational_cloudvision/README.md`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/organizational/README.md)
+More info in the [`./examples/organizational/README.md`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/organizational/README.md)
 
 ### Self-Baked
 
