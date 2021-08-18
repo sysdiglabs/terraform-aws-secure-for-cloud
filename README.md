@@ -4,9 +4,9 @@ Terraform module that deploys the **Sysdig Secure for Cloud** stack in **AWS**. 
 
 There are three major component:
 
-* Cloud Threat Detection: Tracks abnormal and suspicious activities in your cloud environment based on Falco language.
-* CSPM/Compliance: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix.
-* Cloud Scanning: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account.
+* **Cloud Threat Detection**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through cloud-connector.
+* **CSPM/Compliance**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix. Managed through cloud-bench.
+* **Cloud Scanning**: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account. Managed through cloud-scanning.
 
 For other Cloud providers check:
 
