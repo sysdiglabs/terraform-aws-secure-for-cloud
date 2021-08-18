@@ -79,7 +79,7 @@ variable "extra_env_vars" {
 
 
 #
-# misc
+# general
 #
 variable "sysdig_secure_endpoint" {
   type        = string

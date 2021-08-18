@@ -27,7 +27,7 @@ variable "cloudtrail_kms_enable" {
 
 
 #
-# misc
+# general
 #
 variable "region" {
   type        = string
