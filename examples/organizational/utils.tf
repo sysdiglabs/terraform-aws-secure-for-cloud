@@ -15,8 +15,8 @@ module "cloudvision_role" {
   }
   name = var.name
 
-  cloudtrail_s3_arn               = module.cloudvision.cloudtrail_s3_arn
-  cloudconnect_ecs_task_role_name = aws_iam_role.task.name
+  cloudtrail_s3_arn                 = module.cloudvision.cloudtrail_s3_arn
+  cloudconnector_ecs_task_role_name = aws_iam_role.task.name
 
   tags       = var.tags
   depends_on = [aws_iam_role.task]
