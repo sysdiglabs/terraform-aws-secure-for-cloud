@@ -4,9 +4,9 @@ Terraform module that deploys the **Sysdig Secure for Cloud** stack in **AWS**. 
 
 There are three major component:
 
-* Cloud Threat Detection: Tracks abnormal and suspicious activities in your cloud environment based on Falco language.
-* CSPM/Compliance: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediations you need to fix.
-* Cloud Scanning: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account.
+* **Cloud Threat Detection**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through cloud-connector.
+* **CSPM/Compliance**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix. Managed through cloud-bench.
+* **Cloud Scanning**: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account. Managed through cloud-scanning.
 
 For other Cloud providers check:
 
@@ -19,17 +19,22 @@ For other Cloud providers check:
 
 There are several ways to deploy this in you AWS infrastructure:
 
-* The single account (more info in the [`./examples/single-account/README.md`](examples/single-account/README.md))
-* Using an organizational trail (more info in the [`./examples/organizational_cloudvision/README.md`](examples/organizational/README.md))
-* Cooking your own
+### Single-Account
+
+More info in the [`./examples/single-account/README.md`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/single-account/README.md)
+
+### Organizational
+
+Using an organizational configuration Cloudtrail.
+More info in the [`./examples/organizational/README.md`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/organizational/README.md)
 
 ### Self-Baked
 
-If no [examples](./examples) fit your use-case, be free to self-configure your own `cloudvision` module.
+If no [examples](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples) fit your use-case, be free to self-configure your own `cloudvision` module.
 
 ```terraform
 module "cloudvision_aws" {
-  source = "github.com/sysdiglabs/terraform-aws-cloudvision"
+  source = "sysdiglabs/cloudvision/aws"
 
   # required to pin cloudvision stack on single-account single-provider
   providers = {
@@ -39,7 +44,7 @@ module "cloudvision_aws" {
 }
 
 ```
-See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
+See main module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/variables.tf) or [inputs summary](#inputs) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
@@ -62,15 +67,19 @@ Notice that:
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
+| <a name="requirement_sysdig"></a> [sysdig](#requirement\_sysdig) | >= 0.5.17 |
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_cloud_bench"></a> [cloud\_bench](#module\_cloud\_bench) | ./modules/services/cloud-bench |  |
 | <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector) | ./modules/services/cloud-connector |  |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ./modules/infrastructure/cloudtrail |  |
 | <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | ./modules/infrastructure/ecs-fargate-cluster |  |
@@ -79,7 +88,9 @@ No providers.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [aws_caller_identity.me](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 
 ## Inputs
 
@@ -90,7 +101,7 @@ No resources.
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
 | <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether cloudvision should be deployed in an organizational setup | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Vision deployment | `string` | `"sysdig-cloudvision"` | no |
-| <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config) | organizational\_config. following attributes must be given<br><ul><li>`member_account_id` to enable reading permission,</li><li>`role_arn` for cloud-connect assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision\_role</li></ul> | <pre>object({<br>    member_account_id = string<br>    role_arn          = string<br>    connector_ecs_task_role_name  = string<br>  })</pre> | <pre>{<br>  "member_account_id": null,<br>  "role_arn": null,<br>  "connector_ecs_task_role_name": null<br>}</pre> | no |
+| <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config) | organizational\_config. following attributes must be given<br><ul><li>`cloudvision_member_account_id` to enable reading permission,</li><li>`cloudvision_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision\_role</li></ul> | <pre>object({<br>    cloudvision_member_account_id = string<br>    cloudvision_role_arn          = string<br>    connector_ecs_task_role_name  = string<br>  })</pre> | <pre>{<br>  "cloudvision_member_account_id": null,<br>  "cloudvision_role_arn": null,<br>  "connector_ecs_task_role_name": null<br>}</pre> | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
 
@@ -104,7 +115,7 @@ No resources.
 ---
 ## Troubleshooting
 
-- Q: How to **validate cloudvision cloud-connect (thread-detection) provisioning** is working as expected?<br/>
+- Q: How to **validate cloudvision cloud-connector (thread-detection) provisioning** is working as expected?<br/>
   A: Check each pipeline resource is working as expected (from high to low lvl)
     - select a rule to break manually, from the 'Sysdig AWS Best Practices' policies. for example, 'Delete Bucket Public Access Block'. can you see the event?
     - are there any errors in the ECS task logs? can also check cloudwatch logs
@@ -116,9 +127,9 @@ No resources.
     - are events being sent to sns topic?
 
 
-- Q: How to iterate **cloud-connect modification testing**
-  <br/>A: Build a custom docker image of cloud-connect `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
-  Modify the [var.image](modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
+- Q: How to iterate **cloud-connector modification testing**
+  <br/>A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
+  Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
 
 
 - Q: How can I iterate **ECS testing**

@@ -42,17 +42,17 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
 
             with Cluster("ecs"):
                 ecs = ECS("cloudvision")
-                cloud_connect = ElasticContainerServiceService("cloud-connect")
-                ecs - cloud_connect
+                cloud_connector = ElasticContainerServiceService("cloud-connector")
+                ecs - cloud_connector
 
             sqs = SQS("cloudtrail-sqs")
-            s3_config = S3("cloud-connect-config")
+            s3_config = S3("cloud-connector-config")
             cloudwatch = Cloudwatch("cloudwatch\nlogs and alarms")
 
-            sqs << Edge(color=event_color) << cloud_connect
-            cloud_connect - s3_config
-            cloud_connect - cloudwatch
+            sqs << Edge(color=event_color) << cloud_connector
+            cloud_connector - s3_config
+            cloud_connector - cloudwatch
 
         account_resources >> Edge(color=event_color, style="dashed") >>  cloudtrail
         sns >> Edge(color=event_color, style="dashed") >> sqs
-        (cloudtrail_s3 << Edge(color=event_color)) -  cloud_connect
+        (cloudtrail_s3 << Edge(color=event_color)) -  cloud_connector
