@@ -5,7 +5,7 @@ Terraform module that deploys the **Sysdig Secure for Cloud** stack in **AWS**. 
 There are three major component:
 
 * Cloud Threat Detection: Tracks abnormal and suspicious activities in your cloud environment based on Falco language.
-* CSPM/Compliance: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediations you need to fix.
+* CSPM/Compliance: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix.
 * Cloud Scanning: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account.
 
 For other Cloud providers check:
@@ -19,13 +19,18 @@ For other Cloud providers check:
 
 There are several ways to deploy this in you AWS infrastructure:
 
-* The single account (more info in the [`./examples/single-account/README.md`](examples/single-account/README.md))
-* Using an organizational trail (more info in the [`./examples/organizational_cloudvision/README.md`](examples/organizational/README.md))
-* Cooking your own
+### Single-Account
+
+More info in the [`./examples/single-account/README.md`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/single-account/README.md)
+
+### Organizational
+
+Using an organizational configuration Cloudtrail.
+More info in the [`./examples/organizational_cloudvision/README.md`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/organizational/README.md)
 
 ### Self-Baked
 
-If no [examples](./examples) fit your use-case, be free to self-configure your own `cloudvision` module.
+If no [examples](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples) fit your use-case, be free to self-configure your own `cloudvision` module.
 
 ```terraform
 module "cloudvision_aws" {
@@ -39,7 +44,7 @@ module "cloudvision_aws" {
 }
 
 ```
-See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
+See main module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/variables.tf) or [inputs summary](#inputs) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
@@ -118,7 +123,7 @@ No resources.
 
 - Q: How to iterate **cloud-connect modification testing**
   <br/>A: Build a custom docker image of cloud-connect `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
-  Modify the [var.image](modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
+  Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
 
 
 - Q: How can I iterate **ECS testing**

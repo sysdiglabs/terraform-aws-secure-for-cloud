@@ -51,7 +51,7 @@ No modules.
 
 ## Authors
 
-Module is maintained by [Sysdig](https://sysdig.com).
+Module is maintained and supported by [Sysdig](https://sysdig.com).
 
 ## License
 

@@ -1,13 +1,5 @@
 # AWS ECS Cluster deployment module
 
-## Usage
-
-```hcl
-module "ecs_fargate_cluster" {
-  source = "sysdiglabs/cloudvision/aws/modules/infrastructure/ecs-fargate-cluster"
-  name = "ecs-fargate-cluster"
-}
-```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -54,7 +46,7 @@ module "ecs_fargate_cluster" {
 
 ## Authors
 
-Module is maintained by [Sysdig](https://sysdig.com).
+Module is maintained and supported by [Sysdig](https://sysdig.com).
 
 ## License
 

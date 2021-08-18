@@ -9,7 +9,7 @@ In the member account:
     * An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read s3 bucket events
     * All the cloudvision service-related resources will be created
 
-![organizational diagram](./diagram-org.png)
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/master/examples/organizational/diagram-org.png)
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ module "cloudvision_aws_organizational" {
 }
 ```
 
-See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
+See main module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/blob/master/examples/organizational/variables.tf) or [inputs summary](#inputs) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform

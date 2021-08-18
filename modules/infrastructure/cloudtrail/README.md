@@ -1,16 +1,5 @@
 # AWS Organizational CloudTrail deployment module
 
-## Usage
-
-```hcl
-module "cloudtrail" {
-  source = "sysdiglabs/cloudvision/aws/modules/cloudtrail"
-
-  cloudtrail_name   = "cloudtrail-org-tf"
-  s3_bucket_name    = "cloudtrail-org-tf"
-}
-```
-
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
@@ -68,7 +57,7 @@ No modules.
 
 ## Authors
 
-Module is maintained by [Sysdig](https://sysdig.com).
+Module is maintained and supported by [Sysdig](https://sysdig.com).
 
 ## License
 
