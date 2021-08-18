@@ -4,5 +4,9 @@ terraform {
     aws = {
       version = ">= 3.50.0"
     }
+    sysdig = {
+      source  = "sysdiglabs/sysdig"
+      version = ">= 0.5.17"
+    }
   }
 }

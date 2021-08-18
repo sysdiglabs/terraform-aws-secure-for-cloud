@@ -15,11 +15,11 @@ module "cloudvision_role" {
   }
   name = var.name
 
-  cloudtrail_s3_arn                 = module.cloudvision.cloudtrail_s3_arn
-  cloudconnector_ecs_task_role_name = aws_iam_role.task.name
+  cloudtrail_s3_arn                 = module.cloudtrail.s3_bucket_arn
+  cloudconnector_ecs_task_role_name = aws_iam_role.connector_ecs_task.name
 
   tags       = var.tags
-  depends_on = [aws_iam_role.task]
+  depends_on = [aws_iam_role.connector_ecs_task]
 }
 
 
@@ -29,7 +29,7 @@ module "cloudvision_role" {
 # - definition of a ROOT lvl cloudvision_connector_ecs_tas_role to avoid cyclic dependencies
 # - duplicated in ../../modules/services/cloud-connector/ecs-service-security.tf
 # -----------------------------------------------------------------
-resource "aws_iam_role" "task" {
+resource "aws_iam_role" "connector_ecs_task" {
   provider           = aws.member
   name               = "${var.name}-${var.connector_ecs_task_role_name}"
   assume_role_policy = data.aws_iam_policy_document.task_assume_role.json

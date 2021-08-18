@@ -5,10 +5,9 @@ variable "sysdig_secure_api_token" {
 }
 
 
-
-#------------------------------
+#---------------------------------
 # optionals - with defaults
-#------------------------------
+#---------------------------------
 
 #
 # cloudtrail configuration
@@ -26,20 +25,20 @@ variable "cloudtrail_kms_enable" {
   description = "testing/economization purpose. true/false whether s3 should be encrypted"
 }
 
+
 #
 # misc
 #
-
 variable "region" {
   type        = string
   default     = "eu-central-1"
-  description = "Default region for resource creation in the account"
+  description = "Default region for resource creation in both organization master and cloudvision member account"
 }
 
 variable "name" {
   type        = string
+  description = "Name for the Cloud Vision deployment"
   default     = "sysdig-cloudvision"
-  description = "Name to be assigned to all child resources"
 }
 
 variable "sysdig_secure_endpoint" {
