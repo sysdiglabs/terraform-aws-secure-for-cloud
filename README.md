@@ -34,7 +34,7 @@ If no [examples](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/ma
 
 ```terraform
 module "cloudvision_aws" {
-  source = "github.com/sysdiglabs/terraform-aws-cloudvision"
+  source = "sysdiglabs/cloudvision/aws"
 
   # required to pin cloudvision stack on single-account single-provider
   providers = {
