@@ -3,7 +3,7 @@
 Deploy Sysdig Secure for Cloud in a single AWS account. All the required resources and workloads will be run
 under the same AWS account.
 
-![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/master/examples/single-account/diagram-single.png)
+![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/07264a75926de2012512f4d67ee303aa964193ae/examples/single-account/diagram-single.png)
 
 ## Prerequisites
 
@@ -27,7 +27,7 @@ module "cloudvision_aws_single_account" {
 }
 ```
 
-See main module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/blob/master/examples/single-account/variables.tf) or [inputs summary](#inputs) file for more optional configuration.
+See [inputs summary](#inputs) or module module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/blob/master/examples/single-account/variables.tf) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
@@ -36,11 +36,9 @@ $ terraform plan
 $ terraform apply
 ```
 
-Note that:
-  - This example will create resources that cost money. Run `terraform destroy` when you don't need them anymore
-  - For more detailed configuration inspect both main module and example input variables
-  - All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
-
+Notice that:
+* This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
+* All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
 ---
 
 

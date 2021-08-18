@@ -1,22 +1,22 @@
 # Sysdig Secure for Cloud in AWS: Shared Organizational Trail
 
-Deploy Sysdig Secure for Cloud sharing the Trail within an organization. The module will deploy an organizational
-CloudTrail and workload will be run in a member account.
+Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
+* In the **master account**
+  * An Organizational Cloutrail will be deployed
+  * When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning.
+  <br/>This Role is hardcoded ATM
+* In the **user-provided member account**:
+    * An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read cloudtrail-s3 bucket events
+    * All the Sysdig Secure for Cloud service-related resources will be created
 
-When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which cloudvision module will use for member-account provisioning
-
-In the member account:
-    * An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read s3 bucket events
-    * All the cloudvision service-related resources will be created
-
-![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/master/examples/organizational/diagram-org.png)
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/07264a75926de2012512f4d67ee303aa964193ae/examples/organizational/diagram-org.png)
 
 ## Prerequisites
 
 Minimum requirements:
 
 1.  Have an existing AWS account as the organization master account
-    * Organizational cloudTrail service must be enabled
+    * Organizational CloudTrail service must be enabled
 1.  AWS profile credentials configuration of the `master` account of the organization
     * This account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
@@ -42,7 +42,7 @@ module "cloudvision_aws_organizational" {
 }
 ```
 
-See main module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/blob/master/examples/organizational/variables.tf) or [inputs summary](#inputs) file for more optional configuration.
+See [inputs summary](#inputs) or module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/blob/master/examples/organizational/variables.tf) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
@@ -51,11 +51,9 @@ $ terraform plan
 $ terraform apply
 ```
 
-Note that:
-  - This example will create resources that cost money. Run `terraform destroy` when you don't need them anymore
-  - For more detailed configuration inspect both main module and example input variables
-  - All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
-
+Notice that:
+* This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
+* All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
 
 ---
 
