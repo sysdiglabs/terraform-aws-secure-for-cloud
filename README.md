@@ -67,15 +67,19 @@ Notice that:
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
+| <a name="requirement_sysdig"></a> [sysdig](#requirement\_sysdig) | >= 0.5.17 |
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
+| <a name="module_cloud_bench"></a> [cloud\_bench](#module\_cloud\_bench) | ./modules/services/cloud-bench |  |
 | <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector) | ./modules/services/cloud-connector |  |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ./modules/infrastructure/cloudtrail |  |
 | <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | ./modules/infrastructure/ecs-fargate-cluster |  |
@@ -84,7 +88,9 @@ No providers.
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [aws_caller_identity.me](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 
 ## Inputs
 
