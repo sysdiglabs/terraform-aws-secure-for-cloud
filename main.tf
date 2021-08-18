@@ -92,16 +92,17 @@ module "cloud_connector" {
 
 
 
-data "aws_caller_identity" "me" {}
-module "cloud_bench" {
-  providers = {
-    aws = aws.cloudvision
-  }
-  source = "./modules/services/cloud-bench"
+# FIXME. failing, to be reviewed
+# data "aws_caller_identity" "me" {}
+# module "cloud_bench" {
+#   providers = {
+#     aws = aws.cloudvision
+#   }
+#   source = "./modules/services/cloud-bench"
 
-  account_id = var.is_organizational ? var.organizational_config.cloudvision_member_account_id : data.aws_caller_identity.me.account_id
-  tags       = var.tags
-}
+#   account_id = var.is_organizational ? var.organizational_config.cloudvision_member_account_id : data.aws_caller_identity.me.account_id
+#   tags       = var.tags
+# }
 
 
 
