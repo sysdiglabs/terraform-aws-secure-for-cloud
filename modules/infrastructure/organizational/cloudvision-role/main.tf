@@ -11,7 +11,7 @@ resource "aws_iam_role" "cloudvision_role" {
 
 data "aws_iam_role" "ecs_task_role" {
   provider = aws.member
-  name     = var.cloudconnect_ecs_task_role_name
+  name     = var.cloudconnector_ecs_task_role_name
 }
 
 data "aws_iam_policy_document" "cloudvision_role_trusted" {
@@ -37,7 +37,7 @@ resource "aws_iam_role_policy" "enable_assume_cloudvision_role" {
   provider = aws.member
   name     = "${var.name}-EnableCloudvisionRole"
 
-  role   = var.cloudconnect_ecs_task_role_name
+  role   = var.cloudconnector_ecs_task_role_name
   policy = data.aws_iam_policy_document.enable_assume_cloudvision_role.json
 }
 data "aws_iam_policy_document" "enable_assume_cloudvision_role" {

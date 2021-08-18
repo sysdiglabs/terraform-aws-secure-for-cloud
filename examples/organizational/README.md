@@ -1,26 +1,28 @@
-# Example: Organizational Cloudvision
+# Sysdig Secure for Cloud in AWS: Shared Organizational Trail
 
-- AWS Organization usage approach, where all the member accounts will report to a single `Organizational Cloudtrail`
-- When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which cloudvision module will use for member-account provisioning
-- In the Cloudvision member account
-    - An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read s3 bucket events
-    - All the cloudvision service-related resources will be created
-    - Cloudwatch `cloud-connect` logs and event-alerts files will be generated
+Deploy Sysdig Secure for Cloud sharing the Trail within an organization. The module will deploy an organizational
+CloudTrail and workload will be run in a member account.
 
-![organizational diagram](./diagram-org.png)
+When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which cloudvision module will use for member-account provisioning
+
+In the member account:
+    * An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read s3 bucket events
+    * All the cloudvision service-related resources will be created
+
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/master/examples/organizational/diagram-org.png)
 
 ## Prerequisites
 
 Minimum requirements:
 
 1.  Have an existing AWS account as the organization master account
-    - organzational cloudTrail service must be enabled
+    * Organizational cloudTrail service must be enabled
 1.  AWS profile credentials configuration of the `master` account of the organization
-    - this account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
+    * This account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
-    - cloudvision organizational member account id, as input variable value
+    * Cloudvision organizational member account id, as input variable value
         ```
-       cloudvision_member_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
+       member_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
         ```
 1. Secure requirements, as input variable value
     ```
@@ -33,14 +35,14 @@ For quick testing, use this snippet on your terraform files
 
 ```terraform
 module "cloudvision_aws_organizational" {
-  source = "github.com/sysdiglabs/terraform-aws-cloudvision//examples/organizational"
+  source = "sysdiglabs/cloudvision/aws//examples/organizational"
 
-  sysdig_secure_api_token           = "00000000-1111-2222-3333-444444444444"
-  cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
+  sysdig_secure_api_token = "00000000-1111-2222-3333-444444444444"
+  member_account_id       = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
 }
 ```
 
-See main module [`variables.tf`](./variables.tf) or [inputs summary](./README.md#inputs) file for more optional configuration.
+See main module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/blob/master/examples/organizational/variables.tf) or [inputs summary](#inputs) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
@@ -110,7 +112,7 @@ No outputs.
 
 ## Authors
 
-Module is maintained by [Sysdig](https://sysdig.com).
+Module is maintained and supported by [Sysdig](https://sysdig.com).
 
 ## License
 
