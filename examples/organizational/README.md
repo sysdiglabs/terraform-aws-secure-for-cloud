@@ -1,11 +1,13 @@
-# Example: Organizational Cloudvision
+# Sysdig Secure for Cloud in AWS: Shared Organizational Trail
 
-- AWS Organization usage approach, where all the member accounts will report to a single `Organizational Cloudtrail`
-- When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which cloudvision module will use for member-account provisioning
-- In the Cloudvision member account
-    - An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read s3 bucket events
-    - All the cloudvision service-related resources will be created
-    - Cloudwatch `cloud-connect` logs and event-alerts files will be generated
+Deploy Sysdig Secure for Cloud sharing the Trail within an organization. The module will deploy an organizational
+CloudTrail and workload will be run in a member account.
+
+When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which cloudvision module will use for member-account provisioning
+
+In the member account:
+    * An additional role `SysdigCloudvisionRole` will be created within the master account, to be able to read s3 bucket events
+    * All the cloudvision service-related resources will be created
 
 ![organizational diagram](./diagram-org.png)
 
@@ -14,13 +16,13 @@
 Minimum requirements:
 
 1.  Have an existing AWS account as the organization master account
-    - organzational cloudTrail service must be enabled
+    * Organizational cloudTrail service must be enabled
 1.  AWS profile credentials configuration of the `master` account of the organization
-    - this account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
+    * This account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
-    - cloudvision organizational member account id, as input variable value
+    * Cloudvision organizational member account id, as input variable value
         ```
-       cloudvision_member_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
+       member_account_id=<ORGANIZATIONAL_CLOUDVISION_ACCOUNT_ID>
         ```
 1. Secure requirements, as input variable value
     ```
@@ -33,10 +35,10 @@ For quick testing, use this snippet on your terraform files
 
 ```terraform
 module "cloudvision_aws_organizational" {
-  source = "github.com/sysdiglabs/terraform-aws-cloudvision//examples/organizational"
+  source = "sysdiglabs/cloudvision/aws//examples/organizational"
 
-  sysdig_secure_api_token           = "00000000-1111-2222-3333-444444444444"
-  cloudvision_member_account_id     = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
+  sysdig_secure_api_token = "00000000-1111-2222-3333-444444444444"
+  member_account_id       = "<ORG_MEMBER_ACCOUNT_FOR_CLOUDVISION>"
 }
 ```
 
@@ -91,7 +93,7 @@ Note that:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cloudvision_member_account_id"></a> [cloudvision\_member\_account\_id](#input\_cloudvision\_member\_account\_id) | the account\_id **within the organization** to be used as cloudvision account | `string` | n/a | yes |
+| <a name="input_member_account_id"></a> [cloudvision\_member\_account\_id](#input\_cloudvision\_member\_account\_id) | the account\_id **within the organization** to be used as cloudvision account | `string` | n/a | yes |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
@@ -110,7 +112,7 @@ No outputs.
 
 ## Authors
 
-Module is maintained by [Sysdig](https://sysdig.com).
+Module is maintained and supported by [Sysdig](https://sysdig.com).
 
 ## License
 
