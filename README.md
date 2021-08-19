@@ -11,7 +11,6 @@ There are three major components:
 
 For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-cloudvision), [Azure](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
 
----
 
 ## Usage
 
@@ -64,7 +63,6 @@ Notice that:
 * This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
 
----
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -118,7 +116,7 @@ Notice that:
 | <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | sydig-cloudvision cloudtrail s3 arn, required for organizational use case, in order to give proper permissions to cloudconnector role to assume |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
----
+
 ## Troubleshooting
 
 - Q: How to **validate cloudvision cloud-connector (thread-detection) provisioning** is working as expected?<br/>
@@ -151,9 +149,6 @@ Notice that:
     role_arn=arn:aws:iam::<AWS_MASTER_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
     source_profile=<AWS_MASTER_ACCOUNT_PROFILE>
     ```
-
-
----
 
 ## Authors
 
