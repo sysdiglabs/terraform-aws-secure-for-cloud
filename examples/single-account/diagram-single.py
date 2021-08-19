@@ -58,6 +58,7 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
             sqs << Edge(color=event_color) << cloud_scanning
             cloud_connector - s3_config
             cloud_connector - cloudwatch
+            cloud_scanning - cloudwatch
             cloud_scanning - codebuild
 
 
