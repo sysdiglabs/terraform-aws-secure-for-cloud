@@ -5,7 +5,7 @@ from diagrams.aws.management import Cloudtrail
 from diagrams.aws.storage import S3, SimpleStorageServiceS3Bucket
 from diagrams.aws.integration import SNS
 from diagrams.aws.integration import SQS
-from diagrams.aws.compute import ECS, ElasticContainerServiceService
+from diagrams.aws.compute import ElasticContainerServiceService
 from diagrams.aws.security import IAMRole,IAM
 from diagrams.aws.management import Cloudwatch
 
@@ -52,10 +52,8 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
 
             org_member_role = IAMRole("OrganizationAccountAccessRole\ncreated by AWS for org. member accounts", **role_attr)
 
-            with Cluster("ecs"):
-                ecs = ECS("cloudvision")
+            with Cluster("ecs-cluster"):
                 cloud_connector = ElasticContainerServiceService("cloud-connector")
-                ecs - cloud_connector
 
             sqs = SQS("cloudtrail-sqs")
             s3_config = S3("cloud-connector-config")

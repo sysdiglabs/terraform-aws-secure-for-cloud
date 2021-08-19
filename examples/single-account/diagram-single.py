@@ -5,7 +5,7 @@ from diagrams.aws.management import Cloudtrail
 from diagrams.aws.storage import S3, SimpleStorageServiceS3Bucket
 from diagrams.aws.integration import SNS
 from diagrams.aws.integration import SQS
-from diagrams.aws.compute import ElasticContainerServiceService
+from diagrams.aws.compute import ECS, ElasticContainerServiceService
 from diagrams.aws.security import IAMRole,IAM
 from diagrams.aws.management import Cloudwatch
 from diagrams.aws.devtools import Codebuild
@@ -33,6 +33,7 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
 
         with Cluster("sysdig-cloudvision resources"):
 
+            # cloudtrail
             cloudtrail          = Cloudtrail("cloudtrail", shape="plaintext")
             cloudtrail_legend = ("for clarity purpose events received from sysdig-cloudvision resources\nhave been removed from diagram, but will be processed too")
             Node(label=cloudtrail_legend, width="5",shape="plaintext", labelloc="t", fontsize="10")
@@ -42,8 +43,8 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
 
             cloudtrail >> Edge(color=event_color, style="dashed") >> cloudtrail_s3 >> Edge(color=event_color, style="dashed") >> sns
 
-            with Cluster("ecs"):
-                cloud_connect = ElasticContainerServiceService("cloud-connect")
+            with Cluster("ecs-cluster"):
+                cloud_connector = ElasticContainerServiceService("cloud-connector")
                 cloud_scanning = ElasticContainerServiceService("cloud-scanning")
 
             sqs = SQS("cloudtrail-sqs")
@@ -51,12 +52,21 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
             cloudwatch = Cloudwatch("cloudwatch\nlogs and alarms")
             codebuild = Codebuild("Build-project")
 
-            sqs << Edge(color=event_color) << cloud_connect
-            cloud_connect - s3_config
-            cloud_connect - cloudwatch
+            sqs << Edge(color=event_color) << cloud_connector
+            cloud_connector - s3_config
+            cloud_connector - cloudwatch
             cloud_scanning - codebuild
+
+
+            # bench-role
+            cloud_bench_role = IAMRole("SysdigCloudBench", **role_attr)
 
         account_resources >> Edge(color=event_color, style="dashed") >>  cloudtrail
         sns >> Edge(color=event_color, style="dashed") >> sqs
-        (cloudtrail_s3 << Edge(color=event_color)) -  cloud_connect
+        (cloudtrail_s3 << Edge(color=event_color)) -  cloud_connector
         (cloudtrail_s3 << Edge(color=event_color)) - cloud_scanning
+
+    with Cluster("Sysdig Secure - Backend - AWS account", graph_attr={"bgcolor":"skyblue"}):
+        sds_account = General("cloudbench agentless runner")
+
+    cloud_bench_role - sds_account

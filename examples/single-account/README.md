@@ -1,4 +1,4 @@
-# Sysdig Secure for Cloud in AWS: Single-Account
+# Sysdig Secure for Cloud in AWS :: Single-Account
 
 Deploy Sysdig Secure for Cloud in a single AWS account. All the required resources and workloads will be run
 under the same AWS account.

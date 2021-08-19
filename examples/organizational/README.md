@@ -1,4 +1,4 @@
-# Sysdig Secure for Cloud in AWS: Shared Organizational Trail
+# Sysdig Secure for Cloud in AWS :: Shared Organizational Trail
 
 Deploy Sysdig Secure for Cloud sharing the Trail within an organization. The module will deploy an organizational
 CloudTrail and workload will be run in a member account.
