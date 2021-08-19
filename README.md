@@ -1,17 +1,15 @@
 # Sysdig Secure for Cloud in AWS
 
-Terraform module that deploys the **Sysdig Secure for Cloud** stack in **AWS**. It provides unified threat detection, compliance, forensics and analysis.
+Terraform module that deploys the **Sysdig Secure for Cloud** stack in **AWS**.
+<br/>It provides unified threat detection, compliance, forensics and analysis.
 
-There are three major component:
+There are three major components:
 
-* **Cloud Threat Detection**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through cloud-connector.
-* **CSPM/Compliance**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix. Managed through cloud-bench.
-* **Cloud Scanning**: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account. Managed through cloud-scanning.
+* **Cloud Threat Detection**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language.<br/>Managed through cloud-connector.<br/><br/>
+* **CSPM/Compliance**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix.<br/>Managed through cloud-bench.<br/><br/>
+* **Cloud Scanning**: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account.<br/>Managed through cloud-scanning.<br/><br/>
 
-For other Cloud providers check:
-
-* [GCP](https://github.com/sysdiglabs/terraform-google-cloudvision)
-* [Azure](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
+For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-cloudvision), [Azure](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
 
 ---
 
@@ -19,16 +17,20 @@ For other Cloud providers check:
 
 There are several ways to deploy this in you AWS infrastructure:
 
-### Single-Account
+### · Single-Account
+Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
+More info in [`./examples/single-account`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/single-account)
 
-More info in the [`./examples/single-account/README.md`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/single-account/README.md)
+![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/07264a75926de2012512f4d67ee303aa964193ae/examples/single-account/diagram-single.png)
 
-### Organizational
+### · Organizational
 
 Using an organizational configuration Cloudtrail.
-More info in the [`./examples/organizational/README.md`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/organizational/README.md)
+More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/organizational)
 
-### Self-Baked
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/07264a75926de2012512f4d67ee303aa964193ae/examples/organizational/diagram-org.png)
+
+### · Self-Baked
 
 If no [examples](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples) fit your use-case, be free to self-configure your own `cloudvision` module.
 
@@ -44,7 +46,7 @@ module "cloudvision_aws" {
 }
 
 ```
-See main module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/variables.tf) or [inputs summary](#inputs) file for more optional configuration.
+See [inputs summary](#inputs) or main [module `variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/variables.tf) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
@@ -54,9 +56,8 @@ $ terraform apply
 ```
 
 Notice that:
-- This example will create resources that cost money. Run `terraform destroy` when you don't need them anymore
-- For more detailed configuration inspect both main module and example input variables
-- All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
+* This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
+* All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
 
 ---
 
