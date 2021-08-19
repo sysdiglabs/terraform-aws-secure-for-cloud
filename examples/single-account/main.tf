@@ -2,20 +2,9 @@ provider "aws" {
   region = var.region
 }
 
-# FIXME. refact verify_ssl so its handled in upper layers and passed downwards
-locals {
-  verify_ssl = length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1 ? false : true
-}
-
-provider "sysdig" {
-  sysdig_secure_url          = var.sysdig_secure_endpoint
-  sysdig_secure_api_token    = var.sysdig_secure_api_token
-  sysdig_secure_insecure_tls = local.verify_ssl
-}
 
 #-------------------------------------
-# resources deployed always in master account
-# with default provider
+# general resources
 #-------------------------------------
 
 module "resource_group_master" {
@@ -34,12 +23,6 @@ module "cloudtrail" {
   tags = var.tags
 }
 
-
-#-------------------------------------
-# resources deployed in master OR member account
-# with cloudvision provider, which can be master or member config
-#-------------------------------------
-
 module "ecs_fargate_cluster" {
   source = "../../modules/infrastructure/ecs-fargate-cluster"
   name   = var.name
@@ -54,6 +37,9 @@ module "ssm" {
 }
 
 
+#-------------------------------------
+# cloud-connector
+#-------------------------------------
 
 module "cloud_connector" {
   source = "../../modules/services/cloud-connector"
@@ -75,17 +61,9 @@ module "cloud_connector" {
 
 
 
-
-
-#data "aws_caller_identity" "me" {}
-#
-#module "cloud_bench" {
-#  source = "../../modules/services/cloud-bench"
-#
-#  account_id = data.aws_caller_identity.me.account_id
-#  tags       = var.tags
-#}
-
+#-------------------------------------
+# cloud-scanning
+#-------------------------------------
 
 module "codebuild" {
   source                       = "../../modules/infrastructure/codebuild"
@@ -96,7 +74,6 @@ module "codebuild" {
   # note. this is required to avoid racing conditions
   depends_on = [module.ssm]
 }
-
 
 
 module "cloud_scanning" {
@@ -118,4 +95,22 @@ module "cloud_scanning" {
   tags = var.tags
   # note. this is required to avoid racing conditions
   depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.codebuild, module.ssm]
+}
+
+#-------------------------------------
+# cloud-bench
+#-------------------------------------
+data "aws_caller_identity" "me" {}
+
+provider "sysdig" {
+  sysdig_secure_url          = var.sysdig_secure_endpoint
+  sysdig_secure_api_token    = var.sysdig_secure_api_token
+  sysdig_secure_insecure_tls = length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1 ? false : true
+}
+
+module "cloud_bench" {
+  source = "../../modules/services/cloud-bench"
+
+  account_id = data.aws_caller_identity.me.account_id
+  tags       = var.tags
 }

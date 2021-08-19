@@ -13,20 +13,22 @@ from diagrams.aws.management import SystemsManager
 
 
 diagram_attr = {
-    "pad":"0.25"
+    "pad":"0.30"
 }
 
 role_attr = {
-   "height":"1",
-   "width":"0.8",
-   "fontsize":"9",
+#   "height":"1",
+#   "width":"0.9",
+#   "fontsize":"10",
 }
 
 event_color="firebrick"
 
 with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram-single", show=True):
 
-    with Cluster("AWS account"):
+    with Cluster("AWS account (target)"):
+
+        master_credentials = IAM("credentials \npermissions: cloudtrail, role creation,...", fontsize="10")
 
         with Cluster("other resources", graph_attr={"bgcolor":"lightblue"}):
             account_resources = [General("resource-1"),General("..."),General("resource-n")]
@@ -49,24 +51,25 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
 
             sqs = SQS("cloudtrail-sqs")
             s3_config = S3("cloud-connector-config")
-            cloudwatch = Cloudwatch("cloudwatch\nlogs and alarms")
+            cloudwatch = Cloudwatch("cloudwatch\n(logs and alarms)")
             codebuild = Codebuild("Build-project")
 
             sqs << Edge(color=event_color) << cloud_connector
+            sqs << Edge(color=event_color) << cloud_scanning
             cloud_connector - s3_config
             cloud_connector - cloudwatch
             cloud_scanning - codebuild
 
 
             # bench-role
-            cloud_bench_role = IAMRole("SysdigCloudBench", **role_attr)
+            cloud_bench_role = IAMRole("SysdigCloudBench\n(aws:SecurityAudit policy)", **role_attr)
 
         account_resources >> Edge(color=event_color, style="dashed") >>  cloudtrail
         sns >> Edge(color=event_color, style="dashed") >> sqs
         (cloudtrail_s3 << Edge(color=event_color)) -  cloud_connector
         (cloudtrail_s3 << Edge(color=event_color)) - cloud_scanning
 
-    with Cluster("Sysdig Secure - Backend - AWS account", graph_attr={"bgcolor":"skyblue"}):
-        sds_account = General("cloudbench agentless runner")
+    with Cluster("AWS account (sysdig secure backend)"):
+        sds_account = General("cloud-bench")
 
     cloud_bench_role - sds_account

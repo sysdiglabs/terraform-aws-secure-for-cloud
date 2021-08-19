@@ -32,17 +32,22 @@ More info in [`./examples/organizational`](https://github.com/sysdiglabs/terrafo
 
 ### · Self-Baked
 
-If no [examples](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples) fit your use-case, be free to self-configure your own `cloudvision` module.
+If no [examples](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples) fit your use-case, be free to call desired modules directly.
+
+In this use-case we will ONLY deploy cloud-bench, into the target account, calling modules directly
 
 ```terraform
-module "cloudvision_aws" {
-  source = "sysdiglabs/cloudvision/aws"
+provider "aws" {
+  region = var.region
+}
 
-  # required to pin cloudvision stack on single-account single-provider
-  providers = {
-    aws.cloudvision = aws
-  }
+provider "sysdig" {
   sysdig_secure_api_token  = "00000000-1111-2222-3333-444444444444"
+}
+
+module "cloud_bench" {
+  source      = "sysdiglabs/cloudvision/aws//modules/cloud-bench"
+  account_id  = "AWS-ACCOUNT-ID" # can also be fetched from `aws_caller_identity.me`
 }
 
 ```

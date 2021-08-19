@@ -10,15 +10,10 @@ provider "aws" {
   }
 }
 
-# FIXME. refact verify_ssl so its handled in upper layers and passed downwards
-locals {
-  verify_ssl = length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1 ? false : true
-}
-
 provider "sysdig" {
   sysdig_secure_url          = var.sysdig_secure_endpoint
   sysdig_secure_api_token    = var.sysdig_secure_api_token
-  sysdig_secure_insecure_tls = local.verify_ssl
+  sysdig_secure_insecure_tls = length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1 ? false : true
 }
 
 #-------------------------------------
@@ -74,6 +69,9 @@ module "ssm" {
 
 
 
+#
+# cloud-connector
+#
 module "cloud_connector" {
   providers = {
     aws = aws.member
@@ -102,7 +100,10 @@ module "cloud_connector" {
 
 
 
-
+#
+# cloud-bench
+# WIP
+#
 
 #data "aws_caller_identity" "me" {}
 #module "cloud_bench" {
@@ -116,6 +117,13 @@ module "cloud_connector" {
 #}
 
 
+
+
+
+#
+# cloud-scanning
+# WIP
+#
 
 
 ## FIXME? if this is a non-shared resource, move its usage to scanning service?
