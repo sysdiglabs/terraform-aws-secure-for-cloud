@@ -5,9 +5,11 @@ from diagrams.aws.management import Cloudtrail
 from diagrams.aws.storage import S3, SimpleStorageServiceS3Bucket
 from diagrams.aws.integration import SNS
 from diagrams.aws.integration import SQS
-from diagrams.aws.compute import ECS, ElasticContainerServiceService
+from diagrams.aws.compute import ElasticContainerServiceService
 from diagrams.aws.security import IAMRole,IAM
 from diagrams.aws.management import Cloudwatch
+from diagrams.aws.devtools import Codebuild
+from diagrams.aws.management import SystemsManager
 
 
 diagram_attr = {
@@ -41,18 +43,20 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
             cloudtrail >> Edge(color=event_color, style="dashed") >> cloudtrail_s3 >> Edge(color=event_color, style="dashed") >> sns
 
             with Cluster("ecs"):
-                ecs = ECS("cloudvision")
-                cloud_connector = ElasticContainerServiceService("cloud-connector")
-                ecs - cloud_connector
+                cloud_connect = ElasticContainerServiceService("cloud-connect")
+                cloud_scanning = ElasticContainerServiceService("cloud-scanning")
 
             sqs = SQS("cloudtrail-sqs")
             s3_config = S3("cloud-connector-config")
             cloudwatch = Cloudwatch("cloudwatch\nlogs and alarms")
+            codebuild = Codebuild("Build-project")
 
-            sqs << Edge(color=event_color) << cloud_connector
-            cloud_connector - s3_config
-            cloud_connector - cloudwatch
+            sqs << Edge(color=event_color) << cloud_connect
+            cloud_connect - s3_config
+            cloud_connect - cloudwatch
+            cloud_scanning - codebuild
 
         account_resources >> Edge(color=event_color, style="dashed") >>  cloudtrail
         sns >> Edge(color=event_color, style="dashed") >> sqs
-        (cloudtrail_s3 << Edge(color=event_color)) -  cloud_connector
+        (cloudtrail_s3 << Edge(color=event_color)) -  cloud_connect
+        (cloudtrail_s3 << Edge(color=event_color)) - cloud_scanning
