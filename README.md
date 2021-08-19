@@ -20,14 +20,14 @@ There are several ways to deploy this in you AWS infrastructure:
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
 More info in [`./examples/single-account`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/single-account)
 
-![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/07264a75926de2012512f4d67ee303aa964193ae/examples/single-account/diagram-single.png)
+![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/225c88ce24339d4c8aa4e14a7ee5fd31a01c6cec/examples/single-account/diagram-single.png)
 
 ### · Organizational
 
 Using an organizational configuration Cloudtrail.
 More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/organizational)
 
-![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/07264a75926de2012512f4d67ee303aa964193ae/examples/organizational/diagram-org.png)
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/225c88ce24339d4c8aa4e14a7ee5fd31a01c6cec/examples/organizational/diagram-org.png)
 
 ### · Self-Baked
 
