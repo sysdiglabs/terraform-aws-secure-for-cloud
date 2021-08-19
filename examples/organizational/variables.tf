@@ -4,16 +4,25 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
-
 variable "cloudvision_member_account_id" {
   type        = string
-  description = "the account_id **within the organization** to be used as cloudvision account"
+  description = "organizational member account where the cloudvision workload is going to be deployed"
 }
 
 
-#------------------------------
+#---------------------------------
 # optionals - with defaults
-#------------------------------
+#---------------------------------
+
+#
+# organizational
+#
+
+variable "connector_ecs_task_role_name" {
+  type        = string
+  default     = "connector-ECSTaskRole"
+  description = "Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach"
+}
 
 
 #
@@ -32,9 +41,8 @@ variable "cloudtrail_kms_enable" {
   description = "testing/economization purpose. true/false whether s3 should be encrypted"
 }
 
-
 #
-# misc
+# general
 #
 
 variable "region" {
@@ -43,18 +51,12 @@ variable "region" {
   description = "Default region for resource creation in both organization master and cloudvision member account"
 }
 
-variable "connector_ecs_task_role_name" {
-  type        = string
-  default     = "connector-ECSTaskRole"
-  description = "Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach"
-}
 
 variable "name" {
   type        = string
+  description = "Name for the Cloud Vision deployment"
   default     = "sysdig-cloudvision"
-  description = "Name to be assigned to all child resources"
 }
-
 
 variable "sysdig_secure_endpoint" {
   type        = string

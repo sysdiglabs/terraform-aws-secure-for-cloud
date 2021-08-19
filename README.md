@@ -11,7 +11,6 @@ There are three major components:
 
 For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-cloudvision), [Azure](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
 
----
 
 ## Usage
 
@@ -32,17 +31,22 @@ More info in [`./examples/organizational`](https://github.com/sysdiglabs/terrafo
 
 ### · Self-Baked
 
-If no [examples](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples) fit your use-case, be free to self-configure your own `cloudvision` module.
+If no [examples](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples) fit your use-case, be free to call desired modules directly.
+
+In this use-case we will ONLY deploy cloud-bench, into the target account, calling modules directly
 
 ```terraform
-module "cloudvision_aws" {
-  source = "sysdiglabs/cloudvision/aws"
+provider "aws" {
+  region = var.region
+}
 
-  # required to pin cloudvision stack on single-account single-provider
-  providers = {
-    aws.cloudvision = aws
-  }
+provider "sysdig" {
   sysdig_secure_api_token  = "00000000-1111-2222-3333-444444444444"
+}
+
+module "cloud_bench" {
+  source      = "sysdiglabs/cloudvision/aws//modules/cloud-bench"
+  account_id  = "AWS-ACCOUNT-ID" # can also be fetched from `aws_caller_identity.me`
 }
 
 ```
@@ -59,7 +63,6 @@ Notice that:
 * This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
 
----
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -113,7 +116,7 @@ Notice that:
 | <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | sydig-cloudvision cloudtrail s3 arn, required for organizational use case, in order to give proper permissions to cloudconnector role to assume |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
----
+
 ## Troubleshooting
 
 - Q: How to **validate cloudvision cloud-connector (thread-detection) provisioning** is working as expected?<br/>
@@ -146,9 +149,6 @@ Notice that:
     role_arn=arn:aws:iam::<AWS_MASTER_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
     source_profile=<AWS_MASTER_ACCOUNT_PROFILE>
     ```
-
-
----
 
 ## Authors
 

@@ -50,7 +50,7 @@ variable "is_multi_region_trail" {
 
 
 #
-# misc
+# general
 #
 
 variable "name" {

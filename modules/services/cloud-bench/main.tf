@@ -1,17 +1,25 @@
+#
+# Sysdig Secure cloud provisioning
+#
 resource "sysdig_secure_cloud_account" "cloud_account" {
   account_id     = var.account_id
   cloud_provider = "aws"
   role_enabled   = "true"
 }
 
+data "sysdig_secure_trusted_cloud_identity" "trusted_sysdig_role" {
+  cloud_provider = "aws"
+}
+
+
+#
+# aws role provisioning
+#
+
 resource "aws_iam_role" "cloudbench_role" {
   name               = "SysdigCloudBench"
   assume_role_policy = data.aws_iam_policy_document.trust_relationship.json
   tags               = var.tags
-}
-
-data "sysdig_secure_trusted_cloud_identity" "trusted_sysdig_role" {
-  cloud_provider = "aws"
 }
 
 data "aws_iam_policy_document" "trust_relationship" {
@@ -29,6 +37,8 @@ data "aws_iam_policy_document" "trust_relationship" {
     }
   }
 }
+
+
 
 resource "aws_iam_role_policy_attachment" "cloudbench_security_audit" {
   role       = aws_iam_role.cloudbench_role.id
