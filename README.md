@@ -37,7 +37,7 @@ In this use-case we will ONLY deploy cloud-bench, into the target account, calli
 
 ```terraform
 provider "aws" {
-  region = var.region
+  region = "AWS-REGION"
 }
 
 provider "sysdig" {
