@@ -47,7 +47,7 @@ Notice that:
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
-| <a name="requirement_sysdig"></a> [sysdig](#requirement\_sysdig) | >= 0.5.17 |
+| <a name="requirement_sysdig"></a> [sysdig](#requirement\_sysdig) | >= 0.5.19 |
 
 ## Providers
 
