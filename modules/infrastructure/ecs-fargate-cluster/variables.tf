@@ -5,13 +5,13 @@
 variable "name" {
   type        = string
   description = "Deployment name"
-  default     = "sysdig-cloudvision"
+  default     = "sysdig-secure-for-cloud"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

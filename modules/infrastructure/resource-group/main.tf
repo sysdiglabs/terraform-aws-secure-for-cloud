@@ -1,5 +1,4 @@
-resource "aws_resourcegroups_group" "sysdig_cloudvision" {
-  count = var.create ? 1 : 0
+resource "aws_resourcegroups_group" "sysdig_secure_for_cloud" {
 
   name = var.name
   tags = var.tags
@@ -14,7 +13,7 @@ resource "aws_resourcegroups_group" "sysdig_cloudvision" {
   "TagFilters": [
     {
       "Key": "product",
-      "Values": ["sysdig-cloudvision"]
+      "Values": ["sysdig-secure-for-cloud"]
     }
   ]
 }

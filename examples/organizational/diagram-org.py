@@ -22,7 +22,7 @@ role_attr = {
 
 event_color="firebrick"
 
-with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram-org", show=True):
+with Diagram("Sysdig Secure for Cloud{}(organizational usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram-org", show=True):
 
     with Cluster("AWS organization"):
 
@@ -36,12 +36,12 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
 
 
             cloudtrail          = Cloudtrail("cloudtrail", shape="plaintext")
-            cloudtrail_legend = ("for clarity purpose events received from cloudvision member account\n\
+            cloudtrail_legend = ("for clarity purpose events received from 'secure for cloud' member account\n\
                                     and master account have been removed from diagram, but will be processed too ")
             Node(label=cloudtrail_legend, width="5",shape="plaintext", labelloc="t", fontsize="10")
 
             master_credentials = IAM("credentials \npermissions: cloudtrail, role creation,...", fontsize="10")
-            cloudvision_role    = IAMRole("Sysdig-Cloudvision-Role", **role_attr)
+            secure_for_cloud_role    = IAMRole("SysdigSecureForCloudRole", **role_attr)
             cloudtrail_s3       = S3("cloudtrail-s3-events")
             sns                 = SNS("cloudtrail-sns-events", comment="i'm a graph")
 
@@ -49,7 +49,7 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
 
 
 
-        with Cluster("member account (cloudvision)", graph_attr={"bgcolor":"seashell2"}):
+        with Cluster("member account (secure for cloud)", graph_attr={"bgcolor":"seashell2"}):
 
             org_member_role = IAMRole("OrganizationAccountAccessRole\ncreated by AWS for org. member accounts", **role_attr)
 
@@ -68,4 +68,4 @@ with Diagram("Sysdig Cloudvision{}(organizational usecase)".format("\n"), graph_
         member_accounts >> Edge(color=event_color, style="dashed") >>  cloudtrail
         sns >> Edge(color=event_color, style="dashed") >> sqs
 #        cloudtrail_s3 << Edge(color=event_color) << cloud_connector
-        (cloudtrail_s3 << Edge(color=event_color) << cloudvision_role) -  Edge(xlabel="assumeRole", color=event_color) - cloud_connector
+        (cloudtrail_s3 << Edge(color=event_color) << secure_for_cloud_role) -  Edge(xlabel="assumeRole", color=event_color) - cloud_connector

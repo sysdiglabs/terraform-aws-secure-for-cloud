@@ -44,23 +44,23 @@ variable "sns_topic_arn" {
 variable "is_organizational" {
   type        = bool
   default     = false
-  description = "whether cloudvision should be deployed in an organizational setup"
+  description = "whether secure-for-cloud should be deployed in an organizational setup"
 }
 
 
 variable "organizational_config" {
   type = object({
-    cloudvision_role_arn         = string
-    connector_ecs_task_role_name = string
+    sysdig_secure_for_cloud_role_arn = string
+    connector_ecs_task_role_name     = string
   })
   default = {
-    cloudvision_role_arn         = null
-    connector_ecs_task_role_name = null
+    sysdig_secure_for_cloud_role_arn = null
+    connector_ecs_task_role_name     = null
   }
 
   description = <<-EOT
     organizational_config. following attributes must be given
-    <ul><li>`cloudvision_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision_role</li></ul>
+    <ul><li>`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the secure_for_cloud_role</li></ul>
   EOT
 }
 
@@ -109,14 +109,14 @@ variable "sysdig_secure_endpoint" {
 
 variable "name" {
   type        = string
-  default     = "connector"
+  default     = "sysdig-secure-for-cloud-connector"
   description = "Name for the Cloud Connector deployment"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

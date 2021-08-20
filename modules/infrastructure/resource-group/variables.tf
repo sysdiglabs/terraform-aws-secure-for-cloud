@@ -2,24 +2,17 @@
 # optionals - with default
 #---------------------------------
 
-# FIXME. workaround due to provider and count conflict on parent module
-variable "create" {
-  type        = bool
-  default     = false
-  description = "true/false whether resources are to be created"
-}
-
 variable "name" {
   type        = string
   description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-cloudvision"
+  default     = "sysdig-secure-for-cloud"
 }
 
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

@@ -18,20 +18,20 @@ There are several ways to deploy this in you AWS infrastructure:
 
 ### · Single-Account
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
-More info in [`./examples/single-account`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/single-account)
+More info in [`./examples/single-account`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account)
 
-![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/225c88ce24339d4c8aa4e14a7ee5fd31a01c6cec/examples/single-account/diagram-single.png)
+![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/225c88ce24339d4c8aa4e14a7ee5fd31a01c6cec/examples/single-account/diagram-single.png)
 
 ### · Organizational
 
 Using an organizational configuration Cloudtrail.
-More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples/organizational)
+More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
 
-![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-cloudvision/225c88ce24339d4c8aa4e14a7ee5fd31a01c6cec/examples/organizational/diagram-org.png)
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/225c88ce24339d4c8aa4e14a7ee5fd31a01c6cec/examples/organizational/diagram-org.png)
 
 ### · Self-Baked
 
-If no [examples](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/examples) fit your use-case, be free to call desired modules directly.
+If no [examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples) fit your use-case, be free to call desired modules directly.
 
 In this use-case we will ONLY deploy cloud-bench, into the target account, calling modules directly
 
@@ -45,12 +45,12 @@ provider "sysdig" {
 }
 
 module "cloud_bench" {
-  source      = "sysdiglabs/cloudvision/aws//modules/cloud-bench"
+  source      = "sysdiglabs/secure-for-cloud/aws//modules/cloud-bench"
   account_id  = "AWS-ACCOUNT-ID" # can also be fetched from `aws_caller_identity.me`
 }
 
 ```
-See [inputs summary](#inputs) or main [module `variables.tf`](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/variables.tf) file for more optional configuration.
+See [inputs summary](#inputs) or main [module `variables.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/variables.tf) file for more optional configuration.
 
 To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
@@ -61,7 +61,7 @@ $ terraform apply
 
 Notice that:
 * This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
-* All created resources will be created within the tags `product:sysdig-cloudvision`, within the resource-group `sysdig-cloudvision`
+* All created resources will be created within the tags `product:sysdig-secure-for-cloud`, within the resource-group `sysdig-secure-for-cloud`
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -103,29 +103,29 @@ Notice that:
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | testing/economization purpose. true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | testing/economization purpose. true/false whether s3 should be encrypted | `bool` | `true` | no |
-| <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether cloudvision should be deployed in an organizational setup | `bool` | `false` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Vision deployment | `string` | `"sysdig-cloudvision"` | no |
-| <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config) | organizational\_config. following attributes must be given<br><ul><li>`cloudvision_member_account_id` to enable reading permission,</li><li>`cloudvision_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the cloudvision\_role</li></ul> | <pre>object({<br>    cloudvision_member_account_id = string<br>    cloudvision_role_arn          = string<br>    connector_ecs_task_role_name  = string<br>  })</pre> | <pre>{<br>  "cloudvision_member_account_id": null,<br>  "cloudvision_role_arn": null,<br>  "connector_ecs_task_role_name": null<br>}</pre> | no |
+| <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether secure-for-cloud should be deployed in an organizational setup | `bool` | `false` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Vision deployment | `string` | `"sysdig-secure-for-cloud"` | no |
+| <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config) | organizational\_config. following attributes must be given<br><ul><li>`sysdig_secure_for_cloud_member_account_id` to enable reading permission,</li><li>`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the secure-for-cloud\_role</li></ul> | <pre>object({<br>    sysdig_secure_for_cloud_member_account_id = string<br>    sysdig_secure_for_cloud_role_arn          = string<br>    connector_ecs_task_role_name  = string<br>  })</pre> | <pre>{<br>  "sysdig_secure_for_cloud_member_account_id": null,<br>  "sysdig_secure_for_cloud_role_arn": null,<br>  "connector_ecs_task_role_name": null<br>}</pre> | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | sydig-cloudvision cloudtrail s3 arn, required for organizational use case, in order to give proper permissions to cloudconnector role to assume |
+| <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | sydig-secure-for-cloud cloudtrail s3 arn, required for organizational use case, in order to give proper permissions to cloudconnector role to assume |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
 ## Troubleshooting
 
-- Q: How to **validate cloudvision cloud-connector (thread-detection) provisioning** is working as expected?<br/>
+- Q: How to **validate secure-for-cloud cloud-connector (thread-detection) provisioning** is working as expected?<br/>
   A: Check each pipeline resource is working as expected (from high to low lvl)
     - select a rule to break manually, from the 'Sysdig AWS Best Practices' policies. for example, 'Delete Bucket Public Access Block'. can you see the event?
     - are there any errors in the ECS task logs? can also check cloudwatch logs
       for previous example we should see the event
       ```
-      {"level":"info","component":"console-notifier","time":"2021-07-26T12:45:25Z","message":"A pulic access block for a bucket has been deleted (requesting  user=OrganizationAccountAccessRole, requesting IP=x.x.x.x, AWS  region=eu-central-1, bucket=sysdig-cloudvision-nnnnnn-config)"}
+      {"level":"info","component":"console-notifier","time":"2021-07-26T12:45:25Z","message":"A pulic access block for a bucket has been deleted (requesting  user=OrganizationAccountAccessRole, requesting IP=x.x.x.x, AWS  region=eu-central-1, bucket=sysdig-secure-for-cloud-nnnnnn-config)"}
       ```
     - are events consumed in the sqs queue, or are they pending?
     - are events being sent to sns topic?
@@ -133,18 +133,18 @@ Notice that:
 
 - Q: How to iterate **cloud-connector modification testing**
   <br/>A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
-  Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-cloudvision/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
+  Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
 
 
 - Q: How can I iterate **ECS testing**
   <br/>A: After applying your modifications (vía terraform for example) restart the service
     ```
-    $ aws ecs update-service --force-new-deployment --cluster sysdig-cloudvision-ecscluster --service sysdig-cloudvision-cloudconnector --profile <AWS_PROFILE>
+    $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
     ```
 
   For the AWS_PROFILE, set your `~/.aws/config` to impersonate
     ```
-    [profile cloudvision]
+    [profile secure-for-cloud]
     region=eu-central-1
     role_arn=arn:aws:iam::<AWS_MASTER_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
     source_profile=<AWS_MASTER_ACCOUNT_PROFILE>

@@ -24,7 +24,7 @@ role_attr = {
 
 event_color="firebrick"
 
-with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram-single", show=True):
+with Diagram("Sysdig Secure for Cloud{}(single-account usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram-single", show=True):
 
     with Cluster("AWS account (target)"):
 
@@ -33,11 +33,11 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
         with Cluster("other resources", graph_attr={"bgcolor":"lightblue"}):
             account_resources = [General("resource-1"),General("..."),General("resource-n")]
 
-        with Cluster("sysdig-cloudvision resources"):
+        with Cluster("sysdig-secure-for-cloud resources"):
 
             # cloudtrail
             cloudtrail          = Cloudtrail("cloudtrail", shape="plaintext")
-            cloudtrail_legend = ("for clarity purpose events received from sysdig-cloudvision resources\nhave been removed from diagram, but will be processed too")
+            cloudtrail_legend = ("for clarity purpose events received from sysdig-secure-for-cloud resources\nhave been removed from diagram, but will be processed too")
             Node(label=cloudtrail_legend, width="5",shape="plaintext", labelloc="t", fontsize="10")
 
             cloudtrail_s3       = S3("cloudtrail-s3-events")

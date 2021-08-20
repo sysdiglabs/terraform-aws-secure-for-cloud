@@ -4,9 +4,9 @@ variable "sysdig_secure_api_token" {
   description = "Sysdig Secure API token"
 }
 
-variable "cloudvision_member_account_id" {
+variable "sysdig_secure_for_cloud_member_account_id" {
   type        = string
-  description = "organizational member account where the cloudvision workload is going to be deployed"
+  description = "organizational member account where the secure-for-cloud workload is going to be deployed"
 }
 
 
@@ -20,7 +20,7 @@ variable "cloudvision_member_account_id" {
 
 variable "connector_ecs_task_role_name" {
   type        = string
-  default     = "connector-ECSTaskRole"
+  default     = "ECSTaskRole"
   description = "Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach"
 }
 
@@ -48,14 +48,14 @@ variable "cloudtrail_kms_enable" {
 variable "region" {
   type        = string
   default     = "eu-central-1"
-  description = "Default region for resource creation in both organization master and cloudvision member account"
+  description = "Default region for resource creation in both organization master and secure-for-cloud member account"
 }
 
 
 variable "name" {
   type        = string
   description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-cloudvision"
+  default     = "sysdig-secure-for-cloud"
 }
 
 variable "sysdig_secure_endpoint" {
@@ -66,8 +66,8 @@ variable "sysdig_secure_endpoint" {
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

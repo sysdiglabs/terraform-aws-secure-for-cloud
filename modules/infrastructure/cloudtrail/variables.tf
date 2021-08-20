@@ -9,20 +9,20 @@
 variable "is_organizational" {
   type        = bool
   default     = false
-  description = "whether cloudvision should be deployed in an organizational setup"
+  description = "whether secure-for-cloud should be deployed in an organizational setup"
 }
 
 
 variable "organizational_config" {
   type = object({
-    cloudvision_member_account_id = string
+    sysdig_secure_for_cloud_member_account_id = string
   })
   default = {
-    cloudvision_member_account_id = null
+    sysdig_secure_for_cloud_member_account_id = null
   }
   description = <<-EOT
     organizational_config. following attributes must be given
-    <ul><li>`cloudvision_member_account_id` to enable reading permission</ul>
+    <ul><li>`sysdig_secure_for_cloud_member_account_id` to enable reading permission</ul>
   EOT
 }
 
@@ -55,14 +55,14 @@ variable "is_multi_region_trail" {
 
 variable "name" {
   type        = string
-  default     = "sysdig-cloudvision"
+  default     = "sysdig-secure-for-cloud"
   description = "Name to be assigned to all child resources"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

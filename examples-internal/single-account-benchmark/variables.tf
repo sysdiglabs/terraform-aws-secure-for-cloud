@@ -15,7 +15,7 @@ variable "sysdig_secure_api_token" {
 variable "region" {
   type        = string
   default     = "eu-central-1"
-  description = "Default region for resource creation in both organization master and cloudvision member account"
+  description = "Default region for resource creation in both organization master and secure-for-cloud member account"
 }
 
 variable "sysdig_secure_endpoint" {
@@ -26,8 +26,8 @@ variable "sysdig_secure_endpoint" {
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

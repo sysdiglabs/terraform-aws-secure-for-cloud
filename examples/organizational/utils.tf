@@ -1,4 +1,4 @@
-module "resource_group_cloudvision_member" {
+module "resource_group_secure_for_cloud_member" {
   providers = {
     aws = aws.member
   }
@@ -8,8 +8,8 @@ module "resource_group_cloudvision_member" {
 }
 
 
-module "cloudvision_role" {
-  source = "../../modules/infrastructure/organizational/cloudvision-role"
+module "secure_for_cloud_role" {
+  source = "../../modules/infrastructure/organizational/secure-for-cloud-role"
   providers = {
     aws.member = aws.member
   }
@@ -24,9 +24,9 @@ module "cloudvision_role" {
 
 
 # -----------------------------------------------------------------
-# cloudvision_role <-> ecs_role trust relationship
+# secure_for_cloud_role <-> ecs_role trust relationship
 # note:
-# - definition of a ROOT lvl cloudvision_connector_ecs_tas_role to avoid cyclic dependencies
+# - definition of a ROOT lvl secure_for_cloud_connector_ecs_tas_role to avoid cyclic dependencies
 # - duplicated in ../../modules/services/cloud-connector/ecs-service-security.tf
 # -----------------------------------------------------------------
 resource "aws_iam_role" "connector_ecs_task" {

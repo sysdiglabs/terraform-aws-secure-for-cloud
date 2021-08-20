@@ -89,14 +89,14 @@ variable "sysdig_secure_endpoint" {
 
 variable "name" {
   type        = string
-  default     = "cloud-scanning"
+  default     = "sysdig-secure-for-cloud-scanning"
   description = "Name for the Cloud Scanning deployment"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

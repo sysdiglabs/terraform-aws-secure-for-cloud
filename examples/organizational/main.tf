@@ -6,7 +6,7 @@ provider "aws" {
   alias  = "member"
   region = var.region
   assume_role {
-    role_arn = "arn:aws:iam::${var.cloudvision_member_account_id}:role/OrganizationAccountAccessRole"
+    role_arn = "arn:aws:iam::${var.sysdig_secure_for_cloud_member_account_id}:role/OrganizationAccountAccessRole"
   }
 }
 
@@ -33,7 +33,7 @@ module "cloudtrail" {
 
   is_organizational = true
   organizational_config = {
-    cloudvision_member_account_id = var.cloudvision_member_account_id
+    sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
   }
 
   is_multi_region_trail = var.cloudtrail_is_multi_region_trail
@@ -45,7 +45,7 @@ module "cloudtrail" {
 
 #-------------------------------------
 # resources deployed in master OR member account
-# with cloudvision provider, which can be master or member config
+# with secure-for-cloud provider, which can be master or member config
 #-------------------------------------
 
 module "ecs_fargate_cluster" {
@@ -84,8 +84,8 @@ module "cloud_connector" {
 
   is_organizational = true
   organizational_config = {
-    cloudvision_role_arn         = module.cloudvision_role.cloudvision_role_arn
-    connector_ecs_task_role_name = aws_iam_role.connector_ecs_task.name
+    sysdig_secure_for_cloud_role_arn = module.secure_for_cloud_role.sysdig_secure_for_cloud_role_arn
+    connector_ecs_task_role_name     = aws_iam_role.connector_ecs_task.name
   }
 
   sns_topic_arn = module.cloudtrail.sns_topic_arn
@@ -112,7 +112,7 @@ module "cloud_connector" {
 #  }
 #  source = "../../modules/services/cloud-bench"
 #
-#  account_id = var.organizational_config.cloudvision_member_account_id
+#  account_id = var.organizational_config.sysdig_secure_for_cloud_member_account_id
 #  tags       = var.tags
 #}
 

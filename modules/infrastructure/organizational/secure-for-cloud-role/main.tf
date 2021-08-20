@@ -1,6 +1,6 @@
-resource "aws_iam_role" "cloudvision_role" {
-  name               = "${var.name}-SysdigCloudVisionRole"
-  assume_role_policy = data.aws_iam_policy_document.cloudvision_role_trusted.json
+resource "aws_iam_role" "secure_for_cloud_role" {
+  name               = "${var.name}-SysdigSecureForCloudRole"
+  assume_role_policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_trusted.json
   tags               = var.tags
 }
 
@@ -14,7 +14,7 @@ data "aws_iam_role" "ecs_task_role" {
   name     = var.cloudconnector_ecs_task_role_name
 }
 
-data "aws_iam_policy_document" "cloudvision_role_trusted" {
+data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_trusted" {
   statement {
     effect = "Allow"
     principals {
@@ -33,20 +33,20 @@ data "aws_iam_policy_document" "cloudvision_role_trusted" {
 # enable ecs-task resource to assumeRole
 # ---------------------------------------------
 
-resource "aws_iam_role_policy" "enable_assume_cloudvision_role" {
+resource "aws_iam_role_policy" "enable_assume_secure_for_cloud_role" {
   provider = aws.member
-  name     = "${var.name}-EnableCloudvisionRole"
+  name     = "${var.name}-EnableSysdigSecureForCloudRole"
 
   role   = var.cloudconnector_ecs_task_role_name
-  policy = data.aws_iam_policy_document.enable_assume_cloudvision_role.json
+  policy = data.aws_iam_policy_document.enable_assume_secure_for_cloud_role.json
 }
-data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
+data "aws_iam_policy_document" "enable_assume_secure_for_cloud_role" {
   statement {
     effect = "Allow"
     actions = [
       "sts:AssumeRole"
     ]
-    resources = [aws_iam_role.cloudvision_role.arn]
+    resources = [aws_iam_role.secure_for_cloud_role.arn]
   }
 }
 
@@ -56,12 +56,12 @@ data "aws_iam_policy_document" "enable_assume_cloudvision_role" {
 # enable cloudtrail_s3 RO access
 # ------------------------------
 
-resource "aws_iam_role_policy" "cloudvision_role_s3" {
+resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_s3" {
   name   = "${var.name}-AllowCloudtrailS3Policy"
-  role   = aws_iam_role.cloudvision_role.id
-  policy = data.aws_iam_policy_document.cloudvision_role_s3.json
+  role   = aws_iam_role.secure_for_cloud_role.id
+  policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_s3.json
 }
-data "aws_iam_policy_document" "cloudvision_role_s3" {
+data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
   statement {
     effect = "Allow"
     actions = [
