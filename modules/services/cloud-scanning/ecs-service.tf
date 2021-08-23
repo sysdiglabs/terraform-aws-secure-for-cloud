@@ -18,7 +18,7 @@ resource "aws_ecs_service" "service" {
 
 
 resource "aws_ecs_task_definition" "task_definition" {
-  family                   = "${var.name}-cloudscanning"
+  family                   = var.name
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   execution_role_arn       = aws_iam_role.execution.arn # ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume

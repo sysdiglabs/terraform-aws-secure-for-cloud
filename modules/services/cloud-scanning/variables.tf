@@ -88,7 +88,7 @@ variable "sysdig_secure_endpoint" {
 
 variable "name" {
   type        = string
-  default     = "sysdig-secure-for-cloud-scanning"
+  default     = "sysdig-secure-for-cloudscanning"
   description = "Name for the Cloud Scanning deployment"
 }
 
