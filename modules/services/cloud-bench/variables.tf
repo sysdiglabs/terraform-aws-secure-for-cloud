@@ -9,31 +9,8 @@ variable "account_id" {
 
 variable "regions" {
   type        = list(string)
-  description = "List of regions in which to run the benchmark"
-
-  default = [
-    "af-south-1",
-    "eu-north-1",
-    "ap-south-1",
-    "eu-west-3",
-    "eu-west-2",
-    "eu-south-1",
-    "eu-west-1",
-    "ap-northeast-3",
-    "ap-northeast-2",
-    "me-south-1",
-    "ap-northeast-1",
-    "sa-east-1",
-    "ca-central-1",
-    "ap-east-1",
-    "ap-southeast-1",
-    "ap-southeast-2",
-    "eu-central-1",
-    "us-east-1",
-    "us-east-2",
-    "us-west-1",
-    "us-west-2",
-  ]
+  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
+  default     = []
 }
 
 variable "tags" {
