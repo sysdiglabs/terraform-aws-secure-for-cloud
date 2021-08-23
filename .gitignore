@@ -31,3 +31,13 @@ override.tf.json
 
 # MacOS
 .DS_Store
+
+## Ruby
+## Environment normalization:
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+
+#Kitchen test
+.kitchen/*

@@ -1,0 +1,21 @@
+---
+driver:
+  name: terraform
+  root_module_directory: test/fixtures/tf_module
+  parallelism: 4
+
+provisioner:
+  name: terraform
+
+verifier:
+  name: "awspec"
+
+platforms:
+  - name: "aws"
+
+suites:
+  - name: kt_suite
+    verifier:
+      name: "awspec"
+      patterns:
+        - "test/integration/kt_suite/single-account.rb"
