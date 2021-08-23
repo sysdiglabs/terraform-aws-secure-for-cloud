@@ -54,7 +54,7 @@ variable "vpc_subnets" {
 
 variable "image" {
   type        = string
-  default     = "quay.io/sysdig/sysdiglabs/cloud-scanning:latest"
+  default     = "quay.io/sysdig/cloud-scanning:latest"
   description = "Image of the cloud scanning to deploy"
 }
 
