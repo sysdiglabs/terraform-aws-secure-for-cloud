@@ -76,7 +76,7 @@ variable "connector_ecs_task_role_name" {
 
 variable "image" {
   type        = string
-  default     = "sysdiglabs/cloud-connector:latest"
+  default     = "quay.io/sysdig/sysdiglabs/cloud-connector:latest"
   description = "Image of the cloud connector to deploy"
 }
 

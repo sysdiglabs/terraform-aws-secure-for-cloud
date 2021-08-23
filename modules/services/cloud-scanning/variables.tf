@@ -53,9 +53,8 @@ variable "vpc_subnets" {
 #
 
 variable "image" {
-  type = string
-  # FIXME: rollback to latest
-  default     = "sysdiglabs/cloud-scanning:master"
+  type        = string
+  default     = "quay.io/sysdig/sysdiglabs/cloud-scanning:latest"
   description = "Image of the cloud scanning to deploy"
 }
 
