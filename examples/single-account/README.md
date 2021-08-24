@@ -1,7 +1,10 @@
 # Sysdig Secure for Cloud in AWS :: Single-Account
 
-Deploy Sysdig Secure for Cloud in a single AWS account. All the required resources and workloads will be run
-under the same AWS account.
+
+
+Deploy Sysdig Secure for Cloud in a single AWS account.
+
+All the required resources and workloads will be run under the same AWS account.
 
 ![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/7cee298cc8955c256be32b1b58c8c99a7095e788/examples/single-account/diagram-single.png)
 

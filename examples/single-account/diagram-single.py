@@ -75,6 +75,9 @@ with Diagram("Sysdig Secure for Cloud{}(single-account usecase)".format("\n"), g
         sds_account = General("cloud-bench")
         sds = Custom("Sysdig Secure", "../../resources/diag-sysdig-icon.png")
 
-    cloud_bench_role << sds_account
+        sds - Edge(label="aws_foundations_bench\n schedule on 0 6 * * *") >>  sds_account
+
+
     cloud_connector >> sds
     cloud_scanning >> sds
+    sds_account >> Edge(color="darkgreen", xlabel="assumeRole") >> cloud_bench_role
