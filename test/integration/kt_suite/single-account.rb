@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require 'awspec'
 require 'aws-sdk'
-require 'json'
 require 'Rhcl'
 
 ################

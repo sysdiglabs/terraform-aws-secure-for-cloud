@@ -4,5 +4,4 @@ source "https://rubygems.org/" do
     gem 'awspec', '~> 1.24.0'
     gem 'kitchen-verifier-awspec', '~> 0.2.0'
     gem 'rhcl', '~> 0.1.0' # ruby hcl parser
-    gem 'json', "~> 2.5"
 end
