@@ -9,7 +9,7 @@ Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
     * An additional role `SysdigSecureForCloudRole` will be created within the master account, to be able to read cloudtrail-s3 bucket events
     * All the Sysdig Secure for Cloud service-related resources will be created
 
-![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/cba69463e428dbcb122fc49992c606a73a8b10da/examples/organizational/diagram-org.png)
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/7cee298cc8955c256be32b1b58c8c99a7095e788/examples/organizational/diagram-org.png)
 
 ## Prerequisites
 
