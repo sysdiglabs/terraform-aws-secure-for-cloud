@@ -41,3 +41,4 @@ override.tf.json
 
 #Kitchen test
 .kitchen/*
+test/fixtures/tf_module/.*
