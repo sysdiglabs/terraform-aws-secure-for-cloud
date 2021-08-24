@@ -1,5 +1,6 @@
 # diagrams as code vía https://diagrams.mingrammer.com
 from diagrams import Diagram, Cluster, Diagram, Edge, Node
+from diagrams.custom import Custom
 from diagrams.aws.general import General
 from diagrams.aws.management import Cloudtrail
 from diagrams.aws.storage import S3, SimpleStorageServiceS3Bucket
@@ -57,9 +58,9 @@ with Diagram("Sysdig Secure for Cloud{}(single-account usecase)".format("\n"), g
             sqs << Edge(color=event_color) << cloud_connector
             sqs << Edge(color=event_color) << cloud_scanning
             cloud_connector - s3_config
-            cloud_connector - cloudwatch
-            cloud_scanning - cloudwatch
-            cloud_scanning - codebuild
+            cloud_connector >> cloudwatch
+            cloud_scanning >> cloudwatch
+            cloud_scanning >> codebuild
 
 
             # bench-role
@@ -70,7 +71,10 @@ with Diagram("Sysdig Secure for Cloud{}(single-account usecase)".format("\n"), g
         (cloudtrail_s3 << Edge(color=event_color)) -  cloud_connector
         (cloudtrail_s3 << Edge(color=event_color)) - cloud_scanning
 
-    with Cluster("AWS account (sysdig secure backend)"):
+    with Cluster("AWS account (sysdig)"):
         sds_account = General("cloud-bench")
+        sds = Custom("Sysdig Secure", "../../resources/diag-sysdig-icon.png")
 
-    cloud_bench_role - sds_account
+    cloud_bench_role << sds_account
+    cloud_connector >> sds
+    cloud_scanning >> sds
