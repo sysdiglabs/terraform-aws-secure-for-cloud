@@ -1,3 +1,4 @@
+provider "aws" {}
 module "cloudvision_aws_single_account" {
   source = "../../../examples/single-account"
 
