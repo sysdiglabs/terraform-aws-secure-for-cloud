@@ -15,10 +15,9 @@ jobs:
       - uses: actions/setup-ruby@v1
         with:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - uses: Install bundle
+      - name: Install bundle
         run: bundle install
-
-      - uses: Run test
+      - name: Run test
         run: bundle exec kitchen test
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
