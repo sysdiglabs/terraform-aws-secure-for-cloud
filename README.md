@@ -102,7 +102,7 @@ Notice that:
     ```
 
  - Q: How to test **cloud-scanner** image-scanning?<br/>
- - A: Upload any image to the ECR repository of AWS. You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
+   A: Upload any image to the ECR repository of AWS. You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
    <br/>
 
 
