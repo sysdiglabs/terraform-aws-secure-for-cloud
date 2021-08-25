@@ -2,6 +2,12 @@
 driver:
   name: terraform
   root_module_directory: test/fixtures/tf_module
+  # ################
+  # Uncomment the following two lines if you are deploying /test/fixture/tf_module/main.tf
+  # using custom tfvars file
+  #  variable_files:
+  #    - test/fixtures/tf_module/test.tfvars
+  # ################
   parallelism: 4
 
 provisioner:

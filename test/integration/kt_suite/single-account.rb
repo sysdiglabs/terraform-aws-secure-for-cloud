@@ -4,15 +4,18 @@ require 'aws-sdk'
 require 'Rhcl'
 
 ################
-#     USING TFVARS
-# replace test.tfvars with your tfvars file
-# If you don't use tfvars, set 'secure_cloud_name_prefix' with the variable 'VAR.NAME' used on terraform
-# and remove 'variable_file' and 'variable_file_hash'
-################
+# This variable is hard coded as 'Kitchen' for use with github actions test
+# because this is the default value in this terraform module test
+# ##############
+# In order to be used with customized test, replace 'kitchen' with your
+# desired string
+# If you are going to use custom 'tfvars', uncomment the following two lines
+# Please, make sure you specified the use of this file in '.kitchen.yml'
 
-variable_file = File.read('test.tfvars')
-variable_file_hash = Rhcl.parse(variable_file)
-secure_cloud_name_prefix = variable_file_hash['name']
+# variable_file = File.read('test/fixtures/tf_module/test.tfvars')
+# variable_file_hash = Rhcl.parse(variable_file)
+# ##############
+secure_cloud_name_prefix = "kitchen"
 
 cloudbench_role = "SysdigCloudBench"
 
