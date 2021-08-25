@@ -23,7 +23,7 @@ resource "sysdig_secure_benchmark_task" "benchmark_task" {
   name     = "Sysdig Secure for Cloud (AWS) - ${var.account_id}"
   schedule = "0 6 * * *"
   schema   = "aws_foundations_bench-1.3.0"
-  scope    = "aws.accountId = \"${var.account_id}\" and aws.region in (\"${join("\", \"", local.regions)}}\")"
+  scope    = "aws.accountId = \"${var.account_id}\" and aws.region in (\"${join("\", \"", local.regions)}\")"
 
   # Creation of a task requires that the Cloud Account already exists in the backend, and has `role_enabled = true`
   depends_on = [sysdig_secure_cloud_account.cloud_account]
