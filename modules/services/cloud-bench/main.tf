@@ -16,7 +16,7 @@ data "aws_regions" "regions" {
 }
 
 locals {
-  regions = length(var.regions) == 0 ? data.aws_regions.regions.all_regions : var.regions
+  regions = length(var.regions) == 0 ? data.aws_regions.regions.names : var.regions
 }
 
 resource "sysdig_secure_benchmark_task" "benchmark_task" {
