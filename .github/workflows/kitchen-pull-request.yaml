@@ -23,5 +23,5 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          TF_VAR_SYSDIG_SECURE_ENDPOINT: https://secure.sysdig.com
-          TF_VAR_SYSDIG_SECURE_API_TOKEN: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
+          TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
+          TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
