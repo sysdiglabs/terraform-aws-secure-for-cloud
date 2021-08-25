@@ -5,34 +5,34 @@ Terraform module that deploys the **Sysdig Secure for Cloud** stack in **AWS**.
 
 There are three major components:
 
-* **Cloud Threat Detection**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language.<br/>Managed through [cloud-connector module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector).<br/><br/>
+* **Cloud Threat Detection**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through [cloud-connector module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector).<br/>
 
+* **CSPM/Compliance**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix. Managed through [cloud-bench module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench).<br/>
 
-* **CSPM/Compliance**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix.<br/>Managed through [cloud-bench module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench).<br/><br/>
-
-* **Cloud Scanning**: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account.<br/>Managed through [cloud-scanning module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-scanning).<br/><br/>
+* **Cloud Scanning**: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account.Managed through [cloud-scanning module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-scanning).<br/>
 
 For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-cloudvision), [Azure](https://github.com/sysdiglabs/terraform-azurerm-cloudvision)
 
+<br/>
 
 ## Usage
 
 There are several ways to deploy this in you AWS infrastructure:
 
-### · Single-Account
+- ### Single-Account
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
 More info in [`./examples/single-account`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account)
 
 ![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/b95bf11fe513bda3c037144803d982a6e4225ce9/examples/single-account/diagram-single.png)
 
-### · Organizational
+- ### Organizational
 
 Using an organizational configuration Cloudtrail.
 More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
 
 ![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/b95bf11fe513bda3c037144803d982a6e4225ce9/examples/organizational/diagram-org.png)
 
-### · Self-Baked
+- ### Self-Baked
 
 If no [examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples) fit your use-case, be free to call desired modules directly.
 
@@ -67,6 +67,8 @@ Notice that:
 * All created resources will be created within the tags `product:sysdig-secure-for-cloud`, within the resource-group `sysdig-secure-for-cloud`
 
 
+
+<br/><br/>
 ## Troubleshooting
 
 - Q: How to **validate secure-for-cloud cloud-connector (thread-detection) provisioning** is working as expected?<br/>
@@ -91,7 +93,6 @@ Notice that:
     ```
     $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
     ```
-
   For the AWS_PROFILE, set your `~/.aws/config` to impersonate
     ```
     [profile secure-for-cloud]
@@ -100,6 +101,12 @@ Notice that:
     source_profile=<AWS_MASTER_ACCOUNT_PROFILE>
     ```
 
+ - Q: How to test **cloud-scanner** image-scanning?<br/>
+ - A: Upload any image to the ECR repository of AWS. You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
+   <br/>
+
+
+<br/><br/>
 ## Authors
 
 Module is maintained and supported by [Sysdig](https://sysdig.com).
