@@ -1,17 +1,31 @@
 data "aws_ssm_parameter" "sysdig_secure_api_token" {
   name = var.secure_api_token_secret_name
 }
+
+locals {
+  ecs_task_role_id          = var.is_organizational ? data.aws_iam_role.task_inherited[0].id : aws_iam_role.task[0].id
+  ecs_task_role_arn         = var.is_organizational ? data.aws_iam_role.task_inherited[0].arn : aws_iam_role.task[0].arn
+  ecs_task_role_name_suffix = var.is_organizational ? var.organizational_config.scanning_ecs_task_role_name : var.scanning_ecs_task_role_name
+}
+
 #---------------------------------
 # task role
+# notes
+# - duplicated in /examples/organizational/utils.tf, where root lvl role is created, to avoid cyclic dependencies
 #---------------------------------
-
+data "aws_iam_role" "task_inherited" {
+  count = var.is_organizational ? 1 : 0
+  name  = var.organizational_config.scanning_ecs_task_role_name
+}
 resource "aws_iam_role" "task" {
-  name               = "${var.name}-ECSTaskRole"
-  assume_role_policy = data.aws_iam_policy_document.task_assume_role.json
+  count              = var.is_organizational ? 0 : 1
+  name               = "${var.name}-${local.ecs_task_role_name_suffix}"
+  assume_role_policy = data.aws_iam_policy_document.task_assume_role[0].json
   path               = "/"
   tags               = var.tags
 }
 data "aws_iam_policy_document" "task_assume_role" {
+  count = var.is_organizational ? 0 : 1
   statement {
     effect = "Allow"
     principals {
@@ -24,7 +38,7 @@ data "aws_iam_policy_document" "task_assume_role" {
 
 resource "aws_iam_role_policy" "task" {
   name   = "${var.name}-TaskRolePolicy"
-  role   = aws_iam_role.task.id
+  role   = local.ecs_task_role_id
   policy = data.aws_iam_policy_document.iam_role_task_role_policy.json
 }
 data "aws_iam_policy_document" "iam_role_task_role_policy" {
@@ -46,7 +60,7 @@ data "aws_iam_policy_document" "iam_role_task_role_policy" {
 
 resource "aws_iam_role_policy" "trigger_scan" {
   name   = "${var.name}-TriggerScan"
-  role   = aws_iam_role.task.id
+  role   = local.ecs_task_role_id
   policy = data.aws_iam_policy_document.trigger_scan.json
 }
 data "aws_iam_policy_document" "trigger_scan" {
@@ -61,7 +75,7 @@ data "aws_iam_policy_document" "trigger_scan" {
 
 resource "aws_iam_role_policy" "task_definition_reader" {
   name   = "TaskDefinitionReader"
-  role   = aws_iam_role.task.id
+  role   = local.ecs_task_role_id
   policy = data.aws_iam_policy_document.task_definition_reader.json
 }
 data "aws_iam_policy_document" "task_definition_reader" {
@@ -76,7 +90,7 @@ data "aws_iam_policy_document" "task_definition_reader" {
 
 resource "aws_iam_role_policy" "secrets_reader" {
   name   = "SecretsReader"
-  role   = aws_iam_role.task.id
+  role   = local.ecs_task_role_id
   policy = data.aws_iam_policy_document.secrets_reader.json
 }
 data "aws_iam_policy_document" "secrets_reader" {
@@ -92,7 +106,7 @@ data "aws_iam_policy_document" "secrets_reader" {
 
 resource "aws_iam_role_policy" "ecr_reader" {
   name   = "ECRReader"
-  role   = aws_iam_role.task.id
+  role   = local.ecs_task_role_id
   policy = data.aws_iam_policy_document.ecr_reader.json
 }
 data "aws_iam_policy_document" "ecr_reader" {
@@ -115,7 +129,6 @@ data "aws_iam_policy_document" "ecr_reader" {
     resources = ["*"]
   }
 }
-
 
 
 #---------------------------------

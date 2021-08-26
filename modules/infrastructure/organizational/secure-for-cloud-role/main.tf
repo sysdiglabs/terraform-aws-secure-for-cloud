@@ -74,3 +74,21 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
     ]
   }
 }
+
+
+resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_assume_role" {
+  name   = "${var.name}-AllowAssumeRoleInChildAccounts"
+  role   = aws_iam_role.secure_for_cloud_role.id
+  policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_assume_role.json
+}
+data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_assume_role" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole",
+    ]
+    resources = [
+      "arn:aws:iam::*:role/${var.organizational_role_per_account}"
+    ]
+  }
+}

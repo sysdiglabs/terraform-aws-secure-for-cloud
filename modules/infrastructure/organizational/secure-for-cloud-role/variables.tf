@@ -18,6 +18,12 @@ variable "name" {
   description = "Name for the Cloud Connector deployment"
 }
 
+variable "organizational_role_per_account" {
+  type        = string
+  default     = "OrganizationAccountAccessRole"
+  description = "Name of the organizational role deployed by AWS in each account of the organization"
+}
+
 variable "tags" {
   type        = map(string)
   description = "sysdig secure-for-cloud tags"
