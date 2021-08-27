@@ -14,14 +14,14 @@ variable "cloudtrail_s3_arn" {
 
 variable "name" {
   type        = string
-  default     = "cloud-connector"
+  default     = "sysdig-secure-for-cloud"
   description = "Name for the Cloud Connector deployment"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

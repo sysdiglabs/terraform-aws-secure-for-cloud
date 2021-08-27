@@ -14,14 +14,14 @@ variable "cloudwatch_log_retention" {
 
 variable "name" {
   type        = string
-  default     = "CloudVision"
+  default     = "SysdigSecureForCloud"
   description = "Name for the Cloud Vision deployment"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

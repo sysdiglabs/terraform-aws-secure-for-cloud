@@ -53,9 +53,8 @@ variable "vpc_subnets" {
 #
 
 variable "image" {
-  type = string
-  # FIXME: rollback to latest
-  default     = "sysdiglabs/cloud-scanning:master"
+  type        = string
+  default     = "quay.io/sysdig/cloud-scanning:latest"
   description = "Image of the cloud scanning to deploy"
 }
 
@@ -89,14 +88,14 @@ variable "sysdig_secure_endpoint" {
 
 variable "name" {
   type        = string
-  default     = "cloud-scanning"
+  default     = "sysdig-secure-for-cloudscanning"
   description = "Name for the Cloud Scanning deployment"
 }
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

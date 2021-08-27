@@ -1,5 +1,6 @@
 # diagrams as code vía https://diagrams.mingrammer.com
 from diagrams import Diagram, Cluster, Diagram, Edge, Node
+from diagrams.custom import Custom
 from diagrams.aws.general import General
 from diagrams.aws.management import Cloudtrail
 from diagrams.aws.storage import S3, SimpleStorageServiceS3Bucket
@@ -24,7 +25,7 @@ role_attr = {
 
 event_color="firebrick"
 
-with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram-single", show=True):
+with Diagram("Sysdig Secure for Cloud{}(single-account usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram-single", show=True):
 
     with Cluster("AWS account (target)"):
 
@@ -33,11 +34,11 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
         with Cluster("other resources", graph_attr={"bgcolor":"lightblue"}):
             account_resources = [General("resource-1"),General("..."),General("resource-n")]
 
-        with Cluster("sysdig-cloudvision resources"):
+        with Cluster("sysdig-secure-for-cloud resources"):
 
             # cloudtrail
             cloudtrail          = Cloudtrail("cloudtrail", shape="plaintext")
-            cloudtrail_legend = ("for clarity purpose events received from sysdig-cloudvision resources\nhave been removed from diagram, but will be processed too")
+            cloudtrail_legend = ("for clarity purpose events received from sysdig-secure-for-cloud resources\nhave been removed from diagram, but will be processed too")
             Node(label=cloudtrail_legend, width="5",shape="plaintext", labelloc="t", fontsize="10")
 
             cloudtrail_s3       = S3("cloudtrail-s3-events")
@@ -57,9 +58,9 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
             sqs << Edge(color=event_color) << cloud_connector
             sqs << Edge(color=event_color) << cloud_scanning
             cloud_connector - s3_config
-            cloud_connector - cloudwatch
-            cloud_scanning - cloudwatch
-            cloud_scanning - codebuild
+            cloud_connector >> cloudwatch
+            cloud_scanning >> cloudwatch
+            cloud_scanning >> codebuild
 
 
             # bench-role
@@ -70,7 +71,13 @@ with Diagram("Sysdig Cloudvision{}(single-account usecase)".format("\n"), graph_
         (cloudtrail_s3 << Edge(color=event_color)) -  cloud_connector
         (cloudtrail_s3 << Edge(color=event_color)) - cloud_scanning
 
-    with Cluster("AWS account (sysdig secure backend)"):
+    with Cluster("AWS account (sysdig)"):
         sds_account = General("cloud-bench")
+        sds = Custom("Sysdig Secure", "../../resources/diag-sysdig-icon.png")
 
-    cloud_bench_role - sds_account
+        sds - Edge(label="aws_foundations_bench\n schedule on 0 6 * * *") >>  sds_account
+
+
+    cloud_connector >> sds
+    cloud_scanning >> sds
+    sds_account >> Edge(color="darkgreen", xlabel="assumeRole") >> cloud_bench_role

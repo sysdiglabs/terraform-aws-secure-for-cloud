@@ -7,10 +7,17 @@ variable "account_id" {
 # optionals - with default
 #---------------------------------
 
+variable "regions" {
+  type        = list(string)
+  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
+  default     = []
+}
+
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
+
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }

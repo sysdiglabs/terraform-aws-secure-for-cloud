@@ -70,10 +70,10 @@ No modules.
 | <a name="input_vpc_subnets"></a> [vpc\_subnets](#input\_vpc\_subnets) | Subnets where the CloudScanning will be deployed | `list(string)` | n/a | yes |
 | <a name="input_cloudwatch_log_retention"></a> [cloudwatch\_log\_retention](#input\_cloudwatch\_log\_retention) | Days to keep logs for CloudScanning | `number` | `5` | no |
 | <a name="input_extra_env_vars"></a> [extra\_env\_vars](#input\_extra\_env\_vars) | Extra environment variables for the Cloud Scanning deployment | `map(string)` | `{}` | no |
-| <a name="input_image"></a> [image](#input\_image) | Image of the cloud scanning to deploy | `string` | `"sysdiglabs/cloud-scanning:master"` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Scanning deployment | `string` | `"cloud-scanning"` | no |
+| <a name="input_image"></a> [image](#input\_image) | Image of the cloud scanning to deploy | `string` | `"quay.io/sysdig/cloud-scanning:latest"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Scanning deployment | `string` | `"sysdig-secure-for-cloudscanning"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig cloudvision tags | `map(string)` | <pre>{<br>  "product": "sysdig-cloudvision"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 | <a name="input_verify_ssl"></a> [verify\_ssl](#input\_verify\_ssl) | true/false to determine ssl secure connection verification | `bool` | `true` | no |
 
 ## Outputs

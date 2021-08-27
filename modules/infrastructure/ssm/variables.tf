@@ -1,7 +1,7 @@
 variable "name" {
   type        = string
   description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-cloudvision"
+  default     = "sysdig-secure-for-cloud"
 }
 
 variable "sysdig_secure_api_token" {
@@ -12,8 +12,8 @@ variable "sysdig_secure_api_token" {
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig cloudvision tags"
+  description = "sysdig secure-for-cloud tags"
   default = {
-    "product" = "sysdig-cloudvision"
+    "product" = "sysdig-secure-for-cloud"
   }
 }
