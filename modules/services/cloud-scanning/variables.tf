@@ -1,4 +1,3 @@
-
 #---------------------------------
 # cloud-scanning specific
 #---------------------------------
@@ -43,7 +42,6 @@ variable "vpc_subnets" {
 }
 
 
-
 #---------------------------------
 # optionals - with default
 #---------------------------------
@@ -56,6 +54,12 @@ variable "image" {
   type        = string
   default     = "quay.io/sysdig/cloud-scanning:latest"
   description = "Image of the cloud scanning to deploy"
+}
+
+variable "scanning_ecs_task_role_name" {
+  type        = string
+  default     = "scanning-ECSTaskRole"
+  description = "Default ecs cloudscanning task role name"
 }
 
 variable "cloudwatch_log_retention" {
@@ -76,6 +80,33 @@ variable "extra_env_vars" {
   description = "Extra environment variables for the Cloud Scanning deployment"
 }
 
+variable "is_organizational" {
+  type        = bool
+  default     = false
+  description = "whether secure-for-cloud should be deployed in an organizational setup"
+}
+
+variable "organizational_config" {
+  type = object({
+    sysdig_secure_for_cloud_role_arn = string
+    organizational_role_per_account  = string
+    scanning_ecs_task_role_name      = string
+  })
+  default = {
+    sysdig_secure_for_cloud_role_arn = ""
+    organizational_role_per_account  = ""
+    scanning_ecs_task_role_name      = ""
+  }
+
+  description = <<-EOT
+    organizational_config. following attributes must be given
+    <ul>
+        <li>`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li>
+        <li>`scanning_ecs_task_role_name` which has been granted trusted-relationship over the secure_for_cloud_role</li>
+        <li>`organizational_role_per_account` is the name of the organizational role deployed by AWS in each account of the organization</li>
+    </ul>
+  EOT
+}
 
 #
 # general
