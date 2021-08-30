@@ -1,15 +1,13 @@
 # diagrams as code vía https://diagrams.mingrammer.com
-from diagrams import Diagram, Cluster, Diagram, Edge, Node
-from diagrams.custom import Custom
-from diagrams.aws.general import General
-from diagrams.aws.management import Cloudtrail
-from diagrams.aws.storage import S3, SimpleStorageServiceS3Bucket
-from diagrams.aws.integration import SNS
-from diagrams.aws.integration import SQS
+from diagrams import Cluster, Diagram, Edge, Node
 from diagrams.aws.compute import ElasticContainerServiceService
-from diagrams.aws.security import IAMRole,IAM
-from diagrams.aws.management import Cloudwatch
-
+from diagrams.aws.devtools import Codebuild
+from diagrams.aws.general import General
+from diagrams.aws.integration import SNS, SQS
+from diagrams.aws.management import Cloudtrail, Cloudwatch
+from diagrams.aws.security import IAM, IAMRole
+from diagrams.aws.storage import S3
+from diagrams.custom import Custom
 
 diagram_attr = {
     "pad":"0.25"
@@ -23,14 +21,14 @@ role_attr = {
 
 event_color="firebrick"
 
-with Diagram("Sysdig Secure for Cloud{}(organizational usecase)".format("\n"), graph_attr=diagram_attr, filename="diagram-org", show=True):
+with Diagram("Sysdig Secure for Cloud\n(organizational usecase)", graph_attr=diagram_attr, filename="diagram-org", show=True):
 
     with Cluster("AWS organization"):
 
-        with Cluster("member account (main targets)", graph_attr={"bgcolor":"lightblue"}):
-            member_accounts = [General("account-1"),General("..."),General("account-n")]
+        with Cluster("member accounts (main targets)", graph_attr={"bgcolor":"lightblue"}):
+            member_accounts = [General("account-1"), General("account-2"), General("..."), General("account-n")]
 
-            org_member_role = IAMRole("OrganizationAccountAccessRole\ncreated by AWS for org. member accounts", **role_attr)
+            org_member_role = IAMRole("OrganizationAccountAccessRole\n(created by AWS for org. member accounts)", **role_attr)
 
 
         with Cluster("master account"):
@@ -53,18 +51,22 @@ with Diagram("Sysdig Secure for Cloud{}(organizational usecase)".format("\n"), g
 
         with Cluster("member account (secure for cloud)", graph_attr={"bgcolor":"seashell2"}):
 
-            org_member_role = IAMRole("OrganizationAccountAccessRole\ncreated by AWS for org. member accounts", **role_attr)
+            org_member_role = IAMRole("OrganizationAccountAccessRole\n(created by AWS for org. member accounts)", **role_attr)
 
             with Cluster("ecs-cluster"):
                 cloud_connector = ElasticContainerServiceService("cloud-connector")
+                cloud_scanning = ElasticContainerServiceService("cloud-scanning")
 
             sqs         = SQS("cloudtrail-sqs")
             s3_config   = S3("cloud-connector-config")
             cloudwatch  = Cloudwatch("cloudwatch\nlogs and alarms")
+            codebuild = Codebuild("codebuild project")
 
             sqs << Edge(color=event_color) << cloud_connector
+            sqs << Edge(color=event_color) << cloud_scanning
             cloud_connector - s3_config
             cloud_connector >> cloudwatch
+            cloud_scanning >> codebuild
 
 
         member_accounts >> Edge(color=event_color, style="dashed") >>  cloudtrail
@@ -76,3 +78,4 @@ with Diagram("Sysdig Secure for Cloud{}(organizational usecase)".format("\n"), g
         sds = Custom("Sysdig Secure", "../../resources/diag-sysdig-icon.png")
 
     cloud_connector >> sds
+    codebuild >> sds
