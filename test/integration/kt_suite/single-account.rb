@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 require 'awspec'
 require 'aws-sdk'
-require 'Rhcl'
+
+# require 'Rhcl'
 
 ################
 # This variable is hard coded as 'Kitchen' for use with github actions test
