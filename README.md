@@ -19,20 +19,20 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 There are several ways to deploy this in you AWS infrastructure:
 
-- ### Single-Account
+### Single-Account
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
 More info in [`./examples/single-account`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account)
 
 ![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/b95bf11fe513bda3c037144803d982a6e4225ce9/examples/single-account/diagram-single.png)
 
-- ### Organizational
+### Organizational
 
 Using an organizational configuration Cloudtrail.
 More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
 
 ![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/b95bf11fe513bda3c037144803d982a6e4225ce9/examples/organizational/diagram-org.png)
 
-- ### Self-Baked
+### Self-Baked
 
 If no [examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples) fit your use-case, be free to call desired modules directly.
 
