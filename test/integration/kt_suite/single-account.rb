@@ -17,8 +17,6 @@ require 'Rhcl'
 # ##############
 secure_cloud_name_prefix = "kitchen"
 
-cloudbench_role = "SysdigCloudBench"
-
 describe "Testing Secure for Cloud ecs cluster number of services" do
   describe ecs_cluster(secure_cloud_name_prefix) do
     it { should exist }
@@ -32,12 +30,6 @@ end
 
 describe "Testing Code Build" do
   describe codebuild("#{secure_cloud_name_prefix}-BuildProject") do
-    it { should exist }
-  end
-end
-
-describe "Test CloudBench role" do
-  describe iam_role(cloudbench_role) do
     it { should exist }
   end
 end
