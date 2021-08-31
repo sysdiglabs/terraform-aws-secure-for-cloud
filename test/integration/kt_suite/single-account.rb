@@ -18,6 +18,10 @@ require 'aws-sdk'
 # ##############
 secure_cloud_name_prefix = "kitchen"
 
+puts "Giving 1 minuto to ECS to deploy services correctly"
+sleep 60
+puts "Testing infrastructure"
+
 describe "Testing Secure for Cloud ecs cluster number of services" do
   describe ecs_cluster(secure_cloud_name_prefix) do
     it { should exist }
