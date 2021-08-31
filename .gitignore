@@ -16,6 +16,7 @@ crash.log
 #
 # example.tfvars
 terraform.tfvars
+*.tfvars
 
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
@@ -31,3 +32,14 @@ override.tf.json
 
 # MacOS
 .DS_Store
+
+## Ruby
+## Environment normalization:
+/.bundle/
+/vendor/bundle
+/lib/bundler/man/
+
+
+#Kitchen test
+.kitchen/*
+test/fixtures/tf_module/.kitchen/

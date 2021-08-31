@@ -96,21 +96,3 @@ module "cloud_scanning" {
   # note. this is required to avoid racing conditions
   depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.codebuild, module.ssm]
 }
-
-#-------------------------------------
-# cloud-bench
-#-------------------------------------
-data "aws_caller_identity" "me" {}
-
-provider "sysdig" {
-  sysdig_secure_url             = var.sysdig_secure_endpoint
-  sysdig_secure_api_token       = var.sysdig_secure_api_token
-  sysdig_secure_insecuscrre_tls = length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1 ? false : true
-}
-
-module "cloud_bench" {
-  source = "../../modules/services/cloud-bench"
-
-  account_id = data.aws_caller_identity.me.account_id
-  tags       = var.tags
-}
