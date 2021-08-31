@@ -18,8 +18,8 @@ require 'aws-sdk'
 # ##############
 secure_cloud_name_prefix = "kitchen"
 
-puts "Giving 1 minuto to ECS to deploy services correctly"
-sleep 60
+puts "Giving 2 minutes to ECS to deploy services correctly"
+sleep 160
 puts "Testing infrastructure"
 
 describe "Testing Secure for Cloud ecs cluster number of services" do
