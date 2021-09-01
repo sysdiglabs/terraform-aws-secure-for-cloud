@@ -42,7 +42,7 @@ module "codebuild" {
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   tags = var.tags
-  # note. this is required to avoid racing conditions
+  # note. this is required to avoid race conditions
   depends_on = [module.ssm]
 }
 
@@ -64,6 +64,6 @@ module "cloud_scanning" {
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
 
   tags = var.tags
-  # note. this is required to avoid racing conditions
+  # note. this is required to avoid race conditions
   depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.codebuild, module.ssm]
 }
