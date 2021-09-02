@@ -111,7 +111,6 @@ jobs:
         run: pre-commit run --color=always --show-diff-on-failure --all-files
 
   integration_test:
-    if: contains(github.event.head_commit.message, '[skip ci]') == false
     name: Test-Kitchen
     runs-on: ubuntu-latest
     env:
