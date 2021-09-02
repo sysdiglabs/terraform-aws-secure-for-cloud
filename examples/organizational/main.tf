@@ -17,11 +17,11 @@ provider "sysdig" {
 }
 
 #-------------------------------------
-# resources deployed always in master account
+# resources deployed always in management account
 # with default provider
 #-------------------------------------
 
-module "resource_group_master" {
+module "resource_group" {
   source = "../../modules/infrastructure/resource-group"
   name   = var.name
   tags   = var.tags
@@ -44,8 +44,7 @@ module "cloudtrail" {
 
 
 #-------------------------------------
-# resources deployed in master OR member account
-# with secure-for-cloud provider, which can be master or member config
+# secure-for-cloud member account workload
 #-------------------------------------
 
 module "ecs_fargate_cluster" {

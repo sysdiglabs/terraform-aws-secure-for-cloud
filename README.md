@@ -97,8 +97,8 @@ Notice that:
     ```
     [profile secure-for-cloud]
     region=eu-central-1
-    role_arn=arn:aws:iam::<AWS_MASTER_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
-    source_profile=<AWS_MASTER_ACCOUNT_PROFILE>
+    role_arn=arn:aws:iam::<AWS_MANAGEMENT_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
+    source_profile=<AWS_MANAGEMENT_ACCOUNT_PROFILE>
     ```
 
  - Q: How to test **cloud-scanner** image-scanning?<br/>
