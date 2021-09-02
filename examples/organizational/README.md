@@ -10,7 +10,7 @@ Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
 * In the **user-provided member account**
     * All the Sysdig Secure for Cloud service-related resources will be created
 
-![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/b95bf11fe513bda3c037144803d982a6e4225ce9/examples/organizational/diagram-org.png)
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/7d142829a701ce78f13691a4af4be373625e7ee2/examples/organizational/diagram-org.png)
 
 ## Prerequisites
 
