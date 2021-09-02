@@ -15,7 +15,7 @@
 
 - Terraform lint and validation is enforced vía  https://pre-commit.com
   - custom configuration at https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/.pre-commit-config.yaml
-- Testing (WIP)
+- Kitchen tests https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/test/integration/kt_suite
 
 
 
