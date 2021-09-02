@@ -1,12 +1,13 @@
 # Sysdig Secure for Cloud in AWS :: Shared Organizational Trail
 
 Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
-* In the **master account**
-  * An Organizational Cloutrail will be deployed
-  * When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning.
-  <br/>This Role is hardcoded ATM
-* In the **user-provided member account**:
-    * An additional role `SysdigSecureForCloudRole` will be created within the master account, to be able to read cloudtrail-s3 bucket events
+
+* In the **management account**
+  * An Organizational Cloutrail will be deployed  (with required S3,SNS)
+  * An additional role `SysdigSecureForCloudRole` will be created
+     * to be able to read cloudtrail-s3 bucket events from sysdig workload member account.
+     * will also be used to asummeRole over other roles, and enable the process of scanning on ECR's that may be present in other member accounts.
+* In the **user-provided member account**
     * All the Sysdig Secure for Cloud service-related resources will be created
 
 ![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/b95bf11fe513bda3c037144803d982a6e4225ce9/examples/organizational/diagram-org.png)
@@ -15,16 +16,20 @@ Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
 
 Minimum requirements:
 
-1.  Have an existing AWS account as the organization master account
+1. Have an existing AWS account as the organization management account
     * Organizational CloudTrail service must be enabled
-1.  AWS profile credentials configuration of the `master` account of the organization
+2. AWS profile credentials configuration of the `management` account of the organization
     * This account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
-    * Sysdig Secure for Cloud organizational member account id, as input variable value
-        ```
-       sysdig_secure_for_cloud_member_account_id=<ORGANIZATIONAL_SECURE_FOR_CLOUD_ACCOUNT_ID>
-        ```
-1. Secure requirements, as input variable value
+    * When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning and role assuming.
+      <br/>This Role name is currently hardcoded.
+3. Provide a member account ID for Sysdig Secure for Cloud workload to be deployed.
+   Our recommendation is for this account to be empty, so that deployed resources are not mixed up with your workload.
+   This input must be provided as terraform required input value
+    ```
+    sysdig_secure_for_cloud_member_account_id=<ORGANIZATIONAL_SECURE_FOR_CLOUD_ACCOUNT_ID>
+    ```
+4. Sysdig Secure requirements, as input variable value with the `api-token`
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
@@ -44,7 +49,7 @@ module "secure_for_cloud_organizational" {
 
 See [inputs summary](#inputs) or module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/organizational/variables.tf) file for more optional configuration.
 
-To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
+To run this example you need have your [aws management-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
 $ terraform init
 $ terraform plan
