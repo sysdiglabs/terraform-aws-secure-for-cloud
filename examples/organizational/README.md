@@ -6,7 +6,6 @@ Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
   * An Organizational Cloutrail will be deployed  (with required S3,SNS)
   * An additional role `SysdigSecureForCloudRole` will be created
      * to be able to read cloudtrail-s3 bucket events from sysdig workload member account.
-     * will also be used to asummeRole over other roles, and enable the process of scanning on ECR's that may be present in other member accounts.
 * In the **user-provided member account**
     * All the Sysdig Secure for Cloud service-related resources will be created
 
