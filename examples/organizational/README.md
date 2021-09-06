@@ -2,6 +2,8 @@
 
 Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
 
+_Note: At this time, only the Threat Detection module is supported for organizational accounts_
+
 * In the **management account**
   * An Organizational Cloutrail will be deployed  (with required S3,SNS)
   * An additional role `SysdigSecureForCloudRole` will be created

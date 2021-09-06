@@ -15,4 +15,3 @@ variable "tags" {
     "product" = "sysdig-secure-for-cloud"
   }
 }
-

@@ -29,22 +29,18 @@ module "cloudtrail" {
   tags = var.tags
 }
 
-module "cloud-connector-sqs" {
+module "cloud_connector_sqs" {
   source        = "../../modules/infrastructure/cloudtrail-subscription-sqs"
   name          = var.name
   sns_topic_arn = module.cloudtrail.sns_topic_arn
   tags          = var.tags
 }
 
+
+
 #-------------------------------------
 # cloud-connector
 #-------------------------------------
-
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-  }
-}
 
 resource "helm_release" "cloud_connector" {
   name = "cloud-connector"
@@ -84,7 +80,7 @@ resource "helm_release" "cloud_connector" {
     <<CONFIG
 ingestors:
   - cloudtrail-sns-sqs:
-      queueURL: ${module.cloud-connector-sqs.sqs_url}
+      queueURL: ${module.cloud_connector_sqs.sqs_url}
       interval: 60s
 CONFIG
   ]
@@ -142,9 +138,13 @@ data "aws_iam_policy_document" "cloudtrail_sns_scanning" {
 resource "helm_release" "cloud_scanning" {
   name = "cloud-scanning"
 
-  #repository = "https://charts.sysdig.com"
-  #chart      = "cloud-scanning"
-  chart = "/home/nestor/Projects/work/sysdig/sysdiglabs/charts/charts/cloud-scanning"
+  repository = "https://charts.sysdig.com"
+  chart      = "cloud-scanning"
+
+  # TODO??
+  #
+  #
+  #  chart = "/home/nestor/Projects/work/sysdig/sysdiglabs/charts/charts/cloud-scanning"
 
   create_namespace = true
   namespace        = var.name
