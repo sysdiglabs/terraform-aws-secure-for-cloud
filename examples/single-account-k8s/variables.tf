@@ -10,14 +10,14 @@ variable "aws_access_key_id" {
   sensitive   = true
   type        = string
   description = "AWS AccessKey Id"
-  default = "AKIA4JRXW5ZV2AVP7RPY"
+  default     = "AKIA4JRXW5ZV2AVP7RPY"
 }
 
 variable "aws_secret_access_key" {
   sensitive   = true
   type        = string
   description = "AWS Secret Access Key"
-  default = "FsMctVQlnMbOaTEaeYsrL+F3x/MLDTYpUBzIrVu4"
+  default     = "FsMctVQlnMbOaTEaeYsrL+F3x/MLDTYpUBzIrVu4"
 }
 
 
