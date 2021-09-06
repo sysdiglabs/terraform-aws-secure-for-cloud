@@ -7,13 +7,13 @@ variable "sysdig_secure_api_token" {
 variable "aws_access_key_id" {
   sensitive   = true
   type        = string
-  description = "AWS AccessKey Id"
+  description = "AWS AccessKey Id<br/>Sysdig Secure helm chart (cloud-connect, cloud-scanning) parametrization"
 }
 
 variable "aws_secret_access_key" {
   sensitive   = true
   type        = string
-  description = "AWS Secret Access Key"
+  description = "AWS Secret Access Key<br/>Sysdig Secure helm chart (cloud-connect, cloud-scanning) parametrization"
 }
 
 
