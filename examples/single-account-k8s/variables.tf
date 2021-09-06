@@ -28,13 +28,13 @@ variable "aws_secret_access_key" {
 variable "cloudtrail_is_multi_region_trail" {
   type        = bool
   default     = true
-  description = "testing/economization purpose. true/false whether cloudtrail will ingest multiregional events"
+  description = "true/false whether cloudtrail will ingest multiregional events. testing/economization purpose. "
 }
 
 variable "cloudtrail_kms_enable" {
   type        = bool
   default     = true
-  description = "testing/economization purpose. true/false whether s3 should be encrypted"
+  description = "true/false whether s3 should be encrypted. testing/economization purpose."
 }
 
 
