@@ -29,39 +29,11 @@ module "cloudtrail" {
   tags = var.tags
 }
 
-resource "aws_sqs_queue" "sqs" {
-  name = var.name
-  tags = var.tags
-}
-
-resource "aws_sns_topic_subscription" "sns" {
-  protocol  = "sqs"
-  endpoint  = aws_sqs_queue.sqs.arn
-  topic_arn = module.cloudtrail.sns_topic_arn
-}
-
-resource "aws_sqs_queue_policy" "cloudtrail_sns" {
-  queue_url = aws_sqs_queue.sqs.id
-  policy    = data.aws_iam_policy_document.cloudtrail_sns.json
-
-  # required to avoid  error reading SQS Queue Policy; empty result
-  depends_on = [aws_sqs_queue.sqs]
-}
-
-data "aws_iam_policy_document" "cloudtrail_sns" {
-  statement {
-    sid    = "Allow CloudTrail to send messages"
-    effect = "Allow"
-    principals {
-      identifiers = ["sns.amazonaws.com"]
-      type        = "Service"
-    }
-    actions = [
-      "sqs:SendMessage",
-      "sqs:SendMessageBatch"
-    ]
-    resources = [aws_sqs_queue.sqs.arn]
-  }
+module "cloud-connector-sqs" {
+  source        = "../../modules/infrastructure/cloudtrail-subscription-sqs"
+  name          = var.name
+  sns_topic_arn = module.cloudtrail.sns_topic_arn
+  tags          = var.tags
 }
 
 #-------------------------------------
@@ -75,13 +47,13 @@ provider "helm" {
 }
 
 resource "helm_release" "cloud_connector" {
-  name       = "cloud-connector"
+  name = "cloud-connector"
 
   repository = "https://charts.sysdig.com"
   chart      = "cloud-connector"
 
   create_namespace = true
-  namespace = var.name
+  namespace        = var.name
 
   set_sensitive {
     name  = "sysdig.secureAPIToken"
@@ -109,10 +81,10 @@ resource "helm_release" "cloud_connector" {
   }
 
   values = [
-<<CONFIG
+    <<CONFIG
 ingestors:
   - cloudtrail-sns-sqs:
-      queueURL: ${aws_sqs_queue.sqs.url}
+      queueURL: ${module.cloud-connector-sqs.sqs_url}
       interval: 60s
 CONFIG
   ]
@@ -168,14 +140,14 @@ data "aws_iam_policy_document" "cloudtrail_sns_scanning" {
 }
 
 resource "helm_release" "cloud_scanning" {
-  name       = "cloud-scanning"
+  name = "cloud-scanning"
 
   #repository = "https://charts.sysdig.com"
   #chart      = "cloud-scanning"
   chart = "/home/nestor/Projects/work/sysdig/sysdiglabs/charts/charts/cloud-scanning"
 
   create_namespace = true
-  namespace = var.name
+  namespace        = var.name
 
   set_sensitive {
     name  = "sysdig.secureAPIToken"
@@ -203,12 +175,12 @@ resource "helm_release" "cloud_scanning" {
   }
 
   set {
-    name = "sqsQueueUrl"
+    name  = "sqsQueueUrl"
     value = aws_sqs_queue.sqs_scanning.url
   }
 
   set {
-    name = "codeBuildProject"
+    name  = "codeBuildProject"
     value = module.codebuild.project_name
   }
 }
