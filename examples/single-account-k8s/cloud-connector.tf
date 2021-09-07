@@ -50,7 +50,7 @@ resource "helm_release" "cloud_connector" {
     <<CONFIG
 ingestors:
   - cloudtrail-sns-sqs:
-      queueURL: ${module.cloud_connector_sqs.sqs_url}
+      queueURL: ${module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url}
       interval: 60s
 CONFIG
   ]

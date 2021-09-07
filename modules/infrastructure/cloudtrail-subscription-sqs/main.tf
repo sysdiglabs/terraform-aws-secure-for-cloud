@@ -1,23 +1,23 @@
-resource "aws_sqs_queue" "sqs" {
+resource "aws_sqs_queue" "this" {
   name = var.name
   tags = var.tags
 }
 
-resource "aws_sns_topic_subscription" "subscription" {
+resource "aws_sns_topic_subscription" "this" {
   protocol  = "sqs"
-  endpoint  = aws_sqs_queue.sqs.arn
+  endpoint  = aws_sqs_queue.this.arn
   topic_arn = var.sns_topic_arn
 }
 
-resource "aws_sqs_queue_policy" "cloudtrail_policy" {
-  queue_url = aws_sqs_queue.sqs.url
-  policy    = data.aws_iam_policy_document.cloudtrail_policy.json
+resource "aws_sqs_queue_policy" "this" {
+  queue_url = aws_sqs_queue.this.url
+  policy    = data.aws_iam_policy_document.this.json
 
   # required to avoid  error reading SQS Queue Policy; empty result
-  depends_on = [aws_sqs_queue.sqs]
+  depends_on = [aws_sqs_queue.this]
 }
 
-data "aws_iam_policy_document" "cloudtrail_policy" {
+data "aws_iam_policy_document" "this" {
   statement {
     sid    = "Allow CloudTrail to send messages"
     effect = "Allow"
@@ -29,6 +29,6 @@ data "aws_iam_policy_document" "cloudtrail_policy" {
       "sqs:SendMessage",
       "sqs:SendMessageBatch"
     ]
-    resources = [aws_sqs_queue.sqs.arn]
+    resources = [aws_sqs_queue.this.arn]
   }
 }

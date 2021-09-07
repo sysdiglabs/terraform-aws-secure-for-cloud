@@ -70,7 +70,7 @@ locals {
     },
     {
       name  = "SQS_QUEUE_URL"
-      value = aws_sqs_queue.sqs.id
+      value = module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url
     },
     {
       name  = "SQS_QUEUE_INTERVAL"

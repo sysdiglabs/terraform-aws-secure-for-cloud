@@ -58,7 +58,7 @@ resource "helm_release" "cloud_scanning" {
 
   set {
     name  = "sqsQueueUrl"
-    value = module.cloud_scanning_sqs.sqs_url
+    value = module.cloud_scanning_sqs.cloudtrail_sns_subscribed_sqs_url
   }
 
   set {
