@@ -26,11 +26,25 @@ module "ssm" {
 }
 
 module "cloudtrail" {
-  source                = "../../modules/infrastructure/cloudtrail"
-  name                  = var.name
+  source = "../../modules/infrastructure/cloudtrail"
+  name   = var.name
+
   is_organizational     = false
   is_multi_region_trail = var.cloudtrail_is_multi_region_trail
   cloudtrail_kms_enable = var.cloudtrail_kms_enable
 
   tags = var.tags
+}
+
+module "aws_user" {
+  source = "../../modules/infrastructure/permissions/single-account-user"
+  name   = var.name
+
+  secure_api_token_secret_name       = module.ssm.secure_api_token_secret_name
+  cloudtrail_s3_bucket_arn           = module.cloudtrail.s3_bucket_arn
+  cloudtrail_sns_subscribed_sqs_arns = [module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_arn, module.cloud_scanning_sqs.cloudtrail_sns_subscribed_sqs_arn]
+
+  # required to avoid ParameterNotFound on tf-plan
+  depends_on = [module.ssm]
+  tags       = var.tags
 }
