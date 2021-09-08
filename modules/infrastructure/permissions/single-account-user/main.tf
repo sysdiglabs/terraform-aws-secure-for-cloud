@@ -25,6 +25,9 @@ data "aws_iam_policy_document" "this" {
     actions = [
       "s3:Get*",
       "s3:List*"
+      # TODO. scanning, only when used with ECS mode
+      #      "s3:Put*",
+      #      "s3:Head",
     ]
     resources = [
       var.cloudtrail_s3_bucket_arn,
@@ -51,7 +54,7 @@ data "aws_iam_policy_document" "this" {
       "securityhub:GetFindings",
       "securityhub:BatchImportFindings",
     ]
-    resources = ["arn:aws:securityhub:${data.aws_region.current.name}::product/sysdig/sysdig-cloud-connector"] #FIXME. variabilize this
+    resources = ["arn:aws:securityhub:${data.aws_region.current.name}::product/sysdig/sysdig-cloud-connector"] # TODO. make an input-var out of this
   }
 
 
@@ -65,7 +68,59 @@ data "aws_iam_policy_document" "this" {
       "logs:FilterLogEvents",
       "logs:PutLogEvents",
     ]
-    resources = ["*"] # FIXME. variablilize this to more specific "arn:aws:logs:eu-central-1:522353683035:log-group:test:*"
+    resources = ["*"] # TODO. make an input-var out of this. make it more specific "arn:aws:logs:eu-central-1:522353683035:log-group:test:*"
+  }
+
+  # -----------------------------
+  # task statements/cloud-scanner
+  # -----------------------------
+
+  statement {
+    sid    = "AllowScanningCodeBuildStartBuild"
+    effect = "Allow"
+    actions = [
+      "codebuild:StartBuild"
+    ]
+    resources = [var.scanning_build_project_arn]
+  }
+
+  statement {
+    sid    = "AllowScanningECRRead"
+    effect = "Allow"
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetRepositoryPolicy",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:DescribeImages",
+      "ecr:BatchGetImage",
+      "ecr:GetLifecyclePolicy",
+      "ecr:GetLifecyclePolicyPreview",
+      "ecr:ListTagsForResource",
+      "ecr:DescribeImageScanFindings"
+    ]
+    resources = ["*"] # TODO. make an input-var out of this, so user can pin it to its own ECR ARN's
+  }
+
+  statement {
+    sid    = "AllowScanningDescribeECSTask"
+    effect = "Allow"
+    actions = [
+      "ecs:DescribeTaskDefinition"
+    ]
+    resources = ["*"] # TODO
+  }
+
+  statement {
+    sid    = "AllowScanningTo" # TODO
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt",
+      "secretsmanager:GetSecretValue"
+    ]
+    resources = ["*"] # TODO
   }
 
   # --------------------
@@ -76,5 +131,6 @@ data "aws_iam_policy_document" "this" {
     effect    = "Allow"
     actions   = ["ssm:GetParameters"]
     resources = [data.aws_ssm_parameter.sysdig_secure_api_token.arn]
+    #    resources = ["*"]
   }
 }

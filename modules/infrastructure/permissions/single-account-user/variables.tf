@@ -13,6 +13,11 @@ variable "cloudtrail_sns_subscribed_sqs_arns" {
   description = "List of ARNs of the cloudtrail-sns subscribed sqs's"
 }
 
+variable "scanning_build_project_arn" {
+  type        = string
+  description = "ARN of codebuild to launch the image scanning process"
+}
+
 #---------------------------------
 # optionals - with default
 #---------------------------------

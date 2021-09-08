@@ -60,11 +60,11 @@ Notice that:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_aws_user"></a> [aws\_user](#module\_aws\_user) | ../../modules/infrastructure/permissions/single-account-user |  |
 | <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../modules/infrastructure/cloudtrail-subscription-sqs |  |
 | <a name="module_cloud_scanning_sqs"></a> [cloud\_scanning\_sqs](#module\_cloud\_scanning\_sqs) | ../../modules/infrastructure/cloudtrail-subscription-sqs |  |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ../../modules/infrastructure/cloudtrail |  |
 | <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ../../modules/infrastructure/codebuild |  |
+| <a name="module_credentials"></a> [credentials](#module\_credentials) | ../../modules/infrastructure/permissions/single-account-user |  |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | ../../modules/infrastructure/resource-group |  |
 | <a name="module_ssm"></a> [ssm](#module\_ssm) | ../../modules/infrastructure/ssm |  |
 
