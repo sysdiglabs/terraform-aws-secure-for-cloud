@@ -38,12 +38,12 @@ resource "helm_release" "cloud_scanning" {
 
   set_sensitive {
     name  = "aws.accessKeyId"
-    value = module.aws_user.aws_s4c_user_access_key_id
+    value = module.aws_user.s4c_user_access_key_id
   }
 
   set_sensitive {
     name  = "aws.secretAccessKey"
-    value = module.aws_user.aws_s4c_user_secret_access_key
+    value = module.aws_user.s4c_user_secret_access_key
   }
 
   set {
