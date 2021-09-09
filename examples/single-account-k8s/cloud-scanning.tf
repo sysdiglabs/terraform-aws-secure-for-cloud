@@ -32,11 +32,6 @@ resource "helm_release" "cloud_scanning" {
   namespace        = var.name
 
   set_sensitive {
-    name  = "sysdig.secureAPIToken"
-    value = var.sysdig_secure_api_token
-  }
-
-  set_sensitive {
     name  = "aws.accessKeyId"
     value = module.credentials.s4c_user_access_key_id
   }
@@ -44,6 +39,16 @@ resource "helm_release" "cloud_scanning" {
   set_sensitive {
     name  = "aws.secretAccessKey"
     value = module.credentials.s4c_user_secret_access_key
+  }
+
+  set_sensitive {
+    name  = "sysdig.secureAPIToken"
+    value = var.sysdig_secure_api_token
+  }
+
+  set {
+    name  = "secureAPITokenSecret"
+    value = module.ssm.secure_api_token_secret_name
   }
 
   set {
