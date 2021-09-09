@@ -7,7 +7,7 @@ for dir in examples*/*
 do
   echo validating example [$dir]
   cd $dir
-  terraform init
+  terraform init --upgrade
   terraform validate
   cd ../..
 done
