@@ -1,7 +1,12 @@
-# Sysdig Secure for Cloud in AWS :: Single-Account on Kubernetes
+# Sysdig Secure for Cloud in AWS :: Single-Account on Kubernetes Cluster
 
-Deploy Sysdig Secure for Cloud in a single AWS account.
-_Note: At this time, only the Threat Detection module is supported for organizational accounts_
+Deploy Sysdig Secure for Cloud in a provided existing Kubernetes Cluster.
+
+- Sysdig **Helm** charts will be used to deploy threat-detection and scanning modules
+  - [Cloud-Connector Chart](https://charts.sysdig.com/charts/cloud-connector/)
+  - [Cloud-Scanning Chart](https://charts.sysdig.com/charts/cloud-scanning/)
+  - Because these charts require specific AWS credentials to be passed by parameter, a new user + access key will be created within account. See [`credentials.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-k8s/credentials.tf)
+- Used arquitecture is similar to [single-account](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account) but changing ECS <---> with an existing EKS
 
 All the required resources and workloads will be run under the same AWS account.
 
@@ -10,7 +15,8 @@ All the required resources and workloads will be run under the same AWS account.
 Minimum requirements:
 
 1. AWS profile credentials configuration
-1. Secure requirements, as input variable value
+2. A Kubernetes cluster configured within your `~/.kube/config`
+3. Secure requirements, as input variable value
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
@@ -27,7 +33,7 @@ module "secure_for_cloud_aws_single_account" {
 }
 ```
 
-See [inputs summary](#inputs) or module module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account/variables.tf) file for more optional configuration.
+See [inputs summary](#inputs) or module module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-k8s/variables.tf) file for more optional configuration.
 
 To run this example you need have your [aws account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
