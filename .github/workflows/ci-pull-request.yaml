@@ -2,9 +2,13 @@ name: CI - Pull Request
 
 on:
   pull_request:
+    paths:
+      - '**.tf'
   push:
     branches:
       - master
+    paths:
+      - '**.tf'
 
 jobs:
   getModules:
