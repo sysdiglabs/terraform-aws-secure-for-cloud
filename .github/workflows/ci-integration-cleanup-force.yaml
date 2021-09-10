@@ -24,6 +24,5 @@ jobs:
 #
 #      - name: Destroy resources
 #        run: bundle exec kitchen destroy
-      -
 #parametrize this
       - run: terraform force-unlock 8877bc0f-1699-abe9-6ab8-913113259311
