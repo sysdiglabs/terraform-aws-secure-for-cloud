@@ -9,6 +9,7 @@ on:
       - master
     paths:
       - '**.tf'
+concurrency: terraform
 jobs:
   integration_test:
     name: Test-Kitchen

@@ -7,6 +7,7 @@ name: CI - Integration Tests - Cleanup
 on:
   workflow_dispatch
 
+concurrency: terraform
 jobs:
   test_cleanup:
     name: Test Cleanup
