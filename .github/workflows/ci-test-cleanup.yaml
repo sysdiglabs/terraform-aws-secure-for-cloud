@@ -23,5 +23,4 @@ jobs:
           bundler-cache: true
 
       - name: Destroy resources
-        if: ${{ failure() }}
         run: bundle exec kitchen destroy
