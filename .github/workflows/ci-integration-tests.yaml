@@ -2,6 +2,8 @@ name: CI - Integration Tests
 
 on:
   pull_request:
+    paths:
+      - '**.tf'
   push:
     branches:
       - master
