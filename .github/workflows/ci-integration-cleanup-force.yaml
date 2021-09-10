@@ -14,13 +14,14 @@ jobs:
       TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7
-          bundler-cache: true
-
-      - name: Destroy resources
-        run: bundle exec kitchen destroy
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#
+#      - uses: ruby/setup-ruby@v1
+#        with:
+#          ruby-version: 2.7
+#          bundler-cache: true
+#
+#      - name: Destroy resources
+#        run: bundle exec kitchen destroy
+      - run: terraform force-unlock 8877bc0f-1699-abe9-6ab8-913113259311
