@@ -2,6 +2,7 @@ provider "aws" {
   region = var.region
 }
 
+# TODO review ways to pass content as input var
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
