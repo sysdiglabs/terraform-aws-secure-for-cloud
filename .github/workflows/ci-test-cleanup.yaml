@@ -1,0 +1,27 @@
+name: CI - Test Cleanup
+on:
+  workflow_dispatch
+
+jobs:
+  test_cleanup:
+    name: Test Cleanup
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
+      TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: Destroy resources
+        if: ${{ failure() }}
+        run: bundle exec kitchen destroy
