@@ -1,3 +1,8 @@
+#
+# note
+# if terraform state gets locked, delete DynamoDB lock rows
+#
+
 name: CI - Integration Tests - Cleanup
 on:
   workflow_dispatch
@@ -21,8 +26,6 @@ jobs:
         with:
           ruby-version: 2.7
           bundler-cache: true
-#
-#      - name: Destroy resources
-#        run: bundle exec kitchen destroy
-#parametrize this
-      - run: cd test/fixtures/tf_module/ && terraform init && terraform force-unlock -force 8877bc0f-1699-abe9-6ab8-913113259311
+
+      - name: Destroy resources
+        run: bundle exec kitchen destroy
