@@ -1,4 +1,4 @@
-name: CI - Test Cleanup
+name: CI - Integration Tests - Cleanup
 on:
   workflow_dispatch
 
