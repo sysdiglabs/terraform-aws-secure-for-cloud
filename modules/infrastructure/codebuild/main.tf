@@ -33,7 +33,5 @@ phases:
 CONFIG
   }
 
-  tags = {
-    Environment = "Test"
-  }
+  tags = var.tags
 }

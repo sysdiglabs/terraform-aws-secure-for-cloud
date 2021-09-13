@@ -1,8 +1,6 @@
-# Sysdig Secure for Cloud in AWS :: Single-Account
+# Sysdig Secure for Cloud in AWS :: Single-Account on ECS Fargate Service
 
-
-
-Deploy Sysdig Secure for Cloud in a single AWS account.
+Deploy Sysdig Secure for Cloud in a single AWS account
 
 All the required resources and workloads will be run under the same AWS account.
 
@@ -32,7 +30,7 @@ module "secure_for_cloud_aws_single_account" {
 
 See [inputs summary](#inputs) or module module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account/variables.tf) file for more optional configuration.
 
-To run this example you need have your [aws master-account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
+To run this example you need have your [aws account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform
 $ terraform init
 $ terraform plan
@@ -68,7 +66,7 @@ Notice that:
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ../../modules/infrastructure/cloudtrail |  |
 | <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ../../modules/infrastructure/codebuild |  |
 | <a name="module_ecs_fargate_cluster"></a> [ecs\_fargate\_cluster](#module\_ecs\_fargate\_cluster) | ../../modules/infrastructure/ecs-fargate-cluster |  |
-| <a name="module_resource_group_master"></a> [resource\_group\_master](#module\_resource\_group\_master) | ../../modules/infrastructure/resource-group |  |
+| <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | ../../modules/infrastructure/resource-group |  |
 | <a name="module_ssm"></a> [ssm](#module\_ssm) | ../../modules/infrastructure/ssm |  |
 
 ## Resources

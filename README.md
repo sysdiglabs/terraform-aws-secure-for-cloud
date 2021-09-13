@@ -20,10 +20,18 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 There are several ways to deploy this in you AWS infrastructure:
 
 ### Single-Account
+
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
 More info in [`./examples/single-account`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account)
 
 ![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/7d142829a701ce78f13691a4af4be373625e7ee2/examples/single-account/diagram-single.png)
+
+
+### Single-Account with a pre-existing Kubernetes Cluster
+
+If you already own a Kubernetes Cluster on AWS, you can use it to deploy Sysdig Secure for Cloud, instead of default ECS cluster.
+
+More info in [`./examples/single-account-k8s`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s)
 
 ### Organizational
 

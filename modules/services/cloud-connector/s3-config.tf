@@ -19,7 +19,7 @@ rules:
       path: rules
 ingestors:
   - cloudtrail-sns-sqs:
-      queueURL: ${aws_sqs_queue.sqs.id}
+      queueURL: ${module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url}
 %{if var.is_organizational}
       assumeRole: ${var.organizational_config.sysdig_secure_for_cloud_role_arn}
 %{endif~}
