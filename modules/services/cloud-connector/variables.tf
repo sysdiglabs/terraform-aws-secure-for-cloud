@@ -120,3 +120,9 @@ variable "tags" {
     "product" = "sysdig-secure-for-cloud"
   }
 }
+
+variable "manage_sns_subscription" {
+  type        = bool
+  description = "Manage the SNS subscription to the SQS topic"
+  default     = true
+}

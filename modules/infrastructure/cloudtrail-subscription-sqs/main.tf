@@ -4,6 +4,7 @@ resource "aws_sqs_queue" "this" {
 }
 
 resource "aws_sns_topic_subscription" "this" {
+  count     = var.manage_sns_subscription ? 1 : 0
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.this.arn
   topic_arn = var.sns_topic_arn
@@ -29,6 +30,11 @@ data "aws_iam_policy_document" "this" {
       "sqs:SendMessage",
       "sqs:SendMessageBatch"
     ]
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:SourceArn"
+      values   = [var.sns_topic_arn]
+    }
     resources = [aws_sqs_queue.this.arn]
   }
 }

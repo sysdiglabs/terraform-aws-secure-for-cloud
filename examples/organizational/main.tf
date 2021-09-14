@@ -28,6 +28,7 @@ module "resource_group" {
 }
 
 module "cloudtrail" {
+  count  = var.manage_management_account ? 1 : 0
   source = "../../modules/infrastructure/cloudtrail"
   name   = var.name
 
@@ -92,8 +93,9 @@ module "cloud_connector" {
   vpc_id      = module.ecs_fargate_cluster.vpc_id
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
 
-  tags       = var.tags
-  depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.ssm]
+  tags                    = var.tags
+  depends_on              = [module.cloudtrail, module.ecs_fargate_cluster, module.ssm]
+  manage_sns_subscription = var.manage_management_account
 }
 
 

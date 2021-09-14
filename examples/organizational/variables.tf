@@ -71,3 +71,9 @@ variable "tags" {
     "product" = "sysdig-secure-for-cloud"
   }
 }
+
+variable "manage_management_account" {
+  type        = bool
+  description = "Manage the management account, in addition to the member account"
+  default     = true
+}
