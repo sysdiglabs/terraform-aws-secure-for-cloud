@@ -5,6 +5,7 @@ resource "sysdig_secure_cloud_account" "cloud_account" {
   account_id     = var.account_id
   cloud_provider = "aws"
   role_enabled   = "true"
+  role_name      = var.role_name
 }
 
 data "sysdig_secure_trusted_cloud_identity" "trusted_identity" {
@@ -30,7 +31,7 @@ resource "sysdig_secure_benchmark_task" "benchmark_task" {
 #
 
 resource "aws_iam_role" "cloudbench_role" {
-  name               = "SysdigCloudBench"
+  name               = var.role_name
   assume_role_policy = data.aws_iam_policy_document.trust_relationship.json
   tags               = var.tags
 }
