@@ -20,8 +20,8 @@ Deploys
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.57.0 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.20 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.21 |
 
 ## Modules
 
