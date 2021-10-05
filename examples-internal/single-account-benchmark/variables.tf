@@ -31,3 +31,15 @@ variable "tags" {
     "product" = "sysdig-secure-for-cloud"
   }
 }
+
+variable "benchmark_regions" {
+  type        = list(string)
+  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
+  default     = []
+}
+
+variable "name" {
+  type        = string
+  description = "Name for the Cloud Vision deployment"
+  default     = "sysdig-secure-for-cloud"
+}

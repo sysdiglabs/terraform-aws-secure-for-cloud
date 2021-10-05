@@ -7,7 +7,7 @@ variable "account_id" {
 # optionals - with default
 #---------------------------------
 
-variable "role_name" {
+variable "name" {
   type        = string
   description = "The name of the IAM Role that will be created."
   default     = "SysdigCloudBench"

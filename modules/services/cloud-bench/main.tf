@@ -5,7 +5,7 @@ resource "sysdig_secure_cloud_account" "cloud_account" {
   account_id     = var.account_id
   cloud_provider = "aws"
   role_enabled   = "true"
-  role_name      = var.role_name
+  role_name      = var.name
 }
 
 data "sysdig_secure_trusted_cloud_identity" "trusted_identity" {
@@ -23,7 +23,11 @@ resource "sysdig_secure_benchmark_task" "benchmark_task" {
   scope    = "aws.accountId = \"${var.account_id}\"${local.regions_scope_clause}"
 
   # Creation of a task requires that the Cloud Account already exists in the backend, and has `role_enabled = true`
-  depends_on = [sysdig_secure_cloud_account.cloud_account]
+  # We only want to create the task once the rust relationship is established, otherwise running the task will fail.
+  depends_on = [
+    sysdig_secure_cloud_account.cloud_account,
+    aws_iam_role_policy_attachment.cloudbench_security_audit, # Depends on cloudbench_role implicitly
+  ]
 }
 
 #
@@ -31,7 +35,7 @@ resource "sysdig_secure_benchmark_task" "benchmark_task" {
 #
 
 resource "aws_iam_role" "cloudbench_role" {
-  name               = var.role_name
+  name               = var.name
   assume_role_policy = data.aws_iam_policy_document.trust_relationship.json
   tags               = var.tags
 }
@@ -51,8 +55,6 @@ data "aws_iam_policy_document" "trust_relationship" {
     }
   }
 }
-
-
 
 resource "aws_iam_role_policy_attachment" "cloudbench_security_audit" {
   role       = aws_iam_role.cloudbench_role.id

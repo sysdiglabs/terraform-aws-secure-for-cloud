@@ -16,4 +16,6 @@ module "cloud_bench" {
 
   account_id = data.aws_caller_identity.me.account_id
   tags       = var.tags
+  regions    = var.benchmark_regions
+  name       = "${var.name}-cloudbench"
 }
