@@ -4,7 +4,7 @@ terraform {
     #    bucket = "kitchentest-terraform-casino"
     bucket         = "kitchentest-terraform"
     key            = "terraform.tfstate"
-    dynamodb_table = "kitchen-test"
+    dynamodb_table = "kitchen_test"
     region         = "eu-west-3"
   }
 }
