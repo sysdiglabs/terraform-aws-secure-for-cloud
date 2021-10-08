@@ -14,7 +14,7 @@ variable "cloudwatch_log_retention" {
 
 variable "name" {
   type        = string
-  default     = "SysdigSecureForCloud"
+  default     = "sfc-codebuild"
   description = "Name for the Cloud Vision deployment"
 }
 

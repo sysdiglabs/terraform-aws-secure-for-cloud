@@ -37,7 +37,7 @@ variable "region" {
 variable "name" {
   type        = string
   description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-secure-for-cloud-k8s"
+  default     = "sfc"
 }
 
 variable "sysdig_secure_endpoint" {

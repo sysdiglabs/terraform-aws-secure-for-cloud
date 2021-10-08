@@ -58,7 +58,7 @@ variable "image" {
 
 variable "scanning_ecs_task_role_name" {
   type        = string
-  default     = "scanning-ECSTaskRole"
+  default     = "ECSTaskRole"
   description = "Default ecs cloudscanning task role name"
 }
 
@@ -119,7 +119,7 @@ variable "sysdig_secure_endpoint" {
 
 variable "name" {
   type        = string
-  default     = "sysdig-secure-for-cloudscanning"
+  default     = "sfc-cloudscanning"
   description = "Name for the Cloud Scanning deployment"
 }
 

@@ -55,7 +55,7 @@ variable "is_multi_region_trail" {
 
 variable "name" {
   type        = string
-  default     = "sysdig-secure-for-cloud"
+  default     = "sfc"
   description = "Name to be assigned to all child resources"
 }
 

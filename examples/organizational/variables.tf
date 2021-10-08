@@ -20,7 +20,7 @@ variable "sysdig_secure_for_cloud_member_account_id" {
 
 variable "connector_ecs_task_role_name" {
   type        = string
-  default     = "cloudconnector-ECSTaskRole"
+  default     = "ECSTaskRole"
   description = "Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach"
 }
 
@@ -55,7 +55,7 @@ variable "region" {
 variable "name" {
   type        = string
   description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-secure-for-cloud"
+  default     = "sfc"
 }
 
 variable "sysdig_secure_endpoint" {

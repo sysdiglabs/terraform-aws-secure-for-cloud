@@ -25,7 +25,7 @@ variable "scanning_build_project_arn" {
 variable "name" {
   type        = string
   description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-secure-for-cloud"
+  default     = "sfc"
 }
 
 

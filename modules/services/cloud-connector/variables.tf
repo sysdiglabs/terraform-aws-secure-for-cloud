@@ -70,7 +70,7 @@ variable "organizational_config" {
 
 variable "connector_ecs_task_role_name" {
   type        = string
-  default     = "connector-ECSTaskRole"
+  default     = "ECSTaskRole"
   description = "Default ecs cloudconnector task role name"
 }
 
@@ -109,7 +109,7 @@ variable "sysdig_secure_endpoint" {
 
 variable "name" {
   type        = string
-  default     = "sysdig-secure-for-cloud-connector"
+  default     = "sfc-cloudconnector"
   description = "Name for the Cloud Connector deployment"
 }
 

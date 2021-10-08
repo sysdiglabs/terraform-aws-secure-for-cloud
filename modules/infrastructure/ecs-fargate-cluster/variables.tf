@@ -5,7 +5,7 @@
 variable "name" {
   type        = string
   description = "Deployment name"
-  default     = "sysdig-secure-for-cloud"
+  default     = "sfc"
 }
 
 variable "tags" {

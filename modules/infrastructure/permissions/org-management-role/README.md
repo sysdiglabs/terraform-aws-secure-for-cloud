@@ -40,7 +40,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudconnector_ecs_task_role_name"></a> [cloudconnector\_ecs\_task\_role\_name](#input\_cloudconnector\_ecs\_task\_role\_name) | cloudconnector ecs task role name | `string` | n/a | yes |
 | <a name="input_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#input\_cloudtrail\_s3\_arn) | Cloudtrail S3 bucket ARN | `string` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Connector deployment | `string` | `"sysdig-secure-for-cloud"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Connector deployment | `string` | `"sfc"` | no |
 | <a name="input_organizational_role_per_account"></a> [organizational\_role\_per\_account](#input\_organizational\_role\_per\_account) | Name of the organizational role deployed by AWS in each account of the organization | `string` | `"OrganizationAccountAccessRole"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
