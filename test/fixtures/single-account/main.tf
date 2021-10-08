@@ -3,6 +3,6 @@ module "cloudvision_aws_single_account" {
 
   sysdig_secure_api_token = var.sysdig_secure_api_token
   sysdig_secure_endpoint  = var.sysdig_secure_endpoint
-  name                    = var.name
-  region                  = "quicktest-${var.region}"
+  name                    = "quicktest-${var.name}"
+  region                  = var.region
 }
