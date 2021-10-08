@@ -1,12 +1,12 @@
 ---
 driver:
   name: terraform
-  root_module_directory: test/fixtures/tf_module
+  root_module_directory: test/fixtures/single-account
   # ################
-  # Uncomment the following two lines if you are deploying /test/fixture/tf_module/main.tf
+  # Uncomment the following two lines if you are deploying /test/fixture/single-account/main.tf
   # using custom tfvars file
   #  variable_files:
-  #    - test/fixtures/tf_module/test.tfvars
+  #    - test/fixtures/single-account/test.tfvars
   # ################
   parallelism: 4
 

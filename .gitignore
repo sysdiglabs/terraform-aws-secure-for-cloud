@@ -42,4 +42,4 @@ override.tf.json
 
 #Kitchen test
 .kitchen/*
-test/fixtures/tf_module/.kitchen/
+test/fixtures/single-account/.kitchen/
