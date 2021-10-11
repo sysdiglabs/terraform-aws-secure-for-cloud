@@ -16,7 +16,7 @@ require 'aws-sdk'
 # variable_file = File.read('test/fixtures/tf_module/test.tfvars')
 # variable_file_hash = Rhcl.parse(variable_file)
 # ##############
-secure_cloud_name_prefix = "kitchen"
+secure_cloud_name_prefix = "sfc-tests-kitchen"
 
 puts "Giving 4 minutes to ECS to deploy services correctly"
 sleep 240
