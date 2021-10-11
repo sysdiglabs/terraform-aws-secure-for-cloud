@@ -56,7 +56,7 @@ variable "is_multi_region_trail" {
 variable "name" {
   type        = string
   default     = "sfc"
-  description = "Name to be assigned to all child resources"
+  description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
 }
 
 variable "tags" {

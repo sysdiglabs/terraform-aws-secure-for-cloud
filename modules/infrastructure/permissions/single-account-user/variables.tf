@@ -24,7 +24,7 @@ variable "scanning_build_project_arn" {
 
 variable "name" {
   type        = string
-  description = "Name for the Cloud Vision deployment"
+  description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
   default     = "sfc"
 }
 

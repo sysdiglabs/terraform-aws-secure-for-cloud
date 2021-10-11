@@ -120,7 +120,7 @@ variable "sysdig_secure_endpoint" {
 variable "name" {
   type        = string
   default     = "sfc-cloudscanning"
-  description = "Name for the Cloud Scanning deployment"
+  description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
 }
 
 variable "tags" {
