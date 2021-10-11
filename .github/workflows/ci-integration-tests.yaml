@@ -4,13 +4,13 @@ on:
   pull_request:
     paths:
       - '**.tf'
-      - '/.github/workflows/*'
+      - '.github/workflows/**'
   push:
     branches:
       - master
     paths:
       - '**.tf'
-      - '/.github/workflows/*'
+      - '.github/workflows/**'
 concurrency: terraform
 
 jobs:
