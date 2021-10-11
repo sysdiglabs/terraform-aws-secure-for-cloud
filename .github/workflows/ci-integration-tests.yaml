@@ -20,6 +20,7 @@ jobs:
       AWS_REGION: ${{ secrets.AWS_REGION }}
       TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
       TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
+      TF_VAR_sysdig_secure_for_cloud_member_account_id= ${{ secrets.AWS_QA_ORG_CLOUDNATIVE_MEMBER_ACCOUNT_ID }}
 
     steps:
       - name: Checkout
