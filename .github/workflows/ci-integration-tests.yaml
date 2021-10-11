@@ -4,12 +4,15 @@ on:
   pull_request:
     paths:
       - '**.tf'
+      - '/.github/workflows/*'
   push:
     branches:
       - master
     paths:
       - '**.tf'
+      - '/.github/workflows/*'
 concurrency: terraform
+
 jobs:
   integration_test:
     name: Test-Kitchen
