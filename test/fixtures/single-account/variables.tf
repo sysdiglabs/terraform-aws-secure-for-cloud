@@ -7,7 +7,7 @@ variable "sysdig_secure_api_token" {
 variable "name" {
   type        = string
   description = "Name is the prefix used in the resources will be created"
-  default     = "kitchen"
+  default     = "sfc-tests-kitchen"
 }
 
 variable "region" {
