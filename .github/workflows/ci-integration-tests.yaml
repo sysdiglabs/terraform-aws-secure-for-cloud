@@ -19,9 +19,6 @@ jobs:
     name: Test-Kitchen
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
       TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
       TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
       TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_ORG_CLOUDNATIVE_MEMBER_ACCOUNT_ID }}
@@ -35,9 +32,24 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
 
-      - name: Run test
-        run: bundle exec kitchen test
+      - name: Run single-account test
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: bundle exec kitchen test single-account
 
-      - name: Destroy resources
+      - name: Destroy single-account resources
         if: ${{ failure() }}
-        run: bundle exec kitchen destroy
+        run: bundle exec kitchen destroy single-account
+
+      - name: Run organizational test
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: bundle exec kitchen test organizational
+
+      - name: Destroy organizational resources
+        if: ${{ failure() }}
+        run: bundle exec kitchen destroy organizational
