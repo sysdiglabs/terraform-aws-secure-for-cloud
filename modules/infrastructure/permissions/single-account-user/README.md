@@ -40,7 +40,7 @@ No modules.
 | <a name="input_cloudtrail_sns_subscribed_sqs_arns"></a> [cloudtrail\_sns\_subscribed\_sqs\_arns](#input\_cloudtrail\_sns\_subscribed\_sqs\_arns) | List of ARNs of the cloudtrail-sns subscribed sqs's | `list(string)` | n/a | yes |
 | <a name="input_scanning_build_project_arn"></a> [scanning\_build\_project\_arn](#input\_scanning\_build\_project\_arn) | ARN of codebuild to launch the image scanning process | `string` | n/a | yes |
 | <a name="input_secure_api_token_secret_name"></a> [secure\_api\_token\_secret\_name](#input\_secure\_api\_token\_secret\_name) | Sysdig Secure API token SSM parameter name | `string` | n/a | yes |
-| <a name="input_name"></a> [name](#input\_name) | Name for the Cloud Vision deployment | `string` | `"sysdig-secure-for-cloud"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs

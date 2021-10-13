@@ -29,16 +29,16 @@ variable "cloudtrail_kms_enable" {
 #
 # general
 #
+variable "name" {
+  type        = string
+  description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
+  default     = "sfc"
+}
+
 variable "region" {
   type        = string
   default     = "eu-central-1"
   description = "Default region for resource creation in both organization management and secure-for-cloud member account"
-}
-
-variable "name" {
-  type        = string
-  description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-secure-for-cloud"
 }
 
 variable "sysdig_secure_endpoint" {

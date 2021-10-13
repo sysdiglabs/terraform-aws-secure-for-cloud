@@ -10,7 +10,7 @@ variable "account_id" {
 variable "name" {
   type        = string
   description = "The name of the IAM Role that will be created."
-  default     = "SysdigCloudBench"
+  default     = "sfc-cloudbench"
 }
 
 variable "regions" {
