@@ -27,6 +27,7 @@ repos:
         args:
           - '--args=--sort-by required'
       - id: terraform_tflint
+        exclude: test\/.*$
         args:
           - '--args=--only=terraform_deprecated_interpolation'
           - '--args=--only=terraform_deprecated_index'
