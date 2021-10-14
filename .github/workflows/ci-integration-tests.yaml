@@ -54,10 +54,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           TF_VAR_backend_aws_access_key: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }} --profile aws_cloudnative
-          aws configure set aws_secret_access_key ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }} --profile aws_cloudnative
-          bundle exec kitchen test organizational
+        run: bundle exec kitchen test organizational
 
       - name: Destroy organizational resources
         env:
@@ -66,7 +63,4 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           TF_VAR_backend_aws_access_key: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
         if: ${{ failure() }}
-        run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }} --profile aws_cloudnative
-          aws configure set aws_secret_access_key ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }} --profile aws_cloudnative
-          bundle exec kitchen destroy organizational
+        run: bundle exec kitchen destroy organizational
