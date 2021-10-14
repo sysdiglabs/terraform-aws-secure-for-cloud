@@ -1,10 +1,10 @@
 # Terraform state storage backend
 terraform {
   backend "s3" {
-    profile        = "aws_clodnative"
-    bucket         = "terraform-cicd-tests"
+    profile        = "aws_cloudnative"
+    bucket         = "secure-cloud-terraform-tests"
     key            = "aws-organizational/terraform.tfstate"
-    dynamodb_table = "terraform-cicd-test"
+    dynamodb_table = "secure-cloud-terraform-tests"
     region         = "eu-west-3"
   }
 }
