@@ -1,3 +1,14 @@
+variable "backend_aws_access_key" {
+  type        = string
+  sensitive   = true
+  description = "Terraform backend AWS access key"
+}
+variable "backend_aws_secret_access_key" {
+  type        = string
+  sensitive   = true
+  description = "Terraform backend AWS secret access key"
+}
+
 
 variable "sysdig_secure_api_token" {
   type        = string

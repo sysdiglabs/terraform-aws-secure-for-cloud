@@ -1,9 +1,9 @@
 # Terraform state storage backend
 terraform {
   backend "s3" {
-    bucket         = "terraform-cicd-tests"
+    bucket         = "secure-cloud-terraform-tests"
     key            = "aws-single-account/terraform.tfstate"
-    dynamodb_table = "terraform-cicd-test"
+    dynamodb_table = "secure-cloud-terraform-tests"
     region         = "eu-west-3"
   }
 }
