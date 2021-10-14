@@ -39,8 +39,22 @@ jobs:
         run: bundle exec kitchen test single-account
 
       - name: Destroy single-account resources
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
         if: ${{ failure() }}
         run: bundle exec kitchen destroy single-account
+
+
+
+      - name: Add cloudnative profile for org run
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
+        run: |
+          aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile cloudnative
+          aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY --profile cloudnative
 
       - name: Run organizational test
         env:
@@ -48,10 +62,13 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           TF_VAR_backend_aws_access_key: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
-          TF_VAR_backend_aws_secret_access_key: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
-          TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
         run: bundle exec kitchen test organizational
 
       - name: Destroy organizational resources
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_MANAGED_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_VAR_backend_aws_access_key: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
         if: ${{ failure() }}
         run: bundle exec kitchen destroy organizational
