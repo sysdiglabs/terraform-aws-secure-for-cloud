@@ -21,7 +21,6 @@ jobs:
     env:
       TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
       TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
-      TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_ORG_CLOUDNATIVE_MEMBER_ACCOUNT_ID }}
 
     steps:
       - name: Checkout
@@ -34,8 +33,8 @@ jobs:
 
       - name: Run single-account test
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: bundle exec kitchen test single-account
 
@@ -45,9 +44,10 @@ jobs:
 
       - name: Run organizational test
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_MANAGED_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
         run: bundle exec kitchen test organizational
 
       - name: Destroy organizational resources
