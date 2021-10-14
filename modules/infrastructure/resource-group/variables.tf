@@ -4,8 +4,8 @@
 
 variable "name" {
   type        = string
-  description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-secure-for-cloud"
+  description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
+  default     = "sfc"
 }
 
 

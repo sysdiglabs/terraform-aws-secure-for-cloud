@@ -67,7 +67,7 @@ module "cloud_connector" {
 
 module "codebuild" {
   source                       = "../../modules/infrastructure/codebuild"
-  name                         = var.name
+  name                         = "${var.name}-codebuild"
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   tags = var.tags
@@ -110,9 +110,9 @@ provider "sysdig" {
 
 module "cloud_bench" {
   source = "../../modules/services/cloud-bench"
+  name   = "${var.name}-cloudbench"
 
   account_id = data.aws_caller_identity.me.account_id
   tags       = var.tags
   regions    = var.benchmark_regions
-  name       = "${var.name}-cloudbench"
 }
