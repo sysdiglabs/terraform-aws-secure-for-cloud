@@ -42,6 +42,16 @@ variable "cloudtrail_kms_enable" {
 }
 
 #
+# benchmark configuration
+#
+
+variable "benchmark_regions" {
+  type        = list(string)
+  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
+  default     = []
+}
+
+#
 # general
 #
 
@@ -50,7 +60,6 @@ variable "region" {
   default     = "eu-central-1"
   description = "Default region for resource creation in both organization master and secure-for-cloud member account"
 }
-
 
 variable "name" {
   type        = string
