@@ -2,8 +2,6 @@
 
 Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
 
-_Note: CSPM/Compliance through cloud-bench module is not supported yet_
-
 * In the **management account**
   * An Organizational Cloutrail will be deployed  (with required S3,SNS)
   * An additional role `SysdigSecureForCloudRole` will be created
@@ -20,6 +18,7 @@ Minimum requirements:
 
 1. Have an existing AWS account as the organization management account
     * Organizational CloudTrail service must be enabled
+    * [Organizational CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html) service must be enabled
 2. AWS profile credentials configuration of the `management` account of the organization
     * This account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
