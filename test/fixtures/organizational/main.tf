@@ -1,4 +1,4 @@
-module "cloudvision_aws_single_account" {
+module "cloudvision_aws_organizational" {
   source = "../../../examples/organizational"
   name   = var.name
   region = var.region
