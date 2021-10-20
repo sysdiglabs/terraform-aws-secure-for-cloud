@@ -25,6 +25,15 @@ variable "cloudtrail_kms_enable" {
   description = "true/false whether cloudtrail delivered events to S3 should persist encrypted"
 }
 
+#
+# benchmark configuration
+#
+
+variable "benchmark_regions" {
+  type        = list(string)
+  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
+  default     = []
+}
 
 #
 # general
@@ -53,10 +62,4 @@ variable "tags" {
   default = {
     "product" = "sysdig-secure-for-cloud"
   }
-}
-
-variable "benchmark_regions" {
-  type        = list(string)
-  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
-  default     = []
 }
