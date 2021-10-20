@@ -38,7 +38,7 @@ More info in [`./examples/single-account-k8s`](https://github.com/sysdiglabs/ter
 Using an organizational configuration Cloudtrail.
 More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
 
-![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/7d142829a701ce78f13691a4af4be373625e7ee2/examples/organizational/diagram-org.png)
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/5b7cf5e8028b3177536c9c847020ad6319342b44/examples/organizational/diagram-org.png)
 
 ### Self-Baked
 
