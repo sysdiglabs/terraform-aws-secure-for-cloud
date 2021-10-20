@@ -15,9 +15,11 @@ module "secure_for_cloud_role" {
   }
   name = var.name
 
-  cloudtrail_s3_arn                 = module.cloudtrail.s3_bucket_arn
-  cloudconnector_ecs_task_role_name = aws_iam_role.connector_ecs_task.name
-  organizational_role_per_account   = var.organizational_member_default_admin_role
+  cloudtrail_s3_arn                         = module.cloudtrail.s3_bucket_arn
+  cloudtrail_sns_arn                        = module.cloudtrail.sns_topic_arn
+  sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
+  cloudconnector_ecs_task_role_name         = aws_iam_role.connector_ecs_task.name
+  organizational_role_per_account           = var.organizational_member_default_admin_role
 
   tags       = var.tags
   depends_on = [aws_iam_role.connector_ecs_task]

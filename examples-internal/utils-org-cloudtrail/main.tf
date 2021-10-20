@@ -17,12 +17,7 @@ module "cloudtrail" {
   source = "../../modules/infrastructure/cloudtrail"
   name   = var.name
 
-  is_organizational = true
-  organizational_config = {
-    sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
-    organizational_role_per_account           = var.organizational_member_default_admin_role
-  }
-
+  is_organizational     = true
   is_multi_region_trail = var.cloudtrail_is_multi_region_trail
   cloudtrail_kms_enable = var.cloudtrail_kms_enable
 
