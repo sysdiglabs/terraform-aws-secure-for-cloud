@@ -76,6 +76,7 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
 }
 
 
+# image-scanning
 resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_assume_role" {
   name   = "${var.name}-AllowAssumeRoleInChildAccounts"
   role   = aws_iam_role.secure_for_cloud_role.id

@@ -7,6 +7,12 @@ variable "sysdig_secure_for_cloud_member_account_id" {
 # optionals - with defaults
 #---------------------------------
 
+variable "organizational_member_default_admin_role" {
+  type        = string
+  default     = "OrganizationAccountAccessRole"
+  description = "Default role created by AWS for managed-account users to be able to admin member accounts.<br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html"
+}
+
 #
 # cloudtrail configuration
 #

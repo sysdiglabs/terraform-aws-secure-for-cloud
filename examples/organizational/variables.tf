@@ -24,6 +24,11 @@ variable "connector_ecs_task_role_name" {
   description = "Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach"
 }
 
+variable "organizational_member_default_admin_role" {
+  type        = string
+  default     = "OrganizationAccountAccessRole"
+  description = "Default role created by AWS for managed-account users to be able to admin member accounts.<br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html"
+}
 
 #
 # cloudtrail configuration

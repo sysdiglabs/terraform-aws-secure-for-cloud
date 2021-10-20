@@ -6,7 +6,7 @@ provider "aws" {
   alias  = "member"
   region = var.region
   assume_role {
-    role_arn = "arn:aws:iam::${var.sysdig_secure_for_cloud_member_account_id}:role/OrganizationAccountAccessRole"
+    role_arn = "arn:aws:iam::${var.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_member_default_admin_role}"
   }
 }
 
@@ -34,6 +34,7 @@ module "cloudtrail" {
   is_organizational = true
   organizational_config = {
     sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
+    organizational_role_per_account           = var.organizational_member_default_admin_role
   }
 
   is_multi_region_trail = var.cloudtrail_is_multi_region_trail
@@ -127,7 +128,7 @@ module "cloud_scanning" {
   is_organizational = true
   organizational_config = {
     sysdig_secure_for_cloud_role_arn = module.secure_for_cloud_role.sysdig_secure_for_cloud_role_arn
-    organizational_role_per_account  = "OrganizationAccountAccessRole"
+    organizational_role_per_account  = var.organizational_member_default_admin_role
     scanning_ecs_task_role_name      = aws_iam_role.connector_ecs_task.name
   }
 
