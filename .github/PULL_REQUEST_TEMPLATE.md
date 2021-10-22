@@ -19,5 +19,5 @@
       - [ ] testing use-cases
       - [ ] snippets on README's
       - [ ] snippets on Secure Platform onboarding
-
+- [ ] had any problems developing this PR? add it to the readme **troubleshooting** list! may come handy to someone
 
