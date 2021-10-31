@@ -28,12 +28,12 @@ resource "helm_release" "cloud_connector" {
 
   set_sensitive {
     name  = "aws.accessKeyId"
-    value = module.credentials.s4c_user_access_key_id
+    value = module.credentials_general.sfc_user_access_key_id
   }
 
   set_sensitive {
     name  = "aws.secretAccessKey"
-    value = module.credentials.s4c_user_secret_access_key
+    value = module.credentials_general.sfc_user_secret_access_key
   }
 
   set {
@@ -54,4 +54,6 @@ ingestors:
       interval: 60s
 CONFIG
   ]
+
+  depends_on = [module.credentials_cloud_connector]
 }

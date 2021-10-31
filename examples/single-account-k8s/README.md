@@ -70,7 +70,9 @@ Notice that:
 | <a name="module_cloud_scanning_sqs"></a> [cloud\_scanning\_sqs](#module\_cloud\_scanning\_sqs) | ../../modules/infrastructure/cloudtrail-subscription-sqs |  |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ../../modules/infrastructure/cloudtrail |  |
 | <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ../../modules/infrastructure/codebuild |  |
-| <a name="module_credentials"></a> [credentials](#module\_credentials) | ../../modules/infrastructure/permissions/single-account-user |  |
+| <a name="module_credentials_cloud_connector"></a> [credentials\_cloud\_connector](#module\_credentials\_cloud\_connector) | ../../modules/infrastructure/permissions/cloud-connector |  |
+| <a name="module_credentials_cloud_scanning"></a> [credentials\_cloud\_scanning](#module\_credentials\_cloud\_scanning) | ../../modules/infrastructure/permissions/cloud-scanning |  |
+| <a name="module_credentials_general"></a> [credentials\_general](#module\_credentials\_general) | ../../modules/infrastructure/permissions/general |  |
 | <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | ../../modules/infrastructure/resource-group |  |
 | <a name="module_ssm"></a> [ssm](#module\_ssm) | ../../modules/infrastructure/ssm |  |
 
