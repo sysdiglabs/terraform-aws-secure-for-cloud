@@ -1,0 +1,4 @@
+export AWS_PROFILE=
+
+export TF_VAR_region=
+export TF_VAR_default_vpc_subnets='["",""]'

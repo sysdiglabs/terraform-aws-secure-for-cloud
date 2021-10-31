@@ -20,6 +20,7 @@ resource "aws_iam_role" "eks_cluster" {
   ]
 }
 POLICY
+  tags               = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
@@ -50,6 +51,7 @@ resource "aws_iam_role" "eks_nodes" {
   ]
 }
 POLICY
+  tags               = var.tags
 }
 
 resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
@@ -76,9 +78,7 @@ resource "aws_eks_cluster" "aws_eks" {
     subnet_ids = var.default_vpc_subnets
   }
 
-  #  tags = {
-  #    Name = var.name
-  #  }
+  tags = var.tags
 }
 
 
@@ -98,4 +98,5 @@ resource "aws_eks_node_group" "node" {
     aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
   ]
+  tags = var.tags
 }
