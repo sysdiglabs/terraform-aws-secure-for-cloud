@@ -73,36 +73,6 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
 
 
 # ------------------------------
-# enable aws_sns_topic_policy Subscribe
-# ------------------------------
-
-#resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_sns" {
-#  name   = "${var.name}-AllowCloudtrailSNSPolicy"
-#  role   = aws_iam_role.secure_for_cloud_role.id
-#  policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_sns.json
-#}
-
-resource "aws_sns_topic_policy" "allow_cloudtrail_publish" {
-  arn    = var.cloudtrail_sns_arn
-  policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_sns.json
-}
-
-data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_sns" {
-  statement {
-    sid    = "AllowSysdigSecureForCloudSubscribe"
-    effect = "Allow"
-    principals {
-      identifiers = [
-        "arn:aws:iam::${var.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_role_per_account}"
-      ]
-      type = "AWS"
-    }
-    actions   = ["sns:Subscribe"]
-    resources = [var.cloudtrail_sns_arn]
-  }
-}
-
-# ------------------------------
 # enable image-scanning on member-account repositories
 # ------------------------------
 resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_assume_role" {

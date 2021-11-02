@@ -5,23 +5,12 @@ variable "cloudconnector_ecs_task_role_name" {
 
 variable "cloudtrail_s3_arn" {
   type        = string
-  description = "Organizational cloudtrail S3 bucket ARN"
-}
-
-variable "cloudtrail_sns_arn" {
-  type        = string
-  description = "Organizational cloudtrail S3 bucket ARN"
-}
-
-variable "sysdig_secure_for_cloud_member_account_id" {
-  type        = string
-  description = "Organizational member account where the secure-for-cloud workload is going to be deployed"
+  description = "Cloudtrail S3 bucket ARN"
 }
 
 #---------------------------------
 # optionals - with defaults
 #---------------------------------
-
 
 variable "name" {
   type        = string

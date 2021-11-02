@@ -23,4 +23,21 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
     actions   = ["sns:Publish"]
     resources = [aws_sns_topic.cloudtrail.arn]
   }
+
+
+  # note; this statement is required to be on the SNS creation,
+  # don't move to other module as policies cannot be overriten/exteneded after creation
+  dynamic "statement" {
+    for_each = var.is_organizational ? [1] : []
+    content {
+      sid    = "AllowSysdigSecureForCloudSubscribe"
+      effect = "Allow"
+      principals {
+        identifiers = ["arn:aws:iam::${var.organizational_config.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_config.organizational_role_per_account}"]
+        type        = "AWS"
+      }
+      actions   = ["sns:Subscribe"]
+      resources = [aws_sns_topic.cloudtrail.arn]
+    }
+  }
 }
