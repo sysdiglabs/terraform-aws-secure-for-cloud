@@ -20,8 +20,7 @@ rules:
 ingestors:
   - cloudtrail-sns-sqs:
       queueURL: ${module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url}
-%{if var.is_organizational}
-      assumeRole: ${var.organizational_config.sysdig_secure_for_cloud_role_arn}
+      %{if var.is_organizational}assumeRole: ${var.organizational_config.sysdig_secure_for_cloud_role_arn}
 %{endif~}
       interval: 25s
 notifiers:
