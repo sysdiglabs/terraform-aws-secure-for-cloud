@@ -3,11 +3,18 @@ variable "sysdig_secure_api_token" {
   sensitive   = true
   description = "Sysdig secure api token"
 }
+variable "sysdig_secure_for_cloud_member_account_id" {
+  type        = string
+  description = "organizational member account where the secure-for-cloud workload is going to be deployed"
+}
+
+
+
 
 variable "name" {
   type        = string
   description = "Name is the prefix used in the resources will be created"
-  default     = "kitchen"
+  default     = "sfc-tests-kitchen"
 }
 
 variable "region" {

@@ -8,12 +8,10 @@ provider "sysdig" {
   sysdig_secure_insecure_tls = length(regexall("https://.*?\\.sysdig(cloud)?.com/?", var.sysdig_secure_endpoint)) == 1 ? false : true
 }
 
-
-data "aws_caller_identity" "me" {}
-
 module "cloud_bench" {
   source = "../../modules/services/cloud-bench"
 
-  account_id = data.aws_caller_identity.me.account_id
-  tags       = var.tags
+  name              = "${var.name}-cloudbench"
+  tags              = var.tags
+  benchmark_regions = var.benchmark_regions
 }

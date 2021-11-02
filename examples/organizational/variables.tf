@@ -20,7 +20,7 @@ variable "sysdig_secure_for_cloud_member_account_id" {
 
 variable "connector_ecs_task_role_name" {
   type        = string
-  default     = "cloudconnector-ECSTaskRole"
+  default     = "organizational-ECSTaskRole"
   description = "Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach"
 }
 
@@ -42,6 +42,16 @@ variable "cloudtrail_kms_enable" {
 }
 
 #
+# benchmark configuration
+#
+
+variable "benchmark_regions" {
+  type        = list(string)
+  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
+  default     = []
+}
+
+#
 # general
 #
 
@@ -51,11 +61,10 @@ variable "region" {
   description = "Default region for resource creation in both organization master and secure-for-cloud member account"
 }
 
-
 variable "name" {
   type        = string
-  description = "Name for the Cloud Vision deployment"
-  default     = "sysdig-secure-for-cloud"
+  description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
+  default     = "sfc"
 }
 
 variable "sysdig_secure_endpoint" {

@@ -13,9 +13,6 @@ resource "aws_sns_topic_subscription" "this" {
 resource "aws_sqs_queue_policy" "this" {
   queue_url = aws_sqs_queue.this.url
   policy    = data.aws_iam_policy_document.this.json
-
-  # required to avoid  error reading SQS Queue Policy; empty result
-  depends_on = [aws_sqs_queue.this]
 }
 
 data "aws_iam_policy_document" "this" {

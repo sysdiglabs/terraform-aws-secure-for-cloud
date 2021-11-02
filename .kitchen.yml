@@ -1,27 +1,19 @@
 ---
 driver:
   name: terraform
-  root_module_directory: test/fixtures/tf_module
-  # ################
-  # Uncomment the following two lines if you are deploying /test/fixture/tf_module/main.tf
-  # using custom tfvars file
-  #  variable_files:
-  #    - test/fixtures/tf_module/test.tfvars
-  # ################
+  root_module_directory: test/fixtures
   parallelism: 4
 
 provisioner:
   name: terraform
 
-verifier:
-  name: "awspec"
-
 platforms:
   - name: "aws"
 
 suites:
-  - name: kt_suite
-    verifier:
-      name: "awspec"
-      patterns:
-        - "test/integration/kt_suite/single-account.rb"
+  - name: single-account
+    driver:
+      root_module_directory: test/fixtures/single-account
+  - name: organizational
+    driver:
+      root_module_directory: test/fixtures/organizational

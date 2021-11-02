@@ -98,27 +98,6 @@ module "cloud_connector" {
   manage_sns_subscription = var.manage_management_account
 }
 
-
-#
-# cloud-bench
-# WIP
-#
-
-#data "aws_caller_identity" "me" {}
-#module "cloud_bench" {
-#  providers = {
-#    aws = aws.member
-#  }
-#  source = "../../modules/services/cloud-bench"
-#
-#  account_id = var.organizational_config.sysdig_secure_for_cloud_member_account_id
-#  tags       = var.tags
-#}
-
-
-
-
-
 #
 # cloud-scanning
 #
@@ -162,4 +141,18 @@ module "cloud_scanning" {
 
   tags       = var.tags
   depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.codebuild, module.ssm]
+}
+
+#-------------------------------------
+# cloud-bench
+#-------------------------------------
+
+module "cloud_bench" {
+  source = "../../modules/services/cloud-bench"
+
+  name              = "${var.name}-cloudbench"
+  tags              = var.tags
+  is_organizational = true
+  region            = var.region
+  benchmark_regions = var.benchmark_regions
 }

@@ -14,8 +14,8 @@ variable "cloudtrail_s3_arn" {
 
 variable "name" {
   type        = string
-  default     = "sysdig-secure-for-cloud"
-  description = "Name for the Cloud Connector deployment"
+  default     = "sfc"
+  description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
 }
 
 variable "organizational_role_per_account" {

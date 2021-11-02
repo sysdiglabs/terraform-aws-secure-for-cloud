@@ -14,8 +14,8 @@ variable "cloudwatch_log_retention" {
 
 variable "name" {
   type        = string
-  default     = "SysdigSecureForCloud"
-  description = "Name for the Cloud Vision deployment"
+  default     = "sfc-codebuild"
+  description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
 }
 
 variable "tags" {
