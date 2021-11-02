@@ -73,12 +73,17 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
 
 
 # ------------------------------
-# enable cloudtrail_sns Subscribe
+# enable aws_sns_topic_policy Subscribe
 # ------------------------------
 
-resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_sns" {
-  name   = "${var.name}-AllowCloudtrailSNSPolicy"
-  role   = aws_iam_role.secure_for_cloud_role.id
+#resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_sns" {
+#  name   = "${var.name}-AllowCloudtrailSNSPolicy"
+#  role   = aws_iam_role.secure_for_cloud_role.id
+#  policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_sns.json
+#}
+
+resource "aws_sns_topic_policy" "allow_cloudtrail_publish" {
+  arn    = var.cloudtrail_sns_arn
   policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_sns.json
 }
 
