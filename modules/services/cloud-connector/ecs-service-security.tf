@@ -46,30 +46,27 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:*", # FIXME. refine only for Get and List
+      "s3:GetObject",
+      "s3:ListBucket",
+    ]
+    resources = ["*"]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
       "sts:AssumeRole",
+    ]
+    resources = ["*"]
+  }
 
-      "logs:DescribeLogStreams",
-      "logs:GetLogEvents",
-      "logs:FilterLogEvents",
-      "logs:PutLogEvents",
-
-      # FIXME. this should be done over the specific resource
+  statement {
+    effect = "Allow"
+    actions = [
       "sqs:DeleteMessage",
       "sqs:DeleteMessageBatch",
       "sqs:ReceiveMessage"
     ]
-    resources = ["*"] # FIXME. make more specific?
-  }
-
-  statement {
-    sid    = "AllowSecurityHub"
-    effect = "Allow"
-    actions = [
-      "securityhub:GetFindings",
-      "securityhub:BatchImportFindings",
-    ]
-    resources = ["arn:aws:securityhub:${data.aws_region.current.name}::product/sysdig/sysdig-cloud-connector"]
+    resources = [module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_arn]
   }
 }
 
