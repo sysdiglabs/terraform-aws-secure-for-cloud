@@ -1,9 +1,5 @@
-provider "aws" {
-  region = var.region
-}
-
 module "credentials_general" {
-  source                      = "../../modules/infrastructure/permissions/general"
+  source                      = "../general"
   name                        = var.name
   secure_api_token_secret_arn = var.ssm_secure_api_token_arn
   tags                        = var.tags
@@ -12,7 +8,7 @@ module "credentials_general" {
 
 module "credentials_cloud_connector" {
   count  = var.enable_cloud_connector ? 1 : 0
-  source = "../../modules/infrastructure/permissions/cloud-connector"
+  source = "../cloud-connector"
   name   = var.name
 
   sfc_user_name                 = module.credentials_general.sfc_user_name
@@ -24,7 +20,7 @@ module "credentials_cloud_connector" {
 
 module "credentials_cloud_scanning" {
   count  = var.enable_cloud_scanning ? 1 : 0
-  source = "../../modules/infrastructure/permissions/cloud-scanning"
+  source = "../cloud-scanning"
   name   = var.name
 
   sfc_user_name                  = module.credentials_general.sfc_user_name

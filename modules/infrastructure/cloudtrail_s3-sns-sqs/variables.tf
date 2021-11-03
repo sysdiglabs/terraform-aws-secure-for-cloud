@@ -1,5 +1,6 @@
 variable "cloudtrail_s3_name" {
-  type = string
+  type        = string
+  description = "Name of the Cloudtrail S3 bucket"
 }
 
 #---------------------------------
