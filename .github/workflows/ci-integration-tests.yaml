@@ -52,7 +52,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
-        run: bundle exec kitchen test "organizational"
+        run: bundle exec kitchen test "organizational-aws"
 
       - name: Destroy organizational resources
         env:
@@ -61,7 +61,7 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
         if: ${{ failure() }}
-        run: bundle exec kitchen destroy "organizational"
+        run: bundle exec kitchen destroy "organizational-aws"
 
       - name: Start minikube
         uses: medyagh/setup-minikube@master
@@ -75,7 +75,7 @@ jobs:
           TF_VAR_org_secretAccessKey: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
           TF_VAR_cloudnative_accessKeyId: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
           TF_VAR_cloudnative_secretAccessKey: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
-        run: bundle exec kitchen test "organizational-k8s-reuse-cloudtrail"
+        run: bundle exec kitchen test "organizational-k8s-reuse-cloudtrail-aws"
 
       - name: Destroy Organizational-k8s-reuse-cloudtrail resources
         env:
@@ -87,4 +87,4 @@ jobs:
           TF_VAR_cloudnative_accessKeyId: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
           TF_VAR_cloudnative_secretAccessKey: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
         if: ${{ failure() }}
-        run: bundle exec kitchen destroy "organizational-k8s-reuse-cloudtrail"
+        run: bundle exec kitchen destroy "organizational-k8s-reuse-cloudtrail-aws"
