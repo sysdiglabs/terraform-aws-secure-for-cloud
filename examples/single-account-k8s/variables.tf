@@ -8,6 +8,19 @@ variable "sysdig_secure_api_token" {
 # optionals - with defaults
 #---------------------------------
 
+variable "enable_cloud_connector" {
+  type        = bool
+  description = "true/false whether to provision cloud_connector permissions"
+  default     = true
+}
+
+variable "enable_cloud_scanning" {
+  type        = bool
+  description = "true/false whether to provision cloud_scanning permissions"
+  default     = true
+}
+
+
 #
 # cloudtrail configuration
 #

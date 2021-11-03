@@ -2,6 +2,7 @@
 # requirements
 #-------------------------------------
 module "cloud_connector_sqs" {
+  count         = var.enable_cloud_connector ? 1 : 0
   source        = "../../modules/infrastructure/sqs-sns-subscription"
   name          = "${var.name}-cloud_connector"
   sns_topic_arn = module.cloudtrail.sns_topic_arn
@@ -13,7 +14,8 @@ module "cloud_connector_sqs" {
 # cloud_connector
 #-------------------------------------
 resource "helm_release" "cloud_connector" {
-  name = "cloud-connector"
+  count = var.enable_cloud_connector ? 1 : 0
+  name  = "cloud-connector"
 
   repository = "https://charts.sysdig.com"
   chart      = "cloud-connector"
@@ -50,7 +52,7 @@ resource "helm_release" "cloud_connector" {
     <<CONFIG
 ingestors:
   - cloudtrail-sns-sqs:
-      queueURL: ${module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url}
+      queueURL: ${module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_url}
 CONFIG
   ]
 

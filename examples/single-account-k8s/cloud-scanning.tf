@@ -2,6 +2,7 @@
 # requirements
 #-------------------------------------
 module "cloud_scanning_sqs" {
+  count         = var.enable_cloud_scanning ? 1 : 0
   source        = "../../modules/infrastructure/sqs-sns-subscription"
   name          = var.name
   sns_topic_arn = module.cloudtrail.sns_topic_arn
@@ -10,6 +11,7 @@ module "cloud_scanning_sqs" {
 
 
 module "codebuild" {
+  count                        = var.enable_cloud_scanning ? 1 : 0
   source                       = "../../modules/infrastructure/codebuild"
   name                         = var.name
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
@@ -23,7 +25,8 @@ module "codebuild" {
 # cloud_scanning
 #-------------------------------------
 resource "helm_release" "cloud_scanning" {
-  name = "cloud-scanning"
+  count = var.enable_cloud_scanning ? 1 : 0
+  name  = "cloud-scanning"
 
   repository = "https://charts.sysdig.com"
   chart      = "cloud-scanning"
@@ -63,12 +66,12 @@ resource "helm_release" "cloud_scanning" {
 
   set {
     name  = "sqsQueueUrl"
-    value = module.cloud_scanning_sqs.cloudtrail_sns_subscribed_sqs_url
+    value = module.cloud_scanning_sqs[0].cloudtrail_sns_subscribed_sqs_url
   }
 
   set {
     name  = "codeBuildProject"
-    value = module.codebuild.project_name
+    value = module.codebuild[0].project_name
   }
 
   depends_on = [module.iam_user]
