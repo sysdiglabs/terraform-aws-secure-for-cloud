@@ -66,8 +66,8 @@ Notice that:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../modules/infrastructure/cloudtrail-subscription-sqs |  |
-| <a name="module_cloud_scanning_sqs"></a> [cloud\_scanning\_sqs](#module\_cloud\_scanning\_sqs) | ../../modules/infrastructure/cloudtrail-subscription-sqs |  |
+| <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../modules/infrastructure/sqs-sns-subscription |  |
+| <a name="module_cloud_scanning_sqs"></a> [cloud\_scanning\_sqs](#module\_cloud\_scanning\_sqs) | ../../modules/infrastructure/sqs-sns-subscription |  |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ../../modules/infrastructure/cloudtrail |  |
 | <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ../../modules/infrastructure/codebuild |  |
 | <a name="module_credentials_cloud_connector"></a> [credentials\_cloud\_connector](#module\_credentials\_cloud\_connector) | ../../modules/infrastructure/permissions/cloud-connector |  |

@@ -2,7 +2,7 @@
 # requirements
 #-------------------------------------
 module "cloud_scanning_sqs" {
-  source        = "../../modules/infrastructure/cloudtrail-subscription-sqs"
+  source        = "../../modules/infrastructure/sqs-sns-subscription"
   name          = var.name
   sns_topic_arn = module.cloudtrail.sns_topic_arn
   tags          = var.tags
