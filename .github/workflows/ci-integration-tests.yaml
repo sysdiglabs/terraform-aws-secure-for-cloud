@@ -89,7 +89,7 @@ jobs:
           TF_VAR_org_secretAccessKey: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
           TF_VAR_cloudnative_accessKeyId: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
           TF_VAR_cloudnative_secretAccessKey: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
-        run: bundle exec kitchen test "organizational-k8s-reuse_cloudtrail"
+        run: bundle exec kitchen test "organizational-k8s-reuse-cloudtrail"
 
       - name: Destroy Organizational-k8s-reuse-cloudtrail resources
         env:
