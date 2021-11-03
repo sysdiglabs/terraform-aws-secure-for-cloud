@@ -28,7 +28,6 @@ module "cloudtrail_s3_sns_sqs" {
   }
   source             = "../../../modules/infrastructure/cloudtrail_s3-sns-sqs"
   cloudtrail_s3_name = var.cloudtrail_s3_name
-  region             = var.region
 }
 
 
