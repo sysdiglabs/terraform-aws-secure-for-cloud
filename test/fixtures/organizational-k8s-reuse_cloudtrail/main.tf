@@ -31,7 +31,7 @@ module "cloudtrail_s3_sns_sqs" {
 }
 
 
-module "org_credentials_threat" {
+module "org_user" {
   providers = {
     aws = aws.admin
   }
@@ -47,7 +47,7 @@ module "org_role" {
   }
   source = "../../../modules/infrastructure/permissions/eks-org-role"
 
-  user_arn              = module.org_credentials_threat.sfc_user_arn
+  user_arn              = module.org_user.sfc_user_arn
   cloudtrail_s3_arn     = module.cloudtrail_s3_sns_sqs.cloudtrail_s3_arn
   enable_cloud_scanning = false
 }

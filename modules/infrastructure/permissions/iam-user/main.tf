@@ -28,8 +28,6 @@ module "credentials_cloud_connector" {
   sfc_user_name                 = aws_iam_user.this.name
   cloudtrail_s3_bucket_arn      = var.cloudtrail_s3_bucket_arn
   cloudtrail_subscribed_sqs_arn = var.cloudtrail_subscribed_sqs_arn
-
-  depends_on = [module.credentials_general]
 }
 
 module "credentials_cloud_scanning" {
@@ -40,6 +38,4 @@ module "credentials_cloud_scanning" {
   sfc_user_name                  = aws_iam_user.this.name
   scanning_codebuild_project_arn = var.scanning_codebuild_project_arn
   cloudtrail_subscribed_sqs_arn  = var.cloudtrail_subscribed_sqs_arn
-
-  depends_on = [module.credentials_general]
 }
