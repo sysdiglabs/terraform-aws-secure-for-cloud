@@ -70,8 +70,8 @@ module "org_k8s_threat_reuse_cloudtrail" {
   sysdig_secure_endpoint    = var.sysdig_secure_endpoint
   cloudtrail_s3_sns_sqs_url = module.cloudtrail_s3_sns_sqs.cloudtrail_subscribed_sqs_url
 
-  aws_access_key_id     = module.org_credentials_threat.sfc_user_access_key_id
-  aws_secret_access_key = module.org_credentials_threat.sfc_user_secret_access_key
+  aws_access_key_id     = module.org_user.sfc_user_access_key_id
+  aws_secret_access_key = module.org_user.sfc_user_secret_access_key
 
   organization_managed_role_arn = module.org_role.sysdig_secure_for_cloud_role_arn
 
