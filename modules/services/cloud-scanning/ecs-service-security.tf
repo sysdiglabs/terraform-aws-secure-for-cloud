@@ -45,16 +45,19 @@ data "aws_iam_policy_document" "iam_role_task_role_policy" {
   statement {
     effect = "Allow"
     actions = [
-      "s3:Get*",
-      "s3:List",
-      "s3:Put*",
-      "s3:Head",
-
+      "s3:GetObject",
+      "s3:ListBucket",
+    ]
+    resources = ["*"]
+  }
+  statement {
+    effect = "Allow"
+    actions = [
       "sqs:DeleteMessage",
       "sqs:DeleteMessageBatch",
       "sqs:ReceiveMessage"
     ]
-    resources = ["*"]
+    resources = [module.cloud_scanning_sqs.cloudtrail_sns_subscribed_sqs_arn]
   }
 }
 
