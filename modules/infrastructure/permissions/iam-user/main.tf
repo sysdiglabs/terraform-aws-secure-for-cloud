@@ -17,6 +17,8 @@ module "credentials_general" {
 
   sfc_user_name               = aws_iam_user.this.name
   secure_api_token_secret_arn = var.ssm_secure_api_token_arn
+
+  depends_on = [aws_iam_user.this]
 }
 
 
@@ -28,6 +30,8 @@ module "credentials_cloud_connector" {
   sfc_user_name                 = aws_iam_user.this.name
   cloudtrail_s3_bucket_arn      = var.cloudtrail_s3_bucket_arn
   cloudtrail_subscribed_sqs_arn = var.cloudtrail_subscribed_sqs_arn
+
+  depends_on = [aws_iam_user.this]
 }
 
 module "credentials_cloud_scanning" {
@@ -38,4 +42,6 @@ module "credentials_cloud_scanning" {
   sfc_user_name                  = aws_iam_user.this.name
   scanning_codebuild_project_arn = var.scanning_codebuild_project_arn
   cloudtrail_subscribed_sqs_arn  = var.cloudtrail_subscribed_sqs_arn
+
+  depends_on = [aws_iam_user.this]
 }
