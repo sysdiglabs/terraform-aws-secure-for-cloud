@@ -33,12 +33,12 @@ resource "helm_release" "cloud_scanning" {
 
   set_sensitive {
     name  = "aws.accessKeyId"
-    value = module.credentials_general.sfc_user_access_key_id
+    value = module.iam_user.sfc_user_access_key_id
   }
 
   set_sensitive {
     name  = "aws.secretAccessKey"
-    value = module.credentials_general.sfc_user_secret_access_key
+    value = module.iam_user.sfc_user_secret_access_key
   }
 
   set_sensitive {
@@ -71,5 +71,5 @@ resource "helm_release" "cloud_scanning" {
     value = module.codebuild.project_name
   }
 
-  depends_on = [module.credentials_cloud_scanning]
+  depends_on = [module.iam_user]
 }

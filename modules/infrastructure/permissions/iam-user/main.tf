@@ -1,8 +1,22 @@
+
+resource "aws_iam_user" "this" {
+  name          = var.name
+  force_destroy = true
+}
+
+resource "aws_iam_access_key" "this" {
+  user = aws_iam_user.this.name
+}
+
+
+
+
 module "credentials_general" {
-  source                      = "../general"
-  name                        = var.name
+  source = "../general"
+  name   = var.name
+
+  sfc_user_name               = aws_iam_user.this.name
   secure_api_token_secret_arn = var.ssm_secure_api_token_arn
-  tags                        = var.tags
 }
 
 
@@ -11,7 +25,7 @@ module "credentials_cloud_connector" {
   source = "../cloud-connector"
   name   = var.name
 
-  sfc_user_name                 = module.credentials_general.sfc_user_name
+  sfc_user_name                 = aws_iam_user.this.name
   cloudtrail_s3_bucket_arn      = var.cloudtrail_s3_bucket_arn
   cloudtrail_subscribed_sqs_arn = var.cloudtrail_subscribed_sqs_arn
 
@@ -23,7 +37,7 @@ module "credentials_cloud_scanning" {
   source = "../cloud-scanning"
   name   = var.name
 
-  sfc_user_name                  = module.credentials_general.sfc_user_name
+  sfc_user_name                  = aws_iam_user.this.name
   scanning_codebuild_project_arn = var.scanning_codebuild_project_arn
   cloudtrail_subscribed_sqs_arn  = var.cloudtrail_subscribed_sqs_arn
 

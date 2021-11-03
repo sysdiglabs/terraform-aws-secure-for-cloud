@@ -33,11 +33,11 @@ module "org_k8s_threat_reuse_cloudtrail" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/organizational-k8s-threat-reuse_cloudtrail"
 
   sysdig_secure_api_token   = "00000000-1111-2222-3333-444444444444"
-  
+
   region                          = "CLOUDTRAIL_SNS_SQS_REGION"
   cloudtrail_s3_sns_sqs_url       = "SQS-URL"
   organization_managed_role_arn   = "ARN_ROLE_FOR_MEMBER_ACCOUNT_PERMISSIONS"
-  
+
   aws_access_key_id         = "AWS_ACCESSK_KEY"
   aws_secret_access_key     = "AWS_SECRET_ACCESS_KEY"
 }
@@ -64,12 +64,13 @@ Notice that:
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.50.0 |
+| <a name="requirement_helm"></a> [helm](#requirement\_helm) | >=2.3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_helm"></a> [helm](#provider\_helm) | n/a |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | >=2.3.0 |
 
 ## Modules
 
@@ -91,9 +92,9 @@ Notice that:
 | <a name="input_aws_access_key_id"></a> [aws\_access\_key\_id](#input\_aws\_access\_key\_id) | cloud-connector. aws credentials in order to access required aws resources. aws.accessKeyId | `string` | n/a | yes |
 | <a name="input_aws_secret_access_key"></a> [aws\_secret\_access\_key](#input\_aws\_secret\_access\_key) | cloud-connector. aws credentials in order to access required aws resources. aws.secretAccessKey | `string` | n/a | yes |
 | <a name="input_cloudtrail_s3_sns_sqs_url"></a> [cloudtrail\_s3\_sns\_sqs\_url](#input\_cloudtrail\_s3\_sns\_sqs\_url) | Organization cloudtrail event notification  S3-SNS-SQS URL to listen to | `string` | n/a | yes |
-| <a name="input_organization_managed_role_arn"></a> [organization\_managed\_role\_arn](#input\_organization\_managed\_role\_arn) | `sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the secure\_for\_cloud\_role | `string` | n/a | yes |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
+| <a name="input_organization_managed_role_arn"></a> [organization\_managed\_role\_arn](#input\_organization\_managed\_role\_arn) | `sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the secure\_for\_cloud\_role | `string` | `"none"` | no |
 | <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in both organization master and secure-for-cloud member account | `string` | `"eu-central-1"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |

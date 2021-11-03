@@ -7,21 +7,15 @@ variable "cloudtrail_s3_name" {
 # optionals - with defaults
 #---------------------------------
 
-variable "event_notification_filter_prefix" {
-  type    = string
-  default = ""
-}
-
-##
-## general
-##
-#
-variable "region" {
+variable "s3_event_notification_filter_prefix" {
   type        = string
-  default     = "eu-central-1"
-  description = "Default region for resource creation in both organization master and secure-for-cloud member account"
+  default     = ""
+  description = "S3 Path filter prefix for event notification"
 }
 
+#
+# general
+#
 
 variable "name" {
   type        = string

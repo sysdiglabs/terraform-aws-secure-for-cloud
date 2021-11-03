@@ -12,13 +12,8 @@ resource "helm_release" "cloud_connector" {
 
   # TODO. DELETEME. test
   set {
-    name  = "image.repository"
-    value = "ghcr.io/sysdiglabs/cloud-connector"
-  }
-
-  set {
     name  = "image.tag"
-    value = "pr-553"
+    value = "master"
   }
 
 
