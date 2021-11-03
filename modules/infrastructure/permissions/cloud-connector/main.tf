@@ -9,11 +9,8 @@ data "aws_iam_policy_document" "cloud_connector" {
     sid    = "AllowReadCloudtrailS3"
     effect = "Allow"
     actions = [
-      "s3:Get*",
-      "s3:List*"
-      # TODO. scanning, only when used with ECS mode
-      #      "s3:Put*",
-      #      "s3:Head",
+      "s3:GetObject",
+      "s3:ListBucket",
     ]
     resources = [
       var.cloudtrail_s3_bucket_arn,

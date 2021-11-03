@@ -1,7 +1,6 @@
-# AWS Single-Account User Permissions
+# Permissions :: General
 
-Module will create a user with its accessKey/secret, with all the required permissions for `/examples/single-account-k8s` to work.
-These permissions are what it's required for both threat-detection and scanning to work.
+Will create an IAM user and add general permissions
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -43,6 +42,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_sfc_user_access_key_id"></a> [sfc\_user\_access\_key\_id](#output\_sfc\_user\_access\_key\_id) | Secure for cloud Provisioned user accessKey |
+| <a name="output_sfc_user_arn"></a> [sfc\_user\_arn](#output\_sfc\_user\_arn) | ARN of the Secure for cloud Provisioned IAM user |
 | <a name="output_sfc_user_name"></a> [sfc\_user\_name](#output\_sfc\_user\_name) | Name of the Secure for cloud Provisioned IAM user |
 | <a name="output_sfc_user_secret_access_key"></a> [sfc\_user\_secret\_access\_key](#output\_sfc\_user\_secret\_access\_key) | Secure for cloud Provisioned user secretAccessKey |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -3,6 +3,12 @@ output "sfc_user_name" {
   description = "Name of the Secure for cloud Provisioned IAM user"
 }
 
+output "sfc_user_arn" {
+  value       = module.credentials_general.sfc_user_arn
+  description = "ARN of the Secure for cloud Provisioned IAM user"
+}
+
+
 output "sfc_user_access_key_id" {
   value       = module.credentials_general.sfc_user_access_key_id
   description = "Secure for cloud Provisioned user accessKey"

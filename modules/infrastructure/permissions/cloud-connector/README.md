@@ -1,7 +1,4 @@
-# AWS Single-Account User Permissions
-
-Module will create a user with its accessKey/secret, with all the required permissions for `/examples/single-account-k8s` to work.
-These permissions are what it's required for both threat-detection and scanning to work.
+# Permissions :: Cloud Connector
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
