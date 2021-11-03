@@ -21,9 +21,9 @@ data "aws_iam_policy_document" "cloud_connector" {
   }
 
   dynamic "statement" {
-    for_each = var.cloudtrail_s3_bucket_arn != "*" ? ["this"] : []
+    for_each = var.cloudtrail_s3_bucket_arn != "*" ? [1] : []
     content {
-      sid    = "AllowReadCloudtrailS3_Logs"
+      sid    = "AllowReadCloudtrailS3"
       effect = "Allow"
       actions = [
         "s3:Get*",
