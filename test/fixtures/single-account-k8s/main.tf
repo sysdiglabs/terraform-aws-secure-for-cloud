@@ -1,3 +1,13 @@
+provider "aws" {
+  region = var.region
+}
+
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
+
 module "cloudvision_aws_single_account_k8s" {
   source = "../../../examples/single-account-k8s"
   name   = "${var.name}-singlek8s"

@@ -44,7 +44,7 @@ variable "cloudtrail_kms_enable" {
 variable "region" {
   type        = string
   default     = "eu-central-1"
-  description = "Default region for resource creation in both organization master and secure-for-cloud member account"
+  description = "Default region for resource creation"
 }
 
 variable "name" {

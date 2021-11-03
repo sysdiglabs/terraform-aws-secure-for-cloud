@@ -101,7 +101,7 @@ Notice that:
 | <a name="input_enable_cloud_connector"></a> [enable\_cloud\_connector](#input\_enable\_cloud\_connector) | true/false whether to provision cloud\_connector permissions | `bool` | `true` | no |
 | <a name="input_enable_cloud_scanning"></a> [enable\_cloud\_scanning](#input\_enable\_cloud\_scanning) | true/false whether to provision cloud\_scanning permissions | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in both organization master and secure-for-cloud member account | `string` | `"eu-central-1"` | no |
+| <a name="input_region"></a> [region](#input\_region) | Default region for resource creation | `string` | `"eu-central-1"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
