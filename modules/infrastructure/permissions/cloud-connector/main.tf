@@ -16,25 +16,11 @@ data "aws_iam_policy_document" "cloud_connector" {
       #      "s3:Head",
     ]
     resources = [
-      var.cloudtrail_s3_bucket_arn
+      var.cloudtrail_s3_bucket_arn,
+      "${var.cloudtrail_s3_bucket_arn}/AWSLogs/*"
     ]
   }
 
-  dynamic "statement" {
-    for_each = var.cloudtrail_s3_bucket_arn != "*" ? [1] : []
-    content {
-      sid    = "AllowReadCloudtrailS3"
-      effect = "Allow"
-      actions = [
-        "s3:Get*",
-        "s3:List*"
-      ]
-      resources = [
-        var.cloudtrail_s3_bucket_arn,
-        "${var.cloudtrail_s3_bucket_arn}/AWSLogs/*"
-      ]
-    }
-  }
 
   statement {
     sid    = "AllowReadWriteCloudtrailSubscribedSQS"
