@@ -7,9 +7,9 @@ variable "cloudtrail_s3_name" {
 # optionals - with defaults
 #---------------------------------
 
-variable "event_notification_path_filter" {
+variable "event_notification_filter_prefix" {
   type    = string
-  default = "*"
+  default = ""
 }
 
 ##
