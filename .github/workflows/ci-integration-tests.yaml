@@ -15,8 +15,10 @@ on:
 concurrency: terraform
 
 jobs:
-  integration_test:
-    name: Test-Kitchen-ECS/EKS
+  integration_test_ecs:
+    concurrency: terraform-account
+
+    name: Test-Kitchen-ECS
     runs-on: ubuntu-latest
     env:
       TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
@@ -36,7 +38,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-        run: bundle exec kitchen test single-account
+        run: bundle exec kitchen test "single-account-aws"
 
       - name: Destroy single-account resources
         env:
@@ -44,7 +46,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         if: ${{ failure() }}
-        run: bundle exec kitchen destroy single-account
+        run: bundle exec kitchen destroy "single-account-aws"
 
       - name: Run organizational test
         env:
@@ -63,30 +65,51 @@ jobs:
         if: ${{ failure() }}
         run: bundle exec kitchen destroy "organizational-aws"
 
-      - name: Start minikube
-        uses: medyagh/setup-minikube@master
+  integration_test-eks:
+    concurrency: terraform-account
+    continue-on-error: true
 
-      - name: Organizational-k8s-reuse-cloudtrail
-        env:
-          TF_VAR_region: ${{ secrets.AWS_QA_MANAGED_RESOURCES_REGION }}
-          TF_VAR_cloudtrail_s3_name : ${{ secrets.AWS_QA_MANAGED_CLOUDTRAIL_NAME }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_MANAGED_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
-          TF_VAR_org_accessKeyId: ${{ secrets.AWS_QA_MANAGED_ACCESS_KEY_ID }}
-          TF_VAR_org_secretAccessKey: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
-          TF_VAR_cloudnative_accessKeyId: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
-          TF_VAR_cloudnative_secretAccessKey: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
-        run: bundle exec kitchen test "organizational-k8s-reuse-cloudtrail-aws"
+    name: Test-Kitchen-EKS
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
+      TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
 
-      - name: Destroy Organizational-k8s-reuse-cloudtrail resources
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.2.0
+        with:
+          wait: 120s
+
+      - name: Run single-account-k8s test
         env:
-          TF_VAR_region: ${{ secrets.AWS_QA_MANAGED_RESOURCES_REGION }}
-          TF_VAR_cloudtrail_s3_name : ${{ secrets.AWS_QA_MANAGED_CLOUDTRAIL_NAME }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_MANAGED_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
-          TF_VAR_org_accessKeyId: ${{ secrets.AWS_QA_MANAGED_ACCESS_KEY_ID }}
-          TF_VAR_org_secretAccessKey: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
-          TF_VAR_cloudnative_accessKeyId: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
-          TF_VAR_cloudnative_secretAccessKey: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        run: bundle exec kitchen test "single-account-k8s-aws"
+
+      - name: Inspect k8s failures
         if: ${{ failure() }}
-        run: bundle exec kitchen destroy "organizational-k8s-reuse-cloudtrail-aws"
+        run: |
+          kubectl get namespaces
+          kubectl get deployments -n sfc-tests-kitchen-singlek8s
+          kubectl describe deployment cloud-connector -n sfc-tests-kitchen-singlek8s
+          kubectl logs deployment.apps/cloud-connector -n sfc-tests-kitchen-singlek8s
+          kubectl logs deployment.apps/cloud-scanning -n sfc-tests-kitchen-singlek8s
+
+
+      - name: Destroy single-account-k8s resources
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}}}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+        if: ${{ failure() }}
+        run: bundle exec kitchen destroy "single-account-k8s-aws"

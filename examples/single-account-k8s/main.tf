@@ -1,19 +1,3 @@
-provider "aws" {
-  region = var.region
-}
-
-# TODO review ways to pass content as input var
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-  }
-}
-
-
-#-------------------------------------
-# general resources
-#-------------------------------------
-
 module "resource_group" {
   source = "../../modules/infrastructure/resource-group"
   name   = var.name

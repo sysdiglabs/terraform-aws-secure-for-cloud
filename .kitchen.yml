@@ -14,6 +14,9 @@ suites:
   - name: single-account
     driver:
       root_module_directory: test/fixtures/single-account
+  - name: single-account-k8s
+    driver:
+      root_module_directory: test/fixtures/single-account-k8s
   - name: organizational
     driver:
       root_module_directory: test/fixtures/organizational
