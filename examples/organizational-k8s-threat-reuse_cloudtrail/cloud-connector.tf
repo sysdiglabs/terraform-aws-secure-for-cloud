@@ -10,13 +10,6 @@ resource "helm_release" "cloud_connector" {
   create_namespace = true
   namespace        = var.name
 
-  # TODO. DELETEME. test
-  set {
-    name  = "image.tag"
-    value = "master"
-  }
-
-
   set {
     name  = "image.pullPolicy"
     value = "Always"
