@@ -62,7 +62,7 @@ module "org_k8s_threat_reuse_cloudtrail" {
   providers = {
     aws = aws.cloudnative
   }
-  source = "../../../examples/organizational-k8s-threat-reuse_cloudtrail"
+  source = "../../../examples-internal/organizational-k8s-threat-reuse_cloudtrail"
   name   = var.name
   region = var.region
 

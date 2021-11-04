@@ -1,4 +1,5 @@
-# Sysdig Secure for Cloud in AWS :: Organizational, threat-detection with pre-existing resources (EKS + cloudtrail through S3-SNS-SQS events)
+# Sysdig Secure for Cloud in AWS<br/>:: Organizational, threat-detection with pre-existing resources (EKS + cloudtrail through S3-SNS-SQS events)
+
 
 - Sysdig **Helm** chart will be used to deploy threat-detection
     - [Cloud-Connector Chart](https://charts.sysdig.com/charts/cloud-connector/)
@@ -6,7 +7,7 @@
 - An existing cloudtrail is used, but instead of sending events directly to an SNS topic (disabled), we will make use of a topic (SQS)
   which will be subscribed to the multiple possible SNS topics listening to the cloudtrail-S3 bucket changes.
 
-![diagram](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/organizational-k8s-threat-reuse_cloudtrail/diagram.png)
+![diagram](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples-internal/organizational-k8s-threat-reuse_cloudtrail/diagram.png)
 
 All the required resources and workloads will be run under the same AWS account, held in a member-account of the organization.
 
@@ -14,23 +15,36 @@ All the required resources and workloads will be run under the same AWS account,
 
 Minimum requirements:
 
-1. AWS profile credentials configured within yor `aws` provider
-2. A Kubernetes cluster configured within your `helm` provider
-3. Secure requirements, as input variable value
+1. **AWS** profile credentials configured within yor `aws` provider
+2. A **Kubernetes** cluster configured within your `helm` provider
+3. **Sysdig** Secure API token , as input variable value
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
-4. An S3 event-notification subscribed SNS topic.<br/>see `modules/infrastructure/cloudtrail_s3-sns-sqs` for guidance<br/><br/>
-5. A SQS topic subscribed to the S3-SNS event notifications.<br/> see `modules/infrastructure/sqs-sns-subscription` for guidance`<br/><br/>
-
+4. S3 event-notification subscribed SNS topic(s).<br/>see `modules/infrastructure/cloudtrail_s3-sns-sqs` for guidance<br/><br/>
+5. **SQS topic** subscribed to the S3-SNS event notifications.<br/>The ARN of this SQS will be used as an input parameter to the module.<br/>
+   see `modules/infrastructure/sqs-sns-subscription` for guidance`<br/><br/>
+6. If the module is to be deployed on an AWS Organization **member account** which is not the same where the Cloudtrail-S3 events are located,
+   the `organization_managed_role_arn` input variable must be used<br/>
+   This will provide the **ARN of a role** that `cloud-connector` module will use to fetch the events from the S3 bucket.<br/>
+   see `modules/infrastructure/permissions/eks-org-role` for guidance`<br/><br/>
 
 ## Usage
 
 For quick testing, use this snippet on your terraform files.
 
 ```terraform
+provider "aws" {
+  region = var.region
+  ...
+}
+
+provider "helm" {
+  ...
+}
+
 module "org_k8s_threat_reuse_cloudtrail" {
-  source = "sysdiglabs/secure-for-cloud/aws//examples/organizational-k8s-threat-reuse_cloudtrail"
+  source = "sysdiglabs/secure-for-cloud/aws//examples-internal/organizational-k8s-threat-reuse_cloudtrail"
 
   sysdig_secure_api_token   = "00000000-1111-2222-3333-444444444444"
 
@@ -44,7 +58,7 @@ module "org_k8s_threat_reuse_cloudtrail" {
 
 ```
 
-See [inputs summary](#inputs) or module module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/organizational-k8s-threat-reuse_cloudtrail/variables.tf) file for more optional configuration.
+See [inputs summary](#inputs) or module module [`variables.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples-internal/organizational-k8s-threat-reuse_cloudtrail/variables.tf) file for more optional configuration.
 
 To run this example you need have your [aws account profile configured in CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html) and to execute:
 ```terraform

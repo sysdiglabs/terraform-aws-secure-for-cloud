@@ -28,12 +28,11 @@ For quick testing, use this snippet on your terraform files
 ```terraform
 provider "aws" {
   region = var.region
+  ...
 }
 
 provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-  }
+  ...
 }
 
 module "secure_for_cloud_aws_single_account" {
