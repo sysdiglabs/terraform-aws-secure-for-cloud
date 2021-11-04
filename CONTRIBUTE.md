@@ -64,8 +64,8 @@ $ bundle exec kitchen tests
 Because CI/CD sometimes fail, we setup the Terraform state to be handled in backend (s3+dynamo) within the Sysdig AWS backend (sysdig-test-account).
 In order to be able to use this Terraform backend AWS credentials are configured as Github project secret
 
-If you need to handle the remote state on your local for any cleanup, please do it using `kitchen destroy`, not `terraform destroy`
-
+If terraform state ends up in bad shape and not cleaned, use the action called `Test Cleanup` that should destroy any messed situation.
+If this does not work, try it from your local, but please do it using `kitchen destroy`, not `terraform destroy` unless you really know what you're doing :]
 
 ### Deployed infrastructure resources
 
