@@ -16,7 +16,7 @@ concurrency: terraform
 
 jobs:
   integration_test_ecs:
-    if: {{ false }} # tmp testing
+    if: false
     concurrency: terraform-account
     name: Test-Kitchen-ECS
     runs-on: ubuntu-latest
