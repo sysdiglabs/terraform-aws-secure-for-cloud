@@ -67,7 +67,7 @@ jobs:
 
   integration_test-eks:
     concurrency: terraform-account
-    needs: integration_test_ecs
+    continue-on-error: true
 
     name: Test-Kitchen-EKS
     runs-on: ubuntu-latest
