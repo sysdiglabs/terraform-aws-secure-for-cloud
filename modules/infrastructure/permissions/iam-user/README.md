@@ -1,6 +1,6 @@
 # Permissions :: Single-Account user credentials
 
-Will create an IAM user and add general permissions
+Will create an IAM user and add add permissions for required modules
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
