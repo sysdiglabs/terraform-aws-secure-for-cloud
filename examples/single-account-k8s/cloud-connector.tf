@@ -2,7 +2,9 @@
 # requirements
 #-------------------------------------
 module "cloud_connector_sqs" {
-  source        = "../../modules/infrastructure/cloudtrail-subscription-sqs"
+  count  = var.enable_cloud_connector ? 1 : 0
+  source = "../../modules/infrastructure/sqs-sns-subscription"
+
   name          = "${var.name}-cloud_connector"
   sns_topic_arn = module.cloudtrail.sns_topic_arn
   tags          = var.tags
@@ -13,8 +15,9 @@ module "cloud_connector_sqs" {
 # cloud_connector
 #-------------------------------------
 resource "helm_release" "cloud_connector" {
-  name = "cloud-connector"
+  count = var.enable_cloud_connector ? 1 : 0
 
+  name       = "cloud-connector"
   repository = "https://charts.sysdig.com"
   chart      = "cloud-connector"
 
@@ -28,12 +31,12 @@ resource "helm_release" "cloud_connector" {
 
   set_sensitive {
     name  = "aws.accessKeyId"
-    value = module.credentials.s4c_user_access_key_id
+    value = module.iam_user.sfc_user_access_key_id
   }
 
   set_sensitive {
     name  = "aws.secretAccessKey"
-    value = module.credentials.s4c_user_secret_access_key
+    value = module.iam_user.sfc_user_secret_access_key
   }
 
   set {
@@ -50,8 +53,9 @@ resource "helm_release" "cloud_connector" {
     <<CONFIG
 ingestors:
   - cloudtrail-sns-sqs:
-      queueURL: ${module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url}
-      interval: 60s
+      queueURL: ${module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_url}
 CONFIG
   ]
+
+  depends_on = [module.iam_user]
 }

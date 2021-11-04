@@ -5,10 +5,11 @@ resource "aws_iam_role" "secure_for_cloud_role" {
 }
 
 # ---------------------------------------------
-# ecs task role 1/2
-# trust ecs-task-role identifier to assumeRole
+# enable cloud-connector module ECS Task role to AssumeRole on this secure_for_cloud_role
+# required for cloudtrail_sns/s3 resource read/subscribe access
 # ---------------------------------------------
 
+# trust ecs-task-role identifier to assumeRole
 data "aws_iam_role" "ecs_task_role" {
   provider = aws.member
   name     = var.cloudconnector_ecs_task_role_name
@@ -27,12 +28,7 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_trusted" {
   }
 }
 
-
-# ---------------------------------------------
-# ecs task role 2/2 (resource)
 # enable ecs-task resource to assumeRole
-# ---------------------------------------------
-
 resource "aws_iam_role_policy" "enable_assume_secure_for_cloud_role" {
   provider = aws.member
   name     = "${var.name}-EnableSysdigSecureForCloudRole"
@@ -76,6 +72,9 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
 }
 
 
+# ------------------------------
+# enable image-scanning on member-account repositories
+# ------------------------------
 resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_assume_role" {
   name   = "${var.name}-AllowAssumeRoleInChildAccounts"
   role   = aws_iam_role.secure_for_cloud_role.id

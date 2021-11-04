@@ -9,7 +9,7 @@ module "resource_group_secure_for_cloud_member" {
 
 
 module "secure_for_cloud_role" {
-  source = "../../modules/infrastructure/permissions/org-management-role"
+  source = "../../modules/infrastructure/permissions/ecs-org-role"
   providers = {
     aws.member = aws.member
   }
@@ -17,6 +17,7 @@ module "secure_for_cloud_role" {
 
   cloudtrail_s3_arn                 = module.cloudtrail.s3_bucket_arn
   cloudconnector_ecs_task_role_name = aws_iam_role.connector_ecs_task.name
+  organizational_role_per_account   = var.organizational_member_default_admin_role
 
   tags       = var.tags
   depends_on = [aws_iam_role.connector_ecs_task]

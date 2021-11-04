@@ -4,6 +4,7 @@ resource "aws_sqs_queue" "this" {
 }
 
 resource "aws_sns_topic_subscription" "this" {
+  # could do a for_each if required, but 1:1 (sns:sqs) for the moment
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.this.arn
   topic_arn = var.sns_topic_arn
@@ -16,7 +17,7 @@ resource "aws_sqs_queue_policy" "this" {
 
 data "aws_iam_policy_document" "this" {
   statement {
-    sid    = "Allow CloudTrail to send messages"
+    sid    = "Allow SNS to send messages to SQS"
     effect = "Allow"
     principals {
       identifiers = ["sns.amazonaws.com"]

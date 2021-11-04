@@ -22,7 +22,7 @@ Deploys a Cloud Scanning in AWS as an ECS container deployment that will detect 
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloud_scanning_sqs"></a> [cloud\_scanning\_sqs](#module\_cloud\_scanning\_sqs) | ../../../modules/infrastructure/cloudtrail-subscription-sqs |  |
+| <a name="module_cloud_scanning_sqs"></a> [cloud\_scanning\_sqs](#module\_cloud\_scanning\_sqs) | ../../infrastructure/sqs-sns-subscription |  |
 
 ## Resources
 

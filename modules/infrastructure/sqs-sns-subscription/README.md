@@ -1,4 +1,4 @@
-# AWS Cloudtrail-Subscribed SQS
+# Create an SQS and subscribe to SNS
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements

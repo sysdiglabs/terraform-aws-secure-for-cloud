@@ -1,7 +1,7 @@
 > PR template
 >
 > * for a cleaner PR, **delete whatever is not required**
-> * use pull-request **drafts for visiblity on WIP branches**
+> * use pull-request **drafts for visibility on WIP branches**
 > * unless a revision is desired in order to validate, or gather some feedback, **you are free to merge it as long as**
 >   * validation checkers are all green-lighted
 >   * pre-merge checklist has been reviewed. for more detail check **`/CONTRIBUTE.md`**

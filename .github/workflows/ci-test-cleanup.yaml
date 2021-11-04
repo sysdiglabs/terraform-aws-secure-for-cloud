@@ -2,17 +2,18 @@ name: CI - Test Cleanup
 on:
   workflow_dispatch
 
+concurrency: terraform
+
 jobs:
-  test_cleanup:
+  cleanup-cloudnative:
     name: Test Cleanup
     runs-on: ubuntu-latest
     env:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_SECRET_ACCESS_KEY }}
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
       AWS_REGION: ${{ secrets.AWS_REGION }}
       TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
       TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -23,5 +24,26 @@ jobs:
           bundler-cache: true
 
       - name: Destroy resources
-        if: ${{ failure() }}
+        run: bundle exec kitchen destroy
+
+  cleanup-org:
+    name: Test Cleanup Org
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_MANAGED_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
+      TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
+      TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
+
+      - name: Destroy resources
         run: bundle exec kitchen destroy

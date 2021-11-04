@@ -16,13 +16,17 @@ variable "is_organizational" {
 variable "organizational_config" {
   type = object({
     sysdig_secure_for_cloud_member_account_id = string
+    organizational_role_per_account           = string
   })
   default = {
     sysdig_secure_for_cloud_member_account_id = null
+    organizational_role_per_account           = null
   }
   description = <<-EOT
     organizational_config. following attributes must be given
-    <ul><li>`sysdig_secure_for_cloud_member_account_id` to enable reading permission</ul>
+    <ul><li>`sysdig_secure_for_cloud_member_account_id` to enable reading permission</li>
+    <li>`organizational_role_per_account` to enable SNS topic subscription</li></ul>
+
   EOT
 }
 

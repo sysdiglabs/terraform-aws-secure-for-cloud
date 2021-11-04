@@ -11,7 +11,7 @@ locals {
 #---------------------------------
 # task role
 # notes
-# - duplicated in /examples/organizational/utils.tf, where root lvl role is created, to avoid cyclic dependencies
+# - duplicated in /examples/organizational/credentials.tf, where root lvl role is created, to avoid cyclic dependencies
 #---------------------------------
 data "aws_iam_role" "task_inherited" {
   count = var.is_organizational ? 1 : 0

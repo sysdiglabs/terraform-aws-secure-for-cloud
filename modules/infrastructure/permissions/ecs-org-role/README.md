@@ -1,4 +1,20 @@
-# AWS Organizational Secure for Cloud Role
+# AWS Organizational Secure for Cloud Role for ECS
+
+The aim of this module is to manage the organizational **managed account** required role and permissions for threat-detection and image scanning modules to work properly.
+
+1. Enables Cloudtrail SNS subscription permissions through a role specified within the Sysdig Secure workload **member account**
+2. Creates a role in the organizational **managed account** with the required permissions
+
+* Threat-Detection through [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector).
+  * S3 Get and List permissions in order to fetch the events
+  * SNS Subscription permissions in order to subscribe a topic to it
+
+* Image scanning through [cloud-scanning](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-scanning).
+  * Enable this role to assumeRole to member accounts through the `organizational_role_per_account` role,
+    in order to be able to fetch images that may be in member-account repositories
+
+* Other permissions
+  * ECS-Task roles (of both modules) to be able to assume this role
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -1,5 +1,6 @@
-# AWS Security Manager
+# Permissions :: General
 
+General permissions that apply to both cloud-connector and cloud-scanning modules
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -23,22 +24,21 @@ No modules.
 
 | Name | Type |
 |------|------|
-| [aws_ssm_parameter.secure_api_token](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ssm_parameter) | resource |
+| [aws_iam_user_policy.general](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_user_policy) | resource |
+| [aws_iam_policy_document.general](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_user.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_user) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
+| <a name="input_secure_api_token_secret_arn"></a> [secure\_api\_token\_secret\_arn](#input\_secure\_api\_token\_secret\_arn) | ARN of Sysdig Secure API token SSM parameter | `string` | n/a | yes |
+| <a name="input_sfc_user_name"></a> [sfc\_user\_name](#input\_sfc\_user\_name) | Name of the IAM user to provision permissions | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_secure_api_token_secret_arn"></a> [secure\_api\_token\_secret\_arn](#output\_secure\_api\_token\_secret\_arn) | ARN of Sysdig Secure API Token secret |
-| <a name="output_secure_api_token_secret_name"></a> [secure\_api\_token\_secret\_name](#output\_secure\_api\_token\_secret\_name) | Name of Sysdig Secure API Token secret |
+No outputs.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors

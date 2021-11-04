@@ -22,7 +22,7 @@ Deploys a Cloud Connector in AWS as an ECS container deployment that will detect
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../../modules/infrastructure/cloudtrail-subscription-sqs |  |
+| <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../infrastructure/sqs-sns-subscription |  |
 
 ## Resources
 
