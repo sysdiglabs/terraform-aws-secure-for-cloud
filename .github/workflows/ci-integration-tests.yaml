@@ -15,8 +15,9 @@ on:
 concurrency: terraform
 
 jobs:
-  integration_test:
-    name: Test-Kitchen-ECS/EKS
+  integration_test_ecs:
+    concurrency: terraform-account
+    name: Test-Kitchen-ECS
     runs-on: ubuntu-latest
     env:
       TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
@@ -63,6 +64,24 @@ jobs:
         if: ${{ failure() }}
         run: bundle exec kitchen destroy "organizational-aws"
 
+  integration_test-eks:
+    concurrency: terraform-account
+    needs: integration_test_ecs
+
+    name: Test-Kitchen-EKS
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
+      TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+          bundler-cache: true
       - name: Start minikube
         uses: medyagh/setup-minikube@master
 
@@ -72,6 +91,16 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
         run: bundle exec kitchen test "single-account-k8s-aws"
+
+      - name: Inspect k8s failures
+        env:
+        if: ${{ failure() }}
+        run: |
+          kubectl get namespaces
+          kubectl get deployments -n sfc-tests-kitchen-singlek8s
+          kubectl describe deployment cloud-connector -n sfc-tests-kitchen-singlek8s
+          kubectl describe deployment cloud-scanning -n sfc-tests-kitchen-singlek8s
+
 
       - name: Destroy single-account-k8s resources
         env:
