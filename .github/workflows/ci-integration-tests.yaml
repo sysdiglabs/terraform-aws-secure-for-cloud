@@ -93,7 +93,6 @@ jobs:
         run: bundle exec kitchen test "single-account-k8s-aws"
 
       - name: Inspect k8s failures
-        env:
         if: ${{ failure() }}
         run: |
           kubectl get namespaces
