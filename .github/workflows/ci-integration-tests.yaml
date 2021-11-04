@@ -16,6 +16,7 @@ concurrency: terraform
 
 jobs:
   integration_test_ecs:
+    if: {{ false }} # tmp testing
     concurrency: terraform-account
     name: Test-Kitchen-ECS
     runs-on: ubuntu-latest
@@ -98,7 +99,8 @@ jobs:
           kubectl get namespaces
           kubectl get deployments -n sfc-tests-kitchen-singlek8s
           kubectl describe deployment cloud-connector -n sfc-tests-kitchen-singlek8s
-          kubectl describe deployment cloud-scanning -n sfc-tests-kitchen-singlek8s
+          kubectl logs deployment.apps/cloud-connector -n sfc-tests-kitchen-singlek8s
+          kubectl logs deployment.apps/cloud-scanning -n sfc-tests-kitchen-singlek8s
 
 
       - name: Destroy single-account-k8s resources
