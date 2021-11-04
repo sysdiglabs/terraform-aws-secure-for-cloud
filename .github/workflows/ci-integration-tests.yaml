@@ -85,9 +85,9 @@ jobs:
           bundler-cache: true
 
       - name: Create kind cluster
-          uses: helm/kind-action@v1.2.0
-          with:
-            wait: 120s
+        uses: helm/kind-action@v1.2.0
+        with:
+          wait: 120s
 
       - name: Run single-account-k8s test
         env:
