@@ -33,36 +33,34 @@ color_sysdig="lightblue"
 
 with Diagram("Sysdig Secure for Cloud{}(org-threat_detection-k8s-cloudtrail_s3_sns_sqs-eks)".format("\n"), graph_attr=diagram_attr, filename="diagram", show=True, direction="TB"):
 
+    with Cluster("AWS account (sysdig)"):
+        sds = Custom("Sysdig Secure", "../../resources/diag-sysdig-icon.png")
+
     with Cluster("AWS organization"):
 
-        with Cluster("member accounts (main targets)", graph_attr={"bgcolor":"lightblue"}):
-            member_accounts = General("account-1..n")
+        with Cluster("member accounts (main target)", graph_attr={"bgcolor":"lightblue"}):
+#             resources = General("resources-1..n\n(events)")
 
-
-        with Cluster("member account (secure for cloud)", graph_attr={"bgcolor":"seashell2"}):
-            member_account = General("member account")
-            management_credentials  = IAM("credentials", fontsize="10")
-            eks = EKS("pre-existing EKS")
-            cc_deployment = Deployment("cloud-connector (ns: sfc)")
-            eks - cc_deployment
+            with Cluster("sysdig-secure-for-cloud resources"):
+                eks = EKS("EKS\n(pre-existing)")
+                with Cluster("namespace: sfc"):
+                    cc_deployment = Deployment("cloud-connector")
+                    eks_deployments = [cc_deployment]
 
 
         with Cluster("management account"):
+#             resources2 = General("resources-1..n\n(events)")
 
-            with Cluster("Events"):
-                cloudtrail          = Cloudtrail("cloudtrail", shape="plaintext")
-                cloudtrail_s3       = S3("cloudtrail-s3-events")
-                sns                 = [SNS("sns /path-1"), SNS("sns /path-2"), SNS("sns /path-n")]
-                sqs                 = SQS("sqs")
+            cloudtrail          = Cloudtrail("cloudtrail\n(organizational)", shape="plaintext")
+            cloudtrail_s3       = S3("cloudtrail-s3-events")
+            sns                 = [SNS("sns /path-1"), SNS("sns /path-2"), SNS("sns /path-n")]
+            sqs                 = SQS("sqs")
+            cloudtrail >> Edge(color=color_event) >> cloudtrail_s3 >> Edge(color=color_event) >> sns << sqs
+#             resources2 >> Edge(color=color_event, style="dashed") >>  cloudtrail
 
-            cloudtrail >> Edge(color=color_event) >> cloudtrail_s3 >> Edge(color=color_event) >> sns >> sqs
             management_credentials  = IAM("credentials", fontsize="10")
 
         cc_deployment >>  Edge(color=color_event, style="dashed", label="subscribed") >> sqs
-        member_accounts >> Edge(color=color_event, style="dashed") >>  cloudtrail
-        member_account >>  Edge(color=color_event, style="dashed") >>  cloudtrail
-
-    with Cluster("AWS account (sysdig)"):
-        sds = Custom("Sysdig Secure", "../../resources/diag-sysdig-icon.png")
+#         resources >> Edge(color=color_event, style="dashed") >>  cloudtrail
 
     cc_deployment >> Edge(color=color_sysdig) >> sds
