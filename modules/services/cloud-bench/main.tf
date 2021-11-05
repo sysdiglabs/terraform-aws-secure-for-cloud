@@ -4,16 +4,18 @@
 
 data "aws_caller_identity" "me" {}
 
-data "aws_organizations_organization" "org" {}
+data "aws_organizations_organization" "org" {
+  count = var.is_organizational ? 1 : 0
+}
 
 data "sysdig_secure_trusted_cloud_identity" "trusted_identity" {
   cloud_provider = "aws"
 }
 
 locals {
-  member_account_ids = var.is_organizational ? [for a in data.aws_organizations_organization.org.non_master_accounts : a.id] : []
+  member_account_ids = var.is_organizational ? [for a in data.aws_organizations_organization.org[0].non_master_accounts : a.id] : []
 
-  benchmark_task_name   = var.is_organizational ? "Organization: ${data.aws_organizations_organization.org.id}" : data.aws_caller_identity.me.account_id
+  benchmark_task_name   = var.is_organizational ? "Organization: ${data.aws_organizations_organization.org[0].id}" : data.aws_caller_identity.me.account_id
   accounts_scope_clause = var.is_organizational ? "aws.accountId in (\"${join("\", \"", local.member_account_ids)}\")" : "aws.accountId = \"${data.aws_caller_identity.me.account_id}\""
   regions_scope_clause  = length(var.benchmark_regions) == 0 ? "" : " and aws.region in (\"${join("\", \"", var.benchmark_regions)}\")"
 }
@@ -137,6 +139,6 @@ resource "aws_cloudformation_stack_set_instance" "stackset_instance" {
   region         = var.region
   stack_set_name = aws_cloudformation_stack_set.stackset[0].name
   deployment_targets {
-    organizational_unit_ids = [for root in data.aws_organizations_organization.org.roots : root.id]
+    organizational_unit_ids = [for root in data.aws_organizations_organization.org[0].roots : root.id]
   }
 }
