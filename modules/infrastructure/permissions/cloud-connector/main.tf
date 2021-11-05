@@ -9,8 +9,8 @@ data "aws_iam_policy_document" "cloud_connector" {
     sid    = "AllowReadCloudtrailS3"
     effect = "Allow"
     actions = [
-      "s3:GetObject",
       "s3:ListBucket",
+      "s3:GetObject"
     ]
     resources = [
       var.cloudtrail_s3_bucket_arn,
