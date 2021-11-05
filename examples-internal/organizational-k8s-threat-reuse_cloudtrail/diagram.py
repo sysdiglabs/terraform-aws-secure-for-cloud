@@ -38,7 +38,7 @@ with Diagram("Sysdig Secure for Cloud{}(org-threat_detection-k8s-cloudtrail_s3_s
 
     with Cluster("AWS organization"):
 
-        with Cluster("member accounts (main target)", graph_attr={"bgcolor":"lightblue"}):
+        with Cluster("member account", graph_attr={"bgcolor":"lightblue"}):
 #             resources = General("resources-1..n\n(events)")
 
             with Cluster("sysdig-secure-for-cloud resources"):
