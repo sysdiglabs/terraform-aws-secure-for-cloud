@@ -29,7 +29,7 @@ variable "aws_secret_access_key" {
 
 variable "organization_managed_role_arn" {
   type        = string
-  description = "`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the secure_for_cloud_role"
+  description = "for cloud-connector assumeRole in order to read cloudtrail s3 events"
   default     = "none"
 }
 
