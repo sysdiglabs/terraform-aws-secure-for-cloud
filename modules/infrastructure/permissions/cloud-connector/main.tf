@@ -25,4 +25,17 @@ data "aws_iam_policy_document" "cloud_connector" {
     ]
     resources = [var.cloudtrail_subscribed_sqs_arn]
   }
+
+  # required for EKS
+  statement {
+    sid    = "AllowCloudwatchLogManagement"
+    effect = "Allow"
+    actions = [
+      "logs:DescribeLogStreams",
+      "logs:GetLogEvents",
+      "logs:FilterLogEvents",
+    ]
+    resources = ["*"]
+    # TODO. make an input-var out of this. make it more specific "arn:aws:logs:*:*:log-group:test:*"
+  }
 }
