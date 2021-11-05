@@ -1,4 +1,4 @@
-# Sysdig Secure for Cloud in AWS :: Single-Account on Kubernetes Cluster
+# Sysdig Secure for Cloud in AWS <br/>:: Single-Account on Kubernetes Cluster
 
 Deploy Sysdig Secure for Cloud in a provided existing Kubernetes Cluster.
 
@@ -9,6 +9,8 @@ Deploy Sysdig Secure for Cloud in a provided existing Kubernetes Cluster.
 - Used arquitecture is similar to [single-account](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account) but changing ECS <---> with an existing EKS
 
 All the required resources and workloads will be run under the same AWS account.
+
+![single-account-k8s diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-k8s/diagram.png)
 
 ## Prerequisites
 

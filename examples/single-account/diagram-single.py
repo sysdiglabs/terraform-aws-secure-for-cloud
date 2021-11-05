@@ -59,12 +59,14 @@ with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_att
             sqs = SQS("cloudtrail-sqs")
             s3_config = S3("cloud-connector-config")
             cloudwatch = Cloudwatch("cloudwatch\n(logs and alarms)")
-            codebuild = Codebuild("Build-project")
 
             sqs << Edge(color=color_event) << cloud_connector
             sqs << Edge(color=color_event) << cloud_scanning
             cloud_connector - Edge(color=color_non_important) - s3_config
             cloud_connector >> Edge(color=color_non_important) >>  cloudwatch
+
+            # scanning
+            codebuild = Codebuild("Build-project")
             cloud_scanning >> Edge(color=color_non_important) >> cloudwatch
             cloud_scanning >> codebuild
             codebuild >> Edge(color=color_non_important) >>  ecr
