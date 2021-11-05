@@ -12,7 +12,10 @@ data "aws_iam_policy_document" "cloud_connector" {
       "s3:GetObject",
       "s3:ListBucket",
     ]
-    resources = [var.cloudtrail_s3_bucket_arn]
+    resources = [
+      var.cloudtrail_s3_bucket_arn,
+      "${var.cloudtrail_s3_bucket_arn}/*"
+    ]
   }
 
   statement {
