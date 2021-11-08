@@ -23,6 +23,11 @@ data "aws_iam_policy_document" "this" {
       identifiers = ["sns.amazonaws.com"]
       type        = "Service"
     }
+    condition {
+      test     = "ArnEquals"
+      variable = "aws:SourceArn"
+      values   = [var.sns_topic_arn]
+    }
     actions = [
       "sqs:SendMessage",
       "sqs:SendMessageBatch"
