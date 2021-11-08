@@ -6,7 +6,7 @@ resource "aws_iam_user_policy" "cloud_connector" {
 
 locals {
   # required for single vs. org management
-  s3_resources_list = [var.cloudtrail_s3_bucket_arn == "*" ? var.cloudtrail_s3_bucket_arn : tolist(var.cloudtrail_s3_bucket_arn, "${var.cloudtrail_s3_bucket_arn}/*")]
+  s3_resources_list = var.cloudtrail_s3_bucket_arn == "*" ? [var.cloudtrail_s3_bucket_arn] : [var.cloudtrail_s3_bucket_arn, "${var.cloudtrail_s3_bucket_arn}/*"]
 }
 
 data "aws_iam_policy_document" "cloud_connector" {
