@@ -1,3 +1,7 @@
+provider "aws" {
+  region = var.region
+}
+
 module "cloudvision_aws_organizational" {
   source = "../../../examples/organizational"
   name   = "${var.name}-org"
