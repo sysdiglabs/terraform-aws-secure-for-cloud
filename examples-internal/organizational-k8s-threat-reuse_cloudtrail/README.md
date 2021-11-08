@@ -24,10 +24,7 @@ Minimum requirements:
 4. S3 event-notification subscribed SNS topic(s).<br/>see `modules/infrastructure/cloudtrail_s3-sns-sqs` for guidance<br/><br/>
 5. **SQS topic** subscribed to the S3-SNS event notifications.<br/>The ARN of this SQS will be used as an input parameter to the module.<br/>
    see `modules/infrastructure/sqs-sns-subscription` for guidance`<br/><br/>
-6. If the module is to be deployed on an AWS Organization **member account** which is not the same where the Cloudtrail-S3 events are located,
-   the `organization_managed_role_arn` input variable must be used<br/>
-   This will provide the **ARN of a role** that `cloud-connector` module will use to fetch the events from the S3 bucket.<br/>
-   see `modules/infrastructure/permissions/eks-org-role` for guidance`<br/><br/>
+
 
 ## Usage
 
@@ -50,7 +47,6 @@ module "org_k8s_threat_reuse_cloudtrail" {
 
   region                          = "CLOUDTRAIL_SNS_SQS_REGION"
   cloudtrail_s3_sns_sqs_url       = "SQS-URL"
-  organization_managed_role_arn   = "ARN_ROLE_FOR_MEMBER_ACCOUNT_PERMISSIONS"
 
   aws_access_key_id         = "AWS_ACCESSK_KEY"
   aws_secret_access_key     = "AWS_SECRET_ACCESS_KEY"
@@ -108,7 +104,6 @@ Notice that:
 | <a name="input_cloudtrail_s3_sns_sqs_url"></a> [cloudtrail\_s3\_sns\_sqs\_url](#input\_cloudtrail\_s3\_sns\_sqs\_url) | Organization cloudtrail event notification  S3-SNS-SQS URL to listen to | `string` | n/a | yes |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_organization_managed_role_arn"></a> [organization\_managed\_role\_arn](#input\_organization\_managed\_role\_arn) | for cloud-connector assumeRole in order to read cloudtrail s3 events | `string` | `"none"` | no |
 | <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in both organization master and secure-for-cloud member account | `string` | `"eu-central-1"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |

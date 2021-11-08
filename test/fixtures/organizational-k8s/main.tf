@@ -41,18 +41,11 @@ module "org_user" {
   cloudtrail_subscribed_sqs_arn = module.cloudtrail_s3_sns_sqs.cloudtrail_subscribed_sqs_arn
 }
 
-module "org_role" {
-  providers = {
-    aws = aws.admin
-  }
-  source = "../../../modules/infrastructure/permissions/eks-org-role"
 
-  user_arn              = module.org_user.sfc_user_arn
-  cloudtrail_s3_arn     = module.cloudtrail_s3_sns_sqs.cloudtrail_s3_arn
-  enable_cloud_scanning = false
+resource "time_sleep" "wait" {
+  depends_on      = [module.org_user]
+  create_duration = "15s"
 }
-
-
 
 # -------------------
 # actual use case
@@ -73,6 +66,5 @@ module "org_k8s_threat_reuse_cloudtrail" {
   aws_access_key_id     = module.org_user.sfc_user_access_key_id
   aws_secret_access_key = module.org_user.sfc_user_secret_access_key
 
-  organization_managed_role_arn = module.org_role.sysdig_secure_for_cloud_role_arn
-
+  depends_on = [time_sleep.wait]
 }
