@@ -46,8 +46,6 @@ logging: info
 ingestors:
   - aws-cloudtrail-s3-sns-sqs:
       queueURL: ${var.cloudtrail_s3_sns_sqs_url}
-      %{if var.organization_managed_role_arn != "none"}assumeRole: ${var.organization_managed_role_arn}
-%{endif~}
 CONFIG
   ]
 }

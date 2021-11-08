@@ -4,6 +4,11 @@ resource "aws_iam_user_policy" "cloud_connector" {
   policy = data.aws_iam_policy_document.cloud_connector.json
 }
 
+locals {
+  # required for single vs. org management
+  s3_resources_list = var.cloudtrail_s3_bucket_arn == "*" ? [var.cloudtrail_s3_bucket_arn] : [var.cloudtrail_s3_bucket_arn, "${var.cloudtrail_s3_bucket_arn}/*"]
+}
+
 data "aws_iam_policy_document" "cloud_connector" {
   statement {
     sid    = "AllowReadCloudtrailS3"
@@ -12,10 +17,7 @@ data "aws_iam_policy_document" "cloud_connector" {
       "s3:ListBucket",
       "s3:GetObject"
     ]
-    resources = [var.cloudtrail_s3_bucket_arn]
-    #      var.cloudtrail_s3_bucket_arn,
-    #      "${var.cloudtrail_s3_bucket_arn}/*"
-
+    resources = local.s3_resources_list
   }
 
   statement {

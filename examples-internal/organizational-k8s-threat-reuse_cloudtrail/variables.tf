@@ -27,12 +27,6 @@ variable "aws_secret_access_key" {
 # optionals - with defaults
 #---------------------------------
 
-variable "organization_managed_role_arn" {
-  type        = string
-  description = "for cloud-connector assumeRole in order to read cloudtrail s3 events"
-  default     = "none"
-}
-
 
 #
 # general
