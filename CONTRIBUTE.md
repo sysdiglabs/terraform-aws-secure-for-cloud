@@ -16,7 +16,33 @@
 
 # Pull Request
 
-Should any pre-merge test fail, check `/.github/workflows/ci-integration-test.yaml` to identify what's required
+> TLDR; Should any pre-merge test fail, check `/.github/workflows/ci-integration-test.yaml` to identify what's required
+
+## 0. General Guidelines
+
+* Use pull-request **drafts for visibility on WIP branches**
+* Unless a revision is desired in order to validate, or gather some feedback, **you are free to merge it as long as**
+  * validation checkers are all green-lighted
+  * you've got permissions to do so :)
+* Check wether anything else is required for your contribution
+
+### Contribution checklist
+
+-  [ ] **modules** (infra or services) have been modified?
+  - [ ] a `README.md` file has been added to the folder
+  - [ ] if modules are relevant to usage-case understanding `diagram.py/png` have been updated accodingly
+  - [ ] if pre-requirements have been modified, update accordingly on
+    - [ ] README's
+    - [ ] Sysdig docs
+- [ ] **input/output** variables have been modified?
+  - [ ] terraform-docs has been updated accordingly
+  - [ ] if these inputs are mandatory, they've been changed on
+    - [ ] examples
+    - [ ] testing use-cases
+    - [ ] snippets on README's
+    - [ ] snippets on Secure Platform onboarding
+- [ ] had any problems developing this PR? add it to the readme **troubleshooting** list! may come handy to someone
+
 
 ## 1. Check::Pre-Commit
 
