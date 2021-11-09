@@ -49,9 +49,9 @@
 Technical validation for terraform **lint**, **validation**, and **documentation**
 
 We're using **pre-commit** |  https://pre-commit.com
-  - Defined in `/.pre-commit-config.yaml`
-  - custom configuration | https://github.com/sysdiglabs/terraform-google-secure-for-cloud/blob/master/.pre-commit-config.yaml
-  - current `terraform-docs` version, requires developer to create `README.md` file, with the enclosure tags for docs to insert the automated content
+- Defined in `/.pre-commit-config.yaml`
+- custom configuration | https://github.com/sysdiglabs/terraform-google-secure-for-cloud/blob/master/.pre-commit-config.yaml
+- current `terraform-docs` version, requires developer to create `README.md` file, with the enclosure tags for docs to insert the automated content
   ```markdown
   <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
   <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -72,7 +72,7 @@ Implemented vía **Terraform Kitchen** | https://newcontext-oss.github.io/kitche
 
 Ruby 2.7 is required to launch the tests.
 Run `bundle install` to get kitchen-terraform bundle.
-GCP project and AWS credentials should be configured locally.
+Cloud Provider credentials should be configured locally.
 ```shell
 # launch the tests, in other words, it will run `terraform apply`
 $ bundle exec kitchen converge

@@ -8,15 +8,15 @@ variable "sysdig_secure_api_token" {
 # optionals - with defaults
 #---------------------------------
 
-variable "enable_cloud_connector" {
+variable "deploy_threat_detection" {
   type        = bool
-  description = "true/false whether to provision cloud_connector permissions"
+  description = "true/false whether to deploy cloud_connector"
   default     = true
 }
 
-variable "enable_cloud_scanning" {
+variable "deploy_image_scanning" {
   type        = bool
-  description = "true/false whether to provision cloud_scanning permissions"
+  description = "true/false whether to deploy cloud_scanning"
   default     = true
 }
 

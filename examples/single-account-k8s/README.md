@@ -1,4 +1,4 @@
-# Sysdig Secure for Cloud in AWS <br/>:: Single-Account on Kubernetes Cluster
+# Sysdig Secure for Cloud in AWS <br/>[ Example :: Single-Account on Kubernetes Cluster ]
 
 Deploy Sysdig Secure for Cloud in a provided existing Kubernetes Cluster.
 
@@ -17,16 +17,11 @@ All the required resources and workloads will be run under the same AWS account.
 Minimum requirements:
 
 1. **AWS** profile credentials configuration
-
 2. **Kubernetes** cluster configured within your helm provider
-
 3. **Sysdig** Secure requirements, as input variable value
-
    ```
    sysdig_secure_api_token=<SECURE_API_TOKEN>
    ```
-
-
 
 ## Usage
 
@@ -106,8 +101,8 @@ Notice that:
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | true/false whether cloudtrail will ingest multiregional events. testing/economization purpose. | `bool` | `true` | no |
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether s3 should be encrypted. testing/economization purpose. | `bool` | `true` | no |
-| <a name="input_enable_cloud_connector"></a> [enable\_cloud\_connector](#input\_enable\_cloud\_connector) | true/false whether to provision cloud\_connector permissions | `bool` | `true` | no |
-| <a name="input_enable_cloud_scanning"></a> [enable\_cloud\_scanning](#input\_enable\_cloud\_scanning) | true/false whether to provision cloud\_scanning permissions | `bool` | `true` | no |
+| <a name="input_deploy_image_scanning"></a> [deploy\_image\_scanning](#input\_deploy\_image\_scanning) | true/false whether to deploy cloud\_scanning | `bool` | `true` | no |
+| <a name="input_deploy_threat_detection"></a> [deploy\_threat\_detection](#input\_deploy\_threat\_detection) | true/false whether to deploy cloud\_connector | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_region"></a> [region](#input\_region) | Default region for resource creation | `string` | `"eu-central-1"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
