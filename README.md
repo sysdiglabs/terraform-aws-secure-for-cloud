@@ -108,9 +108,9 @@ Notice that:
     source_profile=<AWS_MANAGEMENT_ACCOUNT_PROFILE>
     ```
 
- - Q: How to test **cloud-scanner** image-scanning?<br/>
-   A: Upload any image to the ECR repository of AWS. You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
-   <br/>
+- Q: How to test **cloud-scanner** image-scanning?<br/>
+  A: Upload any image to the ECR repository of AWS. You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
+  <br/>
 
 
 <br/><br/>

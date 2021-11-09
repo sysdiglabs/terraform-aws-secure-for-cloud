@@ -1,4 +1,4 @@
-# Sysdig Secure for Cloud in AWS <br/>:: Single-Account on Kubernetes Cluster
+# Sysdig Secure for Cloud in AWS <br/>[ Example :: Single-Account on Kubernetes Cluster ]
 
 Deploy Sysdig Secure for Cloud in a provided existing Kubernetes Cluster.
 
@@ -17,16 +17,11 @@ All the required resources and workloads will be run under the same AWS account.
 Minimum requirements:
 
 1. **AWS** profile credentials configuration
-
 2. **Kubernetes** cluster configured within your helm provider
-
 3. **Sysdig** Secure requirements, as input variable value
-
    ```
    sysdig_secure_api_token=<SECURE_API_TOKEN>
    ```
-
-
 
 ## Usage
 
