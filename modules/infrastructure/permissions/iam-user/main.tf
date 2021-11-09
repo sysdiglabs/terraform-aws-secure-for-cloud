@@ -23,7 +23,7 @@ module "credentials_general" {
 
 
 module "credentials_cloud_connector" {
-  count  = var.enable_cloud_connector ? 1 : 0
+  count  = var.deploy_threat_detection ? 1 : 0
   source = "../cloud-connector"
   name   = var.name
 
@@ -35,7 +35,7 @@ module "credentials_cloud_connector" {
 }
 
 module "credentials_cloud_scanning" {
-  count  = var.enable_cloud_scanning ? 1 : 0
+  count  = var.deploy_image_scanning ? 1 : 0
   source = "../cloud-scanning"
   name   = var.name
 

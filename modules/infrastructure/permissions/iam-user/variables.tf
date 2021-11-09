@@ -2,13 +2,13 @@
 # optionals - with defaults
 #---------------------------------
 
-variable "enable_cloud_connector" {
+variable "deploy_threat_detection" {
   type        = bool
   description = "true/false whether to provision cloud_connector permissions"
   default     = true
 }
 
-variable "enable_cloud_scanning" {
+variable "deploy_image_scanning" {
   type        = bool
   description = "true/false whether to provision cloud_scanning permissions"
   default     = true

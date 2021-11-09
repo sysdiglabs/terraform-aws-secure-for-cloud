@@ -36,7 +36,7 @@ module "org_user" {
     aws = aws.admin
   }
   source                        = "../../../modules/infrastructure/permissions/iam-user"
-  enable_cloud_scanning         = false
+  deploy_image_scanning         = false
   cloudtrail_s3_bucket_arn      = module.cloudtrail_s3_sns_sqs.cloudtrail_s3_arn
   cloudtrail_subscribed_sqs_arn = module.cloudtrail_s3_sns_sqs.cloudtrail_subscribed_sqs_arn
 }
