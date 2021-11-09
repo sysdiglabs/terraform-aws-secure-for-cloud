@@ -29,13 +29,12 @@ More info in [`./examples/single-account`](https://github.com/sysdiglabs/terrafo
 
 ### - Single-Account with a pre-existing Kubernetes Cluster
 
-If you already own a Kubernetes Cluster on AWS, you can use it to deploy Sysdig Secure for Cloud, instead of default ECS cluster.
-
+If you already own a Kubernetes Cluster on AWS, you can use it to deploy Sysdig Secure for Cloud, instead of default ECS cluster.<br/>
 More info in [`./examples/single-account-k8s`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s)
 
 ### - Organizational
 
-Using an organizational configuration Cloudtrail.
+Using an organizational configuration Cloudtrail.<br/>
 More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
 
 ![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/5b7cf5e8028b3177536c9c847020ad6319342b44/examples/organizational/diagram-org.png)
