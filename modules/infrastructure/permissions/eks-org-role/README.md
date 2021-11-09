@@ -52,8 +52,8 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#input\_cloudtrail\_s3\_arn) | Cloudtrail S3 bucket ARN | `string` | n/a | yes |
 | <a name="input_user_arn"></a> [user\_arn](#input\_user\_arn) | ARN of the IAM user to which roles will be added | `string` | n/a | yes |
-| <a name="input_enable_cloud_connector"></a> [enable\_cloud\_connector](#input\_enable\_cloud\_connector) | true/false whether to provision cloud\_connector permissions | `bool` | `true` | no |
-| <a name="input_enable_cloud_scanning"></a> [enable\_cloud\_scanning](#input\_enable\_cloud\_scanning) | true/false whether to provision cloud\_scanning permissions | `bool` | `true` | no |
+| <a name="input_deploy_image_scanning"></a> [deploy\_image\_scanning](#input\_deploy\_image\_scanning) | true/false whether to provision cloud\_scanning permissions | `bool` | `true` | no |
+| <a name="input_deploy_threat_detection"></a> [deploy\_threat\_detection](#input\_deploy\_threat\_detection) | true/false whether to provision cloud\_connector permissions | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_organizational_role_per_account"></a> [organizational\_role\_per\_account](#input\_organizational\_role\_per\_account) | Name of the organizational role deployed by AWS in each account of the organization | `string` | `"OrganizationAccountAccessRole"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |

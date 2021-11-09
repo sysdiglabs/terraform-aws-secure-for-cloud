@@ -1,7 +1,7 @@
 # Cloud Connector
 
-[Cloud Scanning](https://github.com/sysdiglabs/cloud-connector) (contained within cloud-connector project)
-Deploys a Cloud Scanning in AWS as an ECS container deployment that will detect events in your infrastructure.
+A task deployed on an **ECS deployment** will detect new images and will trigger image scans based on changes in your infrastructure into
+a **Code Build** run that will evaluate its status.
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

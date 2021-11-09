@@ -2,7 +2,7 @@
 # requirements
 #-------------------------------------
 module "cloud_connector_sqs" {
-  count  = var.enable_cloud_connector ? 1 : 0
+  count  = var.deploy_threat_detection ? 1 : 0
   source = "../../modules/infrastructure/sqs-sns-subscription"
 
   name          = "${var.name}-cloud_connector"
@@ -15,7 +15,7 @@ module "cloud_connector_sqs" {
 # cloud_connector
 #-------------------------------------
 resource "helm_release" "cloud_connector" {
-  count = var.enable_cloud_connector ? 1 : 0
+  count = var.deploy_threat_detection ? 1 : 0
 
   name       = "cloud-connector"
   repository = "https://charts.sysdig.com"

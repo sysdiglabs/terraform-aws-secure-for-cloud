@@ -2,7 +2,7 @@
 # requirements
 #-------------------------------------
 module "cloud_scanning_sqs" {
-  count  = var.enable_cloud_scanning ? 1 : 0
+  count  = var.deploy_image_scanning ? 1 : 0
   source = "../../modules/infrastructure/sqs-sns-subscription"
 
   name          = "${var.name}-cloud_scanning"
@@ -12,7 +12,7 @@ module "cloud_scanning_sqs" {
 
 
 module "codebuild" {
-  count  = var.enable_cloud_scanning ? 1 : 0
+  count  = var.deploy_image_scanning ? 1 : 0
   source = "../../modules/infrastructure/codebuild"
 
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
@@ -26,7 +26,7 @@ module "codebuild" {
 # cloud_scanning
 #-------------------------------------
 resource "helm_release" "cloud_scanning" {
-  count = var.enable_cloud_scanning ? 1 : 0
+  count = var.deploy_image_scanning ? 1 : 0
   name  = "cloud-scanning"
 
   repository = "https://charts.sysdig.com"

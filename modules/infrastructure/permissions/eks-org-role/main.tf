@@ -22,13 +22,13 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_trusted" {
 # ------------------------------
 
 resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_s3" {
-  count  = var.enable_cloud_connector ? 1 : 0
+  count  = var.deploy_threat_detection ? 1 : 0
   name   = "${var.name}-AllowCloudtrailS3Policy"
   role   = aws_iam_role.secure_for_cloud_role.id
   policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_s3[0].json
 }
 data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
-  count = var.enable_cloud_connector ? 1 : 0
+  count = var.deploy_threat_detection ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
@@ -47,13 +47,13 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
 # enable image-scanning on member-account repositories
 # ------------------------------
 resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_assume_role" {
-  count  = var.enable_cloud_scanning ? 1 : 0
+  count  = var.deploy_image_scanning ? 1 : 0
   name   = "${var.name}-AllowAssumeRoleInChildAccounts"
   role   = aws_iam_role.secure_for_cloud_role.id
   policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_assume_role[0].json
 }
 data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_assume_role" {
-  count = var.enable_cloud_scanning ? 1 : 0
+  count = var.deploy_image_scanning ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
