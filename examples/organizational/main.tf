@@ -1,8 +1,4 @@
 provider "aws" {
-  region = var.region
-}
-
-provider "aws" {
   alias  = "member"
   region = var.region
   assume_role {

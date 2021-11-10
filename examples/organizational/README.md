@@ -40,6 +40,11 @@ Minimum requirements:
 For quick testing, use this snippet on your terraform files
 
 ```terraform
+provider "aws" {
+   region = var.region
+   ...
+}
+
 module "secure_for_cloud_organizational" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
 

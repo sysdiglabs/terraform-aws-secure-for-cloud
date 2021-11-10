@@ -44,12 +44,6 @@ variable "name" {
   default     = "sfc"
 }
 
-variable "region" {
-  type        = string
-  default     = "eu-central-1"
-  description = "Default region for resource creation in both organization management and secure-for-cloud member account"
-}
-
 variable "sysdig_secure_endpoint" {
   type        = string
   default     = "https://secure.sysdig.com"
