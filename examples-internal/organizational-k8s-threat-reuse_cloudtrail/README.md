@@ -15,8 +15,8 @@ All the required resources and workloads will be run under the same AWS account,
 
 Minimum requirements:
 
-1. **AWS** profile credentials configured within yor `aws` provider
-2. A **Kubernetes** cluster configured within your `helm` provider
+1. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+2. Configure [**Helm** Provider](https://registry.terraform.io/providers/hashicorp/helm/latest/docs) for **Kubernetes** cluster
 3. **Sysdig** Secure API token , as input variable value
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
@@ -32,12 +32,13 @@ For quick testing, use this snippet on your terraform files.
 
 ```terraform
 provider "aws" {
-  region = var.region
-  ...
+  region = "<AWS-REGION>; ex. us-east-1"
 }
 
 provider "helm" {
-  ...
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
 }
 
 module "org_k8s_threat_reuse_cloudtrail" {
@@ -80,6 +81,7 @@ Notice that:
 
 | Name | Version |
 |------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
 | <a name="provider_helm"></a> [helm](#provider\_helm) | >=2.3.0 |
 
 ## Modules
@@ -94,6 +96,7 @@ Notice that:
 | Name | Type |
 |------|------|
 | [helm_release.cloud_connector](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
@@ -104,7 +107,6 @@ Notice that:
 | <a name="input_cloudtrail_s3_sns_sqs_url"></a> [cloudtrail\_s3\_sns\_sqs\_url](#input\_cloudtrail\_s3\_sns\_sqs\_url) | Organization cloudtrail event notification  S3-SNS-SQS URL to listen to | `string` | n/a | yes |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in both organization master and secure-for-cloud member account | `string` | `"eu-central-1"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 

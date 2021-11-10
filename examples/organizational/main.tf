@@ -1,5 +1,7 @@
 provider "aws" {
-  alias  = "member"
+  alias = "member"
+  # NOTE. this won't work with test, workaround with var
+  #  region = data.aws_region.current.name
   region = var.region
   assume_role {
     role_arn = "arn:aws:iam::${var.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_member_default_admin_role}"
@@ -147,6 +149,6 @@ module "cloud_bench" {
   name              = "${var.name}-cloudbench"
   tags              = var.tags
   is_organizational = true
-  region            = var.region
+  region            = data.aws_region.current.name
   benchmark_regions = var.benchmark_regions
 }

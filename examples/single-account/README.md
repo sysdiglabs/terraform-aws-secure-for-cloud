@@ -9,7 +9,7 @@ All the required resources and workloads will be run under the same account.
 
 Minimum requirements:
 
-1. AWS profile credentials configuration
+1. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 1. Secure requirements, as input variable value
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
@@ -21,14 +21,13 @@ For quick testing, use this snippet on your terraform files
 
 ```terraform
 provider "aws" {
-   region = var.region
-   ...
+   region = "<AWS-REGION>; ex. us-east-1"
 }
 
 module "secure_for_cloud_aws_single_account" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account"
 
-  sysdig_secure_api_token        = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_api_token = "00000000-1111-2222-3333-444444444444"
 }
 ```
 

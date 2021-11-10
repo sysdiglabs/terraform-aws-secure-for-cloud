@@ -37,16 +37,6 @@ variable "cloudtrail_kms_enable" {
   description = "true/false whether s3 should be encrypted. testing/economization purpose."
 }
 
-
-#
-# general
-#
-variable "region" {
-  type        = string
-  default     = "eu-central-1"
-  description = "Default region for resource creation"
-}
-
 variable "name" {
   type        = string
   description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"

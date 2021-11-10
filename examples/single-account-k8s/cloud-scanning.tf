@@ -57,7 +57,7 @@ resource "helm_release" "cloud_scanning" {
 
   set {
     name  = "aws.region"
-    value = var.region
+    value = data.aws_region.current.name
   }
 
   set {

@@ -19,18 +19,18 @@ Minimum requirements:
 1. Have an existing AWS account as the organization management account
     * Organizational CloudTrail service must be enabled
     * [Organizational CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html) service must be enabled
-2. AWS profile credentials configuration of the `management` account of the organization
+1. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) of the `management` account of the organization
     * This account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
     * When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning and role assuming.
       <br/>This Role name is currently hardcoded.
-3. Provide a member account ID for Sysdig Secure for Cloud workload to be deployed.
+3. Provide a member **account ID for Sysdig Secure for Cloud workload** to be deployed.
    Our recommendation is for this account to be empty, so that deployed resources are not mixed up with your workload.
    This input must be provided as terraform required input value
     ```
     sysdig_secure_for_cloud_member_account_id=<ORGANIZATIONAL_SECURE_FOR_CLOUD_ACCOUNT_ID>
     ```
-4. Sysdig Secure requirements, as input variable value with the `api-token`
+4. **Sysdig Secure** requirements, as input variable value with the `api-token`
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
@@ -41,12 +41,13 @@ For quick testing, use this snippet on your terraform files
 
 ```terraform
 provider "aws" {
-   region = var.region
-   ...
+  region = "<AWS_REGION>; ex. us-east-1"
 }
 
 module "secure_for_cloud_organizational" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
+
+  region = "<AWS_REGION>; ex. us-east-1"
 
   sysdig_secure_api_token                     = "00000000-1111-2222-3333-444444444444"
   sysdig_secure_for_cloud_member_account_id   = "<ORG_MEMBER_ACCOUNT_FOR_SYSDIG_SECURE_FOR_CLOUD>"
@@ -80,6 +81,7 @@ Notice that:
 
 | Name | Version |
 |------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.62.0 |
 | <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | >= 3.62.0 |
 
 ## Modules
@@ -103,6 +105,7 @@ Notice that:
 |------|------|
 | [aws_iam_role.connector_ecs_task](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_policy_document.task_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
