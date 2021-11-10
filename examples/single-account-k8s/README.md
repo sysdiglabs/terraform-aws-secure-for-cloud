@@ -29,12 +29,13 @@ For quick testing, use this snippet on your terraform files
 
 ```terraform
 provider "aws" {
-  region = var.region
-  ...
+  region = "AWS-REGION; ex. us-east-1"
 }
 
 provider "helm" {
-  ...
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
 }
 
 module "secure_for_cloud_aws_single_account" {
@@ -73,6 +74,7 @@ Notice that:
 
 | Name | Version |
 |------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
 | <a name="provider_helm"></a> [helm](#provider\_helm) | >=2.3.0 |
 
 ## Modules
@@ -93,6 +95,7 @@ Notice that:
 |------|------|
 | [helm_release.cloud_connector](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
 | [helm_release.cloud_scanning](https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release) | resource |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
@@ -104,7 +107,6 @@ Notice that:
 | <a name="input_deploy_image_scanning"></a> [deploy\_image\_scanning](#input\_deploy\_image\_scanning) | true/false whether to deploy cloud\_scanning | `bool` | `true` | no |
 | <a name="input_deploy_threat_detection"></a> [deploy\_threat\_detection](#input\_deploy\_threat\_detection) | true/false whether to deploy cloud\_connector | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_region"></a> [region](#input\_region) | Default region for resource creation | `string` | `"eu-central-1"` | no |
 | <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
