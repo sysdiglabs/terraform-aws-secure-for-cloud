@@ -32,7 +32,7 @@ For quick testing, use this snippet on your terraform files.
 
 ```terraform
 provider "aws" {
-  region = "AWS-REGION; ex. us-east-1"
+  region = "<AWS-REGION>; ex. us-east-1"
 }
 
 provider "helm" {
