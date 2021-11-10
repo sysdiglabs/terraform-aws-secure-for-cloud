@@ -1,6 +1,8 @@
 provider "aws" {
-  alias  = "member"
-  region = data.aws_region.current.name
+  alias = "member"
+  # NOTE. this won't work with test, workaround with var
+  #  region = data.aws_region.current.name
+  region = var.region
   assume_role {
     role_arn = "arn:aws:iam::${var.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_member_default_admin_role}"
   }
