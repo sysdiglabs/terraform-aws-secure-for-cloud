@@ -9,7 +9,7 @@ All the required resources and workloads will be run under the same account.
 
 Minimum requirements:
 
-1. AWS profile credentials configuration
+1. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 1. Secure requirements, as input variable value
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>

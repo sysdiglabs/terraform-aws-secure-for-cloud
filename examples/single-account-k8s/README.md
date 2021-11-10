@@ -16,8 +16,8 @@ All the required resources and workloads will be run under the same AWS account.
 
 Minimum requirements:
 
-1. **AWS** profile credentials configuration
-2. **Kubernetes** cluster configured within your helm provider
+1. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+2. Configure [**Helm** Provider](https://registry.terraform.io/providers/hashicorp/helm/latest/docs) for **Kubernetes** cluster
 3. **Sysdig** Secure requirements, as input variable value
    ```
    sysdig_secure_api_token=<SECURE_API_TOKEN>

@@ -19,18 +19,18 @@ Minimum requirements:
 1. Have an existing AWS account as the organization management account
     * Organizational CloudTrail service must be enabled
     * [Organizational CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html) service must be enabled
-2. AWS profile credentials configuration of the `management` account of the organization
+1. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) of the `management` account of the organization
     * This account credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
     * When an account becomes part of an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning and role assuming.
       <br/>This Role name is currently hardcoded.
-3. Provide a member account ID for Sysdig Secure for Cloud workload to be deployed.
+3. Provide a member **account ID for Sysdig Secure for Cloud workload** to be deployed.
    Our recommendation is for this account to be empty, so that deployed resources are not mixed up with your workload.
    This input must be provided as terraform required input value
     ```
     sysdig_secure_for_cloud_member_account_id=<ORGANIZATIONAL_SECURE_FOR_CLOUD_ACCOUNT_ID>
     ```
-4. Sysdig Secure requirements, as input variable value with the `api-token`
+4. **Sysdig Secure** requirements, as input variable value with the `api-token`
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
