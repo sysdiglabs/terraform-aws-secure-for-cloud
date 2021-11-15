@@ -34,6 +34,18 @@ variable "organizational_member_default_admin_role" {
 # cloudtrail configuration
 #
 
+variable "cloudtrail_sns_arn" {
+  type        = string
+  default     = "create"
+  description = "ARN of a pre-existing cloudtrail_sns. If it does not exist, it will be inferred from created cloudtrail"
+}
+
+variable "cloudtrail_s3_arn" {
+  type        = string
+  default     = "create"
+  description = "ARN of a pre-existing cloudtrail_sns s3 bucket. If it does not exist, it will be inferred from create cloudtrail"
+}
+
 variable "cloudtrail_is_multi_region_trail" {
   type        = bool
   default     = true

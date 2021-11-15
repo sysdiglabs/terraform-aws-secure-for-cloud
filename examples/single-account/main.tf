@@ -8,15 +8,6 @@ module "resource_group" {
   tags   = var.tags
 }
 
-module "cloudtrail" {
-  source                = "../../modules/infrastructure/cloudtrail"
-  name                  = var.name
-  is_organizational     = false
-  is_multi_region_trail = var.cloudtrail_is_multi_region_trail
-  cloudtrail_kms_enable = var.cloudtrail_kms_enable
-
-  tags = var.tags
-}
 
 module "ecs_fargate_cluster" {
   source = "../../modules/infrastructure/ecs-fargate-cluster"
@@ -44,14 +35,14 @@ module "cloud_connector" {
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
   is_organizational            = false
 
-  sns_topic_arn = module.cloudtrail.sns_topic_arn
+  sns_topic_arn = local.cloudtrail_sns_arn
 
   ecs_cluster = module.ecs_fargate_cluster.id
   vpc_id      = module.ecs_fargate_cluster.vpc_id
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
 
   tags       = var.tags
-  depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.ssm]
+  depends_on = [local.cloudtrail_sns_arn, module.ecs_fargate_cluster, module.ssm]
 }
 
 
@@ -81,7 +72,7 @@ module "cloud_scanning" {
   build_project_arn  = module.codebuild.project_arn
   build_project_name = module.codebuild.project_name
 
-  sns_topic_arn = module.cloudtrail.sns_topic_arn
+  sns_topic_arn = local.cloudtrail_sns_arn
 
   ecs_cluster = module.ecs_fargate_cluster.id
   vpc_id      = module.ecs_fargate_cluster.vpc_id
@@ -89,7 +80,7 @@ module "cloud_scanning" {
 
   tags = var.tags
   # note. this is required to avoid race conditions
-  depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.codebuild, module.ssm]
+  depends_on = [local.cloudtrail_sns_arn, module.ecs_fargate_cluster, module.codebuild, module.ssm]
 }
 
 #-------------------------------------

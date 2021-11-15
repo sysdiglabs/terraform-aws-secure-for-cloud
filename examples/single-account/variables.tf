@@ -12,6 +12,11 @@ variable "sysdig_secure_api_token" {
 #
 # cloudtrail configuration
 #
+variable "cloudtrail_sns_arn" {
+  type        = string
+  default     = "create"
+  description = "ARN of a pre-existing cloudtrail_sns. If it does not exist, it will be inferred from created cloudtrail"
+}
 
 variable "cloudtrail_is_multi_region_trail" {
   type        = bool

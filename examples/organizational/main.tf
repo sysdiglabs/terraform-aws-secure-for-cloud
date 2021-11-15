@@ -25,21 +25,6 @@ module "resource_group" {
   tags   = var.tags
 }
 
-module "cloudtrail" {
-  source = "../../modules/infrastructure/cloudtrail"
-  name   = var.name
-
-  is_organizational = true
-  organizational_config = {
-    sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
-    organizational_role_per_account           = var.organizational_member_default_admin_role
-  }
-  is_multi_region_trail = var.cloudtrail_is_multi_region_trail
-  cloudtrail_kms_enable = var.cloudtrail_kms_enable
-
-  tags = var.tags
-}
-
 
 #-------------------------------------
 # secure-for-cloud member account workload
@@ -84,14 +69,14 @@ module "cloud_connector" {
     connector_ecs_task_role_name     = aws_iam_role.connector_ecs_task.name
   }
 
-  sns_topic_arn = module.cloudtrail.sns_topic_arn
+  sns_topic_arn = local.cloudtrail_sns_arn
 
   ecs_cluster = module.ecs_fargate_cluster.id
   vpc_id      = module.ecs_fargate_cluster.vpc_id
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
 
   tags       = var.tags
-  depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.ssm]
+  depends_on = [local.cloudtrail_sns_arn, module.ecs_fargate_cluster, module.ssm]
 }
 
 #
@@ -129,14 +114,14 @@ module "cloud_scanning" {
     scanning_ecs_task_role_name      = aws_iam_role.connector_ecs_task.name
   }
 
-  sns_topic_arn = module.cloudtrail.sns_topic_arn
+  sns_topic_arn = local.cloudtrail_sns_arn
 
   ecs_cluster = module.ecs_fargate_cluster.id
   vpc_id      = module.ecs_fargate_cluster.vpc_id
   vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
 
   tags       = var.tags
-  depends_on = [module.cloudtrail, module.ecs_fargate_cluster, module.codebuild, module.ssm]
+  depends_on = [local.cloudtrail_sns_arn, module.ecs_fargate_cluster, module.codebuild, module.ssm]
 }
 
 #-------------------------------------
