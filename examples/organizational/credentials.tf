@@ -7,7 +7,6 @@ module "resource_group_secure_for_cloud_member" {
   tags   = var.tags
 }
 
-
 module "secure_for_cloud_role" {
   source = "../../modules/infrastructure/permissions/ecs-org-role"
   providers = {
@@ -15,7 +14,7 @@ module "secure_for_cloud_role" {
   }
   name = var.name
 
-  cloudtrail_s3_arn                 = module.cloudtrail.s3_bucket_arn
+  cloudtrail_s3_arn                 = local.cloudtrail_s3_arn
   cloudconnector_ecs_task_role_name = aws_iam_role.connector_ecs_task.name
   organizational_role_per_account   = var.organizational_member_default_admin_role
 

@@ -104,6 +104,7 @@ Notice that:
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | true/false whether cloudtrail will ingest multiregional events. testing/economization purpose. | `bool` | `true` | no |
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether s3 should be encrypted. testing/economization purpose. | `bool` | `true` | no |
+| <a name="input_cloudtrail_sns_arn"></a> [cloudtrail\_sns\_arn](#input\_cloudtrail\_sns\_arn) | ARN of a pre-existing cloudtrail\_sns. If it does not exist, it will be inferred from created cloudtrail | `string` | `"create"` | no |
 | <a name="input_deploy_image_scanning"></a> [deploy\_image\_scanning](#input\_deploy\_image\_scanning) | true/false whether to deploy cloud\_scanning | `bool` | `true` | no |
 | <a name="input_deploy_threat_detection"></a> [deploy\_threat\_detection](#input\_deploy\_threat\_detection) | true/false whether to deploy cloud\_connector | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
