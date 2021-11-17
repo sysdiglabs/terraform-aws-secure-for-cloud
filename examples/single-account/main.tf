@@ -1,14 +1,6 @@
 #-------------------------------------
 # general resources
 #-------------------------------------
-provider "aws" {
-  region  = "eu-west-2"
-  profile = "organizational"
-  assume_role {
-    role_arn = "arn:aws:iam::425287181461:role/OrganizationAccountAccessRole"
-  }
-}
-
 module "resource_group" {
   source = "../../modules/infrastructure/resource-group"
   name   = var.name
