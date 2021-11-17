@@ -8,6 +8,16 @@ variable "secure_api_token_secret_name" {
   description = "Sysdig Secure API token SSM parameter name"
 }
 
+variable "build_project_arn" {
+  type        = string
+  description = "Code Build project arn"
+}
+
+variable "build_project_name" {
+  type        = string
+  description = "Code Build project name"
+}
+
 
 #---------------------------------
 # vpc
@@ -51,16 +61,22 @@ variable "is_organizational" {
 variable "organizational_config" {
   type = object({
     sysdig_secure_for_cloud_role_arn = string
+    organizational_role_per_account  = string
     connector_ecs_task_role_name     = string
   })
   default = {
     sysdig_secure_for_cloud_role_arn = null
+    organizational_role_per_account  = null
     connector_ecs_task_role_name     = null
   }
 
   description = <<-EOT
     organizational_config. following attributes must be given
-    <ul><li>`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><li>and the `connector_ecs_task_role_name` which has been granted trusted-relationship over the secure_for_cloud_role</li></ul>
+    <ul>
+      <li>`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li>
+      <li>`connector_ecs_task_role_name` which has been granted trusted-relationship over the secure_for_cloud_role</li>
+      <li>`organizational_role_per_account` is the name of the organizational role deployed by AWS in each account of the organization</li>
+    </ul>
   EOT
 }
 

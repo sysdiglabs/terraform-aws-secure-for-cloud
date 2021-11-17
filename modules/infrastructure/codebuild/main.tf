@@ -22,15 +22,15 @@ resource "aws_codebuild_project" "build_project" {
   }
 
   source {
-    type      = "NO_SOURCE"
-    buildspec = <<CONFIG
-version: 0.2
-
-phases:
-  build:
-    commands:
-      - exit
-CONFIG
+    type = "NO_SOURCE"
+    buildspec = yamlencode({
+      version = "0.2"
+      phases = {
+        build = {
+          commands = ["exit"]
+        }
+      }
+    })
   }
 
   tags = var.tags

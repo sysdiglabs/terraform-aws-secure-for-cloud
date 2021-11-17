@@ -68,6 +68,13 @@ variable "benchmark_regions" {
   default     = []
 }
 
+variable "deploy_bench" {
+  type        = bool
+  description = "Whether to deploy or not the cloud benchmarking"
+  default     = true
+}
+
+
 #
 # general
 #
