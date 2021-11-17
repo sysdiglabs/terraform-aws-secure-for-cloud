@@ -17,6 +17,7 @@ data "aws_iam_role" "task_inherited" {
   count = var.is_organizational ? 1 : 0
   name  = var.organizational_config.connector_ecs_task_role_name
 }
+
 resource "aws_iam_role" "task" {
   count              = var.is_organizational ? 0 : 1
   name               = "${var.name}-${local.ecs_task_role_name_suffix}"
@@ -24,6 +25,7 @@ resource "aws_iam_role" "task" {
   path               = "/"
   tags               = var.tags
 }
+
 data "aws_iam_policy_document" "task_assume_role" {
   count = var.is_organizational ? 0 : 1
   statement {
@@ -67,6 +69,81 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       "sqs:ReceiveMessage"
     ]
     resources = [module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_arn]
+  }
+}
+
+resource "aws_iam_role_policy" "trigger_scan" {
+  name   = "${var.name}-TriggerScan"
+  role   = local.ecs_task_role_id
+  policy = data.aws_iam_policy_document.trigger_scan.json
+}
+data "aws_iam_policy_document" "trigger_scan" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "codebuild:StartBuild"
+    ]
+    resources = [var.build_project_arn]
+  }
+}
+
+resource "aws_iam_role_policy" "task_definition_reader" {
+  name   = "TaskDefinitionReader"
+  role   = local.ecs_task_role_id
+  policy = data.aws_iam_policy_document.task_definition_reader.json
+}
+data "aws_iam_policy_document" "task_definition_reader" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecs:DescribeTaskDefinition"
+    ]
+    resources = ["*"]
+  }
+}
+
+
+resource "aws_iam_role_policy" "secrets_reader" {
+  name   = "SecretsReader"
+  role   = local.ecs_task_role_id
+  policy = data.aws_iam_policy_document.secrets_reader.json
+}
+
+data "aws_iam_policy_document" "secrets_reader" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt",
+      "secretsmanager:GetSecretValue"
+    ]
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "ecr_reader" {
+  name   = "ECRReader"
+  role   = local.ecs_task_role_id
+  policy = data.aws_iam_policy_document.ecr_reader.json
+}
+
+data "aws_iam_policy_document" "ecr_reader" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetRepositoryPolicy",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:DescribeImages",
+      "ecr:BatchGetImage",
+      "ecr:GetLifecyclePolicy",
+      "ecr:GetLifecyclePolicyPreview",
+      "ecr:ListTagsForResource",
+      "ecr:DescribeImageScanFindings"
+    ]
+    resources = ["*"]
   }
 }
 
