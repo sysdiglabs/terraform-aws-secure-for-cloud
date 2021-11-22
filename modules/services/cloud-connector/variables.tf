@@ -39,7 +39,7 @@ variable "vpc_subnets" {
 
 variable "sns_topic_arn" {
   type        = string
-  description = "CloudTrail module created SNS Topic ARN"
+  description = "ARN of a cloudtrail-sns topic"
 }
 
 
