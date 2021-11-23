@@ -1,17 +1,19 @@
-resource "aws_kms_alias" "kms" {
-  target_key_id = aws_kms_key.cloudtrail_kms.id
-  name          = "alias/${var.name}"
-}
-
-
 resource "aws_kms_key" "cloudtrail_kms" {
+  count               = var.cloudtrail_kms_enable ? 1 : 0
   is_enabled          = true
   enable_key_rotation = true
-  policy              = data.aws_iam_policy_document.cloudtrail_kms.json
+  policy              = data.aws_iam_policy_document.cloudtrail_kms[0].json
   tags                = var.tags
 }
 
+resource "aws_kms_alias" "kms" {
+  count         = var.cloudtrail_kms_enable ? 1 : 0
+  target_key_id = aws_kms_key.cloudtrail_kms[0].id
+  name          = "alias/${var.name}"
+}
+
 data "aws_iam_policy_document" "cloudtrail_kms" {
+  count = var.cloudtrail_kms_enable ? 1 : 0
   statement {
     sid    = "Enable IAM User Permissions"
     effect = "Allow"
