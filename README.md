@@ -75,29 +75,37 @@ Notice that:
 * This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * All created resources will be created within the tags `product:sysdig-secure-for-cloud`, within the resource-group `sysdig-secure-for-cloud`
 
+<br/><br/>
 
+## Forcing Events
+
+**Threat Detection**
+
+Choose one of the rules contained in the `AWS Best Practices` policy and execute it in your AWS account.
+
+ex.: 'Delete Bucket Public Access Block' can be easily tested going to an
+`S3 bucket > Permissions > Block public access (bucket settings) > edit >
+uncheck 'Block all public access'`
+
+Remember that in case you add new rules to the policy you need to give it time to propagate the changes.
+
+In the `cloud-connector` logs you should see similar logs to these
+> A public access block for a bucket has been deleted (requesting  user=OrganizationAccountAccessRole, requesting IP=x.x.x.x, AWS  region=eu-central-1, bucket=***
+
+If that's not working as expected, some other questions can be checked
+- are events consumed in the sqs queue, or are they pending?
+- are events being sent to sns topic?
+
+**Image Scanning**
+
+Upload any image to the ECR repository of AWS.
+<br/>You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
 
 <br/><br/>
 ## Troubleshooting
 
 ### Q: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
 A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
-
-### Q: How to validate threat-detection is working as expected?<br/>
-A: Check each pipeline resource is working as expected (from high to low lvl)
-  - select a rule to break manually, from the 'Sysdig AWS Best Practices' policies. for example, 'Delete Bucket Public Access Block'. can you see the event?
-  - are there any errors in the ECS task logs? can also check cloudwatch logs
-    for previous example we should see the event
-    ```
-    {"level":"info","component":"console-notifier","time":"2021-07-26T12:45:25Z","message":"A pulic access block for a bucket has been deleted (requesting  user=OrganizationAccountAccessRole, requesting IP=x.x.x.x, AWS  region=eu-central-1, bucket=sysdig-secure-for-cloud-nnnnnn-config)"}
-    ```
-  - are events consumed in the sqs queue, or are they pending?
-  - are events being sent to sns topic?
-
-### Q: How to validate image-scanning?<br/>
-A: Upload any image to the ECR repository of AWS. You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
-<br/>
-
 
 ### Q: How to iterate cloud-connector modification testing
 A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).

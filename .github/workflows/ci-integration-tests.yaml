@@ -16,7 +16,7 @@ concurrency: terraform
 
 jobs:
   integration_test_ecs:
-    concurrency: terraform-account
+#    concurrency: terraform-account
 
     name: Test-Kitchen-ECS
     runs-on: ubuntu-latest
@@ -66,7 +66,7 @@ jobs:
         run: bundle exec kitchen destroy "organizational-aws"
 
   integration_test-eks:
-    concurrency: terraform-account
+#    concurrency: terraform-account
     continue-on-error: true
 
     name: Test-Kitchen-EKS
