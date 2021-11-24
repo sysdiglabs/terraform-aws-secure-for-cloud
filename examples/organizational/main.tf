@@ -99,11 +99,12 @@ module "cloud_connector" {
 
 module "cloud_bench" {
   source = "../../modules/services/cloud-bench"
-  count  = var.deploy_bench ? 1 : 0
+  count  = var.deploy_benchmark ? 1 : 0
 
   name              = "${var.name}-cloudbench"
-  tags              = var.tags
   is_organizational = true
   region            = data.aws_region.current.name
   benchmark_regions = var.benchmark_regions
+
+  tags = var.tags
 }
