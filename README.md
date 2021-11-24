@@ -1,15 +1,17 @@
 # Sysdig Secure for Cloud in AWS
 
 Terraform module that deploys the [**Sysdig Secure for Cloud** stack in **AWS**](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws).
-<br/>It provides unified threat detection, compliance, forensics and analysis.
+<br/>
 
-There are three major components:
+Provides unified threat-detection, compliance, forensics and analysis through these major components:
 
-* **CSPM/Compliance**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix. Managed through [cloud-bench module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench).<br/>
+* **[CSPM/Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/benchmarks/)**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix. Managed through `cloud-bench` module. <br/>
 
-* **Cloud Threat Detection**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through [cloud-connector module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector).<br/>
+* **[CIEM](https://docs.sysdig.com/en/docs/sysdig-secure/posture/)**: Permissions and Entitlements management. Requires BOTH modules  `cloud-connector` and `cloud-bench`. <br/>
 
-* **Cloud Scanning**: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account. Managed through [cloud-connector module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector).<br/>
+* **[Cloud Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through `cloud-connector` module. <br/>
+
+* **[Cloud Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account. Managed through `cloud-connector`. <br/>
 
 For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud), [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud)
 
@@ -73,45 +75,55 @@ Notice that:
 * This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * All created resources will be created within the tags `product:sysdig-secure-for-cloud`, within the resource-group `sysdig-secure-for-cloud`
 
+<br/><br/>
 
+## Forcing Events
+
+**Threat Detection**
+
+Choose one of the rules contained in the `AWS Best Practices` policy and execute it in your AWS account.
+
+ex.: 'Delete Bucket Public Access Block' can be easily tested going to an
+`S3 bucket > Permissions > Block public access (bucket settings) > edit >
+uncheck 'Block all public access'`
+
+Remember that in case you add new rules to the policy you need to give it time to propagate the changes.
+
+In the `cloud-connector` logs you should see similar logs to these
+> A public access block for a bucket has been deleted (requesting  user=OrganizationAccountAccessRole, requesting IP=x.x.x.x, AWS  region=eu-central-1, bucket=***
+
+If that's not working as expected, some other questions can be checked
+- are events consumed in the sqs queue, or are they pending?
+- are events being sent to sns topic?
+
+**Image Scanning**
+
+Upload any image to the ECR repository of AWS.
+<br/>You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
 
 <br/><br/>
 ## Troubleshooting
 
-- Q: How to **validate secure-for-cloud cloud-connector (thread-detection) provisioning** is working as expected?<br/>
-  A: Check each pipeline resource is working as expected (from high to low lvl)
-    - select a rule to break manually, from the 'Sysdig AWS Best Practices' policies. for example, 'Delete Bucket Public Access Block'. can you see the event?
-    - are there any errors in the ECS task logs? can also check cloudwatch logs
-      for previous example we should see the event
-      ```
-      {"level":"info","component":"console-notifier","time":"2021-07-26T12:45:25Z","message":"A pulic access block for a bucket has been deleted (requesting  user=OrganizationAccountAccessRole, requesting IP=x.x.x.x, AWS  region=eu-central-1, bucket=sysdig-secure-for-cloud-nnnnnn-config)"}
-      ```
-    - are events consumed in the sqs queue, or are they pending?
-    - are events being sent to sns topic?
+### Q: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
+A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
+
+### Q: How to iterate cloud-connector modification testing
+A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
+Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
 
 
-- Q: How to iterate **cloud-connector modification testing**
-  <br/>A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
-  Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
-
-
-- Q: How can I iterate **ECS testing**
-  <br/>A: After applying your modifications (vía terraform for example) restart the service
-    ```
-    $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
-    ```
-  For the AWS_PROFILE, set your `~/.aws/config` to impersonate
-    ```
-    [profile secure-for-cloud]
-    region=eu-central-1
-    role_arn=arn:aws:iam::<AWS_MANAGEMENT_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
-    source_profile=<AWS_MANAGEMENT_ACCOUNT_PROFILE>
-    ```
-
-- Q: How to test **cloud-scanner** image-scanning?<br/>
-  A: Upload any image to the ECR repository of AWS. You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
-  <br/>
-
+### Q: How can I iterate ECS modification testing
+A: After applying your modifications (vía terraform for example) restart the service
+  ```
+  $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
+  ```
+For the AWS_PROFILE, set your `~/.aws/config` to impersonate
+  ```
+  [profile secure-for-cloud]
+  region=eu-central-1
+  role_arn=arn:aws:iam::<AWS_MANAGEMENT_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
+  source_profile=<AWS_MANAGEMENT_ACCOUNT_PROFILE>
+  ```
 
 <br/><br/>
 ## Authors

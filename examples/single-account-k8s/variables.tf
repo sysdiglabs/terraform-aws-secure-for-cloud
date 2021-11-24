@@ -22,6 +22,22 @@ variable "deploy_image_scanning" {
 
 
 #
+# benchmark configuration
+#
+variable "deploy_benchmark" {
+  type        = bool
+  description = "Whether to deploy or not the cloud benchmarking"
+  default     = true
+}
+variable "benchmark_regions" {
+  type        = list(string)
+  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
+  default     = []
+}
+
+
+
+#
 # cloudtrail configuration
 #
 

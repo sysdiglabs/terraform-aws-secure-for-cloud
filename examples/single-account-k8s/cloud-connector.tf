@@ -5,7 +5,7 @@ module "cloud_connector_sqs" {
   count  = var.deploy_threat_detection ? 1 : 0
   source = "../../modules/infrastructure/sqs-sns-subscription"
 
-  name          = "${var.name}-cloud_connector"
+  name          = var.name
   sns_topic_arn = local.cloudtrail_sns_arn
   tags          = var.tags
 }
@@ -14,6 +14,7 @@ module "codebuild" {
   count  = var.deploy_image_scanning ? 1 : 0
   source = "../../modules/infrastructure/codebuild"
 
+  name                         = var.name
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   tags = var.tags
