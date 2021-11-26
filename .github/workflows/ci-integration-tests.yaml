@@ -103,6 +103,7 @@ jobs:
         run: bundle exec kitchen destroy "organizational-k8s-aws"
 
   integration_test_ecs:
+    needs: integration_test-eks
     concurrency: terraform-account
     continue-on-error: true
 
