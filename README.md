@@ -48,6 +48,15 @@ If no [examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tr
 In this use-case we will ONLY deploy cloud-bench, into the target account, calling modules directly
 
 ```terraform
+terraform {
+  required_providers {
+    aws = {}
+    sysdig = {
+      source  = "sysdiglabs/sysdig"
+    }
+  }
+}
+
 provider "aws" {
   region = "AWS-REGION"
 }
@@ -58,7 +67,6 @@ provider "sysdig" {
 
 module "cloud_bench" {
   source      = "sysdiglabs/secure-for-cloud/aws//modules/cloud-bench"
-  account_id  = "AWS-ACCOUNT-ID" # can also be fetched from `aws_caller_identity.me`
 }
 
 ```
