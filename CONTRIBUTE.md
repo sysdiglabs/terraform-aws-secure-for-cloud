@@ -24,7 +24,7 @@
 * Unless a revision is desired in order to validate, or gather some feedback, **you are free to merge it as long as**
   * validation checkers are all green-lighted
   * you've got permissions to do so :)
-* Check wether anything else is required for your contribution
+* Check whether anything else is required for your contribution
 
 ### Contribution checklist
 
