@@ -40,9 +40,19 @@ locals {
   )
 }
 
+resource "random_integer" "minute" {
+  max = 59
+  min = 0
+}
+
+resource "random_integer" "hour" {
+  max = 23
+  min = 0
+}
+
 resource "sysdig_secure_benchmark_task" "benchmark_task" {
   name     = "Sysdig Secure for Cloud (AWS) - ${local.benchmark_task_name}"
-  schedule = "0 6 * * *"
+  schedule = "${random_integer.minute.result} ${random_integer.hour.result} * * *"
   schema   = "aws_foundations_bench-1.3.0"
   scope    = "${local.accounts_scope_clause}${local.regions_scope_clause}"
 

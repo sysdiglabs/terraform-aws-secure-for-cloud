@@ -3,6 +3,7 @@ driver:
   name: terraform
   root_module_directory: test/fixtures
   parallelism: 4
+  verify_version: false
 
 provisioner:
   name: terraform
