@@ -16,6 +16,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Cloud IAC parser
-        uses: sysdiglabs/cloud-iac-scanner-action@v0.0.5
+        uses: sysdiglabs/cloud-iac-scanner-action@v0.0.6
         with:
           parser: 'terraform'
