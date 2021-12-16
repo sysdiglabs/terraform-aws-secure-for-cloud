@@ -10,7 +10,6 @@ resource "aws_iam_access_key" "this" {
 
 
 
-
 module "credentials_general" {
   source = "../general"
   name   = var.name

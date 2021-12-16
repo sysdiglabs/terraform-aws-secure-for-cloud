@@ -8,7 +8,7 @@ module "resource_group_secure_for_cloud_member" {
 }
 
 module "secure_for_cloud_role" {
-  source = "../../modules/infrastructure/permissions/ecs-org-role"
+  source = "../../modules/infrastructure/permissions/org-role-ecs"
   providers = {
     aws.member = aws.member
   }
