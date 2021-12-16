@@ -53,8 +53,6 @@ jobs:
           kubectl get deployments -n sfc-tests-kitchen-singlek8s
           kubectl describe deployment cloud-connector -n sfc-tests-kitchen-singlek8s
           kubectl logs deployment.apps/cloud-connector -n sfc-tests-kitchen-singlek8s
-          kubectl logs deployment.apps/cloud-scanning -n sfc-tests-kitchen-singlek8s
-
 
       - name: Destroy single-account-k8s resources
         env:
@@ -85,8 +83,6 @@ jobs:
           kubectl get deployments -n sfc-tests-kitchen-singlek8s
           kubectl describe deployment cloud-connector -n sfc-tests-kitchen-orgk8s
           kubectl logs deployment.apps/cloud-connector -n sfc-tests-kitchen-orgk8s
-          kubectl logs deployment.apps/cloud-scanning -n sfc-tests-kitchen-orgk8s
-
 
       - name: Destroy org-k8s test
         env:

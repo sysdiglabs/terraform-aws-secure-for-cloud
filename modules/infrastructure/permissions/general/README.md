@@ -1,6 +1,6 @@
 # Permissions :: General
 
-General permissions that apply to both cloud-connector and cloud-scanning modules
+General permissions that apply to both threat-detection (cloud-connector) and image-scanning (cloud-scanning) features
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
