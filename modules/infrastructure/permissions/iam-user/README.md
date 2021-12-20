@@ -1,6 +1,7 @@
 # Permissions :: Single-Account user credentials
 
-Will create an IAM user and add add permissions for required modules
+Creates an IAM user and adds permissions for required modules.
+<br/>Will use the `deploy_threat_detection` and `deploy_image_scanning` flags
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements

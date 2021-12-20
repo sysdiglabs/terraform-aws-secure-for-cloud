@@ -17,6 +17,28 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 <br/>
 
+[comment]: <> (## Permissions)
+
+[comment]: <> (Inspect `/module/infrastructure/permissions` subdirectories to understand the several)
+
+[comment]: <> (permissions required.)
+
+[comment]: <> (- `/iam-user` creates an IAM user + adds permissions for required modules &#40;general, cloud-connector, cloud-scanning&#41;<br/><br/>)
+
+[comment]: <> (- `/general` concerns general permissions that apply to both threat-detection and image-scanning features)
+
+[comment]: <> (- `/cloud-connector` for threat-detection features)
+
+[comment]: <> (- `/cloud-scanning` for image-scanning features)
+
+[comment]: <> (TODO review `/module/*/ permissions` vs. the ones in permissions folder)
+
+[comment]: <> (TODO review)
+
+[comment]: <> (- `/org-role-ecs`)
+
+[comment]: <> (- `/org-role-eks`)
+
 ## Usage
 
 There are several ways to deploy this in you AWS infrastructure:

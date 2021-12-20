@@ -2,14 +2,16 @@
 
 The aim of this module is to manage the organizational **managed account** required role and permissions for threat-detection and image scanning modules to work properly.
 
-1. Enables Cloudtrail SNS subscription permissions through a role specified within the Sysdig Secure workload **member account**
-2. Creates a role in the organizational **managed account** with the required permissions
+1. Enables Cloudtrail SNS subscription permissions through a role specified within the Sysdig Secure workload **member account**<br/><br/>
+2. Creates a role `sfc-SysdigSecureForCloudRole` (by default) in the organizational **managed account** with the required permissions
 
-* Threat-Detection
+
+## Permissions
+* Threat-Detection feature
   * S3 Get and List permissions in order to fetch the events
   * SNS Subscription permissions in order to subscribe a topic to it
 
-* Image scanning
+* Image scanning feature
   * Enable this role to assumeRole to member accounts through the `organizational_role_per_account` role,
     in order to be able to fetch images that may be in member-account repositories
 

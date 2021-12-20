@@ -1,10 +1,28 @@
 # Cloudtrail_S3 event notification handle through SNS-SQS
 
-Provisions the SNS-SQS event-notification on a pre-existing cloudtrail, based on it S3 bucket event-notifications
+Provision a cloud-connector cloudtrail input, based on an S3-SNS-SQS event-notification.
+
+# How it works
+
+- This module's output will be visible in the `S3` console, after entering a bucket, in it's `Properties`, `Event notifications` section.
+Besides, an SQS queue will be visible, which will gather the events coming from the Cloudtrail-S3-SNS topic notifications.
+- Creates the SNS-SQS link using the underlying module `modules/infrastructure/sqs-sns-subscription`<br/><br/>
+
+## Recommended use-cases
+
+Matches one of the following points:
+
+- Accounts are organized in an AWS Organization, but there is NO [Organizational Cloudtrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
+- An existing cloudtrail is available, but it has NO
+[Cloudtrail-SNS notification configured](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/configure-sns-notifications-for-cloudtrail.html?icmpid=docs_console_unmapped)
+- An existing cloudtrail is available, but despite having Cloudtrail-SNS notification activated we want to make an
+EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connector for the thread-detection feature.
 
 ## Pre-requirements
+- Identify the Cloudtrail-S3 bucket name, for the `input_cloudtrail_s3_name` module input
+<!--
 - SNS must be created in the same region as Cloudtrail. Adjust `var.region` or your aws credentials region.
-
+-->
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -42,7 +60,7 @@ Provisions the SNS-SQS event-notification on a pre-existing cloudtrail, based on
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudtrail_s3_name"></a> [cloudtrail\_s3\_name](#input\_cloudtrail\_s3\_name) | Name of the Cloudtrail S3 bucket | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_s3_event_notification_filter_prefix"></a> [s3\_event\_notification\_filter\_prefix](#input\_s3\_event\_notification\_filter\_prefix) | S3 Path filter prefix for event notification | `string` | `""` | no |
+| <a name="input_s3_event_notification_filter_prefix"></a> [s3\_event\_notification\_filter\_prefix](#input\_s3\_event\_notification\_filter\_prefix) | S3 Path filter prefix for event notification. Limit the notifications to objects with key starting with specified characters | `string` | `""` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
