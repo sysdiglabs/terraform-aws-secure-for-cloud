@@ -60,7 +60,7 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudtrail_s3_name"></a> [cloudtrail\_s3\_name](#input\_cloudtrail\_s3\_name) | Name of the Cloudtrail S3 bucket | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_s3_event_notification_filter_prefix"></a> [s3\_event\_notification\_filter\_prefix](#input\_s3\_event\_notification\_filter\_prefix) | S3 Path filter prefix for event notification | `string` | `""` | no |
+| <a name="input_s3_event_notification_filter_prefix"></a> [s3\_event\_notification\_filter\_prefix](#input\_s3\_event\_notification\_filter\_prefix) | S3 Path filter prefix for event notification. Limit the notifications to objects with key starting with specified characters | `string` | `""` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
