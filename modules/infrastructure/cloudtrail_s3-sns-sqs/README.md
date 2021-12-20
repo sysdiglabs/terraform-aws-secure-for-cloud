@@ -1,10 +1,28 @@
 # Cloudtrail_S3 event notification handle through SNS-SQS
 
-Provisions the SNS-SQS event-notification on a pre-existing cloudtrail, based on it S3 bucket event-notifications
+Provision a cloud-connector cloudtrail input, based on an S3-SNS-SQS event-notification.
+
+# How it works
+
+- This module's output will be visible in the `S3` console, after entering a bucket, in it's `Properties`, `Event notifications` section.
+Besides, an SQS queue will be visible, which will gather the events coming from the Cloudtrail-S3-SNS topic notifications.
+- Creates the SNS-SQS link using the underlying module `modules/infrastructure/sqs-sns-subscription`<br/><br/>
+
+## Recommended use-cases
+
+Matches one of the following points:
+
+- Accounts are organized in an AWS Organization, but there is NO [Organizational Cloudtrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
+- An existing cloudtrail is available, but it has NO
+[Cloudtrail-SNS notification configured](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/configure-sns-notifications-for-cloudtrail.html?icmpid=docs_console_unmapped)
+- An existing cloudtrail is available, but despite having Cloudtrail-SNS notification activated we want to make an
+EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connector for the thread-detection feature.
 
 ## Pre-requirements
+- Identify the Cloudtrail-S3 bucket name, for the `input_cloudtrail_s3_name` module input
+<!--
 - SNS must be created in the same region as Cloudtrail. Adjust `var.region` or your aws credentials region.
-
+-->
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
