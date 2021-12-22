@@ -35,6 +35,11 @@ resource "helm_release" "cloud_connector" {
   create_namespace = true
   namespace        = var.name
 
+  set {
+    name  = "sysdig.url"
+    value = var.sysdig_secure_endpoint
+  }
+
   set_sensitive {
     name  = "sysdig.secureAPIToken"
     value = var.sysdig_secure_api_token
@@ -53,11 +58,6 @@ resource "helm_release" "cloud_connector" {
   set {
     name  = "aws.region"
     value = data.aws_region.current.name
-  }
-
-  set {
-    name  = "sysdig.url"
-    value = var.sysdig_secure_endpoint
   }
 
   values = [
