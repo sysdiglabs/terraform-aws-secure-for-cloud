@@ -23,17 +23,17 @@ Skip step 4 and remove `aws_access_key_id` and `aws_secret_access_key` parameter
 ## Suggested building-blocks
 
 1. Define different **AWS providers**
-    1. Populate  `_REGION_` and `_S3_REGION_`
+    1. Populate  `_REGION_`. Currently, same region is to be used
     2. Because we are going to provision resources on multiple accounts, we're gonna need several AWS providers
 
        2. `s3` for s3-sns-sqs resources to be deployed. IAM user-credentials, to be used for k8s must also be in S3 account
-       3. `sfc` for secure-for-cloud utilitary resources to be deployed
+       3. `sfc` for secure-for-cloud utility resources to be deployed
 
 
 ```terraform
 provider "aws" {
   alias = "s3"
-  region = "_S3_REGION_"
+  region = "_REGION_"
   ...
 }
 
@@ -101,29 +101,59 @@ module "org_user" {
 
 5. **Sysdig workload deployment on K8s**
 
-    * Populate  `_SYSDIG_SECURE_ENDPOINT_` and `_SYSDID_SECURE_API_TOKEN_`
+    * Populate  `_SYSDIG_SECURE_ENDPOINT_`, `_SYSDID_SECURE_API_TOKEN_` and `_REGION_`
 
 ```terraform
-# force some waiting for org_user creation (eventual consistency)
-resource "time_sleep" "wait" {
-  depends_on      = [module.org_user]
-  create_duration = "5s"
+resource "helm_release" "cloud_connector" {
+
+  provider = helm
+
+  name = "cloud-connector"
+
+  repository = "https://charts.sysdig.com"
+  chart      = "cloud-connector"
+
+  create_namespace = true
+  namespace        = "sysdig"
+
+  set {
+    name  = "image.pullPolicy"
+    value = "Always"
+  }
+
+  set {
+    name  = "sysdig.url"
+    value =  "_SYSDIG_SECURE_ENDPOINT_"
+  }
+
+  set_sensitive {
+    name  = "sysdig.secureAPIToken"
+    value = "_SYSDID_SECURE_API_TOKEN_"
+  }
+
+  set_sensitive {
+    name  = "aws.accessKeyId"
+    value = module.org_user.sfc_user_access_key_id
+  }
+
+  set_sensitive {
+    name  = "aws.secretAccessKey"
+    value = module.org_user.sfc_user_secret_access_key
+  }
+
+  set {
+    name  = "aws.region"
+    value = "_REGION_"
+  }
+
+  values = [
+    <<CONFIG
+logging: info
+ingestors:
+  - aws-cloudtrail-s3-sns-sqs:
+      queueURL: ${module.cloudtrail_s3_sns_sqs.cloudtrail_subscribed_sqs_url}
+CONFIG
+  ]
 }
 
-module "org_k8s_threat_reuse_cloudtrail" {
-    providers = {
-      aws = aws.sfc
-    }
-    source  = "sysdiglabs/secure-for-cloud/aws//examples-internal/organizational-k8s-threat-reuse_cloudtrail"
-    name   = "test-orgk8s"
-
-    sysdig_secure_endpoint    = _SYSDIG_SECURE_ENDPOINT_
-    sysdig_secure_api_token   = _SYSDID_SECURE_API_TOKEN_
-    cloudtrail_s3_sns_sqs_url = module.cloudtrail_s3_sns_sqs.cloudtrail_subscribed_sqs_url
-
-    aws_access_key_id     = module.org_user.sfc_user_access_key_id
-    aws_secret_access_key = module.org_user.sfc_user_secret_access_key
-
-    depends_on = [module.org_user.sfc_user_arn, time_sleep.wait]
-}
 ```
