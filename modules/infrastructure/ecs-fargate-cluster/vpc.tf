@@ -1,4 +1,8 @@
-data "aws_availability_zones" "zones" {}
+data "aws_availability_zones" "zones" {
+  exclude_zone_ids = [
+    "apne1-az3" # exclude ap-northeast-1a as nats unavailable
+  ]
+}
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
