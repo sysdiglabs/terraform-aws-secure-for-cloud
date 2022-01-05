@@ -51,7 +51,7 @@ variable "benchmark_regions" {
 #
 # ecs vpc configuration
 #
-variable "ecs_ecs_vpc_region_azs" {
+variable "ecs_vpc_region_azs" {
   type        = list(string)
   description = "Explicit list of availability zones for ECS VPC creation. eg: [\"apne1-az1\", \"apne1-az2\"]. If left empty it will be defaulted to two from the default datasource"
   default     = []

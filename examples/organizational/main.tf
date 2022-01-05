@@ -36,7 +36,7 @@ module "ecs_fargate_cluster" {
   }
   source             = "../../modules/infrastructure/ecs-fargate-cluster"
   name               = var.name
-  ecs_vpc_region_azs = var.ecs_ecs_vpc_region_azs
+  ecs_vpc_region_azs = var.ecs_vpc_region_azs
   tags               = var.tags
 }
 
