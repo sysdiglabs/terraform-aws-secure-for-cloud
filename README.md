@@ -132,7 +132,23 @@ Upload any image to the ECR repository of AWS.
 <br/>You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
 
 <br/><br/>
+
 ## Troubleshooting
+
+
+### Q: Getting error when creating the ECS subnet due to nats not being supported
+```
+│ Error: error creating subnet: InvalidParameterValue: Value (apne1-az3) for parameter availabilityZoneId is invalid. Subnets can currently only be created in the following availability zones: apne1-az1, apne1-az2, apne1-az4.
+│ 	status code: 400, request id: 6e32d757-2e61-4220-8106-22ccf814e1fe
+│
+│   with module.vpc.aws_subnet.public[1],
+│   on .terraform/modules/vpc/main.tf line 376, in resource "aws_subnet" "public":
+│  376: resource "aws_subnet" "public" {
+```
+
+A: For the ECS workload deployment a VPC is being created under the hood. Some AWS zones, such as the 'apne1-az3' in the 'ap-northeast' region does not support NATS, which is activated by default.
+S: Specify the desired VPC region availability zones for the vpc module, using the `ecs_vpc_region_azs` variable to explicit its desired value and workaround the error until AWS gives support for your region.
+
 
 ### Q: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
 A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules

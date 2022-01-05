@@ -34,9 +34,10 @@ module "ecs_fargate_cluster" {
   providers = {
     aws = aws.member
   }
-  source = "../../modules/infrastructure/ecs-fargate-cluster"
-  name   = var.name
-  tags   = var.tags
+  source             = "../../modules/infrastructure/ecs-fargate-cluster"
+  name               = var.name
+  ecs_vpc_region_azs = var.ecs_ecs_vpc_region_azs
+  tags               = var.tags
 }
 
 
