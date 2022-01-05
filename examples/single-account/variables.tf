@@ -9,6 +9,7 @@ variable "sysdig_secure_api_token" {
 # optionals - with defaults
 #---------------------------------
 
+
 #
 # cloudtrail configuration
 #
@@ -43,6 +44,16 @@ variable "deploy_benchmark" {
 variable "benchmark_regions" {
   type        = list(string)
   description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
+  default     = []
+}
+
+
+#
+# ecs vpc configuration
+#
+variable "ecs_vpc_region_azs" {
+  type        = list(string)
+  description = "Explicit list of availability zones for ECS VPC creation. eg: [\"apne1-az1\", \"apne1-az2\"]. If left empty it will be defaulted to two from the default datasource"
   default     = []
 }
 
