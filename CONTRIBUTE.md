@@ -67,6 +67,7 @@ Implemented vía **Terraform Kitchen** | https://newcontext-oss.github.io/kitche
 
 - Kitchen configuration can be found in `/.kitchen.yml`
 - Under `/test/fixtures` you can find the targets that will be tested. Please keep this as similar as possible to the Terraform Registry Modules examples.
+- AWS_PROFILE configuration is required to access the [TF s3 state backend](#terraform-backend)
 
 **Running Kitchen tests locally**
 
@@ -74,7 +75,7 @@ Ruby 2.7 is required to launch the tests.
 Run `bundle install` to get kitchen-terraform bundle.
 Cloud Provider credentials should be configured locally.
 ```shell
-# launch the tests, in other words, it will run `terraform apply`
+# launch all the tests, in other words, it will run `terraform apply`
 $ bundle exec kitchen converge
 
 # will destroy test infrastructure, in short, it will run `terraform destroy`
@@ -82,6 +83,9 @@ $ bundle exec kitchen destroy
 
 # run all the workflow. In first place, it will run an `apply`. Then, if and only if the `apply` works it will destroy the infrastructure.
 $ bundle exec kitchen tests
+
+# run one specific test
+$ bundle exec kitchen test "single-account-k8s-aws"
 
 ```
 
