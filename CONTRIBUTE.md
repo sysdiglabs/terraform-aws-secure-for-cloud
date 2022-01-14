@@ -16,7 +16,9 @@
 
 # Pull Request
 
-> TLDR; Should any pre-merge test fail, check `/.github/workflows/ci-integration-test.yaml` to identify what's required
+> TL;DR;<br/>
+> Feel free to merge as soon as needed, provided pre-merge checks pass<br/>
+> Should any fail, check `/.github/workflows/ci-integration-test.yaml` to identify what's required
 
 ## 0. General Guidelines
 
@@ -103,8 +105,9 @@ Check project github secrets for clarification
 
 # Release
 
-- Use **semver** for releases https://semver.org
-- Module official releases will be published at terraform registry
-- Just create a tag/release and it will be  fetched by pre-configured webhook and published into.
-  - For internal usage, TAGs can be used
-  - For official verions, RELEASEs will be used, with its corresponding changelog description.
+Feel free to release as soon as needed.
+
+- Create a tag and it will be  fetched by pre-configured webhook.
+  - use [semver](https://semver.org) notation
+- A changelog description will be generated based on [conventional-commints](https://www.conventionalcommits.org/en/v1.0.0/) , but please verify all changes are included and explain acordingly if/when required
+- Module official releases will be published at terraform registry automatically
