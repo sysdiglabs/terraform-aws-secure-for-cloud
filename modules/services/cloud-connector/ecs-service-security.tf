@@ -103,20 +103,26 @@ data "aws_iam_policy_document" "task_definition_reader" {
 }
 
 
-resource "aws_iam_role_policy" "secrets_reader" {
-  name   = "SecretsReader"
-  role   = local.ecs_task_role_id
-  policy = data.aws_iam_policy_document.secrets_reader.json
-}
+resource "aws_iam_role_policy" "ct_kms_reader" {
+  count = var.cloudtrail_kms_enabled ? 1 : 0
 
-data "aws_iam_policy_document" "secrets_reader" {
+  name   = "CloudtrailKMSReader"
+  role   = local.ecs_task_role_id
+  policy = data.aws_iam_policy_document.ct_kms_reader[0].json
+}
+data "aws_iam_policy_document" "ct_kms_reader" {
+  count = var.cloudtrail_kms_enabled ? 1 : 0
+
   statement {
-    effect = "Allow"
-    actions = [
-      "kms:Decrypt",
-      "secretsmanager:GetSecretValue"
-    ]
-    resources = ["*"]
+    effect    = "Allow"
+    actions   = ["kms:Decrypt"]
+    resources = [var.cloudtrail_kms_key_arn]
+
+    condition {
+      test     = "Null"
+      values   = ["false"]
+      variable = "kms:EncryptionContext:aws:cloudtrail:arn"
+    }
   }
 }
 

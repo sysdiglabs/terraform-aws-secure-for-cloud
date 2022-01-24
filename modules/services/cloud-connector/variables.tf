@@ -47,6 +47,18 @@ variable "sns_topic_arn" {
 # optionals - with default
 #---------------------------------
 
+variable "cloudtrail_kms_enabled" {
+  type        = bool
+  description = "Whether or not Cloudtrail is encrypted with KMS"
+  default     = true
+}
+
+variable "cloudtrail_kms_key_arn" {
+  type        = string
+  description = "ARN of KMS key used to encrypt Cloudtrail logs (if KMS encryption enabled)"
+  default     = null
+}
+
 #
 # module composition
 #

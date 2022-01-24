@@ -20,7 +20,7 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../infrastructure/sqs-sns-subscription |  |
+| <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../infrastructure/sqs-sns-subscription | n/a |
 
 ## Resources
 
@@ -32,9 +32,9 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 | [aws_ecs_task_definition.task_definition](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
 | [aws_iam_role.execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
 | [aws_iam_role.task](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.ct_kms_reader](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.ecr_reader](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.secrets_reader](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.task](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.task_definition_reader](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.task_read_parameters](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
@@ -45,11 +45,11 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 | [aws_security_group.sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_caller_identity.me](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_ecs_cluster.ecs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ecs_cluster) | data source |
+| [aws_iam_policy_document.ct_kms_reader](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.ecr_reader](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.execution_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.iam_role_task_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.secrets_reader](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.task_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.task_definition_reader](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.task_read_parameters](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -60,25 +60,27 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_build_project_arn"></a> [build\_project\_arn](#input\_build\_project\_arn) | Code Build project arn | `string` | n/a | yes |
-| <a name="input_build_project_name"></a> [build\_project\_name](#input\_build\_project\_name) | Code Build project name | `string` | n/a | yes |
-| <a name="input_ecs_cluster"></a> [ecs\_cluster](#input\_ecs\_cluster) | ECS Fargate Cluster where deploy the CloudConnector workload | `string` | n/a | yes |
+| Name                                                                                                                           | Description | Type | Default | Required |
+|--------------------------------------------------------------------------------------------------------------------------------|-------------|------|---------|:--------:|
+| <a name="input_build_project_arn"></a> [build\_project\_arn](#input\_build\_project\_arn)                                      | Code Build project arn | `string` | n/a | yes |
+| <a name="input_build_project_name"></a> [build\_project\_name](#input\_build\_project\_name)                                   | Code Build project name | `string` | n/a | yes |
+| <a name="input_ecs_cluster"></a> [ecs\_cluster](#input\_ecs\_cluster)                                                          | ECS Fargate Cluster where deploy the CloudConnector workload | `string` | n/a | yes |
 | <a name="input_secure_api_token_secret_name"></a> [secure\_api\_token\_secret\_name](#input\_secure\_api\_token\_secret\_name) | Sysdig Secure API token SSM parameter name | `string` | n/a | yes |
-| <a name="input_sns_topic_arn"></a> [sns\_topic\_arn](#input\_sns\_topic\_arn) | ARN of a cloudtrail-sns topic | `string` | n/a | yes |
-| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC where the workload is deployed | `string` | n/a | yes |
-| <a name="input_vpc_subnets"></a> [vpc\_subnets](#input\_vpc\_subnets) | Subnets where the CloudConnector will be deployed | `list(string)` | n/a | yes |
-| <a name="input_cloudwatch_log_retention"></a> [cloudwatch\_log\_retention](#input\_cloudwatch\_log\_retention) | Days to keep logs for CloudConnector | `number` | `5` | no |
+| <a name="input_sns_topic_arn"></a> [sns\_topic\_arn](#input\_sns\_topic\_arn)                                                  | ARN of a cloudtrail-sns topic | `string` | n/a | yes |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id)                                                                         | VPC where the workload is deployed | `string` | n/a | yes |
+| <a name="input_vpc_subnets"></a> [vpc\_subnets](#input\_vpc\_subnets)                                                          | Subnets where the CloudConnector will be deployed | `list(string)` | n/a | yes |
+| <a name="input_cloudtrail_kms_enabled"></a> [cloudtrail\_kms\_enabled](#input\_cloudtrail\_kms\_enabled)                       | Whether or not Cloudtrail is encrypted with KMS | `bool` | `true` | no |
+| <a name="input_cloudtrail_kms_key_arn"></a> [cloudtrail\_kms\_key\_arn](#input\_cloudtrail\_kms\_key\_arn)                     | ARN of KMS key used to encrypt Cloudtrail logs (if KMS encryption enabled) | `string` | `null` | no |
+| <a name="input_cloudwatch_log_retention"></a> [cloudwatch\_log\_retention](#input\_cloudwatch\_log\_retention)                 | Days to keep logs for CloudConnector | `number` | `5` | no |
 | <a name="input_connector_ecs_task_role_name"></a> [connector\_ecs\_task\_role\_name](#input\_connector\_ecs\_task\_role\_name) | Default ecs cloudconnector task role name | `string` | `"ECSTaskRole"` | no |
-| <a name="input_extra_env_vars"></a> [extra\_env\_vars](#input\_extra\_env\_vars) | Extra environment variables for the Cloud Connector deployment | `map(string)` | `{}` | no |
-| <a name="input_image"></a> [image](#input\_image) | Image of the cloud connector to deploy | `string` | `"quay.io/sysdig/cloud-connector:latest"` | no |
-| <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether secure-for-cloud should be deployed in an organizational setup | `bool` | `false` | no |
-| <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc-cloudconnector"` | no |
-| <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config) | organizational\_config. following attributes must be given<br><ul><br>  <li>`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><br>  <li>`connector_ecs_task_role_name` which has been granted trusted-relationship over the secure\_for\_cloud\_role</li><br>  <li>`organizational_role_per_account` is the name of the organizational role deployed by AWS in each account of the organization</li><br></ul> | <pre>object({<br>    sysdig_secure_for_cloud_role_arn = string<br>    organizational_role_per_account  = string<br>    connector_ecs_task_role_name     = string<br>  })</pre> | <pre>{<br>  "connector_ecs_task_role_name": null,<br>  "organizational_role_per_account": null,<br>  "sysdig_secure_for_cloud_role_arn": null<br>}</pre> | no |
-| <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
-| <a name="input_verify_ssl"></a> [verify\_ssl](#input\_verify\_ssl) | true/false to determine ssl verification for sysdig\_secure\_endpoint | `bool` | `true` | no |
+| <a name="input_extra_env_vars"></a> [extra\_env\_vars](#input\_extra\_env\_vars)                                               | Extra environment variables for the Cloud Connector deployment | `map(string)` | `{}` | no |
+| <a name="input_image"></a> [image](#input\_image)                                                                              | Image of the cloud connector to deploy | `string` | `"quay.io/sysdig/cloud-connector:latest"` | no |
+| <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational)                                        | whether secure-for-cloud should be deployed in an organizational setup | `bool` | `false` | no |
+| <a name="input_name"></a> [name](#input\_name)                                                                                 | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc-cloudconnector"` | no |
+| <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config)                            | organizational\_config. following attributes must be given<br><ul><br>  <li>`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><br>  <li>`connector_ecs_task_role_name` which has been granted trusted-relationship over the secure\_for\_cloud\_role</li><br>  <li>`organizational_role_per_account` is the name of the organizational role deployed by AWS in each account of the organization</li><br></ul> | <pre>object({<br>    sysdig_secure_for_cloud_role_arn = string<br>    organizational_role_per_account  = string<br>    connector_ecs_task_role_name     = string<br>  })</pre> | <pre>{<br>  "connector_ecs_task_role_name": null,<br>  "organizational_role_per_account": null,<br>  "sysdig_secure_for_cloud_role_arn": null<br>}</pre> | no |
+| <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint)                       | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags)                                                                                 | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
+| <a name="input_verify_ssl"></a> [verify\_ssl](#input\_verify\_ssl)                                                             | true/false to determine ssl verification for sysdig\_secure\_endpoint | `bool` | `true` | no |
 
 ## Outputs
 
