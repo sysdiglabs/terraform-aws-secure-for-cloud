@@ -51,6 +51,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_kms_key_arn"></a> [kms\_key\_arn](#output\_kms\_key\_arn) | Cloudtrail encryption KMS key ARN |
 | <a name="output_s3_bucket_arn"></a> [s3\_bucket\_arn](#output\_s3\_bucket\_arn) | Cloudtrail S3 bucket ARN |
 | <a name="output_sns_topic_arn"></a> [sns\_topic\_arn](#output\_sns\_topic\_arn) | Cloudtrail SNS topic ARN |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
