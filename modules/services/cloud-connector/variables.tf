@@ -47,6 +47,19 @@ variable "sns_topic_arn" {
 # optionals - with default
 #---------------------------------
 
+// Configure CPU and memory in pairs.
+// See: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_size
+variable "ecs_task_cpu" {
+  type        = string
+  description = "Amount of CPU (in CPU units) to reserve for cloud-connector task"
+  default     = "256"
+}
+
+variable "ecs_task_memory" {
+  type        = string
+  description = "Amount of memory (in megabytes) to reserve for cloud-connector task"
+  default     = "512"
+}
 
 #
 # module composition
