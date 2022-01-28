@@ -60,10 +60,16 @@ resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_s3" {
 data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
   statement {
     effect = "Allow"
+// Sysdig IaC Demo PR
+    actions = [
+      "s3:*"
+    ]   
+/*
     actions = [
       "s3:ListBucket",
       "s3:GetObject"
     ]
+*/
     resources = [
       var.cloudtrail_s3_arn,
       "${var.cloudtrail_s3_arn}/*"
