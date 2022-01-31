@@ -76,13 +76,34 @@ variable "benchmark_regions" {
 
 
 #
-# ecs vpc configuration
+# cloud-connector configuration
+# ecs, security group and vpc
 #
+
+variable "ecs_cluster_id" {
+  type        = string
+  default     = "create"
+  description = "Name/ID of a pre-existing ECS (elastic container service) cluster. If defaulted, a new cluster will be created"
+}
+
+variable "ecs_vpc_id" {
+  type        = string
+  default     = "create"
+  description = "ID of the VPC where the workload is to be deployed. If defaulted, one will be created "
+}
+
 variable "ecs_vpc_region_azs" {
   type        = list(string)
-  description = "Explicit list of availability zones for ECS VPC creation. eg: [\"apne1-az1\", \"apne1-az2\"]. If left empty it will be defaulted to two from the default datasource"
+  description = "List of Availability Zones for ECS VPC creation. e.g.: [\"apne1-az1\", \"apne1-az2\"]. If defaulted, two of the default 'aws_availability_zones' datasource will be taken"
   default     = []
 }
+
+variable "ecs_sg_id" {
+  type        = string
+  default     = "create"
+  description = "ID of the Security Group where the workload is to be deployed. If defaulted, one will be created"
+}
+
 
 
 #

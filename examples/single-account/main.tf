@@ -7,18 +7,12 @@ module "resource_group" {
   tags   = var.tags
 }
 
-module "ecs_fargate_cluster" {
-  source             = "../../modules/infrastructure/ecs-fargate-cluster"
-  name               = var.name
-  ecs_vpc_region_azs = var.ecs_vpc_region_azs
-  tags               = var.tags
-}
-
 module "ssm" {
   source                  = "../../modules/infrastructure/ssm"
   name                    = var.name
   sysdig_secure_api_token = var.sysdig_secure_api_token
 }
+
 
 #-------------------------------------
 # cloud-connector
@@ -46,11 +40,12 @@ module "cloud_connector" {
 
   sns_topic_arn = local.cloudtrail_sns_arn
 
-  ecs_cluster = module.ecs_fargate_cluster.id
-  vpc_id      = module.ecs_fargate_cluster.vpc_id
-  vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
+  ecs_cluster_id     = var.ecs_cluster_id
+  ecs_vpc_id         = var.ecs_vpc_id
+  ecs_vpc_region_azs = var.ecs_vpc_region_azs
+  ecs_sg_id          = var.ecs_sg_id
 
   tags       = var.tags
-  depends_on = [local.cloudtrail_sns_arn, module.ecs_fargate_cluster, module.ssm]
+  depends_on = [local.cloudtrail_sns_arn, module.ssm]
 
 }

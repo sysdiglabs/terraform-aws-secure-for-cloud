@@ -1,7 +1,10 @@
 resource "aws_security_group" "sg" {
-  vpc_id      = var.vpc_id
+  count = local.ecs_sg_deploy ? 1 : 0
+
   name        = var.name
   description = "CloudConnector workload Security Group"
+
+  vpc_id = local.ecs_vpc_id
 
   # allow all (protocol -1, from 0, to 0)
   ingress {

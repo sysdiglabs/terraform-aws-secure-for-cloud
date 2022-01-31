@@ -1,17 +1,14 @@
-data "aws_ecs_cluster" "ecs" {
-  cluster_name = var.ecs_cluster
-}
 
 
 resource "aws_ecs_service" "service" {
   name          = var.name
-  cluster       = data.aws_ecs_cluster.ecs.id
+  cluster       = local.ecs_cluster_id
   desired_count = 1
   launch_type   = "FARGATE"
 
   network_configuration {
-    subnets         = var.vpc_subnets
-    security_groups = [aws_security_group.sg.id]
+    subnets         = local.ecs_vpc_subnets_private
+    security_groups = [local.ecs_sg_id]
   }
   task_definition = aws_ecs_task_definition.task_definition.arn
   tags            = var.tags

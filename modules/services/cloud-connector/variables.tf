@@ -1,8 +1,3 @@
-variable "ecs_cluster" {
-  type        = string
-  description = "ECS Fargate Cluster where deploy the CloudConnector workload"
-}
-
 variable "secure_api_token_secret_name" {
   type        = string
   description = "Sysdig Secure API token SSM parameter name"
@@ -20,17 +15,42 @@ variable "build_project_name" {
 
 
 #---------------------------------
-# vpc
+# ecs, security group,  vpc
+# TODO. convertir en objeto?
 #---------------------------------
-variable "vpc_id" {
+
+variable "ecs_cluster_id" {
   type        = string
-  description = "VPC where the workload is deployed"
+  default     = "create"
+  description = "Name/ID of a pre-existing ECS (elastic container service) cluster. If defaulted, a new cluster will be created"
 }
 
-variable "vpc_subnets" {
-  type        = list(string)
-  description = "Subnets where the CloudConnector will be deployed"
+variable "ecs_vpc_id" {
+  type        = string
+  default     = "create"
+  description = "ID of the VPC where the workload is to be deployed. If defaulted, one will be created "
 }
+
+variable "ecs_vpc_subnets_private" {
+  type        = list(string)
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  description = "List of VPC subnets where workload is to be deployed"
+}
+
+
+variable "ecs_vpc_region_azs" {
+  type        = list(string)
+  description = "List of Availability Zones for ECS VPC creation. e.g.: [\"apne1-az1\", \"apne1-az2\"]. If defaulted, two of the default 'aws_availability_zones' datasource will be taken"
+  default     = []
+}
+
+variable "ecs_sg_id" {
+  type        = string
+  default     = "create"
+  description = "ID of the Security Group where the workload is to be deployed. If defaulted, one will be created"
+}
+
+
 
 
 #---------------------------------
@@ -83,7 +103,6 @@ variable "organizational_config" {
 #
 # module config
 #
-
 variable "connector_ecs_task_role_name" {
   type        = string
   default     = "ECSTaskRole"

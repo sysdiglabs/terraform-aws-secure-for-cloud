@@ -54,21 +54,19 @@ with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_att
 
             with Cluster("ecs-cluster"):
                 cloud_connector = ElasticContainerServiceService("cloud-connector")
-                cloud_scanning = ElasticContainerServiceService("cloud-scanning")
 
             sqs = SQS("cloudtrail-sqs")
             s3_config = S3("cloud-connector-config")
             cloudwatch = Cloudwatch("cloudwatch\n(logs and alarms)")
 
             sqs << Edge(color=color_event) << cloud_connector
-            sqs << Edge(color=color_event) << cloud_scanning
             cloud_connector - Edge(color=color_non_important) - s3_config
             cloud_connector >> Edge(color=color_non_important) >>  cloudwatch
 
             # scanning
             codebuild = Codebuild("Build-project")
-            cloud_scanning >> Edge(color=color_non_important) >> cloudwatch
-            cloud_scanning >> codebuild
+            cloud_connector >> Edge(color=color_non_important) >> cloudwatch
+            cloud_connector >> codebuild
             codebuild >> Edge(color=color_non_important) >>  ecr
 
 
@@ -78,7 +76,6 @@ with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_att
         account_resources >> Edge(color=color_event, style="dashed") >>  cloudtrail
         sns >> Edge(color=color_event, style="dashed") >> sqs
         (cloudtrail_s3 << Edge(color=color_non_important)) -  cloud_connector
-        (cloudtrail_s3 << Edge(color=color_non_important)) - cloud_scanning
 
     with Cluster("AWS account (sysdig)"):
         sds_account = General("cloud-bench")
