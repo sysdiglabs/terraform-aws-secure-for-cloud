@@ -26,8 +26,9 @@ module "cloudtrail_s3_sns_sqs" {
   providers = {
     aws = aws.admin
   }
-  source             = "../../../modules/infrastructure/cloudtrail_s3-sns-sqs"
-  cloudtrail_s3_name = var.cloudtrail_s3_name
+  source                              = "../../../modules/infrastructure/cloudtrail_s3-sns-sqs"
+  cloudtrail_s3_name                  = var.cloudtrail_s3_name
+  s3_event_notification_filter_prefix = var.s3_event_notification_filter_prefix
 }
 
 

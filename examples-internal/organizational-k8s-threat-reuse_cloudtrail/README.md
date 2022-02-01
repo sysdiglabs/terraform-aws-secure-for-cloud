@@ -21,9 +21,9 @@ Minimum requirements:
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
-4. S3 event-notification subscribed SNS topic(s).<br/>see `modules/infrastructure/cloudtrail_s3-sns-sqs` for guidance<br/><br/>
-5. **SQS topic** subscribed to the S3-SNS event notifications.<br/>The ARN of this SQS will be used as an input parameter to the module.<br/>
-   see `modules/infrastructure/sqs-sns-subscription` for guidance`<br/><br/>
+4. **SQS topic** subscribed to the Cloudtrail-S3-SNS event notifications.<br/>
+This three-actor setup (S3-SNS-SQS) can be manually provisioned, or handled through `modules/infrastructure/cloudtrail_s3-sns-sqs` module<br/><br/>
+Client is responsible for provisioning the ARN of this SQS, which will be required as an input parameter.<br/>
 
 
 ## Usage

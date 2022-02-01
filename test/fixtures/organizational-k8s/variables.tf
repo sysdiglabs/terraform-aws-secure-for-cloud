@@ -15,6 +15,12 @@ variable "sysdig_secure_api_token" {
 # provide variables for testing
 #---------------------------------
 
+variable "s3_event_notification_filter_prefix" {
+  type        = string
+  default     = ""
+  description = "S3 Path filter prefix for event notification. Limit the notifications to objects with key starting with specified characters"
+}
+
 variable "org_profile" {
   type    = string
   default = ""

@@ -1,15 +1,17 @@
-# AWS Organizational Secure for Cloud Role for EKS
+# AWS Organizational Secure for Cloud Role for ECS
 
 The aim of this module is to manage the organizational **managed account** required role and permissions for threat-detection and image scanning modules to work properly.
 
-1. Enables Cloudtrail SNS subscription permissions through a role specified within the Sysdig Secure workload **member account**
-2. Creates a role in the organizational **managed account** with the required permissions
+1. Enables Cloudtrail SNS subscription permissions through a role specified within the Sysdig Secure workload **member account**<br/><br/>
+2. Creates a role `sfc-SysdigSecureForCloudRole` (by default) in the organizational **managed account** with the required permissions
 
-* Threat-Detection through [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector).
+
+## Permissions
+* Threat-Detection feature
   * S3 Get and List permissions in order to fetch the events
   * SNS Subscription permissions in order to subscribe a topic to it
 
-* Image scanning through [cloud-scanning](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-scanning).
+* Image scanning feature
   * Enable this role to assumeRole to member accounts through the `organizational_role_per_account` role,
     in order to be able to fetch images that may be in member-account repositories
 
@@ -30,6 +32,7 @@ The aim of this module is to manage the organizational **managed account** requi
 | Name | Version |
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | >= 3.50.0 |
 
 ## Modules
 
@@ -40,20 +43,21 @@ No modules.
 | Name | Type |
 |------|------|
 | [aws_iam_role.secure_for_cloud_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.enable_assume_secure_for_cloud_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.sysdig_secure_for_cloud_role_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.sysdig_secure_for_cloud_role_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_policy_document.enable_assume_secure_for_cloud_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.sysdig_secure_for_cloud_role_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.sysdig_secure_for_cloud_role_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.sysdig_secure_for_cloud_role_trusted](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_iam_role.ecs_task_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_role) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_cloudconnector_ecs_task_role_name"></a> [cloudconnector\_ecs\_task\_role\_name](#input\_cloudconnector\_ecs\_task\_role\_name) | cloudconnector ecs task role name | `string` | n/a | yes |
 | <a name="input_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#input\_cloudtrail\_s3\_arn) | Cloudtrail S3 bucket ARN | `string` | n/a | yes |
-| <a name="input_user_arn"></a> [user\_arn](#input\_user\_arn) | ARN of the IAM user to which roles will be added | `string` | n/a | yes |
-| <a name="input_deploy_image_scanning"></a> [deploy\_image\_scanning](#input\_deploy\_image\_scanning) | true/false whether to provision cloud\_scanning permissions | `bool` | `true` | no |
-| <a name="input_deploy_threat_detection"></a> [deploy\_threat\_detection](#input\_deploy\_threat\_detection) | true/false whether to provision cloud\_connector permissions | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_organizational_role_per_account"></a> [organizational\_role\_per\_account](#input\_organizational\_role\_per\_account) | Name of the organizational role deployed by AWS in each account of the organization | `string` | `"OrganizationAccountAccessRole"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |

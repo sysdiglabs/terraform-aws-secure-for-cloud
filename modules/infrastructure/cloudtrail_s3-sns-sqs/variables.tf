@@ -10,7 +10,7 @@ variable "cloudtrail_s3_name" {
 variable "s3_event_notification_filter_prefix" {
   type        = string
   default     = ""
-  description = "S3 Path filter prefix for event notification"
+  description = "S3 Path filter prefix for event notification. Limit the notifications to objects with key starting with specified characters"
 }
 
 #

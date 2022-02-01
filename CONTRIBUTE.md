@@ -16,7 +16,9 @@
 
 # Pull Request
 
-> TLDR; Should any pre-merge test fail, check `/.github/workflows/ci-integration-test.yaml` to identify what's required
+> TL;DR;<br/>
+> Feel free to merge as soon as needed, provided pre-merge checks pass<br/>
+> Should any fail, check `/.github/workflows/ci-integration-test.yaml` to identify what's required
 
 ## 0. General Guidelines
 
@@ -67,6 +69,7 @@ Implemented vía **Terraform Kitchen** | https://newcontext-oss.github.io/kitche
 
 - Kitchen configuration can be found in `/.kitchen.yml`
 - Under `/test/fixtures` you can find the targets that will be tested. Please keep this as similar as possible to the Terraform Registry Modules examples.
+- AWS_PROFILE configuration is required to access the [TF s3 state backend](#terraform-backend)
 
 **Running Kitchen tests locally**
 
@@ -74,7 +77,7 @@ Ruby 2.7 is required to launch the tests.
 Run `bundle install` to get kitchen-terraform bundle.
 Cloud Provider credentials should be configured locally.
 ```shell
-# launch the tests, in other words, it will run `terraform apply`
+# launch all the tests, in other words, it will run `terraform apply`
 $ bundle exec kitchen converge
 
 # will destroy test infrastructure, in short, it will run `terraform destroy`
@@ -82,6 +85,9 @@ $ bundle exec kitchen destroy
 
 # run all the workflow. In first place, it will run an `apply`. Then, if and only if the `apply` works it will destroy the infrastructure.
 $ bundle exec kitchen tests
+
+# run one specific test
+$ bundle exec kitchen test "single-account-k8s-aws"
 
 ```
 
@@ -99,8 +105,9 @@ Check project github secrets for clarification
 
 # Release
 
-- Use **semver** for releases https://semver.org
-- Module official releases will be published at terraform registry
-- Just create a tag/release and it will be  fetched by pre-configured webhook and published into.
-  - For internal usage, TAGs can be used
-  - For official verions, RELEASEs will be used, with its corresponding changelog description.
+Feel free to release as soon as needed.
+
+- Create a tag and it will be  fetched by pre-configured webhook.
+  - use [semver](https://semver.org) notation
+- A changelog description will be generated based on [conventional-commints](https://www.conventionalcommits.org/en/v1.0.0/) , but please verify all changes are included and explain acordingly if/when required
+- Module official releases will be published at terraform registry automatically

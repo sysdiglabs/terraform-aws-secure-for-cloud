@@ -1,6 +1,7 @@
 # Permissions :: General
 
 General permissions that apply to both cloud-connector and cloud-scanning modules
+- Currently this only applies to the capability of reading the Secure API Token from the Key Management Service
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
