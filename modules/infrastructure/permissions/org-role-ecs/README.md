@@ -31,8 +31,8 @@ The aim of this module is to manage the organizational **managed account** requi
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
-| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | >= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.69.0 |
+| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | 3.69.0 |
 
 ## Modules
 

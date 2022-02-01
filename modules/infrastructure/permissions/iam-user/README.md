@@ -15,15 +15,15 @@ Creates an IAM user and adds permissions for required modules.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.63.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_credentials_cloud_connector"></a> [credentials\_cloud\_connector](#module\_credentials\_cloud\_connector) | ../cloud-connector |  |
-| <a name="module_credentials_cloud_scanning"></a> [credentials\_cloud\_scanning](#module\_credentials\_cloud\_scanning) | ../cloud-scanning |  |
-| <a name="module_credentials_general"></a> [credentials\_general](#module\_credentials\_general) | ../general |  |
+| <a name="module_credentials_cloud_connector"></a> [credentials\_cloud\_connector](#module\_credentials\_cloud\_connector) | ../cloud-connector | n/a |
+| <a name="module_credentials_cloud_scanning"></a> [credentials\_cloud\_scanning](#module\_credentials\_cloud\_scanning) | ../cloud-scanning | n/a |
+| <a name="module_credentials_general"></a> [credentials\_general](#module\_credentials\_general) | ../general | n/a |
 
 ## Resources
 
