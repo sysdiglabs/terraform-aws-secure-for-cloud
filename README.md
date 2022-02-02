@@ -135,9 +135,23 @@ Upload any image to the ECR repository of AWS.
 
 ## Troubleshooting
 
+### Q: Getting error "404 Invalid parameter: TopicArn" when trying to reuse an existing cloudtrail-sns
 
-### Q: Getting error when creating the ECS subnet due to nats not being supported
+```text
+│ Error: error creating SNS Topic Subscription: InvalidParameter: Invalid parameter: TopicArn
+│ 	status code: 400, request id: 1fe94ceb-9f58-5d39-a4df-169f55d25eba
+│ 
+│   with module.cloudvision_aws_single_account.module.cloud_connector.module.cloud_connector_sqs.aws_sns_topic_subscription.this,
+│   on ../../../modules/infrastructure/sqs-sns-subscription/main.tf line 6, in resource "aws_sns_topic_subscription" "this":
+│    6: resource "aws_sns_topic_subscription" "this" {
+
 ```
+
+A: In order to subscribe to a SNS Topic, SQS queue must be in the same region
+S: Change `aws provider` `region` variable to match same region for all resources
+
+### Q: Getting error "400 availabilityZoneId is invalid" when creating the ECS subnet
+```text
 │ Error: error creating subnet: InvalidParameterValue: Value (apne1-az3) for parameter availabilityZoneId is invalid. Subnets can currently only be created in the following availability zones: apne1-az1, apne1-az2, apne1-az4.
 │ 	status code: 400, request id: 6e32d757-2e61-4220-8106-22ccf814e1fe
 │
