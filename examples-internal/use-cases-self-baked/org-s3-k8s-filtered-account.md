@@ -1,19 +1,30 @@
-# ORG-S3-K8S-FILTERED
+# OrganizationalSetup - Existing CloudtrailEventsOnS3 - Existing K8s Cluster - Filtered Account
 
 ## Use-Case explanation
 
 **Current User Setup**
+
 - [X] organizational setup
   - [ ] organizational cloudtrail
   - [X] centralized S3 bucket with cloudtrail-events
   - [ ] member account usage - all required resources (s3/sns/sqs, sysdig workload) in same account
   - [X] member account usage - all required resources are in scattered
-- [X] pre-existing k8s cluster we want to use to deploy Sysdig for Cloud workload
+- [X] pre-existing resources
+    - [X] k8s cluster we want to use to deploy Sysdig for Cloud workload
+    - [ ] pre-existing ECS Cluster/VPC/Subnet we want to use to deploy Sysdig for Cloud workload
 
-**Sysdig Secure For Cloud Requirements**
-- [X] account-specific threat-detection
-- [ ] account-specific/organizational? image scanning (WIP)
-- [ ] account-specific/organizational? benchmark (WIP)
+
+**Sysdig Secure For Cloud Features**
+
+- [X] threat-detection
+  - [X] account-specific
+  - [ ] all accounts of the organization (management account included)
+- [ ] image-scanning (WIP?)
+- [ ] compliance (WIP?)
+- [ ] CIEM (WIP?)
+
+**Other Requirements**
+
 - [X] pre-existing kubernetes management vía service account (WIP)
 <br/>this has not been tested yet, we rely on an `accessKey` created specifically for Sysdig-For-Cloud.
 <!--
@@ -42,7 +53,6 @@ provider "aws" {
   region = "_REGION_"
   ...
 }
-
 ```
 
 2. **Helm provider** definition
