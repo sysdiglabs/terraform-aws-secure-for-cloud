@@ -12,7 +12,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.52.0 |
 
 ## Modules
 
@@ -51,6 +51,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_s3_bucket_arn"></a> [s3\_bucket\_arn](#output\_s3\_bucket\_arn) | ARN of Cloudtrail SNS topic |
 | <a name="output_sns_topic_arn"></a> [sns\_topic\_arn](#output\_sns\_topic\_arn) | ARN of Cloudtrail SNS topic |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 

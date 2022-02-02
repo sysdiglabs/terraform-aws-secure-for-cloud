@@ -37,13 +37,13 @@ variable "organizational_member_default_admin_role" {
 variable "cloudtrail_sns_arn" {
   type        = string
   default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns. If it does not exist, it will be inferred from created cloudtrail"
+  description = "ARN of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail"
 }
 
 variable "cloudtrail_s3_arn" {
   type        = string
   default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns s3 bucket. If it does not exist, it will be inferred from create cloudtrail"
+  description = "ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"
 }
 
 variable "cloudtrail_is_multi_region_trail" {
@@ -75,22 +75,29 @@ variable "benchmark_regions" {
 }
 
 
-#
-# cloud-connector configuration
-# ecs, security group and vpc
-#
+#---------------------------------
+# ecs, security group,  vpc
+# TODO. convert into an object?
+#---------------------------------
 
-variable "ecs_cluster_id" {
+variable "ecs_cluster_name" {
   type        = string
   default     = "create"
-  description = "Name/ID of a pre-existing ECS (elastic container service) cluster. If defaulted, a new cluster will be created"
+  description = "Name of a pre-existing ECS (elastic container service) cluster. If defaulted, a new ECS cluster/VPC/Security Group will be created. For both options, ECS location will/must be within the 'sysdig_secure_for_cloud_member_account_id' parameter accountID"
 }
 
 variable "ecs_vpc_id" {
   type        = string
   default     = "create"
-  description = "ID of the VPC where the workload is to be deployed. If defaulted, one will be created "
+  description = "ID of the VPC where the workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
 }
+
+variable "ecs_vpc_subnets_private" {
+  type        = list(string)
+  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  description = "List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
+}
+
 
 variable "ecs_vpc_region_azs" {
   type        = list(string)
@@ -101,20 +108,15 @@ variable "ecs_vpc_region_azs" {
 variable "ecs_sg_id" {
   type        = string
   default     = "create"
-  description = "ID of the Security Group where the workload is to be deployed. If defaulted, one will be created"
+  description = "ID of the Security Group where the workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided"
 }
+
 
 
 
 #
 # general
 #
-
-variable "region" {
-  type        = string
-  default     = "eu-central-1"
-  description = "Default region for resource creation in both organization master and secure-for-cloud member account"
-}
 
 variable "name" {
   type        = string

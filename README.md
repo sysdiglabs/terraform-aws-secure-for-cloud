@@ -140,7 +140,7 @@ Upload any image to the ECR repository of AWS.
 ```text
 │ Error: error creating SNS Topic Subscription: InvalidParameter: Invalid parameter: TopicArn
 │ 	status code: 400, request id: 1fe94ceb-9f58-5d39-a4df-169f55d25eba
-│ 
+│
 │   with module.cloudvision_aws_single_account.module.cloud_connector.module.cloud_connector_sqs.aws_sns_topic_subscription.this,
 │   on ../../../modules/infrastructure/sqs-sns-subscription/main.tf line 6, in resource "aws_sns_topic_subscription" "this":
 │    6: resource "aws_sns_topic_subscription" "this" {

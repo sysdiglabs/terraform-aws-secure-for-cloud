@@ -16,38 +16,25 @@ variable "build_project_name" {
 
 #---------------------------------
 # ecs, security group,  vpc
-# TODO. convertir en objeto?
+# TODO. convert into an object?
 #---------------------------------
 
-variable "ecs_cluster_id" {
+variable "ecs_cluster_name" {
   type        = string
   default     = "create"
-  description = "Name/ID of a pre-existing ECS (elastic container service) cluster. If defaulted, a new cluster will be created"
-}
-
-variable "ecs_vpc_id" {
-  type        = string
-  default     = "create"
-  description = "ID of the VPC where the workload is to be deployed. If defaulted, one will be created "
+  description = "Name of a pre-existing ECS (elastic container service) cluster. If defaulted, a new ECS cluster/VPC/Security Group will be created"
 }
 
 variable "ecs_vpc_subnets_private" {
   type        = list(string)
   default     = ["10.0.1.0/24", "10.0.2.0/24"]
-  description = "List of VPC subnets where workload is to be deployed"
-}
-
-
-variable "ecs_vpc_region_azs" {
-  type        = list(string)
-  description = "List of Availability Zones for ECS VPC creation. e.g.: [\"apne1-az1\", \"apne1-az2\"]. If defaulted, two of the default 'aws_availability_zones' datasource will be taken"
-  default     = []
+  description = "List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
 }
 
 variable "ecs_sg_id" {
   type        = string
   default     = "create"
-  description = "ID of the Security Group where the workload is to be deployed. If defaulted, one will be created"
+  description = "ID of the Security Group where the workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided"
 }
 
 
