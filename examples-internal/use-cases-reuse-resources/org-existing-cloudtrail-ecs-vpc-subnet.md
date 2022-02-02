@@ -79,7 +79,7 @@ module "sysdig-s4c" {
   cloudtrail_s3_arn      = "<CLOUDRAIL_S3_BUCKET_ARN>"
 
   ecs_cluster_name="<ECS_CLUSTER_NAME>"
-  
+
   ecs_vpc_id="<VPC_ID"
   ecs_vpc_subnets_private=["<SUBNET_ID_1>","<SUBNET_ID_2>"]
   ecs_sg_id="<SECURITY-GROUP>"
