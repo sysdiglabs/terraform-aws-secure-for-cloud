@@ -103,20 +103,20 @@ provider "aws" {
 }
 
 module "sysdig-s4c" {
+  
   source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
   name   = "sysdig-s4c"
 
   sysdig_secure_for_cloud_member_account_id="<AWS_ACCOUNT_ID>"
 
-  sysdig_secure_api_token = "<SYSDIG_API_TOKEN>"
+  sysdig_secure_api_token   = "<SYSDIG_API_TOKEN>"
 
-  cloudtrail_sns_arn      = "<CLOUDRAIL_SNS_TOPIC_ARN>"
-  cloudtrail_s3_arn      = "<CLOUDRAIL_S3_BUCKET_ARN>"
+  cloudtrail_sns_arn        = "<CLOUDRAIL_SNS_TOPIC_ARN>"
+  cloudtrail_s3_arn         = "<CLOUDRAIL_S3_BUCKET_ARN>"
 
-  ecs_cluster_name="<ECS_CLUSTER_NAME>"
-
-  ecs_vpc_id="<VPC_ID"
-  ecs_vpc_subnets_private=["<SUBNET_ID_1>","<SUBNET_ID_2>"]
+  ecs_cluster_name          = "<ECS_CLUSTER_NAME>"
+  ecs_vpc_id                = "<VPC_ID"
+  ecs_vpc_subnets_private   = ["<SUBNET_ID_1>","<SUBNET_ID_2>"]
 
 }
 ```
