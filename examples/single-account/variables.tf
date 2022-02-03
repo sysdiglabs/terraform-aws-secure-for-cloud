@@ -49,9 +49,9 @@ variable "ecs_vpc_id" {
   description = "ID of the VPC where the workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
 }
 
-variable "ecs_vpc_subnets_private" {
+variable "ecs_vpc_subnets_private_ids" {
   type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  default     = []
   description = "List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
 }
 
@@ -61,14 +61,6 @@ variable "ecs_vpc_region_azs" {
   description = "List of Availability Zones for ECS VPC creation. e.g.: [\"apne1-az1\", \"apne1-az2\"]. If defaulted, two of the default 'aws_availability_zones' datasource will be taken"
   default     = []
 }
-
-variable "ecs_sg_id" {
-  type        = string
-  default     = "create"
-  description = "ID of the Security Group where the workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided"
-}
-
-
 
 
 

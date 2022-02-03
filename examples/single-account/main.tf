@@ -40,9 +40,10 @@ module "cloud_connector" {
 
   sns_topic_arn = local.cloudtrail_sns_arn
 
-  ecs_cluster_name        = local.ecs_cluster_name
-  ecs_vpc_subnets_private = local.ecs_vpc_subnets_private
-  ecs_sg_id               = local.ecs_sg_id
+  ecs_cluster_name            = local.ecs_cluster_name
+  ecs_vpc_id                  = local.ecs_vpc_id
+  ecs_vpc_subnets_private_ids = local.ecs_vpc_subnets_private_ids
+
 
   tags       = var.tags
   depends_on = [local.cloudtrail_sns_arn, module.ssm]

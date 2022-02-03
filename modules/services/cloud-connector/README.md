@@ -42,6 +42,7 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 | [aws_s3_bucket.s3_config_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_object.config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_object) | resource |
 | [aws_s3_bucket_public_access_block.s3_config_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block) | resource |
+| [aws_security_group.sg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_caller_identity.me](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/caller_identity) | data source |
 | [aws_ecs_cluster.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ecs_cluster) | data source |
 | [aws_iam_policy_document.ecr_reader](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
@@ -69,7 +70,8 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 | <a name="input_connector_ecs_task_role_name"></a> [connector\_ecs\_task\_role\_name](#input\_connector\_ecs\_task\_role\_name) | Default ecs cloudconnector task role name | `string` | `"ECSTaskRole"` | no |
 | <a name="input_ecs_cluster_name"></a> [ecs\_cluster\_name](#input\_ecs\_cluster\_name) | Name of a pre-existing ECS (elastic container service) cluster. If defaulted, a new ECS cluster/VPC/Security Group will be created | `string` | `"create"` | no |
 | <a name="input_ecs_sg_id"></a> [ecs\_sg\_id](#input\_ecs\_sg\_id) | ID of the Security Group where the workload is to be deployed. Defaulted to be created when 'ecs\_cluster\_name' is not provided | `string` | `"create"` | no |
-| <a name="input_ecs_vpc_subnets_private"></a> [ecs\_vpc\_subnets\_private](#input\_ecs\_vpc\_subnets\_private) | List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs\_cluster\_name' is not provided. | `list(string)` | <pre>[<br>  "10.0.1.0/24",<br>  "10.0.2.0/24"<br>]</pre> | no |
+| <a name="input_ecs_vpc_id"></a> [ecs\_vpc\_id](#input\_ecs\_vpc\_id) | ID of the VPC where the workload is to be deployed. If defaulted, one will be created | `string` | `"create"` | no |
+| <a name="input_ecs_vpc_subnets_private_ids"></a> [ecs\_vpc\_subnets\_private\_ids](#input\_ecs\_vpc\_subnets\_private\_ids) | List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs\_cluster\_name' is not provided. | `list(string)` | `[]` | no |
 | <a name="input_extra_env_vars"></a> [extra\_env\_vars](#input\_extra\_env\_vars) | Extra environment variables for the Cloud Connector deployment | `map(string)` | `{}` | no |
 | <a name="input_image"></a> [image](#input\_image) | Image of the cloud connector to deploy | `string` | `"quay.io/sysdig/cloud-connector:latest"` | no |
 | <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether secure-for-cloud should be deployed in an organizational setup | `bool` | `false` | no |

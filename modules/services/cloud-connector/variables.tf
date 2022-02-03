@@ -25,9 +25,15 @@ variable "ecs_cluster_name" {
   description = "Name of a pre-existing ECS (elastic container service) cluster. If defaulted, a new ECS cluster/VPC/Security Group will be created"
 }
 
-variable "ecs_vpc_subnets_private" {
+variable "ecs_vpc_id" {
+  type        = string
+  default     = "create"
+  description = "ID of the VPC where the workload is to be deployed. If defaulted, one will be created"
+}
+
+variable "ecs_vpc_subnets_private_ids" {
   type        = list(string)
-  default     = ["10.0.1.0/24", "10.0.2.0/24"]
+  default     = []
   description = "List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
 }
 

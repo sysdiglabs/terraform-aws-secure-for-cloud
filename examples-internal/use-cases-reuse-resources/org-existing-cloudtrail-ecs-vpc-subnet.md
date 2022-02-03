@@ -60,7 +60,6 @@ Existing ECS Cluster Workload  Setup
 Existing Networking Setup
   - `ecs_vpc_id` ex.: "vpc-0e91bfef6693f296b"
   - `ecs_vpc_subnets_private` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
-  - `ecs_sg_id` ex.: "sg-0403924c9c851b28d"
 
 ```terraform
 provider "aws" {
@@ -82,7 +81,6 @@ module "sysdig-s4c" {
 
   ecs_vpc_id="<VPC_ID"
   ecs_vpc_subnets_private=["<SUBNET_ID_1>","<SUBNET_ID_2>"]
-  ecs_sg_id="<SECURITY-GROUP>"
 
 }
 ```

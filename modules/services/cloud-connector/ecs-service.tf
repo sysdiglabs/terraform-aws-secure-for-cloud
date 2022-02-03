@@ -7,7 +7,7 @@ resource "aws_ecs_service" "service" {
 
   cluster = data.aws_ecs_cluster.this.id
   network_configuration {
-    subnets         = var.ecs_vpc_subnets_private
+    subnets         = var.ecs_vpc_subnets_private_ids
     security_groups = [var.ecs_sg_id]
   }
 

@@ -4,15 +4,11 @@ output "ecs_cluster_name" {
 }
 
 output "ecs_vpc_id" {
-  value       = local.ecs_vpc_id
+  value       = module.vpc.vpc_id
   description = "ID of the VPC for the ECS cluster"
 }
-output "ecs_vpc_subnets_private" {
-  value       = length(module.vpc) > 0 ? module.vpc[0].private_subnets : var.ecs_vpc_subnets_private
-  description = "ID of the private subnets of the VPC for the ECS cluster"
-}
 
-output "ecs_sg_id" {
-  value       = aws_security_group.sg.id
-  description = "ID of the Security Group for the ECS cluster VPC"
+output "ecs_vpc_subnets_private_ids" {
+  value       = module.vpc.private_subnets
+  description = "IDs of the private subnets of the VPC for the ECS cluster"
 }
