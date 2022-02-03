@@ -37,15 +37,6 @@ variable "ecs_vpc_subnets_private_ids" {
   description = "List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
 }
 
-variable "ecs_sg_id" {
-  type        = string
-  default     = "create"
-  description = "ID of the Security Group where the workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided"
-}
-
-
-
-
 #---------------------------------
 # cloud-connector parametrization
 #---------------------------------
