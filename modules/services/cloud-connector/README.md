@@ -20,7 +20,7 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../infrastructure/sqs-sns-subscription |  |
+| <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../infrastructure/sqs-sns-subscription | n/a |
 
 ## Resources
 

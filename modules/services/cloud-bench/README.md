@@ -56,6 +56,7 @@ No modules.
 | <a name="input_benchmark_regions"></a> [benchmark\_regions](#input\_benchmark\_regions) | List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default. | `list(string)` | `[]` | no |
 | <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether secure-for-cloud should be deployed in an organizational setup | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name of the IAM Role that will be created. | `string` | `"sfc-cloudbench"` | no |
+| <a name="input_provision_in_management_account"></a> [provision\_in\_management\_account](#input\_provision\_in\_management\_account) | Whether to deploy the stack in the management account | `bool` | `true` | no |
 | <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in organization mode | `string` | `"eu-central-1"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
