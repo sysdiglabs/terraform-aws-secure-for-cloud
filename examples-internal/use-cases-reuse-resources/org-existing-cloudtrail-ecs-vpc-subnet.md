@@ -103,7 +103,7 @@ provider "aws" {
 }
 
 module "sysdig-s4c" {
-  
+
   source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
   name   = "sysdig-s4c"
 
