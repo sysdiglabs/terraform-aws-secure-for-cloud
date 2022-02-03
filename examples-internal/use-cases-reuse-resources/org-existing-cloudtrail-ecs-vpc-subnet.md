@@ -85,14 +85,15 @@ module "utils_ecs-vpc-secgroup" {
    - Existing Organizational Cloudtrail Setup
      - `cloudtrail_sns_arn`
      - `cloudtrail_s3_arn`
-     - You MUST grant manual permissions to the organizational cloudtrail, for the `` ARN to be able to perform `SNS:Subscribe`. This will be required for the CloudConnector SQS Topic.
+     - You MUST grant manual permissions to the organizational cloudtrail, for the AWS member-account management role `OrganizationAccountAccessRole` to be able to perform `SNS:Subscribe`.
+       <br/>This will be required for the CloudConnector SQS Topic subscription.
 
    - Existing ECS Cluster Workload  Setup
      - `ecs_cluster_name` ex.: "sfc"
 
    - Existing Networking Setup
      - `ecs_vpc_id` ex.: "vpc-0e91bfef6693f296b"
-     - `ecs_vpc_subnets_private` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
+     - `ecs_vpc_subnets_private_ids` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
 
 
 ### Terraform Manifest Snippet
