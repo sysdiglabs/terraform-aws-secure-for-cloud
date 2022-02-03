@@ -59,6 +59,14 @@ We're using **pre-commit** |  https://pre-commit.com
   <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
   ```
 
+- If pre-commit fails on Github but not on your local, please cleanup `terraform` files with
+```bash
+$ find . -name ".terraform" -exec rm -fr {} \;
+$ find . -name "terraform.tfstate*" -exec rm -fr {} \;
+$ find . -name ".terraform.lock.hcl*" -exec rm -fr {} \;
+```
+
+
 ## 2. Check::Integration tests
 
 Final user validation. Checks that the snippets for the usage, stated in the official Sysdig Terraform Registry, are working correctly.
