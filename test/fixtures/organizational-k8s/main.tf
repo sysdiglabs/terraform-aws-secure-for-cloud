@@ -56,7 +56,7 @@ module "org_k8s_threat_reuse_cloudtrail" {
   providers = {
     aws = aws.cloudnative
   }
-  source = "../../../examples-internal/organizational-k8s-threat-reuse_cloudtrail"
+  source = "../../../examples-internal/organizational-k8s-threat-reuse_cloudtrail_s3"
   name   = "${var.name}-orgk8s"
 
   sysdig_secure_api_token   = var.sysdig_secure_api_token
