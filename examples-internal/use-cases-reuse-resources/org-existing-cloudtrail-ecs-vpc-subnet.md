@@ -28,14 +28,43 @@
 
 ## Suggested setup
 
+For this use-case we're going to use the [`./examples/organizational`](../../examples/organizational/README.md) setup.
+In order for this setup to work, several roles and permissions are required.
+Before proceeding, please read the example README and check whether you comply with requirements.
+
+Please contact us if something requires to be adjusted.
+
+
+### Step by Step Example Guide
+
+
 <!--
-testing
+manual testing pre-requirements
 
-0. Cloudtrail should exist, otherwise deploy this items first on a sepparated terraform state
+0.1 Cloudtrail must exist. To be deployed on a separated terraform state
 
-```terraform
+```
 provider "aws" {
-region = var.region
+	region = "eu-west-3"
+}
+
+module "utils_cloudtrail" {
+  source = "../../../modules/infrastructure/cloudtrail"
+  name   = "cloudtrail-test"
+
+  is_organizational=true
+  organizational_config = {
+    sysdig_secure_for_cloud_member_account_id = "42******61"
+    organizational_role_per_account  = "OrganizationAccountAccessRole"
+  }
+}
+```
+
+0.2. ECS/VPC/Subnet must exist. To be deployed on a separated terraform state
+
+```
+provider "aws" {
+region = "eu-west-3"
 }
 
 module "utils_ecs-vpc-secgroup" {
@@ -48,18 +77,25 @@ module "utils_ecs-vpc-secgroup" {
 
 1. Choose an Organizational **Member account for Sysdig Workload** to be deployed. This accountID will be provided in the `sysdig_secure_for_cloud_member_account_id` parameter
 
-3. Use `organizational` example with following parameters
+2. Use `organizational` example with following parameters
 
-Existing Cloudtrail Setup
-  - `cloudtrail_sns_arn`
-  - `cloudtrail_s3_arn`
+   - General
+     - `AWS_REGION` Same region is to be used for all the following resources, both on the organizational managed account and sysdig workload member account
 
-Existing ECS Cluster Workload  Setup
-  - `ecs_cluster_name` ex.: "sfc"
+   - Existing Organizational Cloudtrail Setup
+     - `cloudtrail_sns_arn`
+     - `cloudtrail_s3_arn`
+     - You MUST grant manual permissions to the organizational cloudtrail, for the `` ARN to be able to perform `SNS:Subscribe`. This will be required for the CloudConnector SQS Topic.
 
-Existing Networking Setup
-  - `ecs_vpc_id` ex.: "vpc-0e91bfef6693f296b"
-  - `ecs_vpc_subnets_private` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
+   - Existing ECS Cluster Workload  Setup
+     - `ecs_cluster_name` ex.: "sfc"
+
+   - Existing Networking Setup
+     - `ecs_vpc_id` ex.: "vpc-0e91bfef6693f296b"
+     - `ecs_vpc_subnets_private` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
+
+
+### Terraform Manifest Snippet
 
 ```terraform
 provider "aws" {

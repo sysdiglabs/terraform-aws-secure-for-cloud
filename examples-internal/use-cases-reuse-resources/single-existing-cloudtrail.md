@@ -22,28 +22,33 @@
 
 ## Suggested setup
 
+For this use-case we're going to use the [`./examples/single-account`](../../examples/single-account/README.md) setup.
+In order for this setup to work, all resources must be in the same AWS account and region.
+Before proceeding, please read the example README and check whether you comply with requirements.
+
+Please contact us if something requires to be adjusted.
+
+### Step by Step Example Guide
+
+Use `single-account` example with **`cloudtrail_sns_arn` parameter**
+
 <!--
-testing
+manual testing pre-requirements
 
-0. ECS/Subnet/VPC should exist, otherwise deploy this items first on a sepparated terraform state
+0.1 Cloudtrail must exist. To be deployed on a separated terraform state
 
-```terraform
+```
 provider "aws" {
 region = var.region
 }
 
 module "utils_cloudtrail" {
   source = "sysdiglabs/secure-for-cloud/aws//modules/infrastructure/cloudtrail"
-  name   = "${var.name}-single-provide-cloudtrail"
+  name   = "cloudtrail-test"
 }
 ```
--->
 
-1. Refine **Permissions**
-
-Check whether terraform aws provider `AWS_PROFILE` is able to perform an `SNS:Subscribe` action on the existing cloudtrail.
-
-<!--
+If cloudtrail is in another account
  {
       "Sid": "AllowCrossAccountSNSSubscription,
       "Effect": "Allow",
@@ -55,9 +60,11 @@ Check whether terraform aws provider `AWS_PROFILE` is able to perform an `SNS:Su
       "Action": "sns:Subscribe",
       "Resource": "<CLOUDTRAIL_SNS_ARN>"
     }
+
 -->
 
-2. Use `single-account` example with **`cloudtrail_sns_arn` parameter**
+
+### Terraform Manifest Snippet
 
 ```terraform`
 provider "aws" {
@@ -71,11 +78,4 @@ module "sysdig-s4c" {
   sysdig_secure_api_token = <SYSDIG_API_TOKEN>
   cloudtrail_sns_arn      = <CLOUDRAIL_SNS_TOPIC_ARN>
 }
-``
-
-<!--
-testing
 ```
-cloudtrail_sns_arn      = module.utils_cloudtrail.sns_topic_arn
-```
--->
