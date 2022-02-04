@@ -1,6 +1,6 @@
 # Sysdig Secure for Cloud in AWS<br/>[ Example :: Shared Organizational Trail ]
 
-Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
+Deploy Sysdig Secure for Cloud using an Organizational Cloudtrail that will fetch events from all organization member accounts (and the managed one too).
 
 * In the **management account**
   * An Organizational Cloutrail will be deployed  (with required S3,SNS)
@@ -8,7 +8,7 @@ Deploy Sysdig Secure for Cloud sharing the Trail within an organization.
      * to be able to read cloudtrail-s3 bucket events from sysdig workload member account.
      * will also be used to asummeRole over other roles, and enable the process of scanning on ECR's that may be present in other member accounts.
 * In the **user-provided member account**
-    * All the Sysdig Secure for Cloud service-related resources will be created
+    * All the Sysdig Secure for Cloud service-related resources/workload will be created
 
 ![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/5b7cf5e8028b3177536c9c847020ad6319342b44/examples/organizational/diagram-org.png)
 
