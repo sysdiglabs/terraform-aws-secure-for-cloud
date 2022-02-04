@@ -43,8 +43,8 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudtrail_s3_sns_sqs"></a> [cloudtrail\_s3\_sns\_sqs](#module\_cloudtrail\_s3\_sns\_sqs) | ../sqs-sns-subscription |  |
-| <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | ../resource-group |  |
+| <a name="module_cloudtrail_s3_sns_sqs"></a> [cloudtrail\_s3\_sns\_sqs](#module\_cloudtrail\_s3\_sns\_sqs) | ../sqs-sns-subscription | n/a |
+| <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | ../resource-group | n/a |
 
 ## Resources
 

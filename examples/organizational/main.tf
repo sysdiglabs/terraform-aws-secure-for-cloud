@@ -1,8 +1,6 @@
 provider "aws" {
-  alias = "member"
-  # NOTE. this won't work with test, workaround with var
-  #  region = data.aws_region.current.name
-  region = var.region
+  alias  = "member"
+  region = data.aws_region.current.name
   assume_role {
     role_arn = "arn:aws:iam::${var.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_member_default_admin_role}"
   }
@@ -29,18 +27,6 @@ module "resource_group" {
 #-------------------------------------
 # secure-for-cloud member account workload
 #-------------------------------------
-
-module "ecs_fargate_cluster" {
-  providers = {
-    aws = aws.member
-  }
-  source             = "../../modules/infrastructure/ecs-fargate-cluster"
-  name               = var.name
-  ecs_vpc_region_azs = var.ecs_vpc_region_azs
-  tags               = var.tags
-}
-
-
 module "ssm" {
   providers = {
     aws = aws.member
@@ -86,12 +72,12 @@ module "cloud_connector" {
 
   sns_topic_arn = local.cloudtrail_sns_arn
 
-  ecs_cluster = module.ecs_fargate_cluster.id
-  vpc_id      = module.ecs_fargate_cluster.vpc_id
-  vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
+  ecs_cluster_name            = local.ecs_cluster_name
+  ecs_vpc_id                  = local.ecs_vpc_id
+  ecs_vpc_subnets_private_ids = local.ecs_vpc_subnets_private_ids
 
   tags       = var.tags
-  depends_on = [local.cloudtrail_sns_arn, module.ecs_fargate_cluster, module.ssm]
+  depends_on = [local.cloudtrail_sns_arn, module.ssm]
 }
 
 #-------------------------------------

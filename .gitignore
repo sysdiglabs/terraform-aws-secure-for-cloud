@@ -40,6 +40,7 @@ override.tf.json
 /lib/bundler/man/
 
 
-#Kitchen test
+# test
 .kitchen/*
 test/fixtures/single-account/.kitchen/
+test/snippets/*

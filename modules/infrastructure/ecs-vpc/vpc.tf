@@ -1,7 +1,7 @@
 data "aws_availability_zones" "zones" {
 }
 
-
+# https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 

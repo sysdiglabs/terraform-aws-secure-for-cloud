@@ -5,7 +5,7 @@ Terraform module that deploys the [**Sysdig Secure for Cloud** stack in **AWS**]
 
 Provides unified threat-detection, compliance, forensics and analysis through these major components:
 
-* **[CSPM/Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/benchmarks/)**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix. Managed through `cloud-bench` module. <br/>
+* **[CSPM/Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance-unified-/)**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix. Managed through `cloud-bench` module. <br/>
 
 * **[CIEM](https://docs.sysdig.com/en/docs/sysdig-secure/posture/)**: Permissions and Entitlements management. Requires BOTH modules  `cloud-connector` and `cloud-bench`. <br/>
 
@@ -41,7 +41,12 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 ## Usage
 
-There are several ways to deploy this in you AWS infrastructure:
+  - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
+  - Many module,examples and use-cases provide ways to **re-use existing resources (as optionals)** in your infrastructure (cloudtrail, ecs, vpc, k8s cluster,...)
+  - Find some real **use-case scenario explanations** under [`/examples-internal/use-cases*`](./examples-internal)
+    - [Single Account - Existing Cloudtrail](./examples-internal/use-cases-reuse-resources/single-existing-cloudtrail.md)
+    - [Organizational - Existing Cloudtrail, ECS, VPC, Subnet](./examples-internal/use-cases-reuse-resources/org-existing-cloudtrail-ecs-vpc-subnet.md)
+    - [Organizational - Existing Cloudtrail withouth SNS, but with S3 configuration, with K8s Cluster and Filtered Cloudtrail Event Account](./examples-internal/use-cases-self-baked/org-s3-k8s-filtered-account.md)
 
 ### - Single-Account
 
@@ -135,9 +140,23 @@ Upload any image to the ECR repository of AWS.
 
 ## Troubleshooting
 
+### Q: Getting error "404 Invalid parameter: TopicArn" when trying to reuse an existing cloudtrail-sns
 
-### Q: Getting error when creating the ECS subnet due to nats not being supported
+```text
+│ Error: error creating SNS Topic Subscription: InvalidParameter: Invalid parameter: TopicArn
+│ 	status code: 400, request id: 1fe94ceb-9f58-5d39-a4df-169f55d25eba
+│
+│   with module.cloudvision_aws_single_account.module.cloud_connector.module.cloud_connector_sqs.aws_sns_topic_subscription.this,
+│   on ../../../modules/infrastructure/sqs-sns-subscription/main.tf line 6, in resource "aws_sns_topic_subscription" "this":
+│    6: resource "aws_sns_topic_subscription" "this" {
+
 ```
+
+A: In order to subscribe to a SNS Topic, SQS queue must be in the same region
+S: Change `aws provider` `region` variable to match same region for all resources
+
+### Q: Getting error "400 availabilityZoneId is invalid" when creating the ECS subnet
+```text
 │ Error: error creating subnet: InvalidParameterValue: Value (apne1-az3) for parameter availabilityZoneId is invalid. Subnets can currently only be created in the following availability zones: apne1-az1, apne1-az2, apne1-az4.
 │ 	status code: 400, request id: 6e32d757-2e61-4220-8106-22ccf814e1fe
 │
