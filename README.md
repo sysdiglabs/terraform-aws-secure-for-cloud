@@ -41,7 +41,12 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 ## Usage
 
-There are several ways to deploy this in you AWS infrastructure:
+  - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
+  - Many module,examples and use-cases provide ways to **re-use existing resources (as optionals)** in your infrastructure (cloudtrail, ecs, vpc, k8s cluster,...)
+  - Find some real **use-case scenario explanations** under [`/examples-internal/use-cases*`](./examples-internal)
+    - [Single Account - Existing Cloudtrail](./examples-internal/use-cases-reuse-resources/single-existing-cloudtrail.md)
+    - [Organizational - Existing Cloudtrail, ECS, VPC, Subnet](./examples-internal/use-cases-reuse-resources/org-existing-cloudtrail-ecs-vpc-subnet.md)
+    - [Organizational - Existing Cloudtrail withouth SNS, but with S3 configuration, with K8s Cluster and Filtered Cloudtrail Event Account](./examples-internal/use-cases-self-baked/org-s3-k8s-filtered-account.md)
 
 ### - Single-Account
 
