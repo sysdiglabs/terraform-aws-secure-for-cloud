@@ -59,8 +59,9 @@ We're using **pre-commit** |  https://pre-commit.com
   <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
   ```
 
-- If pre-commit fails on Github but not on your local, please cleanup `terraform` files with
+- If pre-commit fails on Github but not on your local, try cleaning-up `terraform` files with
 ```bash
+-- resources/terraform-clean.sh
 $ find . -name ".terraform" -exec rm -fr {} \;
 $ find . -name "terraform.tfstate*" -exec rm -fr {} \;
 $ find . -name ".terraform.lock.hcl*" -exec rm -fr {} \;
