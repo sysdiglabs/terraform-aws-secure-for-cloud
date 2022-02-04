@@ -1,12 +1,15 @@
 # Cloud Bench deploy in AWS Module
 
-Deploys
+
+Deployed on the **target AWS account(s)**:
 
 - The required IAM Role and IAM Policies (`arn:aws:iam::aws:policy/SecurityAudit`)  to allow Sysdig to run AWS Benchmarks on your behalf.
-- The required provisioning on Sysdig Backend to use this ExternalId-based, AssumeRole permissions.
-- An `aws_foundations_bench-1.3.0` benchmak task schedule on a random hour of the day `rand rand * * *`
-- Organizational deploymetn vía `aws_cloudformation_stack_set` to generate required role/policies on member accounts
+  - A Sysdig provided `ExternalId` will be used.
+  - This is done using `aws_cloudformation_stack_set`.
 
+Deployed on **Sysdig Backend**
+- The required provisioning on Sysdig Backend to use the `ExternalId`-basedIAM Role with an AssumeRole.
+- An `aws_foundations_bench-1.3.0` benchmak task schedule on a random hour of the day `rand rand * * *`
 
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

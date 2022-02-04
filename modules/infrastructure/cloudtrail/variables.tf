@@ -25,8 +25,7 @@ variable "organizational_config" {
   description = <<-EOT
     organizational_config. following attributes must be given
     <ul><li>`sysdig_secure_for_cloud_member_account_id` to enable reading permission</li>
-    <li>`organizational_role_per_account` to enable SNS topic subscription</li></ul>
-
+    <li>`organizational_role_per_account` to enable SNS topic subscription. by default "OrganizationAccountAccessRole"</li></ul>
   EOT
 }
 
