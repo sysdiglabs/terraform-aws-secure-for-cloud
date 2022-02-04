@@ -33,13 +33,13 @@ color_sysdig="#F3F3F3"
 
 
 
-with Diagram("Sysdig Secure for Cloud\n(organizational)", graph_attr=diagram_attr, filename="diagram-org", show=True):
+with Diagram("Sysdig Secure for Cloud\n(organizational)", graph_attr=diagram_attr, filename="diagram-org", show=True, direction="LR"):
 
     public_registries = Custom("Public Registries","../../resources/diag-registry-icon.png")
 
     with Cluster("AWS Organization"):
 
-        with Cluster("organiztional management account", graph_attr={"bgcolor":color_managed}):
+        with Cluster("organizational management account", graph_attr={"bgcolor":color_managed}):
 
             with Cluster("Events"):
                 cloudtrail              = Cloudtrail("cloudtrail\n* ingest events from all\norg member accounts+managed", shape="plaintext")
@@ -50,7 +50,8 @@ with Diagram("Sysdig Secure for Cloud\n(organizational)", graph_attr=diagram_att
             secure_for_cloud_role   = IAMRole("SysdigSecureForCloudRole\n\(enabled to assumeRole on \n`OrganizationAccountAccessRole`)", **role_attr)
 
 
-            cloudtrail >> Edge(color=color_event, style="dashed") >> cloudtrail_s3 >> Edge(color=color_event, style="dashed") >> sns
+            cloudtrail >> Edge(color=color_event, style="dashed") >> cloudtrail_s3
+            cloudtrail >> Edge(color=color_event, style="dashed") >> sns
             # cloudtrail_s3 >> Edge(style="invis") >> cft_stack_set
 
             with Cluster("CFT StackSet Instance"):
@@ -58,27 +59,7 @@ with Diagram("Sysdig Secure for Cloud\n(organizational)", graph_attr=diagram_att
                 cloud_bench_role_3 = IAMRole("SysdigCloudBench\n(aws:SecurityAudit policy)", **role_attr)
                 cft_stack_3 >> Edge(color=color_creates) >> cloud_bench_role_3
 
-            cft_stack_set  = CloudformationStack("cloudformation-stackset")
-            cft_stack_set >> Edge(style="invis") >> cft_stack_3
-            management_credentials >> Edge(style="invis") >> cft_stack_3
-
-
-        with Cluster("organizational member account - rest of accounts", graph_attr={"bgcolor":color_sysdig, "margin":"0,50px"}):
-            ecr = ECR("container-registry\n*sends events on image push to cloudtrail\n*within any account")
-
-            with Cluster("ecs services - others"):
-                ecs_services = ElasticContainerServiceService("other services\n*sends events with image runs to cloudtrail")
-
-
-            with Cluster("CFT StackSet Instance"):
-                cft_stack = CloudformationStack("cloudformation-stack")
-                cloud_bench_role = IAMRole("SysdigCloudBench\n(aws:SecurityAudit policy)", **role_attr)
-                cft_stack >> Edge(color=color_creates) >> cloud_bench_role
-
-            org_member_role_1 = IAMRole("OrganizationAccountAccessRole\n(created by AWS for org. \nmember accounts)", **role_attr)
-
-            #ecr >> Edge(style="invis") >> ecs_services
-
+#             management_credentials >> Edge(style="invis") >> secure_for_cloud_role
 
         with Cluster("organizational member account - sysdig workload", graph_attr={"bgcolor":color_others}):
 
@@ -102,10 +83,8 @@ with Diagram("Sysdig Secure for Cloud\n(organizational)", graph_attr=diagram_att
             cloud_connector >> Edge(color=color_non_important) >> cloudwatch
             cloud_connector  >>  Edge(color=color_non_important) >> cloudwatch
             cloud_connector >> codebuild
-            codebuild >> Edge(color=color_non_important) >>  ecr
-            codebuild >> Edge(color=color_non_important) >>  public_registries
 
-            org_member_role_2 >> Edge(style="invis") >> cft_stack_2
+            #org_member_role_2 >> Edge(style="invis") >> cft_stack_2
 
 
         sns >> Edge(color=color_event, style="dashed") >> sqs
@@ -115,10 +94,29 @@ with Diagram("Sysdig Secure for Cloud\n(organizational)", graph_attr=diagram_att
 #        (cloudtrail_s3 << Edge(color=color_event) <<
 
 
+
+        with Cluster("organizational member account - rest of accounts", graph_attr={"bgcolor":color_sysdig, "margin":"0,50px"}):
+            ecr = ECR("container-registry\n*sends events on image push to cloudtrail\n*within any account")
+
+            with Cluster("ecs services - others"):
+                ecs_services = ElasticContainerServiceService("other services\n*sends events with image runs to cloudtrail")
+
+
+            with Cluster("CFT StackSet Instance"):
+                cft_stack = CloudformationStack("cloudformation-stack")
+                cloud_bench_role = IAMRole("SysdigCloudBench\n(aws:SecurityAudit policy)", **role_attr)
+                cft_stack >> Edge(color=color_creates) >> cloud_bench_role
+
+            org_member_role_1 = IAMRole("OrganizationAccountAccessRole\n(created by AWS for org. \nmember accounts)", **role_attr)
+            org_member_role_1 >> Edge(style="invis") >> cft_stack
+
+        cft_stack_set  = CloudformationStack("cloudformation-stackset")
         cft_stack_set >> Edge(color=color_creates) >> cft_stack
         cft_stack_set >> Edge(color=color_creates) >> cft_stack_2
         cft_stack_set >> Edge(color=color_creates) >> cft_stack_3
 
+        codebuild >> Edge(color=color_non_important) >>  ecr
+        codebuild >> Edge(color=color_non_important) >>  public_registries
 
 
     with Cluster("AWS account (sysdig)"):
