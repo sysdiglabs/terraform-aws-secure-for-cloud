@@ -8,64 +8,85 @@ from diagrams.aws.management import Cloudtrail
 from diagrams.aws.security import IAM, IAMRole
 from diagrams.aws.storage import S3
 from diagrams.custom import Custom
+from diagrams.aws.compute import ECS, ElasticContainerServiceService, ECR
 
 from diagrams.k8s.group import Namespace
 from diagrams.k8s.compute import Deployment
 
 diagram_attr = {
-    "pad":"0.25"
+    "pad":"1.25"
 }
 
 role_attr = {
-   "imagescale":"false",
-   "height":"1.5",
-   "width":"3",
-   "fontsize":"9",
+   "imagescale":"true",
+   "width":"2",
+   "fontsize":"13",
 }
 
 color_event="firebrick"
-color_scanning = "dark-green"
-color_permission="red"
+color_permission="steelblue3"
 color_creates="darkblue"
 color_non_important="gray"
 color_sysdig="lightblue"
 
 
 
-with Diagram("Sysdig Secure for Cloud{}(single-account-k8s)".format("\n"), graph_attr=diagram_attr, filename="diagram", show=True, direction="RL"):
+with Diagram("Sysdig Secure for Cloud{}(single-account-k8s)".format("\n"), graph_attr=diagram_attr, filename="diagram", show=True):
 
-    with Cluster("AWS account (target)"):
+    public_registries = Custom("Public Registries","../../resources/diag-registry-icon.png")
+
+
+    with Cluster("AWS single-account"):
+
+        master_credentials = IAM("credentials \npermissions: cloudtrail, role creation,...", fontsize="10")
 
         with Cluster("other resources", graph_attr={"bgcolor":"lightblue"}):
             account_resources = [General("resource-1..n")]
-            ecr = ECR("container-registry")
+            ecr = ECR("container-registry\n*sends events on image push to cloudtrail\n*within any account")
+
+            with Cluster("ecs-cluster"):
+                  ecs_services = ElasticContainerServiceService("other services\n*sends events with image runs to cloudtrail")
 
         with Cluster("sysdig-secure-for-cloud resources"):
-            management_credentials  = IAM("credentials", fontsize="10")
 
-            cloudtrail          = Cloudtrail("cloudtrail", shape="plaintext")
+            cloudtrail           = Cloudtrail("cloudtrail\n* ingest events from all\norg member accounts+managed", shape="plaintext")
+            cloudtrail_s3       = S3("cloudtrail-s3-events")
+            s3_config           = S3("cloud-connector-config")
             sns                 = SNS("sns")
-            sqs                 = SQS("sqs")
-            cloudtrail >> Edge(color=color_event) >> sns << sqs
+
+            sqs = SQS("cloudtrail-sqs")
+
+            cloudtrail >> Edge(color=color_event, style="dashed") >> cloudtrail_s3
+            cloudtrail >> Edge(color=color_event, style="dashed") >> sns
 
             with Cluster(""):
                 eks = EKS("EKS\n(pre-existing)")
                 with Cluster("namespace: sfc"):
-                    cc_deployment = Deployment("cloud-connector")
-                    cloud_scanning = Deployment("cloud-scaner")
-                    eks_deployments = [cc_deployment, cloud_scanning]
+                    cloud_connector = Deployment("cloud-connector")
 
-
-            eks_deployments >> Edge(color=color_sysdig, style="dashed") >> sqs
 
             # scanning
             codebuild = Codebuild("Build-project")
-            cloud_scanning >> codebuild
+            cloud_connector >> codebuild
             codebuild >> Edge(color=color_non_important) >>  ecr
+            codebuild >> Edge(color=color_non_important) >>  public_registries
 
-        account_resources >> Edge(color=color_event, style="dashed", label="Events") >>  cloudtrail
+            # bench-role
+            cloud_bench_role = IAMRole("SysdigCloudBench\n(aws:SecurityAudit policy)", **role_attr)
+
+        sqs << Edge(color=color_event) << cloud_connector
+        cloud_connector >> Edge(color=color_sysdig, style="dashed") >> sqs
+        cloud_connector - Edge(color=color_non_important) - s3_config
+
+        sns >> Edge(color=color_event, style="dashed") >> sqs
+        (cloudtrail_s3 << Edge(color=color_non_important)) -  cloud_connector
+
 
     with Cluster("AWS account (sysdig)"):
-        sds = Custom("Sysdig Secure", "../../resources/diag-sysdig-icon.png")
+        sds = Custom("Sysdig Secure\n*receives cloud-connector and cloud-build results\n*assumeRole on SysdigCloudBench", "../../resources/diag-sysdig-icon.png")
+        sds_account = General("cloud-bench")
+        sds - Edge(label="aws_foundations_bench\n schedule on rand rand * * *") >>  sds_account
 
-    eks_deployments >> Edge(color=color_sysdig) >> sds
+    cloud_connector >> Edge(color=color_sysdig) >> sds
+    codebuild >> Edge(color=color_sysdig) >>  sds
+    sds_account >> Edge(color=color_permission, fontcolor=color_permission) >> cloud_bench_role
