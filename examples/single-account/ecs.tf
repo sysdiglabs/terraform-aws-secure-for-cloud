@@ -8,7 +8,7 @@ locals {
 module "ecs_vpc_secgroup" {
   count = local.ecs_deploy ? 1 : 0
 
-  source             = "../../modules/infrastructure/ecs-vpc-secgroup"
+  source             = "../../modules/infrastructure/ecs-vpc"
   name               = var.name
   ecs_vpc_region_azs = var.ecs_vpc_region_azs
   tags               = var.tags

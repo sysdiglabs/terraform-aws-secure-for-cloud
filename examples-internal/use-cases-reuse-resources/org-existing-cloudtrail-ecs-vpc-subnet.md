@@ -68,7 +68,7 @@ region = "eu-west-3"
 }
 
 module "utils_ecs-vpc-secgroup" {
-  source = "../../modules/infrastructure/ecs-vpc-secgroup"
+  source = "../../modules/infrastructure/ecs-vpc"
 }
 ```
 -->
