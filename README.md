@@ -53,7 +53,7 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
 More info in [`./examples/single-account`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account)
 
-![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/7d142829a701ce78f13691a4af4be373625e7ee2/examples/single-account/diagram-single.png)
+![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account/diagram-single.png)
 
 
 ### - Single-Account with a pre-existing Kubernetes Cluster
@@ -66,7 +66,7 @@ More info in [`./examples/single-account-k8s`](https://github.com/sysdiglabs/ter
 Using an organizational configuration Cloudtrail.<br/>
 More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
 
-![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/5b7cf5e8028b3177536c9c847020ad6319342b44/examples/organizational/diagram-org.png)
+![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/organizational/diagram-org.png)
 
 ### - Self-Baked
 
