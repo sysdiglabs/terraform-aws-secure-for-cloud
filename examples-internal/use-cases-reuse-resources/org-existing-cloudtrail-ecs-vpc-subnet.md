@@ -5,14 +5,13 @@
 **Client Setup**
 
 - [X] organizational setup
-  - [X] organizational cloudtrail that reports to SNS
-  - [X] centralized S3 bucket with cloudtrail-events
+  - [X] organizational cloudtrail that reports to SNS and persists events in a managed-account stored S3 bucket
   - [X] member account usage - all required and pre-existing resources exist in the same account
     - cloudtrail/sns/s3 in the management account
     - and pre-existing objects in the same account where Sysdig Secure for Cloud workload is to be deployed
   - [ ] member account usage - all required resources are in scattered organizational member accounts
 - [X] pre-existing resources
-  - [X] organizational cloudtrail, reporting to an SNS topic and delivering to an the S3 bucket
+  - [X] organizational cloudtrail, reporting to an SNS topic and delivering events to the S3 bucket
   - [X] ecs cluster/vpc/subnet we want to use to deploy Sysdig for Cloud workload
   - [ ] k8s cluster we want to use to deploy Sysdig for Cloud workload
 
