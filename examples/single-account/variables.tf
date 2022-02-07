@@ -16,7 +16,7 @@ variable "sysdig_secure_api_token" {
 variable "cloudtrail_sns_arn" {
   type        = string
   default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns. If it does not exist, it will be inferred from created cloudtrail"
+  description = "ARN of a pre-existing cloudtrail_sns. If defaulted, a new cloudtrail will be created"
 }
 
 variable "cloudtrail_is_multi_region_trail" {
@@ -30,6 +30,39 @@ variable "cloudtrail_kms_enable" {
   default     = true
   description = "true/false whether cloudtrail delivered events to S3 should persist encrypted"
 }
+
+
+#---------------------------------
+# ecs, security group,  vpc
+# TODO. convert into an object?
+#---------------------------------
+
+variable "ecs_cluster_name" {
+  type        = string
+  default     = "create"
+  description = "Name of a pre-existing ECS (elastic container service) cluster. If defaulted, a new ECS cluster/VPC/Security Group will be created"
+}
+
+variable "ecs_vpc_id" {
+  type        = string
+  default     = "create"
+  description = "ID of the VPC where the workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
+}
+
+variable "ecs_vpc_subnets_private_ids" {
+  type        = list(string)
+  default     = []
+  description = "List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
+}
+
+
+variable "ecs_vpc_region_azs" {
+  type        = list(string)
+  description = "List of Availability Zones for ECS VPC creation. e.g.: [\"apne1-az1\", \"apne1-az2\"]. If defaulted, two of the default 'aws_availability_zones' datasource will be taken"
+  default     = []
+}
+
+
 
 #
 # benchmark configuration
@@ -46,17 +79,6 @@ variable "benchmark_regions" {
   description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
   default     = []
 }
-
-
-#
-# ecs vpc configuration
-#
-variable "ecs_vpc_region_azs" {
-  type        = list(string)
-  description = "Explicit list of availability zones for ECS VPC creation. eg: [\"apne1-az1\", \"apne1-az2\"]. If left empty it will be defaulted to two from the default datasource"
-  default     = []
-}
-
 
 
 #

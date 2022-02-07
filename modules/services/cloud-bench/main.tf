@@ -13,7 +13,7 @@ data "sysdig_secure_trusted_cloud_identity" "trusted_identity" {
 }
 
 locals {
-  member_account_ids = var.is_organizational ? [for a in data.aws_organizations_organization.org[0].non_master_accounts : a.id] : []
+  member_account_ids    = var.is_organizational ? [for a in data.aws_organizations_organization.org[0].non_master_accounts : a.id] : []
   account_ids_to_deploy = var.is_organizational && var.provision_in_management_account ? concat(local.member_account_ids, [data.aws_organizations_organization.org[0].master_account_id]) : local.member_account_ids
 
   benchmark_task_name   = var.is_organizational ? "Organization: ${data.aws_organizations_organization.org[0].id}" : data.aws_caller_identity.me.account_id

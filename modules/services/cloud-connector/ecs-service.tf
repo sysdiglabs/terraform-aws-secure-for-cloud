@@ -1,18 +1,18 @@
-data "aws_ecs_cluster" "ecs" {
-  cluster_name = var.ecs_cluster
+data "aws_ecs_cluster" "this" {
+  cluster_name = var.ecs_cluster_name
 }
 
-
 resource "aws_ecs_service" "service" {
-  name          = var.name
-  cluster       = data.aws_ecs_cluster.ecs.id
-  desired_count = 1
-  launch_type   = "FARGATE"
+  name = var.name
 
+  cluster = data.aws_ecs_cluster.this.id
   network_configuration {
-    subnets         = var.vpc_subnets
+    subnets         = var.ecs_vpc_subnets_private_ids
     security_groups = [aws_security_group.sg.id]
   }
+
+  desired_count   = 1
+  launch_type     = "FARGATE"
   task_definition = aws_ecs_task_definition.task_definition.arn
   tags            = var.tags
 }
