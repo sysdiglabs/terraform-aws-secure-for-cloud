@@ -8,7 +8,8 @@
 - [X] pre-existing resources
   - [X] cloudtrail
   - [ ] k8s cluster we want to use to deploy Sysdig for Cloud workload
-  - [ ] pre-existing ECS Cluster/VPC/Subnet we want to use to deploy Sysdig for Cloud workload
+  - [ ] ecs cluster/vpc/subnet we want to use to deploy Sysdig for Cloud workload
+
 
 **Sysdig Secure For Cloud Features**
 
