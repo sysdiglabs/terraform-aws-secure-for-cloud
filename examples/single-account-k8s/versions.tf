@@ -6,7 +6,7 @@ terraform {
     }
     sysdig = {
       source  = "sysdiglabs/sysdig"
-      version = ">= 0.5.19"
+      version = ">= 0.5.29"
     }
     helm = {
       source  = "hashicorp/helm"
