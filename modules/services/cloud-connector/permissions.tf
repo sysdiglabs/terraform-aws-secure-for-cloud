@@ -52,6 +52,7 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       "s3:ListBucket",
     ]
     resources = ["*"]
+    # resources = var.is_organizational?["arn:aws:ecs:*:*:cluster/*"]:["arn:aws:ecs:*:${data.aws_caller_identity.me.account_id}:cluster/*"]
   }
   statement {
     effect = "Allow"
@@ -59,6 +60,7 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       "sts:AssumeRole",
     ]
     resources = ["*"]
+    #resources = [var.connector_ecs_task_role_name]?
   }
 
   statement {
@@ -99,24 +101,7 @@ data "aws_iam_policy_document" "task_definition_reader" {
       "ecs:DescribeTaskDefinition"
     ]
     resources = ["*"]
-  }
-}
-
-
-resource "aws_iam_role_policy" "secrets_reader" {
-  name   = "SecretsReader"
-  role   = local.ecs_task_role_id
-  policy = data.aws_iam_policy_document.secrets_reader.json
-}
-
-data "aws_iam_policy_document" "secrets_reader" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "kms:Decrypt",
-      "secretsmanager:GetSecretValue"
-    ]
-    resources = ["*"]
+    #resources = [var.is_organizational?"arn:aws:ecs:*:425287181461:cluster/*":var.ecs_cluster_name]
   }
 }
 
@@ -144,6 +129,7 @@ data "aws_iam_policy_document" "ecr_reader" {
       "ecr:DescribeImageScanFindings"
     ]
     resources = ["*"]
+    # resources = var.is_organizational ? ["arn:aws:ecr:*:*:repository/*", "arn:aws:ecr-public::*:repository/*", "arn:aws:ecr-public::*:registry/*"] : ["arn:aws:ecr-public::${data.aws_caller_identity.me.account_id}:repository/*", "arn:aws:ecr-public::${data.aws_caller_identity.me.account_id}:repository/*", "arn:aws:ecr-public::${data.aws_caller_identity.me.account_id}:registry/*"]
   }
 }
 
