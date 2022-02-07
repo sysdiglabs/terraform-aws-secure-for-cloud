@@ -1,11 +1,11 @@
 locals {
   ecs_deploy                  = var.ecs_cluster_name == "create"
-  ecs_cluster_name            = local.ecs_deploy ? module.ecs_vpc_secgroup[0].ecs_cluster_name : var.ecs_cluster_name
-  ecs_vpc_id                  = local.ecs_deploy ? module.ecs_vpc_secgroup[0].ecs_vpc_id : var.ecs_vpc_id
-  ecs_vpc_subnets_private_ids = local.ecs_deploy ? module.ecs_vpc_secgroup[0].ecs_vpc_subnets_private_ids : var.ecs_vpc_subnets_private_ids
+  ecs_cluster_name            = local.ecs_deploy ? module.ecs_vpc[0].ecs_cluster_name : var.ecs_cluster_name
+  ecs_vpc_id                  = local.ecs_deploy ? module.ecs_vpc[0].ecs_vpc_id : var.ecs_vpc_id
+  ecs_vpc_subnets_private_ids = local.ecs_deploy ? module.ecs_vpc[0].ecs_vpc_subnets_private_ids : var.ecs_vpc_subnets_private_ids
 }
 
-module "ecs_vpc_secgroup" {
+module "ecs_vpc" {
   providers = {
     aws = aws.member
   }
