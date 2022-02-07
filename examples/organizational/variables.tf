@@ -77,7 +77,6 @@ variable "benchmark_regions" {
 
 #---------------------------------
 # ecs, security group,  vpc
-# TODO. convert into an object?
 #---------------------------------
 
 variable "ecs_cluster_name" {

@@ -34,7 +34,6 @@ variable "cloudtrail_kms_enable" {
 
 #---------------------------------
 # ecs, security group,  vpc
-# TODO. convert into an object?
 #---------------------------------
 
 variable "ecs_cluster_name" {
