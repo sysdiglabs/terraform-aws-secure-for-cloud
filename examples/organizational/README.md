@@ -3,10 +3,10 @@
 Deploy Sysdig Secure for Cloud using an Organizational Cloudtrail that will fetch events from all organization member accounts (and the managed one too).
 
 * In the **management account**
-  * An Organizational Cloutrail will be deployed  (with required S3,SNS)
-  * An additional role `SysdigSecureForCloudRole` will be created
-     * to be able to read cloudtrail-s3 bucket events from sysdig workload member account.
-     * will also be used to asummeRole over other roles, and enable the process of scanning on ECR's that may be present in other member accounts.
+    * An Organizational Cloutrail will be deployed  (with required S3,SNS)
+    * An additional role `SysdigSecureForCloudRole` will be created
+        * to be able to read cloudtrail-s3 bucket events from sysdig workload member account.
+        * will also be used to asummeRole over other roles, and enable the process of scanning on ECR's that may be present in other member accounts.
 * In the **user-provided member account**
     * All the Sysdig Secure for Cloud service-related resources/workload will be created
 
@@ -24,7 +24,7 @@ Minimum requirements:
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
     * When an account is created within an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning and role assuming.
     * However, when the account is invited into the organization, it's required to [create the role manually](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role)
-       > You have to do this manually, as shown in the following procedure. This essentially duplicates the role automatically set up for created accounts. We recommend that you use the same name, OrganizationAccountAccessRole, for your manually created roles for consistency and ease of remembering.
+      > You have to do this manually, as shown in the following procedure. This essentially duplicates the role automatically set up for created accounts. We recommend that you use the same name, OrganizationAccountAccessRole, for your manually created roles for consistency and ease of remembering.
     * This role name, `OrganizationAccountAccessRole`, is currently hardcoded on the module.
 3. Provide a member **account ID for Sysdig Secure for Cloud workload** to be deployed.
    Our recommendation is for this account to be empty, so that deployed resources are not mixed up with your workload.
@@ -75,14 +75,14 @@ Notice that:
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.62.0 |
-| <a name="requirement_sysdig"></a> [sysdig](#requirement\_sysdig) | >= 0.5.19 |
+| <a name="requirement_sysdig"></a> [sysdig](#requirement\_sysdig) | >= 0.5.29 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.0 |
-| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | 3.74.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.1 |
+| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | 3.74.1 |
 
 ## Modules
 

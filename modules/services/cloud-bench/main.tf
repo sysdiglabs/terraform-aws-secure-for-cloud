@@ -13,10 +13,11 @@ data "sysdig_secure_trusted_cloud_identity" "trusted_identity" {
 }
 
 locals {
-  member_account_ids = var.is_organizational ? [for a in data.aws_organizations_organization.org[0].non_master_accounts : a.id] : []
+  member_account_ids    = var.is_organizational ? [for a in data.aws_organizations_organization.org[0].non_master_accounts : a.id] : []
+  account_ids_to_deploy = var.is_organizational && var.provision_in_management_account ? concat(local.member_account_ids, [data.aws_organizations_organization.org[0].master_account_id]) : local.member_account_ids
 
   benchmark_task_name   = var.is_organizational ? "Organization: ${data.aws_organizations_organization.org[0].id}" : data.aws_caller_identity.me.account_id
-  accounts_scope_clause = var.is_organizational ? "aws.accountId in (\"${join("\", \"", local.member_account_ids)}\")" : "aws.accountId = \"${data.aws_caller_identity.me.account_id}\""
+  accounts_scope_clause = var.is_organizational ? "aws.accountId in (\"${join("\", \"", local.account_ids_to_deploy)}\")" : "aws.accountId = \"${data.aws_caller_identity.me.account_id}\""
   regions_scope_clause  = length(var.benchmark_regions) == 0 ? "" : " and aws.region in (\"${join("\", \"", var.benchmark_regions)}\")"
 }
 
@@ -25,7 +26,7 @@ locals {
 #----------------------------------------------------------
 
 resource "sysdig_secure_cloud_account" "cloud_account" {
-  for_each = var.is_organizational ? toset(local.member_account_ids) : [data.aws_caller_identity.me.account_id]
+  for_each = var.is_organizational ? toset(local.account_ids_to_deploy) : [data.aws_caller_identity.me.account_id]
 
   account_id     = each.value
   cloud_provider = "aws"
@@ -35,7 +36,7 @@ resource "sysdig_secure_cloud_account" "cloud_account" {
 
 locals {
   external_id = try(
-    sysdig_secure_cloud_account.cloud_account[local.member_account_ids[0]].external_id,
+    sysdig_secure_cloud_account.cloud_account[local.account_ids_to_deploy[0]].external_id,
     sysdig_secure_cloud_account.cloud_account[data.aws_caller_identity.me.account_id].external_id,
   )
 }
@@ -90,7 +91,7 @@ data "aws_iam_policy_document" "trust_relationship" {
 }
 
 resource "aws_iam_role" "cloudbench_role" {
-  count = var.is_organizational ? 0 : 1
+  count = var.is_organizational && !var.provision_in_management_account ? 0 : 1
 
   name               = var.name
   assume_role_policy = data.aws_iam_policy_document.trust_relationship.json
@@ -99,7 +100,7 @@ resource "aws_iam_role" "cloudbench_role" {
 
 
 resource "aws_iam_role_policy_attachment" "cloudbench_security_audit" {
-  count = var.is_organizational ? 0 : 1
+  count = var.is_organizational && !var.provision_in_management_account ? 0 : 1
 
   role       = aws_iam_role.cloudbench_role[0].id
   policy_arn = data.aws_iam_policy.security_audit.arn
