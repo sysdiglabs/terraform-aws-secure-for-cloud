@@ -18,6 +18,8 @@ module "ssm" {
 # cloud-connector
 #-------------------------------------
 module "codebuild" {
+  count = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
+
   source                       = "../../modules/infrastructure/codebuild"
   name                         = "${var.name}-codebuild"
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
@@ -33,10 +35,14 @@ module "cloud_connector" {
 
   sysdig_secure_endpoint       = var.sysdig_secure_endpoint
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
-  is_organizational            = false
 
-  build_project_arn  = module.codebuild.project_arn
-  build_project_name = module.codebuild.project_name
+  deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
+  deploy_image_scanning_ecs = var.deploy_image_scanning_ecs
+
+  is_organizational = false
+
+  build_project_arn  = module.codebuild[0].project_arn
+  build_project_name = module.codebuild[0].project_name
 
   sns_topic_arn = local.cloudtrail_sns_arn
 
@@ -47,5 +53,4 @@ module "cloud_connector" {
 
   tags       = var.tags
   depends_on = [local.cloudtrail_sns_arn, module.ssm]
-
 }

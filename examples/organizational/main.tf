@@ -37,10 +37,12 @@ module "ssm" {
 }
 
 
-#
+#-------------------------------------
 # cloud-connector
-#
+#-------------------------------------
 module "codebuild" {
+  count = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
+
   providers = {
     aws = aws.member
   }
@@ -60,8 +62,8 @@ module "cloud_connector" {
   sysdig_secure_endpoint       = var.sysdig_secure_endpoint
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
-  build_project_arn  = module.codebuild.project_arn
-  build_project_name = module.codebuild.project_name
+  deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
+  deploy_image_scanning_ecs = var.deploy_image_scanning_ecs
 
   is_organizational = true
   organizational_config = {
@@ -69,6 +71,9 @@ module "cloud_connector" {
     organizational_role_per_account  = var.organizational_member_default_admin_role
     connector_ecs_task_role_name     = aws_iam_role.connector_ecs_task.name
   }
+
+  build_project_arn  = module.codebuild[0].project_arn
+  build_project_name = module.codebuild[0].project_name
 
   sns_topic_arn = local.cloudtrail_sns_arn
 

@@ -14,9 +14,9 @@ variable "build_project_name" {
 }
 
 
-#---------------------------------
+#
 # ecs, security group,  vpc
-#---------------------------------
+#
 
 variable "ecs_cluster_name" {
   type        = string
@@ -33,9 +33,9 @@ variable "ecs_vpc_subnets_private_ids" {
   description = "List of VPC subnets where workload is to be deployed."
 }
 
-#---------------------------------
+#
 # cloud-connector parametrization
-#---------------------------------
+#
 
 variable "sns_topic_arn" {
   type        = string
@@ -46,6 +46,7 @@ variable "sns_topic_arn" {
 #---------------------------------
 # optionals - with default
 #---------------------------------
+
 
 #
 # module composition
@@ -112,6 +113,26 @@ variable "extra_env_vars" {
   default     = {}
   description = "Extra environment variables for the Cloud Connector deployment"
 }
+
+
+
+#
+# scanning configuration
+#
+
+variable "deploy_image_scanning_ecr" {
+  type        = bool
+  description = "true/false whether to deploy the image scanning on ECR pushed images"
+  default     = true
+}
+
+variable "deploy_image_scanning_ecs" {
+  type        = bool
+  description = "true/false whether to deploy the image scanning on ECS running images"
+  default     = true
+}
+
+
 
 #
 # general
