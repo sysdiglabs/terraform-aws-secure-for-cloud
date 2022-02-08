@@ -34,3 +34,9 @@ variable "tags" {
     "product" = "sysdig-secure-for-cloud"
   }
 }
+
+variable "provision_in_management_account" {
+  type        = bool
+  default     = true
+  description = "Whether to deploy the stack in the management account"
+}
