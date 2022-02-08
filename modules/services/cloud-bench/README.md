@@ -20,7 +20,7 @@ Deployed on **Sysdig Backend**
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.62.0 |
 | <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.1.0 |
-| <a name="requirement_sysdig"></a> [sysdig](#requirement\_sysdig) | >= 0.5.21 |
+| <a name="requirement_sysdig"></a> [sysdig](#requirement\_sysdig) | >= 0.5.29 |
 
 ## Providers
 
@@ -28,7 +28,7 @@ Deployed on **Sysdig Backend**
 |------|---------|
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.62.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | >= 3.1.0 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.21 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.29 |
 
 ## Modules
 
