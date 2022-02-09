@@ -8,22 +8,11 @@
 
 
 repos:
-  # create a custom terraform validate for the examples, as launching the validation in the root dir won't work and give
-  # "Error: Provider configuration not present" error
-  # https://github.com/hashicorp/terraform/issues/21416
-  - repo: local
-    hooks:
-        - id: terraform_validate
-          name: Terraform validate
-          entry: .pre-commit-terraform-validate-examples.sh
-          pass_filenames: false
-          language: script
-
   - repo: git://github.com/antonbabenko/pre-commit-terraform
     rev: v1.50.0
     hooks:
       - id: terraform_fmt
-#      - id: terraform_validate
+      - id: terraform_validate
       - id: terraform_docs
         args:
           - '--args=--sort-by required'

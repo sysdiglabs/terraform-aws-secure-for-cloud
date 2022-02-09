@@ -37,7 +37,7 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.1 |
 
 ## Modules
 
