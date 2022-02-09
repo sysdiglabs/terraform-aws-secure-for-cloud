@@ -72,8 +72,8 @@ module "cloud_connector" {
     connector_ecs_task_role_name     = aws_iam_role.connector_ecs_task.name
   }
 
-  build_project_arn  = module.codebuild[0].project_arn
-  build_project_name = module.codebuild[0].project_name
+  build_project_arn  = length(module.codebuild) == 1 ? module.codebuild[0].project_arn : "na"
+  build_project_name = length(module.codebuild) == 1 ? module.codebuild[0].project_name : "na"
 
   sns_topic_arn = local.cloudtrail_sns_arn
 
