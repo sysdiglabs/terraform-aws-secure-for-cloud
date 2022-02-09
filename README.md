@@ -116,7 +116,7 @@ Notice that:
 
 **Threat Detection**
 
-Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/trigger-events)
+Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/trigger-events).
 
 In another case, you can do it manually. Choose one of the rules contained in the `AWS Best Practices` policy and execute it in your AWS account.
 

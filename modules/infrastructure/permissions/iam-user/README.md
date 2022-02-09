@@ -21,9 +21,9 @@ Creates an IAM user and adds permissions for required modules.
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_credentials_cloud_connector"></a> [credentials\_cloud\_connector](#module\_credentials\_cloud\_connector) | ../cloud-connector | n/a |
-| <a name="module_credentials_cloud_scanning"></a> [credentials\_cloud\_scanning](#module\_credentials\_cloud\_scanning) | ../cloud-scanning | n/a |
-| <a name="module_credentials_general"></a> [credentials\_general](#module\_credentials\_general) | ../general | n/a |
+| <a name="module_credentials_cloud_connector"></a> [credentials\_cloud\_connector](#module\_credentials\_cloud\_connector) | ../cloud-connector |  |
+| <a name="module_credentials_cloud_scanning"></a> [credentials\_cloud\_scanning](#module\_credentials\_cloud\_scanning) | ../cloud-scanning |  |
+| <a name="module_credentials_general"></a> [credentials\_general](#module\_credentials\_general) | ../general |  |
 
 ## Resources
 

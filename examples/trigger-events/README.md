@@ -1,4 +1,4 @@
-# Sysdig Secure for Cloud in AWS<br/>[ Example :: Trigger-Events]
+# Sysdig Secure for Cloud in AWS<br/> [ Example :: Trigger-Events]
 
 This example helps to trigger AWS Events. Cloud Connector stack is required to be able to generate events.
 After applying this module, a new AWS IAM Policy will be created. **Create IAM Policy that Allows All** event will prompt once the module is applied.
