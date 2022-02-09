@@ -41,8 +41,8 @@ module "cloud_connector" {
 
   is_organizational = false
 
-  build_project_arn  = module.codebuild[0].project_arn
-  build_project_name = module.codebuild[0].project_name
+  build_project_arn  = length(module.codebuild) == 1 ? module.codebuild[0].project_arn : "na"
+  build_project_name = length(module.codebuild) == 1 ? module.codebuild[0].project_name : "na"
 
   sns_topic_arn = local.cloudtrail_sns_arn
 
