@@ -1,7 +1,7 @@
 data "aws_iam_policy_document" "flow_log_cloudwatch_assume_role" {
   statement {
-    effect = "Allow"
-    actions = ["cloudformation:*"]
+    effect    = "Allow"
+    actions   = ["cloudformation:*"]
     resources = ["*"]
   }
 }
