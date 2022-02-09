@@ -62,9 +62,7 @@ No modules.
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_region"></a> [region](#input\_region) | Region to be deployed | `string` | `"eu-west-3"` | no |
+No inputs.
 
 ## Outputs
 
