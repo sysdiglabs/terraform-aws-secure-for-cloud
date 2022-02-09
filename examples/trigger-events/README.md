@@ -47,7 +47,7 @@ Notice that:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.1 |
 
 ## Modules
 
