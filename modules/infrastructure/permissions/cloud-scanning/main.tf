@@ -44,7 +44,8 @@ data "aws_iam_policy_document" "cloud_scanner" {
       "ecr:ListTagsForResource",
       "ecr:DescribeImageScanFindings"
     ]
-    resources = ["*"] # TODO. make an input-var out of this, so user can pin it to its own ECR ARN's
+    resources = ["*"]
+    # resources = var.is_organizational ? ["arn:aws:ecr:*:*:repository/*", "arn:aws:ecr-public::*:repository/*", "arn:aws:ecr-public::*:registry/*"] : ["arn:aws:ecr-public::${data.aws_caller_identity.me.account_id}:repository/*", "arn:aws:ecr-public::${data.aws_caller_identity.me.account_id}:repository/*", "arn:aws:ecr-public::${data.aws_caller_identity.me.account_id}:registry/*"]O. make an input-var out of this, so user can pin it to its own ECR ARN's
   }
 
   statement {
@@ -53,16 +54,7 @@ data "aws_iam_policy_document" "cloud_scanner" {
     actions = [
       "ecs:DescribeTaskDefinition"
     ]
-    resources = ["*"] # TODO
-  }
-
-  statement {
-    sid    = "AllowScanningTo" # TODO
-    effect = "Allow"
-    actions = [
-      "kms:Decrypt",
-      "secretsmanager:GetSecretValue"
-    ]
-    resources = ["*"] # TODO
+    resources = ["*"]
+    #resources = [var.is_organizational?"arn:aws:ecs:*:425287181461:cluster/*":var.ecs_cluster_name] # TODO pin-down
   }
 }
