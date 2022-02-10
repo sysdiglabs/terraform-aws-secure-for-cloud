@@ -39,10 +39,10 @@
 - [ ] **input/output** variables have been modified?
   - [ ] terraform-docs has been updated accordingly
   - [ ] if these inputs are mandatory, they've been changed on
-    - [ ] examples
-    - [ ] testing use-cases
-    - [ ] snippets on README's
-    - [ ] snippets on Secure Platform onboarding
+    - [ ] examples, examples-internal and use-cases are updated accordingly
+    - [ ] tests are updated accordingly
+    - [ ] snippets on README's are updated accordingly
+    - [ ] snippets on Secure Platform onboarding are updated accordingly
 - [ ] had any problems developing this PR? add it to the readme **troubleshooting** list! may come handy to someone
 
 
@@ -60,12 +60,7 @@ We're using **pre-commit** |  https://pre-commit.com
   ```
 
 - If pre-commit fails on Github but not on your local, try cleaning-up `terraform` files with
-```bash
--- resources/terraform-clean.sh
-$ find . -name ".terraform" -exec rm -fr {} \;
-$ find . -name "terraform.tfstate*" -exec rm -fr {} \;
-$ find . -name ".terraform.lock.hcl*" -exec rm -fr {} \;
-```
+`./resources/terraform-clean.sh` script
 
 
 ## 2. Check::Integration tests
