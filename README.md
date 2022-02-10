@@ -116,7 +116,9 @@ Notice that:
 
 **Threat Detection**
 
-Choose one of the rules contained in the `AWS Best Practices` policy and execute it in your AWS account.
+Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/trigger-events).
+
+In another case, you can do it manually. Choose one of the rules contained in the `AWS Best Practices` policy and execute it in your AWS account.
 
 ex.: 'Delete Bucket Public Access Block' can be easily tested going to an
 `S3 bucket > Permissions > Block public access (bucket settings) > edit >
