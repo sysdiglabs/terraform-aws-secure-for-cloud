@@ -67,7 +67,7 @@ If cloudtrail is in another account
 
 ### Terraform Manifest Snippet
 
-```terraform`
+```terraform
 provider "aws" {
   region = <AWS_REGION>
 }
