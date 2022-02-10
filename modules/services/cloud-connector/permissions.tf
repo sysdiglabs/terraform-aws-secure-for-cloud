@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       "s3:ListBucket",
     ]
     resources = ["*"]
-    # resources = var.is_organizational?["arn:aws:ecs:*:*:cluster/*"]:["arn:aws:ecs:*:${data.aws_caller_identity.me.account_id}:cluster/*"]
+    # resources = [var.cloudtrail_s3_arn # would need this as param]
   }
   statement {
     effect = "Allow"
@@ -60,7 +60,7 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       "sts:AssumeRole",
     ]
     resources = ["*"]
-    #resources = [var.connector_ecs_task_role_name]?
+    #    resources = [var.connector_ecs_task_role_name]
   }
 
   statement {
@@ -109,7 +109,7 @@ data "aws_iam_policy_document" "task_definition_reader" {
       "ecs:DescribeTaskDefinition"
     ]
     resources = ["*"]
-    #resources = [var.is_organizational?"arn:aws:ecs:*:425287181461:cluster/*":var.ecs_cluster_name]
+    #    resources = var.is_organizational?["arn:aws:ecs:*:*:cluster/*"]:["arn:aws:ecs:*:${data.aws_caller_identity.me.account_id}:cluster/${var.ecs_cluster_name}"]
   }
 }
 
