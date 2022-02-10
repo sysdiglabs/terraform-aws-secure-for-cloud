@@ -11,6 +11,7 @@ repos:
   # create a custom terraform validate for the examples, as launching the validation in the root dir won't work and give
   # "Error: Provider configuration not present" error
   # https://github.com/hashicorp/terraform/issues/21416
+  # https://discuss.hashicorp.com/t/how-to-run-terraform-validate-on-a-module-that-is-supplied-the-providers-via-an-alias/34664/2
   - repo: local
     hooks:
         - id: terraform_validate

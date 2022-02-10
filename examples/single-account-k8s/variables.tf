@@ -8,35 +8,6 @@ variable "sysdig_secure_api_token" {
 # optionals - with defaults
 #---------------------------------
 
-variable "deploy_threat_detection" {
-  type        = bool
-  description = "true/false whether to deploy cloud_connector"
-  default     = true
-}
-
-variable "deploy_image_scanning" {
-  type        = bool
-  description = "true/false whether to deploy cloud_scanning"
-  default     = true
-}
-
-
-#
-# benchmark configuration
-#
-variable "deploy_benchmark" {
-  type        = bool
-  description = "Whether to deploy or not the cloud benchmarking"
-  default     = true
-}
-variable "benchmark_regions" {
-  type        = list(string)
-  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
-  default     = []
-}
-
-
-
 #
 # cloudtrail configuration
 #
@@ -77,4 +48,45 @@ variable "tags" {
   default = {
     "product" = "sysdig-secure-for-cloud"
   }
+}
+
+#
+# threat-detection configuration
+#
+
+variable "deploy_threat_detection" {
+  type        = bool
+  description = "true/false whether to deploy cloud_connector"
+  default     = true
+}
+
+#
+# scanning configuration
+#
+
+variable "deploy_image_scanning_ecr" {
+  type        = bool
+  description = "true/false whether to deploy the image scanning on ECR pushed images"
+  default     = true
+}
+
+variable "deploy_image_scanning_ecs" {
+  type        = bool
+  description = "true/false whether to deploy the image scanning on ECS running images"
+  default     = true
+}
+
+
+#
+# benchmark configuration
+#
+variable "deploy_benchmark" {
+  type        = bool
+  description = "Whether to deploy or not the cloud benchmarking"
+  default     = true
+}
+variable "benchmark_regions" {
+  type        = list(string)
+  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
+  default     = []
 }

@@ -32,9 +32,9 @@ variable "cloudtrail_kms_enable" {
 }
 
 
-#---------------------------------
+#
 # ecs, security group,  vpc
-#---------------------------------
+#
 
 variable "ecs_cluster_name" {
   type        = string
@@ -54,13 +54,28 @@ variable "ecs_vpc_subnets_private_ids" {
   description = "List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs_cluster_name' is not provided."
 }
 
-
 variable "ecs_vpc_region_azs" {
   type        = list(string)
   description = "List of Availability Zones for ECS VPC creation. e.g.: [\"apne1-az1\", \"apne1-az2\"]. If defaulted, two of the default 'aws_availability_zones' datasource will be taken"
   default     = []
 }
 
+
+#
+# scanning configuration
+#
+
+variable "deploy_image_scanning_ecr" {
+  type        = bool
+  description = "true/false whether to deploy the image scanning on ECR pushed images"
+  default     = true
+}
+
+variable "deploy_image_scanning_ecs" {
+  type        = bool
+  description = "true/false whether to deploy the image scanning on ECS running images"
+  default     = true
+}
 
 
 #
@@ -83,6 +98,7 @@ variable "benchmark_regions" {
 #
 # general
 #
+
 variable "name" {
   type        = string
   description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
