@@ -16,7 +16,7 @@ concurrency: terraform
 
 jobs:
   integration_test-eks:
-    concurrency: terraform-account
+#    concurrency: terraform-account
     continue-on-error: true
 
     name: Test-Kitchen-EKS
@@ -105,7 +105,7 @@ jobs:
 
   integration_test_ecs:
     needs: integration_test-eks
-    concurrency: terraform-account
+#    concurrency: terraform-account
     continue-on-error: true
 
     name: Test-Kitchen-ECS
