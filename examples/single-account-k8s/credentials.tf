@@ -3,5 +3,5 @@ module "iam_user" {
   name                     = var.name
   ssm_secure_api_token_arn = module.ssm.secure_api_token_secret_arn
   deploy_threat_detection  = var.deploy_threat_detection
-  deploy_image_scanning    = var.deploy_image_scanning
+  deploy_image_scanning    = local.deploy_image_scanning
 }
