@@ -73,9 +73,31 @@ Implemented vía **Terraform Kitchen** | https://newcontext-oss.github.io/kitche
 
 - Kitchen configuration can be found in `/.kitchen.yml`
 - Under `/test/fixtures` you can find the targets that will be tested. Please keep this as similar as possible to the Terraform Registry Modules examples.
+  - In order to test this in your local environment use following recipee
+  ```bash
+  terraform init -backend=false && \
+  terraform validate && \ 
+  terraform plan && \
+  read && \   # will give you time to review plan or just push enter to apply
+  terraform apply --auto-approve
+  ```
 - AWS_PROFILE configuration is required to access the [TF s3 state backend](#terraform-backend)
 
-**Running Kitchen tests locally**
+### Terraform Backend
+
+Because CI/CD sometimes fail, we setup the Terraform state to be handled in backend (s3+dynamo) within the Sysdig AWS backend (sysdig-test-account).
+
+### Remote state cleanup from local 
+
+In case you need to handle terraform backend state from failing kitchen tests, some guidance for using the `backend.tf` remote state manifest, present on each test
+ - Configure same parameters as the github action, that is `AWS_PROFILE`, and leave default `name` and `region` values
+ - Kitchen works with `terraform workspaces` so, in case you want to fix a specific test, switch to that workspace after the `terraform init` with `terraform workspace select WORKSPACE`
+ - Perform the desired terraform task
+
+You can also use `kitchen destroy` instead of `terraform` but the requirements are the same, except that the workspace will be managed through kitchen
+
+
+### Running Kitchen tests locally
 
 Ruby 2.7 is required to launch the tests.
 Run `bundle install` to get kitchen-terraform bundle.
@@ -92,16 +114,11 @@ $ bundle exec kitchen tests
 
 # run one specific test
 $ bundle exec kitchen test "single-account-k8s-aws"
-
 ```
 
-### Terraform Backend
-
-Because CI/CD sometimes fail, we setup the Terraform state to be handled in backend (s3+dynamo) within the Sysdig AWS backend (sysdig-test-account).
-In order to be able to use this Terraform backend AWS credentials are configured as Github project secret
-
-If terraform state ends up in bad shape and not cleaned, use the action called `Test Cleanup` that should destroy any messed situation.
-If this does not work, try it from your local, but please do it using `kitchen destroy`, not `terraform destroy` unless you really know what you're doing :]
+Note: As said before kitchen works with workspaces, so any local test, unless you change it, will fall into the `default` workspace and will not collide with 
+Github Action tests. May collide however with other peers if they're doing similar tasks on local ;)
+You can always temporary delete the `backend.tf` file on the test you're running
 
 ### Deployed infrastructure resources
 
