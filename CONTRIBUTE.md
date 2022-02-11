@@ -76,7 +76,7 @@ Implemented vía **Terraform Kitchen** | https://newcontext-oss.github.io/kitche
   - In order to test this in your local environment use following recipee
   ```bash
   terraform init -backend=false && \
-  terraform validate && \ 
+  terraform validate && \
   terraform plan && \
   read && \   # will give you time to review plan or just push enter to apply
   terraform apply --auto-approve
@@ -87,7 +87,7 @@ Implemented vía **Terraform Kitchen** | https://newcontext-oss.github.io/kitche
 
 Because CI/CD sometimes fail, we setup the Terraform state to be handled in backend (s3+dynamo) within the Sysdig AWS backend (sysdig-test-account).
 
-### Remote state cleanup from local 
+### Remote state cleanup from local
 
 In case you need to handle terraform backend state from failing kitchen tests, some guidance for using the `backend.tf` remote state manifest, present on each test
  - Configure same parameters as the github action, that is `AWS_PROFILE`, and leave default `name` and `region` values
@@ -116,7 +116,7 @@ $ bundle exec kitchen tests
 $ bundle exec kitchen test "single-account-k8s-aws"
 ```
 
-Note: As said before kitchen works with workspaces, so any local test, unless you change it, will fall into the `default` workspace and will not collide with 
+Note: As said before kitchen works with workspaces, so any local test, unless you change it, will fall into the `default` workspace and will not collide with
 Github Action tests. May collide however with other peers if they're doing similar tasks on local ;)
 You can always temporary delete the `backend.tf` file on the test you're running
 

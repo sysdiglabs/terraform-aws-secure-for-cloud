@@ -180,8 +180,8 @@ A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terr
 ### Q: I get 400 api error AuthorizationHeaderMalformed on the Sysdig workload ECS Task
 
 ```text
-error while receiving the messages: error retrieving from S3 bucket=crit-start-trail: operation error S3: GetObject, 
-https response error StatusCode: 400, RequestID: ***, HostID: ***, 
+error while receiving the messages: error retrieving from S3 bucket=crit-start-trail: operation error S3: GetObject,
+https response error StatusCode: 400, RequestID: ***, HostID: ***,
 api error AuthorizationHeaderMalformed: The authorization header is malformed; a non-empty Access Key (AKID) must be provided in the credential."}
 ```
 A: When the S3 bucket, where cloudtrail events are stored, is not in the same account as where the Cloud Connector workload is deployed, it requires the
