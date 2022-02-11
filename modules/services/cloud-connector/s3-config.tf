@@ -2,9 +2,10 @@ locals {
   s3_bucket_config_id = aws_s3_bucket.s3_config_bucket.id
 }
 
-resource "aws_s3_bucket_object" "config" {
-  bucket  = local.s3_bucket_config_id
-  key     = "cloud-connector.yaml"
+resource "aws_s3_object" "config" {
+  bucket = local.s3_bucket_config_id
+  key    = "cloud-connector.yaml"
+
   content = local.default_config
   tags    = var.tags
 }

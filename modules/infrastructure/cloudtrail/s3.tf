@@ -8,7 +8,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail" {
   bucket = aws_s3_bucket.cloudtrail.id
 
   rule {
-    id     = "all"
+    id     = "expire in ${var.s3_bucket_expiration_days} days"
     status = "Enabled"
     expiration {
       days = var.s3_bucket_expiration_days
