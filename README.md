@@ -11,7 +11,7 @@ Provides unified threat-detection, compliance, forensics and analysis through th
 
 * **[Cloud Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through `cloud-connector` module. <br/>
 
-* **[Cloud Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry or as soon a new task which involves a container is spawned in your account. Managed through `cloud-connector`. <br/>
+* **[Cloud Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry (ECR) and the images that run on the AWS workload (currently ECS). Managed through `cloud-connector`. <br/>
 
 For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud), [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud)
 
@@ -135,8 +135,10 @@ If that's not working as expected, some other questions can be checked
 
 **Image Scanning**
 
-Upload any image to the ECR repository of AWS.
-<br/>You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
+  - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
+  - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
+
+It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task and a CodeBuild project being launched successfully
 
 <br/><br/>
 
@@ -155,7 +157,7 @@ Upload any image to the ECR repository of AWS.
 ```
 
 A: In order to subscribe to a SNS Topic, SQS queue must be in the same region
-S: Change `aws provider` `region` variable to match same region for all resources
+<br/>S: Change `aws provider` `region` variable to match same region for all resources
 
 ### Q: Getting error "400 availabilityZoneId is invalid" when creating the ECS subnet
 ```text
@@ -168,18 +170,33 @@ S: Change `aws provider` `region` variable to match same region for all resource
 ```
 
 A: For the ECS workload deployment a VPC is being created under the hood. Some AWS zones, such as the 'apne1-az3' in the 'ap-northeast' region does not support NATS, which is activated by default.
-S: Specify the desired VPC region availability zones for the vpc module, using the `ecs_vpc_region_azs` variable to explicit its desired value and workaround the error until AWS gives support for your region.
+<br/>S: Specify the desired VPC region availability zones for the vpc module, using the `ecs_vpc_region_azs` variable to explicit its desired value and workaround the error until AWS gives support for your region.
 
 
 ### Q: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
 A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
 
+
+### Q: I get 400 api error AuthorizationHeaderMalformed on the Sysdig workload ECS Task
+
+```text
+error while receiving the messages: error retrieving from S3 bucket=crit-start-trail: operation error S3: GetObject,
+https response error StatusCode: 400, RequestID: ***, HostID: ***,
+api error AuthorizationHeaderMalformed: The authorization header is malformed; a non-empty Access Key (AKID) must be provided in the credential."}
+```
+A: When the S3 bucket, where cloudtrail events are stored, is not in the same account as where the Cloud Connector workload is deployed, it requires the
+use of the [`assumeRole` configuration](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector/s3-config.tf#L30).
+This error happens when the ECS `TaskRole` has no permissions to assume this role
+<br/>S: Give permissions to `sts:AssumeRole` to the role used.
+
+
 ### Q: How to iterate cloud-connector modification testing
+
 A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
 Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
 
-
 ### Q: How can I iterate ECS modification testing
+
 A: After applying your modifications (vía terraform for example) restart the service
   ```
   $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
