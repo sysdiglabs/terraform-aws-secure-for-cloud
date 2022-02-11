@@ -135,8 +135,10 @@ If that's not working as expected, some other questions can be checked
 
 **Image Scanning**
 
-Upload any image to the ECR repository of AWS.
-<br/>You should see a log in the ECS-cloud-scanner task + CodeBuild project being launched successfully
+  - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
+  - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
+
+You should see a log in the ECS cloud-connector task + CodeBuild project being launched successfully
 
 <br/><br/>
 
@@ -175,11 +177,12 @@ S: Specify the desired VPC region availability zones for the vpc module, using t
 A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
 
 ### Q: How to iterate cloud-connector modification testing
+
 A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
 Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
 
-
 ### Q: How can I iterate ECS modification testing
+
 A: After applying your modifications (vía terraform for example) restart the service
   ```
   $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
