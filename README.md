@@ -157,7 +157,7 @@ You should see a log in the ECS cloud-connector task + CodeBuild project being l
 ```
 
 A: In order to subscribe to a SNS Topic, SQS queue must be in the same region
-S: Change `aws provider` `region` variable to match same region for all resources
+<br/>S: Change `aws provider` `region` variable to match same region for all resources
 
 ### Q: Getting error "400 availabilityZoneId is invalid" when creating the ECS subnet
 ```text
@@ -170,7 +170,7 @@ S: Change `aws provider` `region` variable to match same region for all resource
 ```
 
 A: For the ECS workload deployment a VPC is being created under the hood. Some AWS zones, such as the 'apne1-az3' in the 'ap-northeast' region does not support NATS, which is activated by default.
-S: Specify the desired VPC region availability zones for the vpc module, using the `ecs_vpc_region_azs` variable to explicit its desired value and workaround the error until AWS gives support for your region.
+<br/>S: Specify the desired VPC region availability zones for the vpc module, using the `ecs_vpc_region_azs` variable to explicit its desired value and workaround the error until AWS gives support for your region.
 
 
 ### Q: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
@@ -187,7 +187,7 @@ api error AuthorizationHeaderMalformed: The authorization header is malformed; a
 A: When the S3 bucket, where cloudtrail events are stored, is not in the same account as where the Cloud Connector workload is deployed, it requires the
 use of the [`assumeRole` configuration](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector/s3-config.tf#L30).
 This error happens when the ECS `TaskRole` has no permissions to assume this role
-S: Give permissions to `sts:AssumeRole` to the role used.
+<br/>S: Give permissions to `sts:AssumeRole` to the role used.
 
 
 ### Q: How to iterate cloud-connector modification testing
