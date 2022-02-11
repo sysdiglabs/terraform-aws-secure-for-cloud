@@ -49,7 +49,8 @@ module "cloud_connector" {
   ecs_cluster_name            = local.ecs_cluster_name
   ecs_vpc_id                  = local.ecs_vpc_id
   ecs_vpc_subnets_private_ids = local.ecs_vpc_subnets_private_ids
-
+  ecs_task_cpu                = var.ecs_task_cpu
+  ecs_task_memory             = var.ecs_task_memory
 
   tags       = var.tags
   depends_on = [local.cloudtrail_sns_arn, module.ssm]
