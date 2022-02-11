@@ -176,6 +176,20 @@ S: Specify the desired VPC region availability zones for the vpc module, using t
 ### Q: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
 A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
 
+
+### Q: I get 400 api error AuthorizationHeaderMalformed on the Sysdig workload ECS Task
+
+```text
+error while receiving the messages: error retrieving from S3 bucket=crit-start-trail: operation error S3: GetObject, 
+https response error StatusCode: 400, RequestID: ***, HostID: ***, 
+api error AuthorizationHeaderMalformed: The authorization header is malformed; a non-empty Access Key (AKID) must be provided in the credential."}
+```
+A: When the S3 bucket, where cloudtrail events are stored, is not in the same account as where the Cloud Connector workload is deployed, it requires the
+use of the [`assumeRole` configuration](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector/s3-config.tf#L30).
+This error happens when the ECS `TaskRole` has no permissions to assume this role
+S: Give permissions to `sts:AssumeRole` to the role used.
+
+
 ### Q: How to iterate cloud-connector modification testing
 
 A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
