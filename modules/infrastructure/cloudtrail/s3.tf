@@ -1,17 +1,26 @@
 resource "aws_s3_bucket" "cloudtrail" {
   bucket        = "${var.name}-${data.aws_caller_identity.me.account_id}"
-  acl           = "private"
   force_destroy = true
+  tags          = var.tags
+}
 
-  lifecycle_rule {
-    enabled = true
+resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail" {
+  bucket = aws_s3_bucket.cloudtrail.id
+
+  rule {
+    id     = "all"
+    status = "Enabled"
     expiration {
       days = var.s3_bucket_expiration_days
     }
   }
-  tags = var.tags
 }
 
+
+resource "aws_s3_bucket_acl" "cloudtrail" {
+  bucket = aws_s3_bucket.cloudtrail.id
+  acl    = "private"
+}
 
 
 # --------------------------
