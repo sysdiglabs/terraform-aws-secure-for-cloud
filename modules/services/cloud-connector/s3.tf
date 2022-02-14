@@ -2,12 +2,22 @@ data "aws_caller_identity" "me" {}
 
 resource "aws_s3_bucket" "s3_config_bucket" {
   bucket        = "${var.name}-${data.aws_caller_identity.me.account_id}-config"
-  acl           = "private"
   force_destroy = true
-  versioning {
-    enabled = true
+  tags          = var.tags
+}
+
+
+resource "aws_s3_bucket_acl" "s3_config_bucket" {
+  bucket = aws_s3_bucket.s3_config_bucket.id
+  acl    = "private"
+}
+
+
+resource "aws_s3_bucket_versioning" "s3_config_bucket" {
+  bucket = aws_s3_bucket.s3_config_bucket.id
+  versioning_configuration {
+    status = "Enabled"
   }
-  tags = var.tags
 }
 
 

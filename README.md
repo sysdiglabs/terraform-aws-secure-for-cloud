@@ -144,6 +144,10 @@ It may take some time, but you should see logs detecting the new image in the EC
 
 ## Troubleshooting
 
+### Q: Getting error "Error: failed creating ECS Task Definition: ClientException: No Fargate configuration exists for given values.
+A: Your ECS task_size values aren't valid for Fargate. Specifically, your mem_limit value is too big for the cpu_limit you specified
+S: Check [supported task cpu and memory values](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html)
+
 ### Q: Getting error "404 Invalid parameter: TopicArn" when trying to reuse an existing cloudtrail-sns
 
 ```text
