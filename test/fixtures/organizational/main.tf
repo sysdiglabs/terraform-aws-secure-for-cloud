@@ -12,7 +12,7 @@ terraform {
 
 provider "sysdig" {
   sysdig_secure_api_token = var.sysdig_secure_api_token
-  sysdig_secure_url  = var.sysdig_secure_url
+  sysdig_secure_url       = var.sysdig_secure_url
 }
 
 provider "aws" {
