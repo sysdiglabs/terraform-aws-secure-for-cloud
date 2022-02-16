@@ -33,7 +33,7 @@ provider "aws" {
 }
 
 module "sysdig-s4c" {
-  source = "sysdiglabs/secure-for-cloud/aws//modules/cloud-bench"
+  source = "sysdiglabs/secure-for-cloud/aws//module/services/cloud-bench"
   name    = "TEST-NAME-cloudbench"
 }
 ```

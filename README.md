@@ -93,7 +93,7 @@ provider "sysdig" {
 }
 
 module "cloud_bench" {
-  source      = "sysdiglabs/secure-for-cloud/aws//modules/cloud-bench"
+  source      = "sysdiglabs/secure-for-cloud/aws//modules/services/cloud-bench"
 }
 
 ```
