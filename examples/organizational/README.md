@@ -25,7 +25,7 @@ Minimum requirements:
     * When an account is created within an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning and role assuming.
     * However, when the account is invited into the organization, it's required to [create the role manually](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role)
       > You have to do this manually, as shown in the following procedure. This essentially duplicates the role automatically set up for created accounts. We recommend that you use the same name, OrganizationAccountAccessRole, for your manually created roles for consistency and ease of remembering.
-    * This role name, `OrganizationAccountAccessRole`, is currently hardcoded on the module.
+    * If role name, `OrganizationAccountAccessRole` wants to be modified, it must be done both on the `aws` member-account provider AND input value `organizational_member_default_admin_role`
 3. Provide a member **account ID for Sysdig Secure for Cloud workload** to be deployed.
    Our recommendation is for this account to be empty, so that deployed resources are not mixed up with your workload.
    This input must be provided as terraform required input value
