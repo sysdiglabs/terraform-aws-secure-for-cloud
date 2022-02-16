@@ -76,7 +76,7 @@ locals {
     },
     {
       name  = "SECURE_URL",
-      value = var.sysdig_secure_url
+      value = data.sysdig_secure_connection.current.secure_url
     }
     ], flatten([for env_key, env_value in var.extra_env_vars : [{
       name  = env_key,
