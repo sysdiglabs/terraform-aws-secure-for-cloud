@@ -31,6 +31,19 @@ Client is responsible for provisioning the ARN of this SQS, which will be requir
 For quick testing, use this snippet on your terraform files.
 
 ```terraform
+terraform {
+  required_providers {
+    sysdig = {
+      source  = "sysdiglabs/sysdig"
+      configuration_aliases = [aws.member]
+    }
+  }
+}
+
+provider "sysdig" {
+  sysdig_secure_api_token    = "00000000-1111-2222-3333-444444444444"
+}
+
 provider "aws" {
   region = "<AWS-REGION>; ex. us-east-1"
 }
@@ -43,8 +56,6 @@ provider "helm" {
 
 module "org_k8s_threat_reuse_cloudtrail" {
   source = "sysdiglabs/secure-for-cloud/aws//examples-internal/organizational-k8s-threat-reuse_cloudtrail"
-
-  sysdig_secure_api_token   = "00000000-1111-2222-3333-444444444444"
 
   region                          = "CLOUDTRAIL_SNS_SQS_REGION"
   cloudtrail_s3_sns_sqs_url       = "SQS-URL"
@@ -81,7 +92,7 @@ Notice that:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.0.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 3.74.1 |
 | <a name="provider_helm"></a> [helm](#provider\_helm) | 2.4.1 |
 
 ## Modules

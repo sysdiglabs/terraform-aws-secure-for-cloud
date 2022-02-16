@@ -54,7 +54,7 @@ If cloudtrail is in another account
       "Sid": "AllowCrossAccountSNSSubscription,
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::account-member:user/<SPECIFC_USER>"
+        "AWS": "arn:aws:iam::account-member:user/<SPECIFIC_USER>"
         # or
         #"AWS": "arn:aws:iam::account-member:root"
       },
@@ -68,15 +68,26 @@ If cloudtrail is in another account
 ### Terraform Manifest Snippet
 
 ```terraform
+terraform {
+  required_providers {
+    sysdig = {
+      source  = "sysdiglabs/sysdig"
+    }
+  }
+}
+
+provider "sysdig" {
+  sysdig_secure_api_token = "<SYSDIG_API_TOKEN>"
+}
+
 provider "aws" {
-  region = <AWS_REGION>
+  region = "<AWS_REGION>"
 }
 
 module "sysdig-s4c" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account"
   name   = "sysdig-s4c"
 
-  sysdig_secure_api_token = <SYSDIG_API_TOKEN>
-  cloudtrail_sns_arn      = <CLOUDRAIL_SNS_TOPIC_ARN>
+  cloudtrail_sns_arn  = "<CLOUDRAIL_SNS_TOPIC_ARN>"
 }
 ```

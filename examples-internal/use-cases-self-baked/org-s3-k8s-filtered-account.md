@@ -35,23 +35,22 @@ Skip step 4 and remove `aws_access_key_id` and `aws_secret_access_key` parameter
 ## Suggested building-blocks
 
 1. Define different **AWS providers**
-    1. Populate  `_REGION_`. Currently, same region is to be used
-    2. Because we are going to provision resources on multiple accounts, we're gonna need several AWS providers
-
-       2. `s3` for s3-sns-sqs resources to be deployed. IAM user-credentials, to be used for k8s must also be in S3 account
-       3. `sfc` for secure-for-cloud utility resources to be deployed
+    - Populate  `REGION`. Currently, same region is to be used
+    - Because we are going to provision resources on multiple accounts, we're gonna use **two AWS providers**
+       - `aws.s3` for s3-sns-sqs resources to be deployed. IAM user-credentials, to be used for k8s must also be in S3 account
+       - `aws.sfc` for secure-for-cloud utility resources to be deployed
 
 
 ```terraform
 provider "aws" {
   alias = "s3"
-  region = "_REGION_"
+  region = "<REGION>"
   ...
 }
 
 provider "aws" {
   alias = "sfc"
-  region = "_REGION_"
+  region = "<REGION>"
   ...
 }
 ```
@@ -72,12 +71,12 @@ provider "helm" {
 
 3. **Cloudtrail-S3-SNS-SQS**
 
-   1. Populate  `_CLOUDTRAIL_S3_NAME_`
+   1. Populate  `CLOUDTRAIL_S3_NAME`
    <br/>ex.:
        ```text
        cloudtrail_s3_name=cloudtrail-logging-237944556329
        ```
-   2. Populate `_CLOUDTRAIL_S3_FILTER_PREFIX_` in order to ingest a specific-account. Otherwise just remove its assignation
+   2. Populate `CLOUDTRAIL_S3_FILTER_PREFIX` in order to ingest a specific-account. Otherwise, just remove its assignation
    <br/>ex.:
        ```text
        s3_event_notification_filter_prefix=cloudtrail/AWSLogs/237944556329
@@ -89,8 +88,8 @@ module "cloudtrail_s3_sns_sqs" {
     aws = aws.s3
   }
   source  = "sysdiglabs/secure-for-cloud/aws//modules/infrastructure/cloudtrail_s3-sns-sqs"
-  cloudtrail_s3_name = _CLOUDTRAIL_S3_NAME_
-  s3_event_notification_filter_prefix=_CLOUDTRAIL_S3_FILTER_PREFIX_
+  cloudtrail_s3_name = "<CLOUDTRAIL_S3_NAME>"
+  s3_event_notification_filter_prefix="<CLOUDTRAIL_S3_FILTER_PREFIX>"
 }
 ```
 
@@ -112,7 +111,7 @@ module "org_user" {
 
 5. **Sysdig workload deployment on K8s**
 
-    * Populate  `_SYSDIG_SECURE_ENDPOINT_`, `_SYSDID_SECURE_API_TOKEN_` and `_REGION_`
+    * Populate  `SYSDIG_SECURE_ENDPOINT`, `SYSDID_SECURE_API_TOKEN` and `REGION`
 
 ```terraform
 resource "helm_release" "cloud_connector" {
@@ -134,12 +133,12 @@ resource "helm_release" "cloud_connector" {
 
   set {
     name  = "sysdig.url"
-    value =  "_SYSDIG_SECURE_ENDPOINT_"
+    value =  "<SYSDIG_SECURE_ENDPOINT>"
   }
 
   set_sensitive {
     name  = "sysdig.secureAPIToken"
-    value = "_SYSDID_SECURE_API_TOKEN_"
+    value = "<SYSDIG_SECURE_API_TOKEN>"
   }
 
   set_sensitive {
@@ -154,7 +153,7 @@ resource "helm_release" "cloud_connector" {
 
   set {
     name  = "aws.region"
-    value = "_REGION_"
+    value = "<REGION>"
   }
 
   values = [
