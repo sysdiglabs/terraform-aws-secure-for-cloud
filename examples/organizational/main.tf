@@ -45,7 +45,6 @@ module "cloud_connector" {
   source = "../../modules/services/cloud-connector"
   name   = "${var.name}-cloudconnector"
 
-  sysdig_secure_url            = data.sysdig_secure_connection.current.secure_url
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
