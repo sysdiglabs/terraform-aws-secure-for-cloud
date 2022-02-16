@@ -111,7 +111,7 @@ module "org_user" {
 
 5. **Sysdig workload deployment on K8s**
 
-    * Populate  `SYSDIG_SECURE_ENDPOINT`, `SYSDID_SECURE_API_TOKEN` and `REGION`
+    * Populate  `sysdig_secure_url`, `SYSDID_SECURE_API_TOKEN` and `REGION`
 
 ```terraform
 resource "helm_release" "cloud_connector" {
@@ -133,7 +133,7 @@ resource "helm_release" "cloud_connector" {
 
   set {
     name  = "sysdig.url"
-    value =  "<SYSDIG_SECURE_ENDPOINT>"
+    value =  "<sysdig_secure_url>"
   }
 
   set_sensitive {

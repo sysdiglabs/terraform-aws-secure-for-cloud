@@ -12,7 +12,7 @@ Deployed on **Sysdig Backend**
 - An `aws_foundations_bench-1.3.0` benchmak task schedule on a random hour of the day `rand rand * * *`
 
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -66,7 +66,7 @@ No modules.
 ## Outputs
 
 No outputs.
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## Authors
 

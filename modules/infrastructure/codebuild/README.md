@@ -1,6 +1,6 @@
 # AWS Codebuild
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -50,7 +50,7 @@ No modules.
 |------|-------------|
 | <a name="output_project_arn"></a> [project\_arn](#output\_project\_arn) | Code Build project arn |
 | <a name="output_project_name"></a> [project\_name](#output\_project\_name) | Code Build project name |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## Authors
 

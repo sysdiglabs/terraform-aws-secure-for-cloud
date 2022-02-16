@@ -3,7 +3,7 @@
 Creates an IAM user and adds permissions for required modules.
 <br/>Will use the `deploy_threat_detection` and `deploy_image_scanning` flags
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -52,7 +52,7 @@ Creates an IAM user and adds permissions for required modules.
 | <a name="output_sfc_user_arn"></a> [sfc\_user\_arn](#output\_sfc\_user\_arn) | ARN of the Secure for cloud Provisioned IAM user |
 | <a name="output_sfc_user_name"></a> [sfc\_user\_name](#output\_sfc\_user\_name) | Name of the Secure for cloud Provisioned IAM user |
 | <a name="output_sfc_user_secret_access_key"></a> [sfc\_user\_secret\_access\_key](#output\_sfc\_user\_secret\_access\_key) | Secure for cloud Provisioned user secretAccessKey |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## Authors
 

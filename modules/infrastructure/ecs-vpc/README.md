@@ -1,7 +1,7 @@
 # ECS Cluster / VPC / SecGroup
 
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -43,7 +43,7 @@
 | <a name="output_ecs_cluster_name"></a> [ecs\_cluster\_name](#output\_ecs\_cluster\_name) | ID of the ECS cluster |
 | <a name="output_ecs_vpc_id"></a> [ecs\_vpc\_id](#output\_ecs\_vpc\_id) | ID of the VPC for the ECS cluster |
 | <a name="output_ecs_vpc_subnets_private_ids"></a> [ecs\_vpc\_subnets\_private\_ids](#output\_ecs\_vpc\_subnets\_private\_ids) | IDs of the private subnets of the VPC for the ECS cluster |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## Authors
 

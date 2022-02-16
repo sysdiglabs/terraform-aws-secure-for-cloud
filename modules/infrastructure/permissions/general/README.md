@@ -3,7 +3,7 @@
 General permissions that apply to both cloud-connector and cloud-scanning modules
 - Currently this only applies to the capability of reading the Secure API Token from the Key Management Service
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -40,7 +40,7 @@ No modules.
 ## Outputs
 
 No outputs.
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## Authors
 
