@@ -151,12 +151,6 @@ variable "deploy_image_scanning_ecs" {
 #
 # general
 #
-variable "sysdig_secure_url" {
-  type        = string
-  default     = "https://secure.sysdig.com"
-  description = "Sysdig Secure API endpoint"
-}
-
 variable "name" {
   type        = string
   default     = "sfc-cloudconnector"
