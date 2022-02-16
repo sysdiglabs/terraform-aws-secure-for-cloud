@@ -17,7 +17,7 @@ resource "helm_release" "cloud_connector" {
 
   set {
     name  = "sysdig.url"
-    value = var.sysdig_secure_endpoint
+    value = var.sysdig_secure_url
   }
 
   set_sensitive {

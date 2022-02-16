@@ -119,7 +119,7 @@ variable "cloudwatch_log_retention" {
 variable "verify_ssl" {
   type        = bool
   default     = true
-  description = "true/false to determine ssl verification for sysdig_secure_endpoint"
+  description = "true/false to determine ssl verification for sysdig_secure_url"
 }
 
 variable "extra_env_vars" {
@@ -151,7 +151,7 @@ variable "deploy_image_scanning_ecs" {
 #
 # general
 #
-variable "sysdig_secure_endpoint" {
+variable "sysdig_secure_url" {
   type        = string
   default     = "https://secure.sysdig.com"
   description = "Sysdig Secure API endpoint"

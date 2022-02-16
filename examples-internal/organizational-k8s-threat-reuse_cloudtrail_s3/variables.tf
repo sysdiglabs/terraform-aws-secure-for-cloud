@@ -37,7 +37,7 @@ variable "name" {
   default     = "sfc"
 }
 
-variable "sysdig_secure_endpoint" {
+variable "sysdig_secure_url" {
   type        = string
   default     = "https://secure.sysdig.com"
   description = "Sysdig Secure API endpoint"

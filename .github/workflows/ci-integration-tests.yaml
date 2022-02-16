@@ -22,7 +22,7 @@ jobs:
     name: Test-Kitchen-EKS
     runs-on: ubuntu-latest
     env:
-      TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
+      TF_VAR_sysdig_secure_url: https://secure.sysdig.com
       TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
 
     steps:
@@ -106,7 +106,7 @@ jobs:
     name: Test-Kitchen-ECS
     runs-on: ubuntu-latest
     env:
-      TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
+      TF_VAR_sysdig_secure_url: https://secure.sysdig.com
       TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
 
     steps:
