@@ -16,12 +16,24 @@ Simple single-account benchmark
 ## Suggested setup
 
 ```terraform
+terraform {
+  required_providers {
+    sysdig = {
+      source  = "sysdiglabs/sysdig"
+    }
+  }
+}
+
+provider "sysdig" {
+  sysdig_secure_api_token = "<SYSDIG_API_TOKEN>"
+}
+
 provider "aws" {
   region = "<AWS_REGION>"
 }
 
 module "sysdig-s4c" {
-  source = "sysdiglabs/secure-for-cloud/aws//modules/cloud-bench"
-  name              = "TEST-NAME-cloudbench"
+  source = "sysdiglabs/secure-for-cloud/aws//module/services/cloud-bench"
+  name    = "TEST-NAME-cloudbench"
 }
 ```

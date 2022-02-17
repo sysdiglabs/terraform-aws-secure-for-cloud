@@ -31,6 +31,19 @@ Client is responsible for provisioning the ARN of this SQS, which will be requir
 For quick testing, use this snippet on your terraform files.
 
 ```terraform
+terraform {
+  required_providers {
+    sysdig = {
+      source  = "sysdiglabs/sysdig"
+      configuration_aliases = [aws.member]
+    }
+  }
+}
+
+provider "sysdig" {
+  sysdig_secure_api_token    = "00000000-1111-2222-3333-444444444444"
+}
+
 provider "aws" {
   region = "<AWS-REGION>; ex. us-east-1"
 }
@@ -43,8 +56,6 @@ provider "helm" {
 
 module "org_k8s_threat_reuse_cloudtrail" {
   source = "sysdiglabs/secure-for-cloud/aws//examples-internal/organizational-k8s-threat-reuse_cloudtrail"
-
-  sysdig_secure_api_token   = "00000000-1111-2222-3333-444444444444"
 
   region                          = "CLOUDTRAIL_SNS_SQS_REGION"
   cloudtrail_s3_sns_sqs_url       = "SQS-URL"
@@ -68,7 +79,7 @@ Notice that:
 * This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * All created resources will be created within the tags `product:sysdig-secure-for-cloud`, within the resource-group `sysdig-secure-for-cloud`
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -107,13 +118,13 @@ Notice that:
 | <a name="input_cloudtrail_s3_sns_sqs_url"></a> [cloudtrail\_s3\_sns\_sqs\_url](#input\_cloudtrail\_s3\_sns\_sqs\_url) | Organization cloudtrail event notification  S3-SNS-SQS URL to listen to | `string` | n/a | yes |
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_sysdig_secure_endpoint"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
+| <a name="input_sysdig_secure_url"></a> [sysdig\_secure\_endpoint](#input\_sysdig\_secure\_endpoint) | Sysdig Secure API endpoint | `string` | `"https://secure.sysdig.com"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
 
 No outputs.
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 
 ## Troubleshooting

@@ -1,8 +1,14 @@
-
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
+terraform {
+  required_providers {
+    sysdig = {
+      source = "sysdiglabs/sysdig"
+    }
   }
+}
+
+provider "sysdig" {
+  sysdig_secure_api_token = var.sysdig_secure_api_token
+  sysdig_secure_url       = var.sysdig_secure_url
 }
 
 provider "aws" {
@@ -21,6 +27,11 @@ provider "aws" {
   region     = var.region
 }
 
+provider "helm" {
+  kubernetes {
+    config_path = "~/.kube/config"
+  }
+}
 
 module "cloudtrail_s3_sns_sqs" {
   providers = {
@@ -59,8 +70,6 @@ module "org_k8s_threat_reuse_cloudtrail" {
   source = "../../../examples-internal/organizational-k8s-threat-reuse_cloudtrail_s3"
   name   = "${var.name}-orgk8s"
 
-  sysdig_secure_api_token   = var.sysdig_secure_api_token
-  sysdig_secure_endpoint    = var.sysdig_secure_endpoint
   cloudtrail_s3_sns_sqs_url = module.cloudtrail_s3_sns_sqs.cloudtrail_subscribed_sqs_url
 
   aws_access_key_id     = module.org_user.sfc_user_access_key_id

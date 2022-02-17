@@ -107,17 +107,41 @@ module "utils_ecs-vpc" {
 ### Terraform Manifest Snippet
 
 ```terraform
+terraform {
+  required_providers {
+    sysdig = {
+      source  = "sysdiglabs/sysdig"
+      configuration_aliases = [aws.member]
+    }
+  }
+}
+
+provider "sysdig" {
+  sysdig_secure_api_token = "<SYSDIG_SECURE_API_TOKEN>"
+}
 
 provider "aws" {
   region = "<AWS_REGION>"
 }
 
+provider "aws" {
+  alias  = "member"
+  region = "<AWS_REGION>"
+  assume_role {
+    # 'OrganizationAccountAccessRole' is the default role created by AWS for management-account users to be able to admin member accounts.
+    # if this is changed, please change to the `examples/organizational` input var `organizational_member_default_admin_role` too
+    # <br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
+    role_arn = "arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/OrganizationAccountAccessRole"
+  }
+}
+
 module "sysdig-s4c" {
+  providers = {
+    aws.member = aws.member
+  }
 
   source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
   name   = "sysdig-s4c"
-
-  sysdig_secure_api_token = "<SYSDIG_SECURE_API_TOKEN>"
 
   sysdig_secure_for_cloud_member_account_id="<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>"
 

@@ -1,9 +1,3 @@
-variable "sysdig_secure_api_token" {
-  sensitive   = true
-  type        = string
-  description = "Sysdig Secure API token"
-}
-
 variable "sysdig_secure_for_cloud_member_account_id" {
   type        = string
   description = "organizational member account where the secure-for-cloud workload is going to be deployed"
@@ -27,7 +21,7 @@ variable "connector_ecs_task_role_name" {
 variable "organizational_member_default_admin_role" {
   type        = string
   default     = "OrganizationAccountAccessRole"
-  description = "Default role created by AWS for managed-account users to be able to admin member accounts.<br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html"
+  description = "Default role created by AWS for management-account users to be able to admin member accounts.<br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html"
 }
 
 #
@@ -144,12 +138,6 @@ variable "name" {
   type        = string
   description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
   default     = "sfc"
-}
-
-variable "sysdig_secure_endpoint" {
-  type        = string
-  default     = "https://secure.sysdig.com"
-  description = "Sysdig Secure API endpoint"
 }
 
 variable "tags" {

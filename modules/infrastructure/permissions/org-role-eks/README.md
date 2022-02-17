@@ -17,7 +17,7 @@ The aim of this module is to manage the organizational **managed account** requi
   * ECS-Task roles (of both modules) to be able to assume this role
 
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -64,7 +64,7 @@ No modules.
 |------|-------------|
 | <a name="output_sysdig_secure_for_cloud_role_arn"></a> [sysdig\_secure\_for\_cloud\_role\_arn](#output\_sysdig\_secure\_for\_cloud\_role\_arn) | organizational secure-for-cloud role arn |
 | <a name="output_sysdig_secure_for_cloud_role_name"></a> [sysdig\_secure\_for\_cloud\_role\_name](#output\_sysdig\_secure\_for\_cloud\_role\_name) | organizational secure-for-cloud role name |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## Authors
 

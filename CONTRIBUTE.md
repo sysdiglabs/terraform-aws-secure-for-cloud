@@ -55,8 +55,8 @@ We're using **pre-commit** |  https://pre-commit.com
 - custom configuration | https://github.com/sysdiglabs/terraform-google-secure-for-cloud/blob/master/.pre-commit-config.yaml
 - current `terraform-docs` version, requires developer to create `README.md` file, with the enclosure tags for docs to insert the automated content
   ```markdown
-  <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-  <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+  <!-- BEGIN_TF_DOCS -->
+  <!-- END_TF_DOCS -->
   ```
 
 - If pre-commit fails on Github but not on your local, try cleaning-up `terraform` files with
