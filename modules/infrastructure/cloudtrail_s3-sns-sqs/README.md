@@ -25,7 +25,7 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 -->
 
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -70,7 +70,7 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 | <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | ARN of the SQS topic subscribed to the SNS of Cloudtrail-S3 bucket |
 | <a name="output_cloudtrail_subscribed_sqs_arn"></a> [cloudtrail\_subscribed\_sqs\_arn](#output\_cloudtrail\_subscribed\_sqs\_arn) | ARN of the SQS topic subscribed to the SNS of Cloudtrail-S3 bucket |
 | <a name="output_cloudtrail_subscribed_sqs_url"></a> [cloudtrail\_subscribed\_sqs\_url](#output\_cloudtrail\_subscribed\_sqs\_url) | URL of the SQS topic subscribed to the SNS of Cloudtrail-S3 bucket |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## Authors
 

@@ -22,7 +22,7 @@ jobs:
     name: Test-Kitchen-EKS
     runs-on: ubuntu-latest
     env:
-      TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
+      TF_VAR_sysdig_secure_url: https://secure.sysdig.com
       TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
 
     steps:
@@ -74,12 +74,7 @@ jobs:
           TF_VAR_cloudnative_secretAccessKey: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
           TF_VAR_region: ${{secrets.AWS_QA_MANAGED_RESOURCES_REGION }}
           TF_VAR_cloudtrail_s3_name: ${{ secrets.AWS_QA_MANAGED_CLOUDTRAIL_NAME }}
-        run: |
-          bundle exec kitchen create "organizational-k8s-aws"
-          bundle exec kitchen converge "organizational-k8s-aws"
-          bundle exec kitchen setup "organizational-k8s-aws"
-          bundle exec kitchen verify "organizational-k8s-aws"
-          bundle exec kitchen destroy "organizational-k8s-aws"
+        run: bundle exec kitchen test "organizational-k8s-aws"
 
       - name: Inspect k8s failures
         if: ${{ failure() }}
@@ -111,7 +106,7 @@ jobs:
     name: Test-Kitchen-ECS
     runs-on: ubuntu-latest
     env:
-      TF_VAR_sysdig_secure_endpoint: https://secure.sysdig.com
+      TF_VAR_sysdig_secure_url: https://secure.sysdig.com
       TF_VAR_sysdig_secure_api_token: ${{secrets.KUBELAB_SECURE_API_TOKEN}}
 
     steps:
@@ -144,12 +139,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
-        run: |
-          bundle exec kitchen create "organizational-aws"
-          bundle exec kitchen converge "organizational-aws"
-          bundle exec kitchen setup "organizational-aws"
-          bundle exec kitchen verify "organizational-aws"
-          bundle exec kitchen destroy "organizational-aws"
+        run: bundle exec kitchen test "organizational-aws"
 
       - name: Destroy organizational resources
         env:

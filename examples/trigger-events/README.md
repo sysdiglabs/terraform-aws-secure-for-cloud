@@ -35,7 +35,7 @@ Notice that:
 * This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * All created resources will be created within the tags `product:sysdig-secure-for-cloud`, within the resource-group `sysdig-secure-for-cloud`
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -47,6 +47,7 @@ Notice that:
 
 | Name | Version |
 |------|---------|
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | 4.1.0 |
 
 ## Modules
@@ -67,7 +68,7 @@ No inputs.
 ## Outputs
 
 No outputs.
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 
 ## Authors

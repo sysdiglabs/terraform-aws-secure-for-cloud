@@ -4,7 +4,7 @@
 Sysdig Secure for Cloud uses [ssm](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html) in order to store the `sysdig_secure_api_token` parameter in its "Parameter Store"
 and pass it, in a safe way, to all the modules that require it.
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -42,7 +42,7 @@ No modules.
 |------|-------------|
 | <a name="output_secure_api_token_secret_arn"></a> [secure\_api\_token\_secret\_arn](#output\_secure\_api\_token\_secret\_arn) | ARN of Sysdig Secure API Token secret |
 | <a name="output_secure_api_token_secret_name"></a> [secure\_api\_token\_secret\_name](#output\_secure\_api\_token\_secret\_name) | Name of Sysdig Secure API Token secret |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## Authors
 
