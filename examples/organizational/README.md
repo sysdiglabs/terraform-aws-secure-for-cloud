@@ -104,8 +104,8 @@ Notice that:
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0.0 |
-| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | >= 4.0.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.1.0 |
+| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | 4.1.0 |
 | <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.33 |
 
 ## Modules
