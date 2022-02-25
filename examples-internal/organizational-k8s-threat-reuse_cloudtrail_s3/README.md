@@ -7,7 +7,7 @@
 - An existing cloudtrail is used, but instead of sending events directly to an SNS topic (disabled), we will make use of a topic (SQS)
   which will be subscribed to the multiple possible SNS topics listening to the cloudtrail-S3 bucket changes.
 
-![diagram](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples-internal/organizational-k8s-threat-reuse_cloudtrail/diagram.png)
+![diagram](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples-internal/organizational-k8s-threat-reuse_cloudtrail_s3/diagram.png)
 
 All the required resources and workloads will be run under the same AWS account, held in a member-account of the organization.
 
