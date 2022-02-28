@@ -1,6 +1,6 @@
 # Sysdig Secure for Cloud in AWS<br/>[ Example :: Shared Organizational Trail ]
 
-Deploy Sysdig Secure for Cloud using an Organizational Cloudtrail that will fetch events from all organization member accounts (and the managed one too).
+Deploy Sysdig Secure for Cloud using an [AWS Organizational Cloudtrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html) that will fetch events from all organization member accounts (and the managed one too).
 
 * In the **management account**
     * An Organizational Cloutrail will be deployed  (with required S3,SNS)
@@ -17,8 +17,9 @@ Deploy Sysdig Secure for Cloud using an Organizational Cloudtrail that will fetc
 Minimum requirements:
 
 1. Have an existing AWS account as the organization management account
-    * Organizational CloudTrail service must be enabled
-    * [Organizational CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html) service must be enabled
+    *  Within the Organization, following services must be enabled (Organization > Services)
+       * Organizational CloudTrail
+       * [Organizational CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)
 2. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) for the `management` account of the organization
     * This provider credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
