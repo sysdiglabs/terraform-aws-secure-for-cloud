@@ -9,6 +9,14 @@ module "resource_group" {
   tags   = var.tags
 }
 
+module "resource_group_secure_for_cloud_member" {
+  providers = {
+    aws = aws.member
+  }
+  source = "../../modules/infrastructure/resource-group"
+  name   = var.name
+  tags   = var.tags
+}
 
 #-------------------------------------
 # secure-for-cloud member account workload
