@@ -10,6 +10,12 @@ Minimum requirements:
 1. Deploy Cloud Connector Stack on AWS.
 2. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 
+## Notice
+
+* **Resource creation inventory** Find all the resources created by Sysdig in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
+* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
+
+
 ## Usage
 
 For quick testing, use this snippet on your terraform files
@@ -30,10 +36,6 @@ $ terraform init
 $ terraform plan
 $ terraform apply
 ```
-
-Notice that:
-* This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
-* All created resources will be created within the tags `product:sysdig-secure-for-cloud`, within the resource-group `sysdig-secure-for-cloud`
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
