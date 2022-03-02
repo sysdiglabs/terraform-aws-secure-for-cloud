@@ -33,7 +33,7 @@ variable "name" {
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig secure-for-cloud tags"
+  description = "sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning"
   default = {
     "product" = "sysdig-secure-for-cloud"
   }
