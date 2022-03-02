@@ -40,6 +40,7 @@ module "cloudtrail_s3_sns_sqs" {
   source                              = "../../../modules/infrastructure/cloudtrail_s3-sns-sqs"
   cloudtrail_s3_name                  = var.cloudtrail_s3_name
   s3_event_notification_filter_prefix = var.s3_event_notification_filter_prefix
+  name   = "${var.name}-orgk8s"
 }
 
 
@@ -51,6 +52,7 @@ module "org_user" {
   deploy_image_scanning         = false
   cloudtrail_s3_bucket_arn      = module.cloudtrail_s3_sns_sqs.cloudtrail_s3_arn
   cloudtrail_subscribed_sqs_arn = module.cloudtrail_s3_sns_sqs.cloudtrail_subscribed_sqs_arn
+  name   = "${var.name}-orgk8s"
 }
 
 
