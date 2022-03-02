@@ -72,7 +72,7 @@ More info in [`./examples/organizational`](https://github.com/sysdiglabs/terrafo
 
 If no [examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples) fit your use-case, be free to call desired modules directly.
 
-In this use-case we will ONLY deploy cloud-bench, into the target account, calling modules directly
+In this use-case we will ONLY deploy cloud-bench, into the target account, calling modules directly.
 
 ```terraform
 terraform {
@@ -89,7 +89,8 @@ provider "aws" {
 }
 
 provider "sysdig" {
-  sysdig_secure_api_token  = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_url         = "<SYSDIG_SECURE_URL>"
+  sysdig_secure_api_token   = "<SYSDIG_SECURE_API_TOKEN>"
 }
 
 module "cloud_bench" {

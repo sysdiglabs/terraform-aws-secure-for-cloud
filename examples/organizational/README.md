@@ -58,7 +58,8 @@ terraform {
 }
 
 provider "sysdig" {
-  sysdig_secure_api_token    = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_url         = "<SYSDIG_SECURE_URL>"
+  sysdig_secure_api_token   = "<SYSDIG_SECURE_API_TOKEN>"
 }
 
 provider "aws" {
