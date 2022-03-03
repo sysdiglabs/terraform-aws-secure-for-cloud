@@ -38,6 +38,27 @@ Minimum requirements:
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
 
+
+## Permission Summary
+
+Permission requirement for this example comes as follows
+
+- **management account**
+    - terraform aws provider: default
+    - `SysdigSecureForCloudRole` will be created
+      - used by Sysdig to subscribe to cloudtrail-sns
+      - used by Sysdig to be able to jump to several member accounts to pull ECR hosted images through the `OrganizationAccountAccessRole` role
+    - `SysdigCloudBench` role will be created for SecurityAudit read-only purpose, used by Sysdig to benchmark
+- **member accounts**
+    - terraform aws provider: 'member' aliased
+      - this provider can be configured as desired, we just provide a default option
+    - requires [`OrganizationAccountAccessRole`](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) default role created by AWS for managed-account users to be able to admin member accounts
+      - if this role does not exist provide input var `organizational_member_default_admin_role` with the role
+    - `SysdigCloudBench` role will be created for SecurityAudit read-only purpose, used by Sysdig to benchmark
+    - **sysdig member account workload**
+      - if ECS workload is deployed, `ECSTaskRole` will be used to define its permissions
+        - used by Sysdig to assumeRole on management account `SysdigSecureForCloudRole` and other organizations `OrganizationAccountAccessRole`
+
 ## Notice
 
 * **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
@@ -58,7 +79,8 @@ terraform {
 }
 
 provider "sysdig" {
-  sysdig_secure_api_token    = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_url         = "<SYSDIG_SECURE_URL>"
+  sysdig_secure_api_token   = "<SYSDIG_SECURE_API_TOKEN>"
 }
 
 provider "aws" {
