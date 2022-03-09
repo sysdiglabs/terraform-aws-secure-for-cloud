@@ -72,7 +72,7 @@ More info in [`./examples/organizational`](https://github.com/sysdiglabs/terrafo
 
 If no [examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples) fit your use-case, be free to call desired modules directly.
 
-In this use-case we will ONLY deploy cloud-bench, into the target account, calling modules directly
+In this use-case we will ONLY deploy cloud-bench, into the target account, calling modules directly.
 
 ```terraform
 terraform {
@@ -89,7 +89,8 @@ provider "aws" {
 }
 
 provider "sysdig" {
-  sysdig_secure_api_token  = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_url         = "<SYSDIG_SECURE_URL>"
+  sysdig_secure_api_token   = "<SYSDIG_SECURE_API_TOKEN>"
 }
 
 module "cloud_bench" {
@@ -106,9 +107,10 @@ $ terraform plan
 $ terraform apply
 ```
 
-Notice that:
-* This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
-* All created resources will be created within the tags `product:sysdig-secure-for-cloud`, within the resource-group `sysdig-secure-for-cloud`
+### Notice
+
+* **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
+* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 
 <br/><br/>
 
@@ -144,11 +146,20 @@ It may take some time, but you should see logs detecting the new image in the EC
 
 ## Troubleshooting
 
-### Q: Getting error "Error: failed creating ECS Task Definition: ClientException: No Fargate configuration exists for given values.
+### Q-General: Getting error "Error: cannot verify credentials" on "sysdig_secure_trusted_cloud_identity" data
+A: This happens when Sysdig credentials are not working correctly.
+S: Check sysdig provider block is correctly configured with the `sysdig_secure_url` and `sysdig_secure_api_token` variables
+with the correct values. Check [Sysdig SaaS per-region URLs if required](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges)
+
+### Q-General: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
+A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
+
+
+### Q-AWS: Getting error "Error: failed creating ECS Task Definition: ClientException: No Fargate configuration exists for given values.
 A: Your ECS task_size values aren't valid for Fargate. Specifically, your mem_limit value is too big for the cpu_limit you specified
 S: Check [supported task cpu and memory values](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html)
 
-### Q: Getting error "404 Invalid parameter: TopicArn" when trying to reuse an existing cloudtrail-sns
+### Q-AWS: Getting error "404 Invalid parameter: TopicArn" when trying to reuse an existing cloudtrail-sns
 
 ```text
 │ Error: error creating SNS Topic Subscription: InvalidParameter: Invalid parameter: TopicArn
@@ -163,7 +174,7 @@ S: Check [supported task cpu and memory values](https://docs.aws.amazon.com/Amaz
 A: In order to subscribe to a SNS Topic, SQS queue must be in the same region
 <br/>S: Change `aws provider` `region` variable to match same region for all resources
 
-### Q: Getting error "400 availabilityZoneId is invalid" when creating the ECS subnet
+### Q-AWS: Getting error "400 availabilityZoneId is invalid" when creating the ECS subnet
 ```text
 │ Error: error creating subnet: InvalidParameterValue: Value (apne1-az3) for parameter availabilityZoneId is invalid. Subnets can currently only be created in the following availability zones: apne1-az1, apne1-az2, apne1-az4.
 │ 	status code: 400, request id: 6e32d757-2e61-4220-8106-22ccf814e1fe
@@ -177,11 +188,7 @@ A: For the ECS workload deployment a VPC is being created under the hood. Some A
 <br/>S: Specify the desired VPC region availability zones for the vpc module, using the `ecs_vpc_region_azs` variable to explicit its desired value and workaround the error until AWS gives support for your region.
 
 
-### Q: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
-A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
-
-
-### Q: I get 400 api error AuthorizationHeaderMalformed on the Sysdig workload ECS Task
+### Q-AWS: I get 400 api error AuthorizationHeaderMalformed on the Sysdig workload ECS Task
 
 ```text
 error while receiving the messages: error retrieving from S3 bucket=crit-start-trail: operation error S3: GetObject,
@@ -194,12 +201,12 @@ This error happens when the ECS `TaskRole` has no permissions to assume this rol
 <br/>S: Give permissions to `sts:AssumeRole` to the role used.
 
 
-### Q: How to iterate cloud-connector modification testing
+### Q-Dev-Contrib: How to iterate cloud-connector modification testing
 
 A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
 Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
 
-### Q: How can I iterate ECS modification testing
+### Q-Dev-Contrib: How can I iterate ECS modification testing
 
 A: After applying your modifications (vía terraform for example) restart the service
   ```

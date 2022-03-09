@@ -26,6 +26,12 @@ This three-actor setup (S3-SNS-SQS) can be manually provisioned, or handled thro
 Client is responsible for provisioning the ARN of this SQS, which will be required as an input parameter.<br/>
 
 
+## Notice
+
+* **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
+* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
+
+
 ## Usage
 
 For quick testing, use this snippet on your terraform files.
@@ -41,7 +47,8 @@ terraform {
 }
 
 provider "sysdig" {
-  sysdig_secure_api_token    = "00000000-1111-2222-3333-444444444444"
+  sysdig_secure_url         = "<SYSDIG_SECURE_URL>"
+  sysdig_secure_api_token   = "<SYSDIG_SECURE_API_TOKEN>"
 }
 
 provider "aws" {
@@ -74,10 +81,6 @@ $ terraform init
 $ terraform plan
 $ terraform apply
 ```
-
-Notice that:
-* This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
-* All created resources will be created within the tags `product:sysdig-secure-for-cloud`, within the resource-group `sysdig-secure-for-cloud`
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
