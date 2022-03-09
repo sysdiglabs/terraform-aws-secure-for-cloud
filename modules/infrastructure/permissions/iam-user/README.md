@@ -1,7 +1,37 @@
 # Permissions :: Single-Account user credentials
 
 Creates an IAM user and adds permissions for required modules.
-<br/>Will use the `deploy_threat_detection` and `deploy_image_scanning` flags
+<br/>Will use the `deploy_threat_detection` and `deploy_image_scanning` flags to pin down specific feature-permissions.
+
+
+## Access Key Rotation
+This module creates a user, and its `aws_iam_access_key` in order Kubernetes-based examples to be able to work with its
+core component [`cloud-connector` helm chart](https://charts.sysdig.com/charts/cloud-connector/)
+
+As AWS Best practices suggest, this **key SHOULD be rotated before 90 days**,  but it's not in Sysdig Terraform module's
+responsibility to do so.
+
+Here some guidelines though:
+
+- Up till day, nor AWS nor Terraform do offer an official automatic key rotation.
+- There are several workarounds [[1]](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_RotateAccessKey) [[2]](https://aws-rotate-iam-keys.com/) [[3]](https://github.com/GSA/aws-access-key-rotation-lambda), but all require some way of detecting the closeness of this date, and a workload to force the key generation.
+- What we suggest, is to
+  1. Create a detection system to know when the access key is nearing the 90 day mark (ex.: cloudwatch daily checkup, cron task , ...)
+  2. Optionally, [Terraform Refresh](https://learn.hashicorp.com/tutorials/terraform/refresh) your terraform state beforehand, to avoid confussion with 3rd step
+    ```shell
+      $ terraform apply -refresh-only
+    ```
+  3. [Terraform Taint/Replace](https://www.terraform.io/cli/commands/taint) the `aws_iam_access_key` so that a new key is created and propagated to the [`cloud-connector` helm chart](https://charts.sysdig.com/charts/cloud-connector/).
+     <br/>This will ask a confirmation, after showing the plan, where the access_key will be replaced and the helm chart updated
+    ```shell
+      $ terraform state list | grep aws_iam_access_key
+      module.cloudvision_aws_single_account_k8s.module.iam_user.aws_iam_access_key.this
+
+      $ terraform apply -replace="module.cloudvision_aws_single_account_k8s.module.iam_user.aws_iam_access_key.this"
+    ```
+
+Note: Contact us if this authentication system does not match your requirement.
+
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
