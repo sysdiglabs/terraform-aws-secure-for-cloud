@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - '**.tf'
+      - '.pre-commit-config.yaml'
   push:
     branches:
       - master

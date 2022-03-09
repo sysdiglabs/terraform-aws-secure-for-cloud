@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ensure errexit + failfast
-#set -o errexit
+set -o errexit
 
 # cleanup
 echo "cleaning .terraform state"
