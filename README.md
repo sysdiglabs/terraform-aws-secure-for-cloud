@@ -39,6 +39,15 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 [comment]: <> (- `/org-role-eks`)
 
+
+### Notice
+
+* **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
+* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
+
+<br/>
+
+
 ## Usage
 
   - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
@@ -107,12 +116,6 @@ $ terraform plan
 $ terraform apply
 ```
 
-### Notice
-
-* **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
-* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
-
-<br/><br/>
 
 ## Forcing Events
 
