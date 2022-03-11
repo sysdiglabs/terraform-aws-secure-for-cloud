@@ -12,19 +12,22 @@ repos:
   # "Error: Provider configuration not present" error
   # https://github.com/hashicorp/terraform/issues/21416
   # https://discuss.hashicorp.com/t/how-to-run-terraform-validate-on-a-module-that-is-supplied-the-providers-via-an-alias/34664/2
-  - repo: local
-    hooks:
-        - id: terraform_validate
-          name: Terraform validate
-          entry: .pre-commit-terraform-validate-examples.sh
-          pass_filenames: false
-          language: script
+#  - repo: local
+#    hooks:
+#        - id: terraform_validate
+#          name: Terraform validate
+#          entry: .pre-commit-terraform-validate-examples.sh
+#          pass_filenames: false
+#          language: script
+#          verbose: true
 
   - repo: git://github.com/antonbabenko/pre-commit-terraform
-    rev: v1.50.0
+    rev: v1.64.0
     hooks:
       - id: terraform_fmt
-#      - id: terraform_validate
+      # https://github.com/antonbabenko/pre-commit-terraform#terraform_validate
+      - id: terraform_validate
+        exclude: (modules/infrastructure/permissions/org-role-ecs)|(examples/organizational)|(test)|(examples-internal)\/.*$
       - id: terraform_docs
         args:
           - '--args=--sort-by required'
@@ -45,7 +48,7 @@ repos:
           - '--args=--only=terraform_standard_module_structure'
           - '--args=--only=terraform_workspace_remote'
   - repo: git://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v4.1.0
     hooks:
       - id: check-merge-conflict
       - id: end-of-file-fixer
