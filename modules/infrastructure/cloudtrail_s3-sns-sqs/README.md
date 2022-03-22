@@ -1,7 +1,16 @@
-# Cloudtrail_S3 event notification handle through SNS-SQS
+# Cloudtrail S3 event notification handle through SNS-SQS
 
-Provision a cloud-connector cloudtrail input, based on an S3-SNS-SQS event-notification.
+In order cloud-connector module to be able to ingest cloudtrail-s3 events (insted of cloudtdrail-sns ones), it needs an sqs queue URL from where to get the events.
 
+This way of ingesting, is the [`aws-cloudtrail-s3-sns-sqs` ingestor](https://charts.sysdig.com/charts/cloud-connector/#ingestors)
+It requires:
+ - `queueURL`: the url of the sqs queue (see point 2)
+ - `assumeRole`: optional; the role need to be able to fetch the events to the S3 bucket (as the event payload is not coming in the sqs message)
+
+This module helps with the creation of the SQS queue from which to pull the cloudtrail events, leveraging the S3 "bucket event notification" system.
+
+Module gets the cloudtrail-s3 bucket name as input and provides the sqs topic url as output.
+   
 # How it works
 
 - This module's output will be visible in the `S3` console, after entering a bucket, in it's `Properties`, `Event notifications` section.
