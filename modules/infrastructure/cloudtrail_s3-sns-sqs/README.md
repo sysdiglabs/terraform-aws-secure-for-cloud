@@ -4,7 +4,7 @@ In order cloud-connector module to be able to ingest cloudtrail-s3 events (inste
 
 This way of ingesting, is the [`aws-cloudtrail-s3-sns-sqs` ingestor](https://charts.sysdig.com/charts/cloud-connector/#ingestors)
 It requires:
- - `queueURL`: the url of the sqs queue (see point 2)
+ - `queueURL`: the url of the sqs queue
  - `assumeRole`: optional; the role need to be able to fetch the events to the S3 bucket (as the event payload is not coming in the sqs message)
 
 This module helps with the creation of the SQS queue from which to pull the cloudtrail events, leveraging the S3 "bucket event notification" system.
