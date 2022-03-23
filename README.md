@@ -151,7 +151,7 @@ It may take some time, but you should see logs detecting the new image in the EC
 
 ### Q-General: Getting error "Error: cannot verify credentials" on "sysdig_secure_trusted_cloud_identity" data
 A: This happens when Sysdig credentials are not working correctly.
-S: Check sysdig provider block is correctly configured with the `sysdig_secure_url` and `sysdig_secure_api_token` variables
+<br/>S: Check sysdig provider block is correctly configured with the `sysdig_secure_url` and `sysdig_secure_api_token` variables
 with the correct values. Check [Sysdig SaaS per-region URLs if required](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges)
 
 ### Q-General: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
@@ -160,7 +160,7 @@ A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terr
 
 ### Q-AWS: Getting error "Error: failed creating ECS Task Definition: ClientException: No Fargate configuration exists for given values.
 A: Your ECS task_size values aren't valid for Fargate. Specifically, your mem_limit value is too big for the cpu_limit you specified
-S: Check [supported task cpu and memory values](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html)
+<br/>S: Check [supported task cpu and memory values](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html)
 
 ### Q-AWS: Getting error "404 Invalid parameter: TopicArn" when trying to reuse an existing cloudtrail-sns
 
@@ -204,24 +204,6 @@ This error happens when the ECS `TaskRole` has no permissions to assume this rol
 <br/>S: Give permissions to `sts:AssumeRole` to the role used.
 
 
-### Q-Dev-Contrib: How to iterate cloud-connector modification testing
-
-A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
-Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
-
-### Q-Dev-Contrib: How can I iterate ECS modification testing
-
-A: After applying your modifications (vía terraform for example) restart the service
-  ```
-  $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
-  ```
-For the AWS_PROFILE, set your `~/.aws/config` to impersonate
-  ```
-  [profile secure-for-cloud]
-  region=eu-central-1
-  role_arn=arn:aws:iam::<AWS_MANAGEMENT_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
-  source_profile=<AWS_MANAGEMENT_ACCOUNT_PROFILE>
-  ```
 
 <br/><br/>
 ## Authors
