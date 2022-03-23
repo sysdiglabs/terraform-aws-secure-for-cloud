@@ -132,3 +132,26 @@ Feel free to release as soon as needed.
   - use [semver](https://semver.org) notation
 - A changelog description will be generated based on [conventional-commints](https://www.conventionalcommits.org/en/v1.0.0/) , but please verify all changes are included and explain acordingly if/when required
 - Module official releases will be published at terraform registry automatically
+
+
+---
+
+
+### How to iterate cloud-connector modification testing
+
+Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
+Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
+
+### How can I iterate ECS modification testing
+
+After applying your modifications (vía terraform for example) restart the service
+  ```
+  $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
+  ```
+For the AWS_PROFILE, set your `~/.aws/config` to impersonate
+  ```
+  [profile secure-for-cloud]
+  region=eu-central-1
+  role_arn=arn:aws:iam::<AWS_MANAGEMENT_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
+  source_profile=<AWS_MANAGEMENT_ACCOUNT_PROFILE>
+  ```
