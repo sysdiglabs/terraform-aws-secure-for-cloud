@@ -32,6 +32,7 @@ From the [Secure for cloud AWS available features](https://docs.sysdig.com/en/do
 <!--
 Skip step 4 and remove `aws_access_key_id` and `aws_secret_access_key` parameters from `org_k8s_threat_reuse_cloudtrail` module
 -->
+- [X] be able to parametrize `nodeSelector` and `tolerations` on the [k8s deployment configuration](https://charts.sysdig.com/charts/cloud-connector/#configuration)
 
 ## Solution
 
@@ -187,6 +188,31 @@ resource "helm_release" "cloud_connector" {
   set {
     name  = "aws.region"
     value = "<REGION>"
+  }
+  
+  set {
+    name  = "nodeSelector.<NODE_SELECTOR_LABEL>"
+    value = "<NODE_SELECTOR_LABEL_VALUE>"
+  }
+  
+  set {
+    name  = "tolerations[0].key"
+    value = "<TOLERATION_KEY>"
+  }
+
+  set {
+    name  = "tolerations[0].operator"
+    value = "<TOLERATION_OPERATOR>"
+  }
+
+  set {
+    name  = "tolerations[0].value"
+    value = "<TOLERATION_VALUE>"
+  }
+
+  set {
+    name  = "tolerations[0].effect"
+    value = "<TOLERATION_EFFECT>"
   }
 
   values = [
