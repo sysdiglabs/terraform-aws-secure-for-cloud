@@ -64,7 +64,7 @@ locals {
     },
     {
       name  = "TELEMETRY_DEPLOYMENT_METHOD"
-      value = "terraform"
+      value = "terraform_aws"
     },
     {
       name  = "FEAT_REGISTER_ACCOUNT_IN_SECURE"
