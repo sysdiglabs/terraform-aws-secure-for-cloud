@@ -120,3 +120,15 @@ variable "tags" {
     "product" = "sysdig-secure-for-cloud"
   }
 }
+
+variable "sysdig_secure_api_token" {
+  type        = string
+  sensitive   = true
+  description = "Sysdig secure api token"
+}
+
+variable "sysdig_secure_url" {
+  type        = string
+  description = "Sysdig secure endpoint"
+  default     = "https://secure.sysdig.com"
+}
