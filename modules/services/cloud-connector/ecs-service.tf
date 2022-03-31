@@ -64,7 +64,7 @@ locals {
       value = tostring(local.verify_ssl)
     },
     {
-      name = "telemetryDeploymentMethod"
+      name  = "telemetryDeploymentMethod"
       value = "terraform_aws_ecs_${local.suffix_org}"
     },
     {
