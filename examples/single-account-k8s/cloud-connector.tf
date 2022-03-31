@@ -65,13 +65,10 @@ resource "helm_release" "cloud_connector" {
   }
 
   set {
-    name  = "extraEnvVars"
-    value = [
-      {
-        TELEMETRY_DEPLOYMENT_METHOD = "terraform_aws_k8s"
-      }
-    ]
+    name  = "telemetryDeploymentMethod"
+    value = "terraform_aws_k8s_single"
   }
+
   values     = [
     yamlencode({
       ingestors = [
