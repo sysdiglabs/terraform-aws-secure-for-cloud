@@ -21,7 +21,7 @@ module "codebuild" {
   name                         = var.name
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
-  tags       = var.tags
+  tags = var.tags
   # note. this is required to avoid race conditions
   depends_on = [module.ssm]
 }
@@ -69,7 +69,7 @@ resource "helm_release" "cloud_connector" {
     value = "terraform_aws_k8s_single"
   }
 
-  values     = [
+  values = [
     yamlencode({
       ingestors = [
         {
@@ -78,18 +78,18 @@ resource "helm_release" "cloud_connector" {
           }
         }
       ]
-      scanners  = local.deploy_image_scanning ? [
+      scanners = local.deploy_image_scanning ? [
         merge(var.deploy_image_scanning_ecr ? {
           aws-ecr = {
             codeBuildProject         = module.codebuild[0].project_name
             secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
           }
-        } : {},
-        var.deploy_image_scanning_ecs ? {
-          aws-ecs = {
-            codeBuildProject         = module.codebuild[0].project_name
-            secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
-          }
+          } : {},
+          var.deploy_image_scanning_ecs ? {
+            aws-ecs = {
+              codeBuildProject         = module.codebuild[0].project_name
+              secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
+            }
         } : {})
       ] : []
     })
