@@ -57,18 +57,15 @@ resource "aws_ecs_task_definition" "task_definition" {
 
 
 locals {
+  suffix_org = var.is_organizational ? "org" : "single"
   task_env_vars = concat([
     {
       name  = "VERIFY_SSL"
       value = tostring(local.verify_ssl)
     },
     {
-      name  = "TELEMETRY_DEPLOYMENT_METHOD"
-      value = "terraform"
-    },
-    {
-      name  = "FEAT_REGISTER_ACCOUNT_IN_SECURE"
-      value = "true"
+      name  = "telemetryDeploymentMethod"
+      value = "terraform_aws_ecs_${local.suffix_org}"
     },
     {
       name  = "CONFIG_PATH"

@@ -10,7 +10,7 @@ It requires:
 This module helps with the creation of the SQS queue from which to pull the cloudtrail events, leveraging the S3 "bucket event notification" system.
 
 Module gets the cloudtrail-s3 bucket name as input and provides the sqs topic url as output.
-   
+
 # How it works
 
 - This module's output will be visible in the `S3` console, after entering a bucket, in it's `Properties`, `Event notifications` section.

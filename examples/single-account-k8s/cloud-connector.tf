@@ -64,6 +64,11 @@ resource "helm_release" "cloud_connector" {
     value = data.aws_region.current.name
   }
 
+  set {
+    name  = "telemetryDeploymentMethod"
+    value = "terraform_aws_k8s_single"
+  }
+
   values = [
     yamlencode({
       ingestors = [

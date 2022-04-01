@@ -36,10 +36,10 @@ Skip step 4 and remove `aws_access_key_id` and `aws_secret_access_key` parameter
 
 ## Solution
 
-For clients that only require thread-detection feature, and do not have an organizational cloudtrail setup, but multiple-accounts, 
+For clients that only require thread-detection feature, and do not have an organizational cloudtrail setup, but multiple-accounts,
 we can make use of the [cloud-connector `aws-cloudtrail-s3-sns-sqs` ingestor](https://charts.sysdig.com/charts/cloud-connector/#ingestors)
 
-This processes through a single SQS AWS queue the events that come through a single S3 bucket (through an SNS topic) or 
+This processes through a single SQS AWS queue the events that come through a single S3 bucket (through an SNS topic) or
 multiple S3 buckets (that through several SNS topics, report to a single SQS topic).
 
 ## Suggested building-blocks
@@ -86,11 +86,11 @@ provider "helm" {
 
 3. **Cloudtrail-S3-SNS-SQS**
 
-WIP. 
+WIP.
 
 Create an SQS que that will subscribe to one S3-SNS (1) or several S3 buckets SNS topics (2)
 
-We currently provide a module to create first use-case, 
+We currently provide a module to create first use-case,
 [one S3-SNS-SQS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/infrastructure/cloudtrail_s3-sns-sqs) (1),
 but can work on providing a way to automatize the later (2)
 
@@ -143,7 +143,7 @@ module "multi-account" {
 -->
 
 5. **Sysdig workload deployment on K8s**
- 
+
    * Populate  `sysdig_secure_url`, `SYSDID_SECURE_API_TOKEN` and `REGION`
    * WIP. enable terraform module to be able to define [`nodeSelector` and `tolerations` parameters of the cloud-connector helm chart](https://charts.sysdig.com/charts/cloud-connector/#configuration)
 
@@ -189,12 +189,12 @@ resource "helm_release" "cloud_connector" {
     name  = "aws.region"
     value = "<REGION>"
   }
-  
+
   set {
     name  = "nodeSelector.<NODE_SELECTOR_LABEL>"
     value = "<NODE_SELECTOR_LABEL_VALUE>"
   }
-  
+
   set {
     name  = "tolerations[0].key"
     value = "<TOLERATION_KEY>"
