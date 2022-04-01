@@ -22,29 +22,33 @@ resource "aws_ecs_task_definition" "task_definition" {
   family                   = var.name
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
-  execution_role_arn       = aws_iam_role.execution.arn # ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume
-  task_role_arn            = local.ecs_task_role_arn    # ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services.
+  execution_role_arn       = aws_iam_role.execution.arn
+  # ARN of the task execution role that the Amazon ECS container agent and the Docker daemon can assume
+  task_role_arn            = local.ecs_task_role_arn
+  # ARN of IAM role that allows your Amazon ECS container task to make calls to other AWS services.
   cpu                      = var.ecs_task_cpu
   memory                   = var.ecs_task_memory
 
   container_definitions = jsonencode([
     {
-      environment = local.task_env_vars
-      name        = "CloudConnector"
-      image       = var.image
-      essential   = true
-      secrets = [
+      environment      = local.task_env_vars
+      name             = "CloudConnector"
+      image            = var.image
+      essential        = true
+      secrets          = [
         {
           name      = "SECURE_API_TOKEN"
           valueFrom = var.secure_api_token_secret_name
         }
       ]
-      portMappings = [{
-        containerPort = 5000
-      }]
+      portMappings     = [
+        {
+          containerPort = 5000
+        }
+      ]
       logConfiguration = {
         logDriver = "awslogs"
-        options = {
+        options   = {
           awslogs-group         = aws_cloudwatch_log_group.log.id
           awslogs-region        = data.aws_region.current.name
           awslogs-stream-prefix = "ecs"
@@ -52,19 +56,19 @@ resource "aws_ecs_task_definition" "task_definition" {
       }
     },
   ])
-  tags = var.tags
+  tags                  = var.tags
 }
 
 
 locals {
-  suffix_org = var.is_organizational ? "org" : "single"
+  suffix_org    = var.is_organizational ? "org" : "single"
   task_env_vars = concat([
     {
       name  = "VERIFY_SSL"
       value = tostring(local.verify_ssl)
     },
     {
-      name  = "telemetryDeploymentMethod"
+      name  = "TELEMETRY_DEPLOYMENT_METHOD"
       value = "terraform_aws_ecs_${local.suffix_org}"
     },
     {
@@ -75,9 +79,13 @@ locals {
       name  = "SECURE_URL",
       value = data.sysdig_secure_connection.current.secure_url
     }
-    ], flatten([for env_key, env_value in var.extra_env_vars : [{
+  ], flatten([
+  for env_key, env_value in var.extra_env_vars : [
+    {
       name  = env_key,
       value = env_value
-    }]])
+    }
+  ]
+  ])
   )
 }
