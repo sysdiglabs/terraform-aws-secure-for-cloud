@@ -1,9 +1,7 @@
-# Sysdig Secure for Cloud in AWS<br/>[ Example :: Single-Account ]
+# Sysdig Secure for Cloud in AWS<br/>[ Example :: App Runner ]
 
-Deploy Sysdig Secure for Cloud in a single AWS account.<br/>
+Deploy Sysdig Secure for Cloud in a single AWS account usign App Runner.<br/>
 All the required resources and workloads will be run under the same account.
-
-![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account/diagram-single.png)
 
 ## Prerequisites
 
