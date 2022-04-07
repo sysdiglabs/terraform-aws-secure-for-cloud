@@ -61,7 +61,7 @@ variable "cloudnative_secretAccessKey" {
 # optionals - with defaults
 #---------------------------------
 
-variable "sysdig_secure_endpoint" {
+variable "sysdig_secure_url" {
   type        = string
   description = "Sysdig secure endpoint"
   default     = "https://secure.sysdig.com"

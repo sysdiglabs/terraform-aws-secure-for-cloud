@@ -26,9 +26,15 @@ variable "benchmark_regions" {
   default     = []
 }
 
+variable "provision_in_management_account" {
+  type        = bool
+  default     = true
+  description = "Whether to deploy the stack in the management account"
+}
+
 variable "tags" {
   type        = map(string)
-  description = "sysdig secure-for-cloud tags"
+  description = "sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning"
 
   default = {
     "product" = "sysdig-secure-for-cloud"

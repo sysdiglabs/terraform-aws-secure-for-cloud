@@ -7,23 +7,19 @@ module "resource_group" {
   tags   = var.tags
 }
 
-module "ecs_fargate_cluster" {
-  source             = "../../modules/infrastructure/ecs-fargate-cluster"
-  name               = var.name
-  ecs_vpc_region_azs = var.ecs_vpc_region_azs
-  tags               = var.tags
-}
-
 module "ssm" {
   source                  = "../../modules/infrastructure/ssm"
   name                    = var.name
-  sysdig_secure_api_token = var.sysdig_secure_api_token
+  sysdig_secure_api_token = data.sysdig_secure_connection.current.secure_api_token
 }
+
 
 #-------------------------------------
 # cloud-connector
 #-------------------------------------
 module "codebuild" {
+  count = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
+
   source                       = "../../modules/infrastructure/codebuild"
   name                         = "${var.name}-codebuild"
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
@@ -37,20 +33,24 @@ module "cloud_connector" {
   source = "../../modules/services/cloud-connector"
   name   = "${var.name}-cloudconnector"
 
-  sysdig_secure_endpoint       = var.sysdig_secure_endpoint
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
-  is_organizational            = false
 
-  build_project_arn  = module.codebuild.project_arn
-  build_project_name = module.codebuild.project_name
+  deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
+  deploy_image_scanning_ecs = var.deploy_image_scanning_ecs
+
+  is_organizational = false
+
+  build_project_arn  = length(module.codebuild) == 1 ? module.codebuild[0].project_arn : "na"
+  build_project_name = length(module.codebuild) == 1 ? module.codebuild[0].project_name : "na"
 
   sns_topic_arn = local.cloudtrail_sns_arn
 
-  ecs_cluster = module.ecs_fargate_cluster.id
-  vpc_id      = module.ecs_fargate_cluster.vpc_id
-  vpc_subnets = module.ecs_fargate_cluster.vpc_subnets
+  ecs_cluster_name            = local.ecs_cluster_name
+  ecs_vpc_id                  = local.ecs_vpc_id
+  ecs_vpc_subnets_private_ids = local.ecs_vpc_subnets_private_ids
+  ecs_task_cpu                = var.ecs_task_cpu
+  ecs_task_memory             = var.ecs_task_memory
 
   tags       = var.tags
-  depends_on = [local.cloudtrail_sns_arn, module.ecs_fargate_cluster, module.ssm]
-
+  depends_on = [local.cloudtrail_sns_arn, module.ssm]
 }

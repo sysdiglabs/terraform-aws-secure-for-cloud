@@ -25,8 +25,7 @@ variable "organizational_config" {
   description = <<-EOT
     organizational_config. following attributes must be given
     <ul><li>`sysdig_secure_for_cloud_member_account_id` to enable reading permission</li>
-    <li>`organizational_role_per_account` to enable SNS topic subscription</li></ul>
-
+    <li>`organizational_role_per_account` to enable SNS topic subscription. by default "OrganizationAccountAccessRole"</li></ul>
   EOT
 }
 
@@ -65,7 +64,7 @@ variable "name" {
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig secure-for-cloud tags"
+  description = "sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning"
   default = {
     "product" = "sysdig-secure-for-cloud"
   }

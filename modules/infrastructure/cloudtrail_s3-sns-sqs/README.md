@@ -1,6 +1,15 @@
-# Cloudtrail_S3 event notification handle through SNS-SQS
+# Cloudtrail S3 event notification handle through SNS-SQS
 
-Provision a cloud-connector cloudtrail input, based on an S3-SNS-SQS event-notification.
+In order cloud-connector module to be able to ingest cloudtrail-s3 events (insted of cloudtdrail-sns ones), it needs an sqs queue URL from where to get the events.
+
+This way of ingesting, is the [`aws-cloudtrail-s3-sns-sqs` ingestor](https://charts.sysdig.com/charts/cloud-connector/#ingestors)
+It requires:
+ - `queueURL`: the url of the sqs queue
+ - `assumeRole`: optional; the role need to be able to fetch the events to the S3 bucket (as the event payload is not coming in the sqs message)
+
+This module helps with the creation of the SQS queue from which to pull the cloudtrail events, leveraging the S3 "bucket event notification" system.
+
+Module gets the cloudtrail-s3 bucket name as input and provides the sqs topic url as output.
 
 # How it works
 
@@ -25,7 +34,7 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 -->
 
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -43,8 +52,8 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloudtrail_s3_sns_sqs"></a> [cloudtrail\_s3\_sns\_sqs](#module\_cloudtrail\_s3\_sns\_sqs) | ../sqs-sns-subscription |  |
-| <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | ../resource-group |  |
+| <a name="module_cloudtrail_s3_sns_sqs"></a> [cloudtrail\_s3\_sns\_sqs](#module\_cloudtrail\_s3\_sns\_sqs) | ../sqs-sns-subscription | n/a |
+| <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | ../resource-group | n/a |
 
 ## Resources
 
@@ -70,7 +79,7 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 | <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | ARN of the SQS topic subscribed to the SNS of Cloudtrail-S3 bucket |
 | <a name="output_cloudtrail_subscribed_sqs_arn"></a> [cloudtrail\_subscribed\_sqs\_arn](#output\_cloudtrail\_subscribed\_sqs\_arn) | ARN of the SQS topic subscribed to the SNS of Cloudtrail-S3 bucket |
 | <a name="output_cloudtrail_subscribed_sqs_url"></a> [cloudtrail\_subscribed\_sqs\_url](#output\_cloudtrail\_subscribed\_sqs\_url) | URL of the SQS topic subscribed to the SNS of Cloudtrail-S3 bucket |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## Authors
 

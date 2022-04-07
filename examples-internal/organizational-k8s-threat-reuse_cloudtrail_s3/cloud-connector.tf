@@ -17,12 +17,12 @@ resource "helm_release" "cloud_connector" {
 
   set {
     name  = "sysdig.url"
-    value = var.sysdig_secure_endpoint
+    value = data.sysdig_secure_connection.current.secure_url
   }
 
   set_sensitive {
     name  = "sysdig.secureAPIToken"
-    value = var.sysdig_secure_api_token
+    value = data.sysdig_secure_connection.current.secure_api_token
   }
 
   set_sensitive {
@@ -38,6 +38,11 @@ resource "helm_release" "cloud_connector" {
   set {
     name  = "aws.region"
     value = data.aws_region.current.name
+  }
+
+  set {
+    name  = "telemetryDeploymentMethod"
+    value = "terraform_aws_k8s_org"
   }
 
   values = [

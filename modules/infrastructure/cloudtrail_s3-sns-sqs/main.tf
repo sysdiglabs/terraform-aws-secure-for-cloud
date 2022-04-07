@@ -1,11 +1,3 @@
-module "resource_group" {
-  source = "../resource-group"
-  name   = var.name
-  tags   = var.tags
-}
-
-
-
 # --------------------------------------------
 # cloudtrail_s3 bucket sns event notification
 # --------------------------------------------

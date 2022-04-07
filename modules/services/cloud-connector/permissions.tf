@@ -52,6 +52,7 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       "s3:ListBucket",
     ]
     resources = ["*"]
+    # resources = [var.cloudtrail_s3_arn # would need this as param]
   }
   statement {
     effect = "Allow"
@@ -59,6 +60,7 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       "sts:AssumeRole",
     ]
     resources = ["*"]
+    #    resources = [var.connector_ecs_task_role_name]
   }
 
   statement {
@@ -72,12 +74,17 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
   }
 }
 
+#
+# scan images
+#
 resource "aws_iam_role_policy" "trigger_scan" {
+  count  = local.deploy_image_scanning ? 1 : 0
   name   = "${var.name}-TriggerScan"
   role   = local.ecs_task_role_id
-  policy = data.aws_iam_policy_document.trigger_scan.json
+  policy = data.aws_iam_policy_document.trigger_scan[0].json
 }
 data "aws_iam_policy_document" "trigger_scan" {
+  count = local.deploy_image_scanning ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
@@ -87,46 +94,35 @@ data "aws_iam_policy_document" "trigger_scan" {
   }
 }
 
+# image scanning - ecs
 resource "aws_iam_role_policy" "task_definition_reader" {
+  count  = var.deploy_image_scanning_ecs ? 1 : 0
   name   = "TaskDefinitionReader"
   role   = local.ecs_task_role_id
-  policy = data.aws_iam_policy_document.task_definition_reader.json
+  policy = data.aws_iam_policy_document.task_definition_reader[0].json
 }
 data "aws_iam_policy_document" "task_definition_reader" {
+  count = var.deploy_image_scanning_ecs ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
       "ecs:DescribeTaskDefinition"
     ]
     resources = ["*"]
+    #    resources = var.is_organizational?["arn:aws:ecs:*:*:cluster/*"]:["arn:aws:ecs:*:${data.aws_caller_identity.me.account_id}:cluster/${var.ecs_cluster_name}"]
   }
 }
 
-
-resource "aws_iam_role_policy" "secrets_reader" {
-  name   = "SecretsReader"
-  role   = local.ecs_task_role_id
-  policy = data.aws_iam_policy_document.secrets_reader.json
-}
-
-data "aws_iam_policy_document" "secrets_reader" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "kms:Decrypt",
-      "secretsmanager:GetSecretValue"
-    ]
-    resources = ["*"]
-  }
-}
-
+# image scanning - ecr
 resource "aws_iam_role_policy" "ecr_reader" {
+  count  = var.deploy_image_scanning_ecr ? 1 : 0
   name   = "ECRReader"
   role   = local.ecs_task_role_id
-  policy = data.aws_iam_policy_document.ecr_reader.json
+  policy = data.aws_iam_policy_document.ecr_reader[0].json
 }
 
 data "aws_iam_policy_document" "ecr_reader" {
+  count = var.deploy_image_scanning_ecr ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
@@ -144,6 +140,7 @@ data "aws_iam_policy_document" "ecr_reader" {
       "ecr:DescribeImageScanFindings"
     ]
     resources = ["*"]
+    # resources = var.is_organizational ? ["arn:aws:ecr:*:*:repository/*", "arn:aws:ecr-public::*:repository/*", "arn:aws:ecr-public::*:registry/*"] : ["arn:aws:ecr-public::${data.aws_caller_identity.me.account_id}:repository/*", "arn:aws:ecr-public::${data.aws_caller_identity.me.account_id}:repository/*", "arn:aws:ecr-public::${data.aws_caller_identity.me.account_id}:registry/*"]
   }
 }
 

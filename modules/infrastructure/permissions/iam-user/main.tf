@@ -6,6 +6,9 @@ resource "aws_iam_user" "this" {
 
 resource "aws_iam_access_key" "this" {
   user = aws_iam_user.this.name
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 

@@ -1,3 +1,7 @@
+locals {
+  deploy_image_scanning = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs
+}
+
 #-------------------------------------
 # requirements
 #-------------------------------------
@@ -11,7 +15,7 @@ module "cloud_connector_sqs" {
 }
 
 module "codebuild" {
-  count  = var.deploy_image_scanning ? 1 : 0
+  count  = local.deploy_image_scanning ? 1 : 0
   source = "../../modules/infrastructure/codebuild"
 
   name                         = var.name
@@ -37,12 +41,12 @@ resource "helm_release" "cloud_connector" {
 
   set {
     name  = "sysdig.url"
-    value = var.sysdig_secure_endpoint
+    value = data.sysdig_secure_connection.current.secure_url
   }
 
   set_sensitive {
     name  = "sysdig.secureAPIToken"
-    value = var.sysdig_secure_api_token
+    value = data.sysdig_secure_connection.current.secure_api_token
   }
 
   set_sensitive {
@@ -60,6 +64,11 @@ resource "helm_release" "cloud_connector" {
     value = data.aws_region.current.name
   }
 
+  set {
+    name  = "telemetryDeploymentMethod"
+    value = "terraform_aws_k8s_single"
+  }
+
   values = [
     yamlencode({
       ingestors = [
@@ -69,18 +78,19 @@ resource "helm_release" "cloud_connector" {
           }
         }
       ]
-      scanners = var.deploy_image_scanning ? [
-        {
+      scanners = local.deploy_image_scanning ? [
+        merge(var.deploy_image_scanning_ecr ? {
           aws-ecr = {
             codeBuildProject         = module.codebuild[0].project_name
             secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
           }
-
-          aws-ecs = {
-            codeBuildProject         = module.codebuild[0].project_name
-            secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
-          }
-        }
+          } : {},
+          var.deploy_image_scanning_ecs ? {
+            aws-ecs = {
+              codeBuildProject         = module.codebuild[0].project_name
+              secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
+            }
+        } : {})
       ] : []
     })
   ]

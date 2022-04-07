@@ -1,21 +1,31 @@
 resource "aws_security_group" "sg" {
-  vpc_id      = var.vpc_id
   name        = var.name
   description = "CloudConnector workload Security Group"
 
-  # allow all (protocol -1, from 0, to 0)
-  ingress {
-    from_port   = 0
-    protocol    = "-1"
-    to_port     = 0
+  vpc_id = var.ecs_vpc_id
+
+  # Allow outbound DNS traffic over UDP and TCP
+  # Used by the ECS task to retrieve secrets from SSM
+  egress {
+    from_port   = 53
+    protocol    = "udp"
+    to_port     = 53
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # allow all
   egress {
-    from_port   = 0
-    protocol    = "-1"
-    to_port     = 0
+    from_port   = 53
+    protocol    = "tcp"
+    to_port     = 53
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Allow outbound HTTPS traffic over TCP
+  # Used by Cloud Connector to send events to https://secure.sysdig.com
+  egress {
+    from_port   = 443
+    protocol    = "tcp"
+    to_port     = 443
     cidr_blocks = ["0.0.0.0/0"]
   }
 

@@ -1,7 +1,7 @@
-# AWS ECS Cluster deployment module
+# ECS Cluster / VPC / SecGroup
 
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -19,7 +19,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws |  |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | terraform-aws-modules/vpc/aws | n/a |
 
 ## Resources
 
@@ -32,7 +32,7 @@
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_ecs_vpc_region_azs"></a> [ecs\_vpc\_region\_azs](#input\_ecs\_vpc\_region\_azs) | Explicit list of availability zones for VPC creation. eg: ["apne1-az1", "apne1-az2"]. If left empty it will be defaulted to two from the default datasource | `list(string)` | `[]` | no |
+| <a name="input_ecs_vpc_region_azs"></a> [ecs\_vpc\_region\_azs](#input\_ecs\_vpc\_region\_azs) | List of Availability Zones for ECS VPC creation. e.g.: ["apne1-az1", "apne1-az2"]. If defaulted, two of the default 'aws\_availability\_zones' datasource will be taken | `list(string)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
@@ -40,10 +40,10 @@
 
 | Name | Description |
 |------|-------------|
-| <a name="output_id"></a> [id](#output\_id) | ECS Cluster ID |
-| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | vpc id |
-| <a name="output_vpc_subnets"></a> [vpc\_subnets](#output\_vpc\_subnets) | vpc privates subnets |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+| <a name="output_ecs_cluster_name"></a> [ecs\_cluster\_name](#output\_ecs\_cluster\_name) | ID of the ECS cluster |
+| <a name="output_ecs_vpc_id"></a> [ecs\_vpc\_id](#output\_ecs\_vpc\_id) | ID of the VPC for the ECS cluster |
+| <a name="output_ecs_vpc_subnets_private_ids"></a> [ecs\_vpc\_subnets\_private\_ids](#output\_ecs\_vpc\_subnets\_private\_ids) | IDs of the private subnets of the VPC for the ECS cluster |
+<!-- END_TF_DOCS -->
 
 ## Authors
 

@@ -5,12 +5,12 @@
 #
 # vpc configuration
 #
+
 variable "ecs_vpc_region_azs" {
   type        = list(string)
-  description = "Explicit list of availability zones for VPC creation. eg: [\"apne1-az1\", \"apne1-az2\"]. If left empty it will be defaulted to two from the default datasource"
+  description = "List of Availability Zones for ECS VPC creation. e.g.: [\"apne1-az1\", \"apne1-az2\"]. If defaulted, two of the default 'aws_availability_zones' datasource will be taken"
   default     = []
 }
-
 
 #
 # general
@@ -23,7 +23,7 @@ variable "name" {
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig secure-for-cloud tags"
+  description = "sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning"
   default = {
     "product" = "sysdig-secure-for-cloud"
   }

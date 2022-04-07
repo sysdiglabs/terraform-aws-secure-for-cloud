@@ -39,10 +39,10 @@
 - [ ] **input/output** variables have been modified?
   - [ ] terraform-docs has been updated accordingly
   - [ ] if these inputs are mandatory, they've been changed on
-    - [ ] examples
-    - [ ] testing use-cases
-    - [ ] snippets on README's
-    - [ ] snippets on Secure Platform onboarding
+    - [ ] examples, examples-internal and use-cases are updated accordingly
+    - [ ] tests are updated accordingly
+    - [ ] snippets on README's are updated accordingly
+    - [ ] snippets on Secure Platform onboarding are updated accordingly
 - [ ] had any problems developing this PR? add it to the readme **troubleshooting** list! may come handy to someone
 
 
@@ -55,9 +55,13 @@ We're using **pre-commit** |  https://pre-commit.com
 - custom configuration | https://github.com/sysdiglabs/terraform-google-secure-for-cloud/blob/master/.pre-commit-config.yaml
 - current `terraform-docs` version, requires developer to create `README.md` file, with the enclosure tags for docs to insert the automated content
   ```markdown
-  <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-  <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+  <!-- BEGIN_TF_DOCS -->
+  <!-- END_TF_DOCS -->
   ```
+
+- If pre-commit fails on Github but not on your local, try cleaning-up `terraform` files with
+`./resources/terraform-clean.sh` script
+
 
 ## 2. Check::Integration tests
 
@@ -69,9 +73,31 @@ Implemented vía **Terraform Kitchen** | https://newcontext-oss.github.io/kitche
 
 - Kitchen configuration can be found in `/.kitchen.yml`
 - Under `/test/fixtures` you can find the targets that will be tested. Please keep this as similar as possible to the Terraform Registry Modules examples.
+  - In order to test this in your local environment use following recipee
+  ```bash
+  terraform init -backend=false && \
+  terraform validate && \
+  terraform plan && \
+  read && \   # will give you time to review plan or just push enter to apply
+  terraform apply --auto-approve
+  ```
 - AWS_PROFILE configuration is required to access the [TF s3 state backend](#terraform-backend)
 
-**Running Kitchen tests locally**
+### Terraform Backend
+
+Because CI/CD sometimes fail, we setup the Terraform state to be handled in backend (s3+dynamo) within the Sysdig AWS backend (sysdig-test-account).
+
+### Remote state cleanup from local
+
+In case you need to handle terraform backend state from failing kitchen tests, some guidance for using the `backend.tf` remote state manifest, present on each test
+ - Configure same parameters as the github action, that is `AWS_PROFILE`, and leave default `name` and `region` values
+ - Kitchen works with `terraform workspaces` so, in case you want to fix a specific test, switch to that workspace after the `terraform init` with `terraform workspace select WORKSPACE`
+ - Perform the desired terraform task
+
+You can also use `kitchen destroy` instead of `terraform` but the requirements are the same, except that the workspace will be managed through kitchen
+
+
+### Running Kitchen tests locally
 
 Ruby 2.7 is required to launch the tests.
 Run `bundle install` to get kitchen-terraform bundle.
@@ -88,16 +114,11 @@ $ bundle exec kitchen tests
 
 # run one specific test
 $ bundle exec kitchen test "single-account-k8s-aws"
-
 ```
 
-### Terraform Backend
-
-Because CI/CD sometimes fail, we setup the Terraform state to be handled in backend (s3+dynamo) within the Sysdig AWS backend (sysdig-test-account).
-In order to be able to use this Terraform backend AWS credentials are configured as Github project secret
-
-If terraform state ends up in bad shape and not cleaned, use the action called `Test Cleanup` that should destroy any messed situation.
-If this does not work, try it from your local, but please do it using `kitchen destroy`, not `terraform destroy` unless you really know what you're doing :]
+Note: As said before kitchen works with workspaces, so any local test, unless you change it, will fall into the `default` workspace and will not collide with
+Github Action tests. May collide however with other peers if they're doing similar tasks on local ;)
+You can always temporary delete the `backend.tf` file on the test you're running
 
 ### Deployed infrastructure resources
 
@@ -111,3 +132,26 @@ Feel free to release as soon as needed.
   - use [semver](https://semver.org) notation
 - A changelog description will be generated based on [conventional-commints](https://www.conventionalcommits.org/en/v1.0.0/) , but please verify all changes are included and explain acordingly if/when required
 - Module official releases will be published at terraform registry automatically
+
+
+---
+
+
+### How to iterate cloud-connector modification testing
+
+Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
+Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
+
+### How can I iterate ECS modification testing
+
+After applying your modifications (vía terraform for example) restart the service
+  ```
+  $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
+  ```
+For the AWS_PROFILE, set your `~/.aws/config` to impersonate
+  ```
+  [profile secure-for-cloud]
+  region=eu-central-1
+  role_arn=arn:aws:iam::<AWS_MANAGEMENT_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
+  source_profile=<AWS_MANAGEMENT_ACCOUNT_PROFILE>
+  ```
