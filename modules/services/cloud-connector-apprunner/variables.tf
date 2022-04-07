@@ -145,9 +145,27 @@ variable "cloudconnector_ecr_image_uri" {
   description = "URI to cloudconnectors image on ECR"
 }
 
-variable "cloudconnector_port" {
-  type = string
-  description = "Cloudconnector running port"
-  default = "5000"
+variable "cloudwatch_log_retention" {
+  type        = number
+  default     = 5
+  description = "Days to keep logs for CloudConnector"
 }
 
+variable "build_project_name" {
+  default = ""
+}
+
+variable "secure_api_token_secret_name" {
+  default = ""
+}
+
+variable "verify_ssl" {
+  type        = bool
+  default     = true
+  description = "true/false to determine ssl verification for sysdig_secure_url"
+}
+
+variable "sns_topic_arn" {
+  type        = string
+  description = "ARN of a cloudtrail-sns topic"
+}

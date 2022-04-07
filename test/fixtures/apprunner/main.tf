@@ -21,4 +21,6 @@ module "cloudvision_aws_single_account" {
   name   = "${var.name}-apprunner"
   # TODO Refactor to reference this variable only once
   sysdig_secure_api_token = var.sysdig_secure_api_token
+  cloudconnector_config_path = var.cloudconnector_config_path
+  cloudconnector_ecr_image_uri = var.cloudconnector_ecr_image_uri
 }

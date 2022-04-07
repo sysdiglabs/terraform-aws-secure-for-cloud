@@ -6,14 +6,13 @@ resource "aws_apprunner_service" "cloudconnector" {
       image_configuration {
         port = "5000"
         runtime_environment_variables = {
-          CONFIG_PATH = "s3://penguinjournals-cloudconnector-testing/cloud-connector.yaml"
-          FEAT_REGISTER_ACCOUNT_IN_SECURE = true
+          CONFIG_PATH = var.cloudconnector_config_path
           SECURE_API_TOKEN = var.sysdig_secure_api_token
           SECURE_URL = var.sysdig_secure_url
-          VERIFY_SSL = true
+          VERIFY_SSL = local.verify_ssl
         }
       }
-      image_identifier      = "public.ecr.aws/o5x4u2t4/penguinjournals-cloudconnector:latest"
+      image_identifier = var.cloudconnector_ecr_image_uri
       image_repository_type = "ECR_PUBLIC"
     }
     auto_deployments_enabled = false

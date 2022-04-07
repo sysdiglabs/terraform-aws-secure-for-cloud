@@ -21,3 +21,15 @@ variable "sysdig_secure_url" {
   description = "Sysdig secure endpoint"
   default     = "https://secure.sysdig.com"
 }
+
+
+variable "cloudconnector_config_path" {
+  type = string
+  description = "Cloudconnectors configuration file on S3"
+}
+
+variable "cloudconnector_ecr_image_uri" {
+  type = string
+  description = "URI to cloudconnectors image on ECR"
+  default = "public.ecr.aws/o5x4u2t4/penguinjournals-cloudconnector:latest"
+}

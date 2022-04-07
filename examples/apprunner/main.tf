@@ -29,10 +29,17 @@ module "codebuild" {
   depends_on = [module.ssm]
 }
 
+module "cloud_connector" {
+  source = "../../modules/services/cloud-connector-apprunner"
+  name = "${var.name}-cloudconnector"
 
-module "cloud_connector_sqs" {
-  source        = "../../modules/infrastructure/sqs-sns-subscription"
-  name          = "${var.name}-cloud_connector"
+  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
+
+  cloudconnector_config_path = var.cloudconnector_config_path
+  cloudconnector_ecr_image_uri = var.cloudconnector_ecr_image_uri
+
+  # why is needed
+  sysdig_secure_api_token = data.sysdig_secure_connection.current.secure_api_token
+
   sns_topic_arn = local.cloudtrail_sns_arn
-  tags          = var.tags
 }
