@@ -25,7 +25,6 @@ module "credentials_general" {
 
 
 module "credentials_cloud_connector" {
-  count  = var.deploy_threat_detection ? 1 : 0
   source = "../cloud-connector"
   name   = var.name
 

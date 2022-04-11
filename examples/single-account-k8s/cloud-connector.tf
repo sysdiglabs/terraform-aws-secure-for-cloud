@@ -6,7 +6,6 @@ locals {
 # requirements
 #-------------------------------------
 module "cloud_connector_sqs" {
-  count  = var.deploy_threat_detection ? 1 : 0
   source = "../../modules/infrastructure/sqs-sns-subscription"
 
   name          = var.name
@@ -30,8 +29,6 @@ module "codebuild" {
 # cloud_connector
 #-------------------------------------
 resource "helm_release" "cloud_connector" {
-  count = var.deploy_threat_detection ? 1 : 0
-
   name       = "cloud-connector"
   repository = "https://charts.sysdig.com"
   chart      = "cloud-connector"
