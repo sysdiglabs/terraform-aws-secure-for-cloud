@@ -71,7 +71,7 @@ resource "helm_release" "cloud_connector" {
       ingestors = [
         {
           cloudtrail-sns-sqs = {
-            queueURL = module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_url
+            queueURL = module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url
           }
         }
       ]
