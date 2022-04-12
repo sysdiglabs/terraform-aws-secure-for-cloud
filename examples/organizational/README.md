@@ -23,7 +23,7 @@ Minimum requirements:
 2. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) for the `management` account of the organization
     * This provider credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
-      
+
 3. Organizational Multi-Account Setup
     * An specific role is required, to enable Sysdig to impersonate and be able to provide
       * For the scanning feature, the ability to pull ECR hosted images when they're allocated in a different account
@@ -56,16 +56,16 @@ Permission requirement for this example comes as follows
       - used by Sysdig to subscribe to cloudtrail events
       - used by Sysdig to be able to jump to several member accounts to pull ECR hosted images through the `OrganizationAccountAccessRole` role
       - assumming previous role will also enable the access of cloudtrail s3 buckets when they are in a different region than were the terraform module is deployed
-      
+
     - `SysdigCloudBench` role will be created for SecurityAudit read-only purpose, used by Sysdig to benchmark
-    
+
 - **member accounts**
     - terraform aws provider: 'member' aliased
       - this provider can be configured as desired, we just provide a default option
     - by default, we suggest using an assumeRole to the [AWS created default role `OrganizationAccountAccessRole`](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
       - if this role does not exist provide input var `organizational_member_default_admin_role` with the role
     - `SysdigCloudBench` role will be created for SecurityAudit read-only purpose, used by Sysdig to benchmark
-    
+
 - **sysdig workload member account**
   - if ECS workload is deployed, `ECSTaskRole` will be used to define its permissions
     - used by Sysdig to assumeRole on management account `SysdigSecureForCloudRole` and other organizations `OrganizationAccountAccessRole`

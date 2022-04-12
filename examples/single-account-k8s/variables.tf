@@ -39,16 +39,6 @@ variable "tags" {
 }
 
 #
-# threat-detection configuration
-#
-
-variable "deploy_threat_detection" {
-  type        = bool
-  description = "true/false whether to deploy cloud_connector"
-  default     = true
-}
-
-#
 # scanning configuration
 #
 
