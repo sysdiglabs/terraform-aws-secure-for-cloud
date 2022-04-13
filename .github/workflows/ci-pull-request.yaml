@@ -4,12 +4,14 @@ on:
   pull_request:
     paths:
       - '**.tf'
+      - '**.tf'
       - '.pre-commit-config.yaml'
   push:
     branches:
       - master
     paths:
       - '**.tf'
+      - '**.md'
 env:
   GO_VERSION: "^1.17"
 
