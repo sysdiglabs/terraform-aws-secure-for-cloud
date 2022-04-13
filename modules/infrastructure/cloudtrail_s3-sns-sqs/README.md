@@ -34,7 +34,7 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 -->
 
 
-<!-- BEGIN_TF_DOCS -->
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -46,14 +46,13 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.8.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cloudtrail_s3_sns_sqs"></a> [cloudtrail\_s3\_sns\_sqs](#module\_cloudtrail\_s3\_sns\_sqs) | ../sqs-sns-subscription | n/a |
-| <a name="module_resource_group"></a> [resource\_group](#module\_resource\_group) | ../resource-group | n/a |
 
 ## Resources
 
@@ -70,7 +69,7 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 | <a name="input_cloudtrail_s3_name"></a> [cloudtrail\_s3\_name](#input\_cloudtrail\_s3\_name) | Name of the Cloudtrail S3 bucket | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_s3_event_notification_filter_prefix"></a> [s3\_event\_notification\_filter\_prefix](#input\_s3\_event\_notification\_filter\_prefix) | S3 Path filter prefix for event notification. Limit the notifications to objects with key starting with specified characters | `string` | `""` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
 
@@ -79,7 +78,7 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 | <a name="output_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#output\_cloudtrail\_s3\_arn) | ARN of the SQS topic subscribed to the SNS of Cloudtrail-S3 bucket |
 | <a name="output_cloudtrail_subscribed_sqs_arn"></a> [cloudtrail\_subscribed\_sqs\_arn](#output\_cloudtrail\_subscribed\_sqs\_arn) | ARN of the SQS topic subscribed to the SNS of Cloudtrail-S3 bucket |
 | <a name="output_cloudtrail_subscribed_sqs_url"></a> [cloudtrail\_subscribed\_sqs\_url](#output\_cloudtrail\_subscribed\_sqs\_url) | URL of the SQS topic subscribed to the SNS of Cloudtrail-S3 bucket |
-<!-- END_TF_DOCS -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors
 
