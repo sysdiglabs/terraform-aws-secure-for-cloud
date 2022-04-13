@@ -29,7 +29,7 @@ The aim of this module is to manage the organizational **managed account** requi
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.8.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.9.0 |
 
 ## Modules
 

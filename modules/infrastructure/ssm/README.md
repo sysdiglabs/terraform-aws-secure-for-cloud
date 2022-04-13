@@ -16,7 +16,7 @@ and pass it, in a safe way, to all the modules that require it.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.8.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.9.0 |
 
 ## Modules
 
