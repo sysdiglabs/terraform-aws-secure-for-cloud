@@ -45,7 +45,7 @@ module "codebuild" {
   source                       = "../../modules/infrastructure/codebuild"
   name                         = var.name
   secure_api_token_secret_name = module.ssm[0].secure_api_token_secret_name
-  depends_on                   = [module.ssm[0]]
+  depends_on                   = [module.ssm]
 }
 
 module "cloud_connector" {
