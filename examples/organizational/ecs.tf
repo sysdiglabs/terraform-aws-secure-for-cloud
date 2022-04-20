@@ -10,7 +10,7 @@ module "ecs_vpc" {
     aws = aws.member
   }
 
-  count  = local.ecs_deploy ? 1 : 0
+  count  = var.deploy_cloud_connector_module && local.ecs_deploy ? 1 : 0
   source = "../../modules/infrastructure/ecs-vpc"
 
   name               = var.name

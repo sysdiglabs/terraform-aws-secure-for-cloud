@@ -3,37 +3,48 @@
 #-------------------------------------
 module "resource_group" {
   source = "../../modules/infrastructure/resource-group"
-  name   = var.name
-  tags   = var.tags
+
+  name = var.name
+  tags = var.tags
 }
 
 module "ssm" {
+  count = var.deploy_cloud_connector_module ? 1 : 0
+
   source                  = "../../modules/infrastructure/ssm"
   name                    = var.name
   sysdig_secure_api_token = data.sysdig_secure_connection.current.secure_api_token
 }
 
 
-#-------------------------------------
-# cloud-connector
-#-------------------------------------
+#
+# scanning
+#
+
 module "codebuild" {
-  count = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
+  count = var.deploy_cloud_connector_module && (var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs) ? 1 : 0
 
   source                       = "../../modules/infrastructure/codebuild"
   name                         = "${var.name}-codebuild"
-  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
+  secure_api_token_secret_name = module.ssm[0].secure_api_token_secret_name
 
   tags = var.tags
   # note. this is required to avoid race conditions
-  depends_on = [module.ssm]
+  depends_on = [module.ssm[0]]
 }
 
+
+#
+# threat-detection
+#
+
 module "cloud_connector" {
+  count = var.deploy_cloud_connector_module ? 1 : 0
+
   source = "../../modules/services/cloud-connector"
   name   = "${var.name}-cloudconnector"
 
-  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
+  secure_api_token_secret_name = module.ssm[0].secure_api_token_secret_name
 
   deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
   deploy_image_scanning_ecs = var.deploy_image_scanning_ecs
@@ -52,5 +63,5 @@ module "cloud_connector" {
   ecs_task_memory             = var.ecs_task_memory
 
   tags       = var.tags
-  depends_on = [local.cloudtrail_sns_arn, module.ssm]
+  depends_on = [local.cloudtrail_sns_arn, module.ssm[0]]
 }

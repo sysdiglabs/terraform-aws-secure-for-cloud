@@ -19,4 +19,6 @@ provider "aws" {
 module "cloudvision_aws_single_account" {
   source = "../../../examples/single-account"
   name   = "${var.name}-single"
+
+  deploy_cloud_connector_module = true
 }
