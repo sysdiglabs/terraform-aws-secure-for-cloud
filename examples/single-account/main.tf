@@ -29,8 +29,8 @@ module "codebuild" {
   secure_api_token_secret_name = module.ssm[0].secure_api_token_secret_name
 
   tags = var.tags
-  # note. this is required to avoid race conditions
-  depends_on = [module.ssm[0]]
+  # note. this is required to avoid racing conditions
+  depends_on = [module.ssm]
 }
 
 
