@@ -49,7 +49,7 @@ module "codebuild" {
 }
 
 module "cloud_connector" {
-  count = var.deploy_cloud_connector_module ? 1: 0
+  count = var.deploy_cloud_connector_module ? 1 : 0
 
   providers = {
     aws = aws.member
