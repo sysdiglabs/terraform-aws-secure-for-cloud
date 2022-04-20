@@ -204,6 +204,10 @@ This error happens when the ECS `TaskRole` has no permissions to assume this rol
 <br/>S: Give permissions to `sts:AssumeRole` to the role used.
 
 
+### Q-AWS: Getting error 409 `EntityAlreadyExists`
+
+A: Probably you or someone in the same environment you're using, already deployed a resource with the sysdig terraform module and a naming collision is happening.
+<br/>S: If you want to maintain several versions, make use of the [`name` input var of the examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account#input_name)
 
 <br/><br/>
 ## Authors

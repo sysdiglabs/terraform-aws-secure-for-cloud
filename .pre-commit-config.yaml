@@ -21,7 +21,16 @@ repos:
 #          language: script
 #          verbose: true
 
-  - repo: git://github.com/antonbabenko/pre-commit-terraform
+  # https://github.com/antonbabenko/pre-commit-terraform/blob/master/README.md#terraform_validate (point 4)
+  - repo: local
+    hooks:
+      - id: terraform_clean
+        name: "Terraform Cleanup"
+        pass_filenames: false
+        language: system
+        entry: bash -c "find . \( -iname ".terraform*" ! -iname ".terraform-docs*" ! -path "*/test/*" \)  -print0 | xargs -0 rm -r; true"
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.64.0
     hooks:
       - id: terraform_fmt
@@ -47,7 +56,7 @@ repos:
           - '--args=--only=terraform_required_providers'
           - '--args=--only=terraform_standard_module_structure'
           - '--args=--only=terraform_workspace_remote'
-  - repo: git://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
       - id: check-merge-conflict

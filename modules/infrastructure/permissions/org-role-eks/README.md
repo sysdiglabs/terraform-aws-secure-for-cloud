@@ -17,7 +17,7 @@ The aim of this module is to manage the organizational **managed account** requi
   * ECS-Task roles (of both modules) to be able to assume this role
 
 
-<!-- BEGIN_TF_DOCS -->
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -29,7 +29,7 @@ The aim of this module is to manage the organizational **managed account** requi
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.10.0 |
 
 ## Modules
 
@@ -53,10 +53,9 @@ No modules.
 | <a name="input_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#input\_cloudtrail\_s3\_arn) | Cloudtrail S3 bucket ARN | `string` | n/a | yes |
 | <a name="input_user_arn"></a> [user\_arn](#input\_user\_arn) | ARN of the IAM user to which roles will be added | `string` | n/a | yes |
 | <a name="input_deploy_image_scanning"></a> [deploy\_image\_scanning](#input\_deploy\_image\_scanning) | true/false whether to provision cloud\_scanning permissions | `bool` | `true` | no |
-| <a name="input_deploy_threat_detection"></a> [deploy\_threat\_detection](#input\_deploy\_threat\_detection) | true/false whether to provision cloud\_connector permissions | `bool` | `true` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_organizational_role_per_account"></a> [organizational\_role\_per\_account](#input\_organizational\_role\_per\_account) | Name of the organizational role deployed by AWS in each account of the organization | `string` | `"OrganizationAccountAccessRole"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
 
@@ -64,7 +63,7 @@ No modules.
 |------|-------------|
 | <a name="output_sysdig_secure_for_cloud_role_arn"></a> [sysdig\_secure\_for\_cloud\_role\_arn](#output\_sysdig\_secure\_for\_cloud\_role\_arn) | organizational secure-for-cloud role arn |
 | <a name="output_sysdig_secure_for_cloud_role_name"></a> [sysdig\_secure\_for\_cloud\_role\_name](#output\_sysdig\_secure\_for\_cloud\_role\_name) | organizational secure-for-cloud role name |
-<!-- END_TF_DOCS -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors
 

@@ -39,7 +39,7 @@ variable "ecs_vpc_subnets_private_ids" {
 
 variable "sns_topic_arn" {
   type        = string
-  description = "ARN of a cloudtrail-sns topic"
+  description = "ARN of a cloudtrail-sns topic. If specified, deployment region must match Cloudtrail S3 bucket region"
 }
 
 
