@@ -33,7 +33,7 @@ Here some guidelines though:
 Note: Contact us if this authentication system does not match your requirement.
 
 
-<!-- BEGIN_TF_DOCS -->
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -45,7 +45,7 @@ Note: Contact us if this authentication system does not match your requirement.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.50.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.10.0 |
 
 ## Modules
 
@@ -81,7 +81,7 @@ Note: Contact us if this authentication system does not match your requirement.
 | <a name="output_sfc_user_arn"></a> [sfc\_user\_arn](#output\_sfc\_user\_arn) | ARN of the Secure for cloud Provisioned IAM user |
 | <a name="output_sfc_user_name"></a> [sfc\_user\_name](#output\_sfc\_user\_name) | Name of the Secure for cloud Provisioned IAM user |
 | <a name="output_sfc_user_secret_access_key"></a> [sfc\_user\_secret\_access\_key](#output\_sfc\_user\_secret\_access\_key) | Secure for cloud Provisioned user secretAccessKey |
-<!-- END_TF_DOCS -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors
 

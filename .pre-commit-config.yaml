@@ -21,6 +21,15 @@ repos:
 #          language: script
 #          verbose: true
 
+  # https://github.com/antonbabenko/pre-commit-terraform/blob/master/README.md#terraform_validate (point 4)
+  - repo: local
+    hooks:
+      - id: terraform_clean
+        name: "Terraform Cleanup"
+        pass_filenames: false
+        language: system
+        entry: bash -c "find . \( -iname ".terraform*" ! -iname ".terraform-docs*" ! -path "*/test/*" \)  -print0 | xargs -0 rm -r; true"
+
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.64.0
     hooks:
