@@ -37,14 +37,14 @@ locals {
           aws-ecr = {
             codeBuildProject         = var.build_project_name
             secureAPITokenSecretName = var.secure_api_token_secret_name
-            }
-        } : {},
+          }
+          } : {},
           var.deploy_image_scanning_ecs ? {
             aws-ecs = {
               codeBuildProject         = var.build_project_name
               secureAPITokenSecretName = var.secure_api_token_secret_name
             }
-          } : {})
+        } : {})
       ] : []
     }
   ))

@@ -6,13 +6,14 @@ resource "aws_apprunner_service" "cloudconnector" {
       image_configuration {
         port = "5000"
         runtime_environment_variables = {
-          CONFIG_PATH = var.cloudconnector_config_path
-          SECURE_API_TOKEN = var.sysdig_secure_api_token
-          SECURE_URL = var.sysdig_secure_url
-          VERIFY_SSL = local.verify_ssl
+          CONFIG_PATH                 = "s3://${local.s3_bucket_config_id}/cloud-connector.yaml"
+          SECURE_API_TOKEN            = var.sysdig_secure_api_token
+          SECURE_URL                  = var.sysdig_secure_url
+          VERIFY_SSL                  = local.verify_ssl
+          TELEMETRY_DEPLOYMENT_METHOD = "terraform_aws_apprunner_single"
         }
       }
-      image_identifier = var.cloudconnector_ecr_image_uri
+      image_identifier      = var.cloudconnector_ecr_image_uri
       image_repository_type = "ECR_PUBLIC"
     }
     auto_deployments_enabled = false
@@ -41,7 +42,7 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_trusted" {
   statement {
     effect = "Allow"
     principals {
-      type = "Service"
+      type        = "Service"
       identifiers = ["tasks.apprunner.amazonaws.com"]
     }
     actions = ["sts:AssumeRole"]
@@ -50,8 +51,8 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_trusted" {
 
 data "aws_iam_policy_document" "cloud_connector" {
   statement {
-    sid     = "AllowS3"
-    effect  = "Allow"
+    sid    = "AllowS3"
+    effect = "Allow"
     actions = [
       "s3:ListBucket",
       "s3:GetObject"
@@ -59,8 +60,8 @@ data "aws_iam_policy_document" "cloud_connector" {
     resources = ["*"]
   }
   statement {
-    sid     = "AllowSQS"
-    effect  = "Allow"
+    sid    = "AllowSQS"
+    effect = "Allow"
     actions = [
       "sqs:GetQueueUrl",
       "sqs:ListQueues",
@@ -70,8 +71,8 @@ data "aws_iam_policy_document" "cloud_connector" {
     resources = ["*"]
   }
   statement {
-    sid     = "AllowECR"
-    effect  = "Allow"
+    sid    = "AllowECR"
+    effect = "Allow"
     actions = [
       "ecr:GetDownloadUrlForLayer",
       "ecr:BatchGetImage",
@@ -82,19 +83,19 @@ data "aws_iam_policy_document" "cloud_connector" {
     resources = ["*"]
   }
   statement {
-    sid     = "AllowCodebuild"
-    effect  = "Allow"
+    sid    = "AllowCodebuild"
+    effect = "Allow"
     actions = [
       "codebuild:StartBuild"
     ]
-    resources = ["*"]
+    resources = [var.build_project_arn]
   }
   statement {
-    sid     = "AllowSSM"
-    effect  = "Allow"
+    sid    = "AllowSSM"
+    effect = "Allow"
     actions = [
       "ssm:GetParameters"
     ]
-    resources = ["*"]
+    resources = [var.secure_api_token_secret_arn]
   }
 }

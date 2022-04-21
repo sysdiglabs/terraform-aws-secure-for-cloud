@@ -17,7 +17,7 @@ resource "aws_cloudtrail" "cloudtrail" {
 
   tags = var.tags
 
-  ## note: seems required to avoid raicing conditions (InsufficientSnsTopicPolicyException on cloudtrail creation) /shrug
+  ## note: seems required to avoid racing conditions (InsufficientSnsTopicPolicyException on cloudtrail creation) /shrug
   depends_on = [aws_s3_bucket_policy.cloudtrail_s3, aws_sns_topic_policy.allow_cloudtrail_publish]
 }
 

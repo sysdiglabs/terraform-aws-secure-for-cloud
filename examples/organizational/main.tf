@@ -50,7 +50,7 @@ module "cloud_connector" {
   providers = {
     aws = aws.member
   }
-  source = "../../modules/services/cloud-connector"
+  source = "../../modules/services/cloud-connector-ecs"
   name   = "${var.name}-cloudconnector"
 
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name

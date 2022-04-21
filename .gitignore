@@ -42,5 +42,5 @@ override.tf.json
 
 # test
 .kitchen/*
-test/fixtures/single-account/.kitchen/
+test/fixtures/single-account-ecs/.kitchen/
 test/snippets/*

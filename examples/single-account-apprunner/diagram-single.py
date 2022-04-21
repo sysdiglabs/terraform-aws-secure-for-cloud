@@ -44,7 +44,7 @@ with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_att
             account_resources = [General("resource-1..n")]
             ecr = ECR("container-registry\n*sends events on image push to cloudtrail\n*within any account")
 
-            with Cluster("ecs-cluster"):
+            with Cluster("app-runner"):
               ecs_services = ElasticContainerServiceService("other services\n*sends events with image runs to cloudtrail")
 
         with Cluster("sysdig-secure-for-cloud resources"):
@@ -63,7 +63,7 @@ with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_att
             cloudtrail >> Edge(color=color_event, style="dashed") >> cloudtrail_s3
             cloudtrail >> Edge(color=color_event, style="dashed") >> sns
 
-            with Cluster("ecs-cluster"):
+            with Cluster("AppRunner"):
                 cloud_connector = ElasticContainerServiceService("cloud-connector")
 
             sqs = SQS("cloudtrail-sqs")

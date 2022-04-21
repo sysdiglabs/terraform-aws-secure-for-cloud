@@ -44,7 +44,7 @@ provider "aws" {
 }
 
 module "secure_for_cloud_aws_single_account" {
-   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account"
+   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-ecs"
 }
 ```
 
@@ -70,14 +70,14 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.36 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.37 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cloud_bench"></a> [cloud\_bench](#module\_cloud\_bench) | ../../modules/services/cloud-bench | n/a |
-| <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector) | ../../modules/services/cloud-connector | n/a |
+| <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector) | ../../modules/services/cloud-connector-ecs | n/a |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ../../modules/infrastructure/cloudtrail | n/a |
 | <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ../../modules/infrastructure/codebuild | n/a |
 | <a name="module_ecs_vpc"></a> [ecs\_vpc](#module\_ecs\_vpc) | ../../modules/infrastructure/ecs-vpc | n/a |

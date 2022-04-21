@@ -31,15 +31,18 @@ module "codebuild" {
 
 module "cloud_connector" {
   source = "../../modules/services/cloud-connector-apprunner"
-  name = "${var.name}-cloudconnector"
+  name   = "${var.name}-cloudconnector"
 
+  sysdig_secure_api_token      = data.sysdig_secure_connection.current.secure_api_token
+  sysdig_secure_url            = data.sysdig_secure_connection.current.secure_url
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
+  secure_api_token_secret_arn  = module.ssm.secure_api_token_secret_arn
 
-  cloudconnector_config_path = var.cloudconnector_config_path
+  build_project_arn  = length(module.codebuild) == 1 ? module.codebuild[0].project_arn : "na"
+  build_project_name = length(module.codebuild) == 1 ? module.codebuild[0].project_name : "na"
+
   cloudconnector_ecr_image_uri = var.cloudconnector_ecr_image_uri
 
-  # why is needed
-  sysdig_secure_api_token = data.sysdig_secure_connection.current.secure_api_token
-
-  sns_topic_arn = local.cloudtrail_sns_arn
+  cloudtrail_sns_arn = local.cloudtrail_sns_arn
+  tags               = var.tags
 }
