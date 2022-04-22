@@ -22,8 +22,6 @@ module "resource_group_secure_for_cloud_member" {
 # secure-for-cloud member account workload
 #-------------------------------------
 module "ssm" {
-  count = var.deploy_cloud_connector_module ? 1 : 0
-
   providers = {
     aws = aws.member
   }
@@ -37,20 +35,18 @@ module "ssm" {
 # cloud-connector
 #-------------------------------------
 module "codebuild" {
-  count = var.deploy_cloud_connector_module && (var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs) ? 1 : 0
+  count = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
 
   providers = {
     aws = aws.member
   }
   source                       = "../../modules/infrastructure/codebuild"
   name                         = var.name
-  secure_api_token_secret_name = module.ssm[0].secure_api_token_secret_name
+  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
   depends_on                   = [module.ssm]
 }
 
 module "cloud_connector" {
-  count = var.deploy_cloud_connector_module ? 1 : 0
-
   providers = {
     aws = aws.member
   }
@@ -58,7 +54,7 @@ module "cloud_connector" {
   source = "../../modules/services/cloud-connector"
   name   = "${var.name}-cloudconnector"
 
-  secure_api_token_secret_name = module.ssm[0].secure_api_token_secret_name
+  secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
   deploy_image_scanning_ecs = var.deploy_image_scanning_ecs
@@ -82,7 +78,7 @@ module "cloud_connector" {
   ecs_task_memory             = var.ecs_task_memory
 
   tags       = var.tags
-  depends_on = [local.cloudtrail_sns_arn, module.ssm[0]]
+  depends_on = [local.cloudtrail_sns_arn, module.ssm]
 }
 
 #-------------------------------------

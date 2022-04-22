@@ -27,6 +27,8 @@ resource "aws_iam_role" "connector_ecs_task" {
   path               = "/"
   tags               = var.tags
 }
+
+
 data "aws_iam_policy_document" "task_assume_role" {
   provider = aws.member
   statement {

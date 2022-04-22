@@ -38,5 +38,4 @@ module "cloudvision_aws_organizational" {
   name   = "${var.name}-org"
 
   sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
-  deploy_cloud_connector_module             = true
 }

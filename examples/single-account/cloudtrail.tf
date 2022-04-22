@@ -4,7 +4,7 @@ locals {
 }
 
 module "cloudtrail" {
-  count = var.deploy_cloud_connector_module && local.cloudtrail_deploy ? 1 : 0
+  count = local.cloudtrail_deploy ? 1 : 0
 
   source                = "../../modules/infrastructure/cloudtrail"
   name                  = var.name
