@@ -38,4 +38,6 @@ module "cloudvision_aws_organizational" {
   name   = "${var.name}-org"
 
   sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
+  deploy_image_scanning_ecr                 = true
+  deploy_image_scanning_ecs                 = true
 }
