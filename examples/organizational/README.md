@@ -10,6 +10,8 @@ Deploy Sysdig Secure for Cloud using an [AWS Organizational Cloudtrail](https://
 * In the **user-provided member account**
     * All the Sysdig Secure for Cloud service-related resources/workload will be created
 
+Note: All Sysdig Secure for Cloud features but [Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/) are enabled by default. You can enable it through `deploy_image_scanning_ecr` and `deploy_image_scanning_ecs` input variable parameters.<br/>
+
 ![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/organizational/diagram-org.png)
 
 ## Prerequisites

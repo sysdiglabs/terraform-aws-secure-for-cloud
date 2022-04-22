@@ -11,7 +11,7 @@ Provides unified threat-detection, compliance, forensics and analysis through th
 
 * **[Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/permissions-and-entitlements/)**: Analyses user access overly permissive policies. Requires both modules  `cloud-connector` and `cloud-bench`. <br/>
 
-* **[Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry (ECR) and the images that run on the AWS workload (currently ECS). Managed through `cloud-connector`. <br/>
+* **[Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry (ECR) and the images that run on the AWS workload (currently ECS). Managed through `cloud-connector`. <br/>Disabled by Default, can be enabled through `deploy_image_scanning_ecr` and `deploy_image_scanning_ecs` input variable parameters.<br/>
 
 For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud), [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud)
 
