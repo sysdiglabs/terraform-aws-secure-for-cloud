@@ -1,5 +1,5 @@
 resource "aws_apprunner_service" "cloudconnector" {
-  service_name = "${var.name}-cloudconnector"
+  service_name = var.name
 
   source_configuration {
     image_repository {
