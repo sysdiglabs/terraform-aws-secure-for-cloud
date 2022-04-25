@@ -151,6 +151,7 @@ jobs:
         run: bundle exec kitchen destroy "organizational-aws"
 
   integration_test_app_runner:
+    needs: integration_test-ecs
     concurrency: terraform-account
     continue-on-error: true
 
