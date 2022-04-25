@@ -77,8 +77,5 @@ module "org_k8s_threat_reuse_cloudtrail" {
   aws_access_key_id     = module.org_user.sfc_user_access_key_id
   aws_secret_access_key = module.org_user.sfc_user_secret_access_key
 
-  deploy_image_scanning_ecr = true
-  deploy_image_scanning_ecs = true
-
   depends_on = [module.org_user.sfc_user_arn, time_sleep.wait]
 }
