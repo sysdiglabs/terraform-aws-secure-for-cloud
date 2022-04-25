@@ -10,7 +10,6 @@ from diagrams.aws.compute import ECS, ElasticContainerServiceService, ECR
 from diagrams.aws.security import IAMRole,IAM
 from diagrams.aws.management import Cloudwatch
 from diagrams.aws.devtools import Codebuild
-from diagrams.aws.management import SystemsManager
 
 
 diagram_attr = {
@@ -64,7 +63,7 @@ with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_att
             cloudtrail >> Edge(color=color_event, style="dashed") >> sns
 
             with Cluster("AppRunner"):
-                cloud_connector = ElasticContainerServiceService("cloud-connector")
+                cloud_connector = Custom("cloud-connector", "../../resources/apprunner-icon.png")
 
             sqs = SQS("cloudtrail-sqs")
             sqs << Edge(color=color_event) << cloud_connector
