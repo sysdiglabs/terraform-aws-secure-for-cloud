@@ -4,6 +4,7 @@ driver:
   root_module_directory: test/fixtures
   parallelism: 4
   verify_version: false
+  command_timeout: 1200
 
 provisioner:
   name: terraform
