@@ -15,7 +15,7 @@ on:
 concurrency: terraform
 
 jobs:
-  integration_test-eks:
+  integration_test_eks:
     concurrency: terraform-account
     continue-on-error: true
 
