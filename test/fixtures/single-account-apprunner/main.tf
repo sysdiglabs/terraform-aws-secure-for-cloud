@@ -18,5 +18,5 @@ provider "aws" {
 
 module "cloudvision_aws_apprunner_single_account" {
   source = "../../../examples/single-account-apprunner"
-  name   = "${var.name}-single"
+  name   = var.name
 }
