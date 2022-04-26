@@ -1,6 +1,6 @@
 # Sysdig Secure for Cloud in AWS<br/>[ Example :: App Runner ]
 
-Deploy Sysdig Secure for Cloud in a single AWS account usign App Runner.<br/>
+Deploy Sysdig Secure for Cloud in a single AWS account using App Runner.<br/>
 All the required resources and workloads will be run under the same account.
 
 ## Prerequisites
@@ -16,7 +16,8 @@ Minimum requirements:
 ## Notice
 
 * **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
-* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
+* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore <br/><br/>
+* **AppRunner enabled zones** AppRunner isn't available in all AWS zones, check [AppRunner Service endpoints](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) for enabled zones.
 
 
 ## Usage
@@ -28,21 +29,23 @@ terraform {
    required_providers {
       sysdig = {
          source  = "sysdiglabs/sysdig"
+         version = ">=0.5.33"
       }
    }
 }
 
 provider "sysdig" {
-   sysdig_secure_url        = "<SYSDIG_SECURE_URL>"
-   sysdig_secure_api_token  = "<SYSDIG_SECURE_API_TOKEN>"
+   sysdig_secure_api_token = "<SYSDIG_SECURE_URL>"
+   sysdig_secure_url       = "<SYSDIG_SECURE_API_TOKEN"
 }
 
 provider "aws" {
-   region = "<AWS-REGION>; ex. us-east-1"
+   region = "<AWS_REGION> Take care of AppRunner available zones: https://docs.aws.amazon.com/general/latest/gr/apprunner.html"
 }
 
-module "secure_for_cloud_aws_single_account" {
-   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account"
+module "cloudvision_aws_apprunner_single_account" {
+   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-apprunner"
+   name   = "<APPRUNNER_SERVICE_NAME>"
 }
 ```
 

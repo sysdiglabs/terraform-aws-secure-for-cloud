@@ -174,13 +174,13 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
-          AWS_REGION: "eu-west-1" #APPRUNNER ONLY RUNS ON SOME REGIONS
+          AWS_REGION: "eu-west-1" #APPRUNNER ONLY RUNS ON SOME REGIONS https://docs.aws.amazon.com/general/latest/gr/apprunner.html
         run: bundle exec kitchen test "single-account-apprunner-aws"
 
       - name: Destroy single-account-apprunner resources
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_CLOUDNATIVE_SECRET_ACCESS_KEY }}
-          AWS_REGION: "eu-west-1" #APPRUNNER ONLY RUNS ON SOME REGIONS
+          AWS_REGION: "eu-west-1" #APPRUNNER ONLY RUNS ON SOME REGIONS https://docs.aws.amazon.com/general/latest/gr/apprunner.html
         if: ${{ failure() }}
         run: bundle exec kitchen destroy "single-account-apprunner-aws"
