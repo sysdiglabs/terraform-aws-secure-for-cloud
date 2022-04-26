@@ -26,7 +26,8 @@ Minimum requirements:
 
 3. Organizational Multi-Account Setup
     * An specific role is required, to enable Sysdig to impersonate and be able to provide
-      * For the scanning feature, the ability to pull ECR hosted images when they're allocated in a different account
+      * For scanning feature, the ability to pull ECR hosted images when they're allocated in a different account
+      * For scanning too, the ability to query the ECS tasks that are allocated in different account, in order to fetch the image to be scanned
       * A solution to resolve current limitation when accessing an S3 bucket in a different region than where it's being called from
     * By default, it uses [AWS created default role `OrganizationAccountAccessRole`](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
       * When an account is created within an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning and role assuming.
