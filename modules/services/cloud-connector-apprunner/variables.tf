@@ -93,7 +93,7 @@ variable "verify_ssl" {
 variable "cloudconnector_ecr_image_uri" {
   type        = string
   description = "URI to                                                                                                                                                     image on ECR"
-  default     = "public.ecr.aws/o5x4u2t4/penguinjournals-cloudconnector:latest"
+  default     = "public.ecr.aws/o5x4u2t4/cloud-connector:latest"
 }
 
 variable "secure_api_token_secret_arn" {

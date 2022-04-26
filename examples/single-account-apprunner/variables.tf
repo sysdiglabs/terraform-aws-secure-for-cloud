@@ -64,5 +64,5 @@ variable "tags" {
 variable "cloudconnector_ecr_image_uri" {
   type        = string
   description = "URI to cloudconnectors image on ECR"
-  default     = "public.ecr.aws/o5x4u2t4/penguinjournals-cloudconnector:latest"
+  default     = "public.ecr.aws/o5x4u2t4/cloud-connector:latest"
 }
