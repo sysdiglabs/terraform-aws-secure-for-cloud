@@ -70,7 +70,7 @@ variable "sysdig_secure_url" {
 variable "name" {
   type        = string
   description = "Name is the prefix used in the resources will be created"
-  default     = "sfc-test-org-k8s"
+  default     = "sfctest-org-k8s"
 }
 
 variable "region" {

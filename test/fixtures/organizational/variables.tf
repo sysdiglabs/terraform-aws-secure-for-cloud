@@ -14,7 +14,7 @@ variable "sysdig_secure_for_cloud_member_account_id" {
 variable "name" {
   type        = string
   description = "Name is the prefix used in the resources will be created"
-  default     = "sfc-test-org-ecs"
+  default     = "sfctest-org-ecs"
 }
 
 variable "region" {
