@@ -66,19 +66,21 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
 More info in [`./examples/single-account-ecs`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs)
 
-![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-ecs/diagram-single.png)
+![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/feat-apprunner-poc/examples/single-account-ecs/diagram-single.png)
 
 ### - Single-Account on AppRunner
 
 Sysdig workload will be deployed using AppRunner in the same account where user's resources will be watched.<br/>
 More info in [`./examples/single-account-apprunner`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner)
 
-![single-account diagram on apprunner](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-apprunner/diagram-single.png)
+![single-account diagram on apprunner](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/feat-apprunner-poc/examples/single-account-apprunner/diagram-single.png)
 
 ### - Single-Account with a pre-existing Kubernetes Cluster
 
 If you already own a Kubernetes Cluster on AWS, you can use it to deploy Sysdig Secure for Cloud, instead of default ECS cluster.<br/>
 More info in [`./examples/single-account-k8s`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s)
+
+![single-account with pre-existing kubernetes cluster](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/feat-apprunner-poc/examples/single-account-k8s/diagram.png)
 
 ### - Organizational
 
