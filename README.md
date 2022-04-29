@@ -51,7 +51,7 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 ## Usage
 
   - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
-    - [Single Account](#--single-account)
+    - [Single Account on ECS](#--single-account-on-ecs)
     - [Single Account on AppRunner](#--single-account-on-apprunner)
     - [Single-Account with a pre-existing Kubernetes Cluster](#--single-account-with-a-pre-existing-kubernetes-cluster)
     - [Organizational](#--organizational)
@@ -66,14 +66,14 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
 More info in [`./examples/single-account-ecs`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs)
 
-![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/feat-apprunner-poc/examples/single-account-ecs/diagram-single.png)
+![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-ecs/diagram-single.png)
 
 ### - Single-Account on AppRunner
 
 Sysdig workload will be deployed using AppRunner in the same account where user's resources will be watched.<br/>
 More info in [`./examples/single-account-apprunner`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner)
 
-![single-account diagram on apprunner](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/feat-apprunner-poc/examples/single-account-apprunner/diagram-single.png)
+![single-account diagram on apprunner](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-apprunner/diagram-single.png)
 
 ### - Single-Account with a pre-existing Kubernetes Cluster
 
