@@ -31,12 +31,12 @@ color_permission="steelblue3"
 color_non_important="gray"
 color_sysdig="lightblue"
 
-with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_attr=diagram_attr, filename="diagram-single", show=True):
+with Diagram("Sysdig Secure for Cloud{}(single-account-ecs)".format("\n"), graph_attr=diagram_attr, filename="diagram-single", show=True):
 
     public_registries = Custom("Public Registries","../../resources/diag-registry-icon.png")
 
 
-    with Cluster("AWS single-account"):
+    with Cluster("AWS single-account-ecs"):
 
         master_credentials = IAM("credentials \npermissions: cloudtrail, role creation,...", fontsize="10")
 

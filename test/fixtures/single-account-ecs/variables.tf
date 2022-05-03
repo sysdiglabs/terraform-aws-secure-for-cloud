@@ -3,18 +3,11 @@ variable "sysdig_secure_api_token" {
   sensitive   = true
   description = "Sysdig secure api token"
 }
-variable "sysdig_secure_for_cloud_member_account_id" {
-  type        = string
-  description = "organizational member account where the secure-for-cloud workload is going to be deployed"
-}
-
-
-
 
 variable "name" {
   type        = string
-  description = "Name is the prefix used in the resources will be created"
-  default     = "sfctest-org-ecs"
+  description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
+  default     = "sfctest-single-ecs"
 }
 
 variable "region" {

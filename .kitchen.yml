@@ -4,6 +4,7 @@ driver:
   root_module_directory: test/fixtures
   parallelism: 4
   verify_version: false
+  command_timeout: 1200
 
 provisioner:
   name: terraform
@@ -12,9 +13,9 @@ platforms:
   - name: "aws"
 
 suites:
-  - name: single-account
+  - name: single-account-ecs
     driver:
-      root_module_directory: test/fixtures/single-account
+      root_module_directory: test/fixtures/single-account-ecs
   - name: single-account-k8s
     driver:
       root_module_directory: test/fixtures/single-account-k8s
@@ -24,3 +25,6 @@ suites:
   - name: organizational-k8s
     driver:
       root_module_directory: test/fixtures/organizational-k8s
+  - name: single-account-apprunner
+    driver:
+      root_module_directory: test/fixtures/single-account-apprunner

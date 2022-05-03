@@ -13,10 +13,10 @@ provider "sysdig" {
 }
 
 provider "aws" {
-  region = var.region
+  region = "eu-west-1"
 }
 
-module "cloudvision_aws_single_account" {
-  source = "../../../examples/single-account"
-  name   = "${var.name}-single"
+module "cloudvision_aws_apprunner_single_account" {
+  source = "../../../examples/single-account-apprunner"
+  name   = var.name
 }

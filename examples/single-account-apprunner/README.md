@@ -1,9 +1,7 @@
-# Sysdig Secure for Cloud in AWS<br/>[ Example :: Single-Account ]
+# Sysdig Secure for Cloud in AWS<br/>[ Example :: App Runner ]
 
-Deploy Sysdig Secure for Cloud in a single AWS account.<br/>
+Deploy Sysdig Secure for Cloud in a single AWS account using App Runner.<br/>
 All the required resources and workloads will be run under the same account.
-
-![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account/diagram-single.png)
 
 ## Prerequisites
 
@@ -18,7 +16,8 @@ Minimum requirements:
 ## Notice
 
 * **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
-* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
+* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore <br/><br/>
+* **AppRunner enabled zones** AppRunner isn't available in all AWS zones, check [AppRunner Service endpoints](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) for enabled zones.
 
 
 ## Usage
@@ -30,21 +29,23 @@ terraform {
    required_providers {
       sysdig = {
          source  = "sysdiglabs/sysdig"
+         version = ">=0.5.33"
       }
    }
 }
 
 provider "sysdig" {
-   sysdig_secure_url        = "<SYSDIG_SECURE_URL>"
-   sysdig_secure_api_token  = "<SYSDIG_SECURE_API_TOKEN>"
+   sysdig_secure_api_token = "<SYSDIG_SECURE_URL>"
+   sysdig_secure_url       = "<SYSDIG_SECURE_API_TOKEN"
 }
 
 provider "aws" {
-   region = "<AWS-REGION>; ex. us-east-1"
+   region = "<AWS_REGION> Take care of AppRunner available zones: https://docs.aws.amazon.com/general/latest/gr/apprunner.html"
 }
 
-module "secure_for_cloud_aws_single_account" {
-   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account"
+module "cloudvision_aws_apprunner_single_account" {
+   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-apprunner"
+   name   = "<APPRUNNER_SERVICE_NAME>"
 }
 ```
 
@@ -57,7 +58,7 @@ $ terraform plan
 $ terraform apply
 ```
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -70,7 +71,7 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.36 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.33 |
 
 ## Modules
 
@@ -97,7 +98,7 @@ $ terraform apply
 | <a name="input_benchmark_regions"></a> [benchmark\_regions](#input\_benchmark\_regions) | List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default. | `list(string)` | `[]` | no |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether cloudtrail delivered events to S3 should persist encrypted | `bool` | `true` | no |
-| <a name="input_cloudtrail_sns_arn"></a> [cloudtrail\_sns\_arn](#input\_cloudtrail\_sns\_arn) | ARN of a pre-existing cloudtrail\_sns. If defaulted, a new cloudtrail will be created. If specified, deployment region must match Cloudtrail S3 bucket region | `string` | `"create"` | no |
+| <a name="input_cloudtrail_sns_arn"></a> [cloudtrail\_sns\_arn](#input\_cloudtrail\_sns\_arn) | ARN of a pre-existing cloudtrail\_sns. If defaulted, a new cloudtrail will be created | `string` | `"create"` | no |
 | <a name="input_deploy_benchmark"></a> [deploy\_benchmark](#input\_deploy\_benchmark) | Whether to deploy or not the cloud benchmarking | `bool` | `true` | no |
 | <a name="input_deploy_image_scanning_ecr"></a> [deploy\_image\_scanning\_ecr](#input\_deploy\_image\_scanning\_ecr) | true/false whether to deploy the image scanning on ECR pushed images | `bool` | `true` | no |
 | <a name="input_deploy_image_scanning_ecs"></a> [deploy\_image\_scanning\_ecs](#input\_deploy\_image\_scanning\_ecs) | true/false whether to deploy the image scanning on ECS running images | `bool` | `true` | no |
@@ -108,14 +109,14 @@ $ terraform apply
 | <a name="input_ecs_vpc_region_azs"></a> [ecs\_vpc\_region\_azs](#input\_ecs\_vpc\_region\_azs) | List of Availability Zones for ECS VPC creation. e.g.: ["apne1-az1", "apne1-az2"]. If defaulted, two of the default 'aws\_availability\_zones' datasource will be taken | `list(string)` | `[]` | no |
 | <a name="input_ecs_vpc_subnets_private_ids"></a> [ecs\_vpc\_subnets\_private\_ids](#input\_ecs\_vpc\_subnets\_private\_ids) | List of VPC subnets where workload is to be deployed. Defaulted to be created when 'ecs\_cluster\_name' is not provided. | `list(string)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
 | <a name="output_cloudtrail_sns_topic_arn"></a> [cloudtrail\_sns\_topic\_arn](#output\_cloudtrail\_sns\_topic\_arn) | ARN of cloudtrail\_sns topic |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 
 ## Authors
