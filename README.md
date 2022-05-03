@@ -80,7 +80,7 @@ More info in [`./examples/single-account-apprunner`](https://github.com/sysdigla
 If you already own a Kubernetes Cluster on AWS, you can use it to deploy Sysdig Secure for Cloud, instead of default ECS cluster.<br/>
 More info in [`./examples/single-account-k8s`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s)
 
-![single-account with pre-existing kubernetes cluster](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/feat-apprunner-poc/examples/single-account-k8s/diagram.png)
+![single-account with pre-existing kubernetes cluster](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-k8s/diagram.png)
 
 ### - Organizational
 
