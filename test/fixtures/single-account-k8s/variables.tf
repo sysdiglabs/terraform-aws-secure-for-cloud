@@ -7,7 +7,7 @@ variable "sysdig_secure_api_token" {
 variable "name" {
   type        = string
   description = "Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances"
-  default     = "sfc-tests-kitchen"
+  default     = "sfc-test-single-k8s"
 }
 
 variable "region" {

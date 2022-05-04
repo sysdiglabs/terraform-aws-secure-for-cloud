@@ -18,7 +18,7 @@ module "secure_for_cloud_role" {
 # secure_for_cloud_role <-> ecs_role trust relationship
 # note:
 # - definition of a ROOT lvl secure_for_cloud_connector_ecs_tas_role to avoid cyclic dependencies
-# - duplicated in ../../modules/services/cloud-connector/ecs-service-security.tf
+# - duplicated in ../../modules/services/cloud-connector-ecs/ecs-service-security.tf
 # -----------------------------------------------------------------
 resource "aws_iam_role" "connector_ecs_task" {
   provider           = aws.member

@@ -32,7 +32,7 @@
 
 -  [ ] **modules** (infra or services) have been modified?
   - [ ] a `README.md` file has been added to the folder
-  - [ ] if modules are relevant to usage-case understanding `diagram.py/png` have been updated accodingly
+  - [ ] if modules are relevant to usage-case understanding `diagram.py/png` have been updated accordingly. To re-generate diagrams yo need to run `python diagram.py` and need diagram installed `pip install diagrams`.
   - [ ] if pre-requirements have been modified, update accordingly on
     - [ ] README's
     - [ ] Sysdig docs
