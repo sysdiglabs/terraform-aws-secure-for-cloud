@@ -1,8 +1,3 @@
-provider "aws" {
-  region = var.region
-}
-
-
 resource "aws_iam_role" "eks_cluster" {
   name = "${var.name}-eks_cluster"
 
@@ -23,12 +18,12 @@ POLICY
   tags               = var.tags
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSClusterPolicy" {
+resource "aws_iam_role_policy_attachment" "eks_cluster_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.eks_cluster.name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSServicePolicy" {
+resource "aws_iam_role_policy_attachment" "eks_service_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = aws_iam_role.eks_cluster.name
 }
@@ -54,17 +49,17 @@ POLICY
   tags               = var.tags
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKSWorkerNodePolicy" {
+resource "aws_iam_role_policy_attachment" "eks_worker_node_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.eks_nodes.name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEKS_CNI_Policy" {
+resource "aws_iam_role_policy_attachment" "eks_cni_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.eks_nodes.name
 }
 
-resource "aws_iam_role_policy_attachment" "AmazonEC2ContainerRegistryReadOnly" {
+resource "aws_iam_role_policy_attachment" "container_registry_read_only" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
   role       = aws_iam_role.eks_nodes.name
 }
@@ -94,9 +89,9 @@ resource "aws_eks_node_group" "node" {
     min_size     = 1
   }
   depends_on = [
-    aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
-    aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.eks_worker_node_policy,
+    aws_iam_role_policy_attachment.eks_cni_policy,
+    aws_iam_role_policy_attachment.container_registry_read_only,
   ]
   tags = var.tags
 }

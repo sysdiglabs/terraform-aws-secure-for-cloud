@@ -23,7 +23,7 @@
 
 ## Suggested setup
 
-For this use-case we're going to use the [`./examples/single-account`](../../examples/single-account/README.md) setup.
+For this use-case we're going to use the [`./examples/single-account`](../examples/single-account/README.md) setup.
 In order for this setup to work, all resources must be in the same AWS account and region.
 Before proceeding, please read the example README and check whether you comply with requirements.
 

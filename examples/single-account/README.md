@@ -70,7 +70,7 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.36 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.37 |
 
 ## Modules
 
