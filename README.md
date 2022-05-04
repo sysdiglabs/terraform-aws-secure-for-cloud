@@ -56,7 +56,7 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
     - [Single-Account with a pre-existing Kubernetes Cluster](#--single-account-with-a-pre-existing-kubernetes-cluster)
     - [Organizational](#--organizational)
   - Many module,examples and use-cases provide ways to **re-use existing resources (as optionals)** in your infrastructure (cloudtrail, ecs, vpc, k8s cluster,...)
-  - Find some real **use-case scenario explanations** under [`/examples-internal/use-cases*`](./examples-internal)
+  - Find some real **use-case scenario explanations** under [`/use-cases*`](./use-cases)
     - [Single Account - Existing Cloudtrail](use-cases/single-existing-cloudtrail.md)
     - [Organizational - Existing Cloudtrail, ECS, VPC, Subnet](use-cases/org-existing-cloudtrail-ecs-vpc-subnet.md)
     - [Organizational - Existing Cloudtrail withouth SNS, but with S3 configuration, with K8s Cluster and Filtered Cloudtrail Event Account](use-cases/org-s3-k8s-filtered-account.md)
