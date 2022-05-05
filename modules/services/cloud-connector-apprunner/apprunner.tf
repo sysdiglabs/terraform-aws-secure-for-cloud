@@ -6,7 +6,7 @@ resource "aws_apprunner_service" "cloudconnector" {
       image_configuration {
         port = "5000"
         runtime_environment_variables = {
-          CONFIG_PATH                 = "s3://${local.s3_bucket_config_id}/cloud-connector.yaml"
+          CONFIG                      = base64encode(local.default_config)
           SECURE_API_TOKEN            = var.sysdig_secure_api_token
           SECURE_URL                  = var.sysdig_secure_url
           VERIFY_SSL                  = local.verify_ssl

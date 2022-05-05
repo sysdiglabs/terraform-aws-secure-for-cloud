@@ -55,7 +55,6 @@ with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_att
 
             cloudtrail_s3       = S3("cloudtrail-s3-events")
             sns                 = SNS("cloudtrail-sns-events", comment="i'm a graph")
-            s3_config = S3("cloud-connector-config")
             cloudwatch = Cloudwatch("cloudwatch\n(logs and alarms)")
 
 
@@ -67,7 +66,6 @@ with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_att
 
             sqs = SQS("cloudtrail-sqs")
             sqs << Edge(color=color_event) << cloud_connector
-            cloud_connector - Edge(color=color_non_important) - s3_config
             cloud_connector >> Edge(color=color_non_important) >>  cloudwatch
 
             # scanning

@@ -86,7 +86,7 @@ provider "aws" {
 }
 
 module "sysdig-s4c" {
-  source = "sysdiglabs/secure-for-cloud/aws//examples/single-account"
+  source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-ecs"
   name   = "sysdig-s4c"
 
   cloudtrail_sns_arn  = "<CLOUDRAIL_SNS_TOPIC_ARN>"

@@ -1,26 +1,7 @@
 locals {
-  s3_bucket_config_id = aws_s3_bucket.s3_config_bucket.id
-}
-
-resource "aws_s3_object" "config" {
-  bucket = local.s3_bucket_config_id
-  key    = "cloud-connector.yaml"
-
-  content = local.default_config
-  tags    = var.tags
-}
-
-locals {
   default_config = yamlencode(merge({
     logging = "info"
-    rules = [
-      {
-        s3 = {
-          bucket = local.s3_bucket_config_id
-          path   = "rules"
-        }
-      }
-    ]
+    rules   = []
     ingestors = [
       {
         cloudtrail-sns-sqs = merge(

@@ -72,8 +72,8 @@ locals {
       value = "terraform_aws_ecs_${local.suffix_org}"
     },
     {
-      name  = "CONFIG_PATH"
-      value = "s3://${local.s3_bucket_config_id}/cloud-connector.yaml"
+      name  = "CONFIG"
+      value = base64encode(local.default_config)
     },
     {
       name  = "SECURE_URL",
