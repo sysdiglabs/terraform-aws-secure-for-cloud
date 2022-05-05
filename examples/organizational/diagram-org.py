@@ -66,7 +66,6 @@ with Diagram("Sysdig Secure for Cloud\n(organizational)", graph_attr=diagram_att
             org_member_role_2 = IAMRole("OrganizationAccountAccessRole\n(created by AWS for org. \nmember accounts)", **role_attr)
 
             sqs         = SQS("cloudtrail-sqs")
-            s3_config   = S3("cloud-connector-config")
             cloudwatch  = Cloudwatch("cloudwatch\nlogs and alarms")
             codebuild   = Codebuild("codebuild project")
 
@@ -79,7 +78,6 @@ with Diagram("Sysdig Secure for Cloud\n(organizational)", graph_attr=diagram_att
                 cloud_connector = ElasticContainerServiceService("cloud-connector")
 
             sqs << Edge(color=color_event) << cloud_connector
-            cloud_connector - Edge(color=color_non_important) - s3_config
             cloud_connector >> Edge(color=color_non_important) >> cloudwatch
             cloud_connector  >>  Edge(color=color_non_important) >> cloudwatch
             cloud_connector >> codebuild

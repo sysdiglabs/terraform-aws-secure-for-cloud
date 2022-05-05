@@ -51,7 +51,6 @@ with Diagram("Sysdig Secure for Cloud{}(single-account-k8s)".format("\n"), graph
 
             cloudtrail           = Cloudtrail("cloudtrail\n* ingest events from all\norg member accounts+managed", shape="plaintext")
             cloudtrail_s3       = S3("cloudtrail-s3-events")
-            s3_config           = S3("cloud-connector-config")
             sns                 = SNS("sns")
 
             sqs = SQS("cloudtrail-sqs")
@@ -76,7 +75,6 @@ with Diagram("Sysdig Secure for Cloud{}(single-account-k8s)".format("\n"), graph
 
         sqs << Edge(color=color_event) << cloud_connector
         cloud_connector >> Edge(color=color_sysdig, style="dashed") >> sqs
-        cloud_connector - Edge(color=color_non_important) - s3_config
 
         sns >> Edge(color=color_event, style="dashed") >> sqs
         (cloudtrail_s3 << Edge(color=color_non_important)) -  cloud_connector
