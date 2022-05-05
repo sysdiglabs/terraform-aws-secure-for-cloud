@@ -30,7 +30,7 @@
 
 ## Suggested setup
 
-For this use-case we're going to use the [`./examples/organizational`](../../examples/organizational/README.md) setup.
+For this use-case we're going to use the [`./examples/organizational`](../examples/organizational/README.md) setup.
 In order for this setup to work, several roles and permissions are required.
 Before proceeding, please read the example README and check whether you comply with requirements.
 
