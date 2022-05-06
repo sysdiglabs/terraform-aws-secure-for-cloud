@@ -35,7 +35,7 @@ module "cloudvision_aws_organizational" {
     aws.member = aws.member
   }
   source = "../../../examples/organizational"
-  name   = "${var.name}-org"
+  name   = var.name
 
   sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
   deploy_image_scanning_ecr                 = true
