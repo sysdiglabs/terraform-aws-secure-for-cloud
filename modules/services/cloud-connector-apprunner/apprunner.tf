@@ -81,7 +81,7 @@ data "aws_iam_policy_document" "cloud_connector" {
   }
 
   dynamic "statement" {
-    for_each = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? [1] : [0]
+    for_each = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? [1] : []
     content {
       sid    = "AllowECR"
       effect = "Allow"
@@ -98,7 +98,7 @@ data "aws_iam_policy_document" "cloud_connector" {
 
 
   dynamic "statement" {
-    for_each = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? [1] : [0]
+    for_each = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? [1] : []
     content {
       sid    = "AllowCodebuild"
       effect = "Allow"
