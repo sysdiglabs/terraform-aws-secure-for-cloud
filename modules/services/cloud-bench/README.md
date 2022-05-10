@@ -26,7 +26,7 @@ Deployed on **Sysdig Backend**
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.12.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.13.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.1.3 |
 | <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.37 |
 
