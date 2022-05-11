@@ -58,9 +58,7 @@ Role usage for this example comes as follows. Check [permissions](../../README.m
     - `SysdigSecureForCloudRole` will be created
         - used by Sysdig to subscribe to cloudtrail events
         - used by Sysdig, for image scanning feature, to `assumeRole` on `OrganizationAccountAccessRole` to be able to fetch image data from ECS Tasks and scan ECR hosted images
-<!--
-        - assuming previous role will also enable the access of cloudtrail s3 buckets when they are in a different region than were the terraform module is deployed
--->
+        <!--  - assuming previous role will also enable the access of cloudtrail s3 buckets when they are in a different region than were the terraform module is deployed -->
     - `SysdigCloudBench` role will be created for SecurityAudit read-only purpose, used by Sysdig to benchmark
 
 - **member accounts**
