@@ -130,9 +130,7 @@ $ terraform apply
 
 ## Required Permissions
 
-### Required Permissions
-
-#### Provisioning Permissions
+### Provisioning Permissions
 
 Terraform provider credentials/token, requires `Administrative` permissions in order to be able to create the
 resources specified in the per-example diagram.
@@ -148,7 +146,7 @@ Some components may vary, and you can check full resources on each module "Resou
 - CodeBuild for on-demand image scanning
 - Role for Sysdig [Benchmarks](./modules/services/cloud-bench)
 
-#### Runtime Permissions
+### Runtime Permissions
 
 Modules create several roles to be able to manage the following permissions.
 

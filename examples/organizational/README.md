@@ -26,24 +26,23 @@ Minimum requirements:
     * This provider credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
 
-3. Organizational Multi-Account Setup
-    * An specific role is required, to enable Sysdig to impersonate and be able to provide
-        * For scanning feature, the ability to pull ECR hosted images when they're allocated in a different account
-        * For scanning too, the ability to query the ECS tasks that are allocated in different account, in order to fetch the image to be scanned
-        * A solution to resolve current limitation when accessing an S3 bucket in a different region than where it's being called from
+3. Organizational Multi-Account Setup, ONLY IF SCANNING feature is activated, a specific role is required, to enable Sysdig to impersonate on organization member-accounts and provide
+        * The ability to pull ECR hosted images when they're allocated in a different account
+        * The ability to query the ECS tasks that are allocated in different account, in order to fetch the image to be scanned
+        <!-- * A solution to resolve current limitation when accessing an S3 bucket in a different region than where it's being called from-->
     * By default, it uses [AWS created default role `OrganizationAccountAccessRole`](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
         * When an account is created within an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning and role assuming.
         * However, when the account is invited into the organization, it's required to [create the role manually](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role)
           > You have to do this manually, as shown in the following procedure. This essentially duplicates the role automatically set up for created accounts. We recommend that you use the same name, OrganizationAccountAccessRole, for your manually created roles for consistency and ease of remembering.
         * If role name, `OrganizationAccountAccessRole` wants to be modified, it must be done both on the `aws` member-account provider AND input value `organizational_member_default_admin_role`
 
-3. Provide a member **account ID for Sysdig Secure for Cloud workload** to be deployed.
+5. Provide a member **account ID for Sysdig Secure for Cloud workload** to be deployed.
    Our recommendation is for this account to be empty, so that deployed resources are not mixed up with your workload.
    This input must be provided as terraform required input value
     ```
     sysdig_secure_for_cloud_member_account_id=<ORGANIZATIONAL_SECURE_FOR_CLOUD_ACCOUNT_ID>
     ```
-4. **Sysdig Secure** requirements, as input variable value with the `api-token`
+6. **Sysdig Secure** requirements, as input variable value with the `api-token`
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
