@@ -5,8 +5,10 @@ Deploy Sysdig Secure for Cloud using an [AWS Organizational Cloudtrail](https://
 * In the **management account**
     * An Organizational Cloutrail will be deployed  (with required S3,SNS)
     * An additional role `SysdigSecureForCloudRole` will be created
-        * to be able to read cloudtrail-s3 bucket events from sysdig workload member account.
-        * will also be used to asummeRole over other roles, and enable the process of scanning on ECR's that may be present in other member accounts.
+        * to be able to read cloudtrail-s3 bucket events (and query cloudtrail-sqs) from sysdig workload member account.
+        * scanning-only, to assumeRole over member-account role
+          * to scan images pushed to ECR's that may be present in other member accounts.
+          * to describe ECS task definitions and get images to be scanned, on clusters in other member accounts
 * In the **user-provided member account**
     * All the Sysdig Secure for Cloud service-related resources/workload will be created
 
@@ -18,22 +20,22 @@ Minimum requirements:
 
 1. Have an existing AWS account as the organization management account
     *  Within the Organization, following services must be enabled (Organization > Services)
-       * Organizational CloudTrail
-       * [Organizational CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)
+        * Organizational CloudTrail
+        * [Organizational CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)
 2. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) for the `management` account of the organization
     * This provider credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
 
 3. Organizational Multi-Account Setup
     * An specific role is required, to enable Sysdig to impersonate and be able to provide
-      * For scanning feature, the ability to pull ECR hosted images when they're allocated in a different account
-      * For scanning too, the ability to query the ECS tasks that are allocated in different account, in order to fetch the image to be scanned
-      * A solution to resolve current limitation when accessing an S3 bucket in a different region than where it's being called from
+        * For scanning feature, the ability to pull ECR hosted images when they're allocated in a different account
+        * For scanning too, the ability to query the ECS tasks that are allocated in different account, in order to fetch the image to be scanned
+        * A solution to resolve current limitation when accessing an S3 bucket in a different region than where it's being called from
     * By default, it uses [AWS created default role `OrganizationAccountAccessRole`](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-      * When an account is created within an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning and role assuming.
-      * However, when the account is invited into the organization, it's required to [create the role manually](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role)
-        > You have to do this manually, as shown in the following procedure. This essentially duplicates the role automatically set up for created accounts. We recommend that you use the same name, OrganizationAccountAccessRole, for your manually created roles for consistency and ease of remembering.
-      * If role name, `OrganizationAccountAccessRole` wants to be modified, it must be done both on the `aws` member-account provider AND input value `organizational_member_default_admin_role`
+        * When an account is created within an organization, AWS will create an `OrganizationAccountAccessRole` [for account management](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html), which Sysdig Secure for Cloud will use for member-account provisioning and role assuming.
+        * However, when the account is invited into the organization, it's required to [create the role manually](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role)
+          > You have to do this manually, as shown in the following procedure. This essentially duplicates the role automatically set up for created accounts. We recommend that you use the same name, OrganizationAccountAccessRole, for your manually created roles for consistency and ease of remembering.
+        * If role name, `OrganizationAccountAccessRole` wants to be modified, it must be done both on the `aws` member-account provider AND input value `organizational_member_default_admin_role`
 
 3. Provide a member **account ID for Sysdig Secure for Cloud workload** to be deployed.
    Our recommendation is for this account to be empty, so that deployed resources are not mixed up with your workload.
@@ -49,27 +51,26 @@ Minimum requirements:
 
 ## Role Summary
 
-Permission requirement for this example comes as follows
+Role usage for this example comes as follows. Check [permissions](../../README.md#required-permissions) too
 
 - **management account**
     - terraform aws provider: default
     - `SysdigSecureForCloudRole` will be created
-      - used by Sysdig to subscribe to cloudtrail events
-      - used by Sysdig to be able to jump to several member accounts to pull ECR hosted images through the `OrganizationAccountAccessRole` role
-      - assumming previous role will also enable the access of cloudtrail s3 buckets when they are in a different region than were the terraform module is deployed
-
+        - used by Sysdig to subscribe to cloudtrail events
+        - used by Sysdig, for image scanning feature, to `assumeRole` on `OrganizationAccountAccessRole` to be able to fetch image data from ECS Tasks and scan ECR hosted images
+        <!--  - assuming previous role will also enable the access of cloudtrail s3 buckets when they are in a different region than were the terraform module is deployed -->
     - `SysdigCloudBench` role will be created for SecurityAudit read-only purpose, used by Sysdig to benchmark
 
 - **member accounts**
     - terraform aws provider: 'member' aliased
-      - this provider can be configured as desired, we just provide a default option
+        - this provider can be configured as desired, we just provide a default option
     - by default, we suggest using an assumeRole to the [AWS created default role `OrganizationAccountAccessRole`](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html)
-      - if this role does not exist provide input var `organizational_member_default_admin_role` with the role
+        - if this role does not exist provide input var `organizational_member_default_admin_role` with the role
     - `SysdigCloudBench` role will be created for SecurityAudit read-only purpose, used by Sysdig to benchmark
 
 - **sysdig workload member account**
-  - if ECS workload is deployed, `ECSTaskRole` will be used to define its permissions
-    - used by Sysdig to assumeRole on management account `SysdigSecureForCloudRole` and other organizations `OrganizationAccountAccessRole`
+    - if ECS workload is deployed, `ECSTaskRole` will be used to define its permissions
+        - used by Sysdig to assumeRole on management account `SysdigSecureForCloudRole` and other organizations `OrganizationAccountAccessRole`
 
 ## Notice
 
