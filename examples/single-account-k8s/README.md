@@ -55,7 +55,7 @@ provider "helm" {
   }
 }
 
-module "secure_for_cloud_aws_single_account" {
+module "secure_for_cloud_aws_single_account_k8s" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-k8s"
 }
 ```

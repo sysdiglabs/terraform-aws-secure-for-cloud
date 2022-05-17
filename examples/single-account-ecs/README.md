@@ -43,7 +43,7 @@ provider "aws" {
    region = "<AWS-REGION>; ex. us-east-1"
 }
 
-module "secure_for_cloud_aws_single_account" {
+module "secure_for_cloud_aws_single_account_ecs" {
    source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-ecs"
 }
 ```
