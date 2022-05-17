@@ -11,7 +11,7 @@
 variable "cloudtrail_sns_arn" {
   type        = string
   default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns. If defaulted, a new cloudtrail will be created"
+  description = "ARN of a pre-existing cloudtrail_sns. If defaulted, a new cloudtrail will be created. ARN of a pre-existing cloudtrail_sns. If defaulted, a new cloudtrail will be created. If specified, sysdig deployment account and region must match with the specified SNS"
 }
 
 variable "cloudtrail_is_multi_region_trail" {
