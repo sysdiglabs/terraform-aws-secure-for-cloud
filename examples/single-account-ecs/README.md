@@ -45,7 +45,7 @@ provider "aws" {
    region = "<AWS-REGION>; ex. us-east-1"
 }
 
-module "secure_for_cloud_aws_single_account" {
+module "secure_for_cloud_aws_single_account_ecs" {
    source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-ecs"
 }
 ```
@@ -65,6 +65,7 @@ $ terraform apply
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.15.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0.0 |
 | <a name="requirement_sysdig"></a> [sysdig](#requirement\_sysdig) | >= 0.5.33 |
 
 ## Providers

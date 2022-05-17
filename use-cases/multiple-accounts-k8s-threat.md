@@ -12,7 +12,7 @@
     - [X] k8s cluster we want to use to deploy Sysdig for Cloud workload
 - [X] permission setup
     - [?] sysdig workload account usage - all required and pre-existing resources exist in the same account
-    - [?] sydig workload account usage - all required resources are in scattered accounts
+    - [?] sysdig workload account usage - all required resources are in scattered accounts
 
 **Sysdig Secure For Cloud Features**
 

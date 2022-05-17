@@ -3,6 +3,8 @@
 Deploy Sysdig Secure for Cloud in a single AWS account using App Runner.<br/>
 All the required resources and workloads will be run under the same account.
 
+![single-account diagram on apprunner](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-apprunner/diagram-single.png)
+
 ## Prerequisites
 
 Minimum requirements:

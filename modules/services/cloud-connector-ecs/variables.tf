@@ -75,7 +75,7 @@ variable "organizational_config" {
     <ul>
       <li>`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li>
       <li>`connector_ecs_task_role_name` which has been granted trusted-relationship over the secure_for_cloud_role</li>
-      <li>`organizational_role_per_account` is the name of the organizational role deployed by AWS in each account of the organization</li>
+      <li>`organizational_role_per_account` is the name of the organizational role deployed by AWS in each account of the organization. used for image-scanning only</li>
     </ul>
   EOT
 }

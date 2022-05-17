@@ -70,6 +70,7 @@ provider "helm" {
 ```
 
 3. **Cloudtrail-S3-SNS-SQS**
+   [Usage of cloudtrail-s3-sns-sqs module](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/infrastructure/cloudtrail_s3-sns-sqs) for cloudtrail's with no sns notification
 
    1. Populate  `CLOUDTRAIL_S3_NAME`
    <br/>ex.:

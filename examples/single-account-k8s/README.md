@@ -54,7 +54,7 @@ provider "helm" {
   }
 }
 
-module "secure_for_cloud_aws_single_account" {
+module "secure_for_cloud_aws_single_account_k8s" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-k8s"
 }
 ```
@@ -84,7 +84,7 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.13.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.14.0 |
 | <a name="provider_helm"></a> [helm](#provider\_helm) | 2.5.1 |
 | <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.37 |
 

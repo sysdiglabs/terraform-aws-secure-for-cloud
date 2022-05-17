@@ -125,6 +125,68 @@ $ terraform plan
 $ terraform apply
 ```
 
+## Required Permissions
+
+### Provisioning Permissions
+
+Terraform provider credentials/token, requires `Administrative` permissions in order to be able to create the
+resources specified in the per-example diagram.
+
+Some components may vary, and you can check full resources on each module "Resources" section in their README's, but this would be an overall schema of the **created resources**:
+
+- SSM Parameter for Sysdig API Token Storage
+- Cloudtrail / SNS / S3 / SQS
+
+- Sysdig Workload: ECS / AppRunner creation (EKS is pre-required, not created)
+  - each compute solution require a role to assume for execution
+
+- CodeBuild for on-demand image scanning
+- Role for Sysdig [Benchmarks](./modules/services/cloud-bench)
+
+### Runtime Permissions
+
+Modules create several roles to be able to manage the following permissions.
+
+**General  Permissions**
+
+```shell
+ssm: GetParameters
+
+sqs: ReceiveMessage
+sqs: DeleteMessage
+
+s3: ListBucket
+s3: GetObject
+```
+
+**Image-Scanning specific**
+
+```shell
+codebuild: StartBuild
+
+ecr: GetAuthorizationToken
+ecr: BatchCheckLayerAvailability
+ecr: GetDownloadUrlForLayer
+ecr: GetRepositoryPolicy
+ecr: DescribeRepositories
+ecr: ListImages
+ecr: DescribeImages
+ecr: BatchGetImage
+ecr: GetLifecyclePolicy
+ecr: GetLifecyclePolicyPreview
+ecr: ListTagsForResource
+ecr: DescribeImageScanFindings
+
+ecs:DescribeTaskDefinition
+
+```
+
+Notes:
+- only Sysdig workload related permissions are specified above; infrastructure internal resource permissions (such as Cloudtrail permissions to publish on SNS, or SNS-SQS Subscription)
+are not detailed.
+- For a better security, permissions are resource pinned, instead of `*`
+- Check [Organizational Use Case - Role Summary](./examples/organizational/README.md#role-summary) for more details
+
 
 ## Forcing Events
 

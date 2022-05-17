@@ -28,6 +28,7 @@ module "ssm" {
   source                  = "../../modules/infrastructure/ssm"
   name                    = var.name
   sysdig_secure_api_token = data.sysdig_secure_connection.current.secure_api_token
+  tags                    = var.tags
 }
 
 
@@ -43,7 +44,10 @@ module "codebuild" {
   source                       = "../../modules/infrastructure/codebuild"
   name                         = var.name
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
-  depends_on                   = [module.ssm]
+
+  tags = var.tags
+  # note. this is required to avoid race conditions
+  depends_on = [module.ssm]
 }
 
 module "cloud_connector" {
