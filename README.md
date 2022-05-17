@@ -58,6 +58,8 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
   - Many module,examples and use-cases provide ways to **re-use existing resources (as optionals)** in your infrastructure (cloudtrail, ecs, vpc, k8s cluster,...)
   - Find some real self-baked **use-case scenarios** under [`/use-cases`](./use-cases)
 
+If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help and improve our module.
+
 ### - Single-Account on ECS
 
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
