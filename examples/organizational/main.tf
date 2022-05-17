@@ -54,6 +54,7 @@ module "cloud_connector" {
   providers = {
     aws = aws.member
   }
+
   source = "../../modules/services/cloud-connector-ecs"
   name   = "${var.name}-cloudconnector"
 
@@ -89,8 +90,8 @@ module "cloud_connector" {
 #-------------------------------------
 
 module "cloud_bench" {
-  source = "../../modules/services/cloud-bench"
   count  = var.deploy_benchmark ? 1 : 0
+  source = "../../modules/services/cloud-bench"
 
   name              = "${var.name}-cloudbench"
   is_organizational = true

@@ -70,26 +70,7 @@ data "aws_iam_policy_document" "cloud_connector" {
     ]
     resources = ["*"]
   }
-  statement {
-    sid    = "AllowECR"
-    effect = "Allow"
-    actions = [
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:BatchGetImage",
-      "ecr:DescribeImages",
-      "ecr:GetAuthorizationToken",
-      "ecr:BatchCheckLayerAvailability"
-    ]
-    resources = ["*"]
-  }
-  statement {
-    sid    = "AllowCodebuild"
-    effect = "Allow"
-    actions = [
-      "codebuild:StartBuild"
-    ]
-    resources = [var.build_project_arn]
-  }
+
   statement {
     sid    = "AllowSSM"
     effect = "Allow"
@@ -97,5 +78,34 @@ data "aws_iam_policy_document" "cloud_connector" {
       "ssm:GetParameters"
     ]
     resources = [var.secure_api_token_secret_arn]
+  }
+
+  dynamic "statement" {
+    for_each = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? [1] : []
+    content {
+      sid    = "AllowECR"
+      effect = "Allow"
+      actions = [
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:BatchGetImage",
+        "ecr:DescribeImages",
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability"
+      ]
+      resources = ["*"]
+    }
+  }
+
+
+  dynamic "statement" {
+    for_each = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? [1] : []
+    content {
+      sid    = "AllowCodebuild"
+      effect = "Allow"
+      actions = [
+        "codebuild:StartBuild"
+      ]
+      resources = [var.build_project_arn]
+    }
   }
 }

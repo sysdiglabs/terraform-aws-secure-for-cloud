@@ -3,8 +3,9 @@
 #-------------------------------------
 module "resource_group" {
   source = "../../modules/infrastructure/resource-group"
-  name   = var.name
-  tags   = var.tags
+
+  name = var.name
+  tags = var.tags
 }
 
 module "ssm" {
@@ -15,9 +16,10 @@ module "ssm" {
 }
 
 
-#-------------------------------------
-# cloud-connector
-#-------------------------------------
+#
+# scanning
+#
+
 module "codebuild" {
   count = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
 
@@ -26,9 +28,14 @@ module "codebuild" {
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
   tags = var.tags
-  # note. this is required to avoid race conditions
+  # note. this is required to avoid racing conditions
   depends_on = [module.ssm]
 }
+
+
+#
+# threat-detection
+#
 
 module "cloud_connector" {
   source = "../../modules/services/cloud-connector-ecs"

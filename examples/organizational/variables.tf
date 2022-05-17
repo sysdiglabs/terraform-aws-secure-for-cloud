@@ -8,6 +8,7 @@ variable "sysdig_secure_for_cloud_member_account_id" {
 # optionals - with defaults
 #---------------------------------
 
+
 #
 # organizational
 #
@@ -59,13 +60,13 @@ variable "cloudtrail_kms_enable" {
 variable "deploy_image_scanning_ecr" {
   type        = bool
   description = "true/false whether to deploy the image scanning on ECR pushed images"
-  default     = true
+  default     = false
 }
 
 variable "deploy_image_scanning_ecs" {
   type        = bool
   description = "true/false whether to deploy the image scanning on ECS running images"
-  default     = true
+  default     = false
 }
 
 

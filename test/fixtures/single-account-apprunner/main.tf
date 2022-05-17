@@ -19,4 +19,7 @@ provider "aws" {
 module "cloudvision_aws_apprunner_single_account" {
   source = "../../../examples/single-account-apprunner"
   name   = var.name
+
+  deploy_image_scanning_ecr = true
+  deploy_image_scanning_ecs = true
 }

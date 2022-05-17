@@ -11,7 +11,7 @@ Provides unified threat-detection, compliance, forensics and analysis through th
 
 * **[Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/permissions-and-entitlements/)**: Analyses user access overly permissive policies. Requires both modules  `cloud-connector` and `cloud-bench`. <br/>
 
-* **[Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry (ECR) and the images that run on the AWS workload (currently ECS). Managed through `cloud-connector`. <br/>
+* **[Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry (ECR) and the images that run on the AWS workload (currently ECS). Managed through `cloud-connector`. <br/>Disabled by Default, can be enabled through `deploy_image_scanning_ecr` and `deploy_image_scanning_ecs` input variable parameters.<br/>
 
 For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud), [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud)
 
@@ -56,10 +56,7 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
     - [Single-Account with a pre-existing Kubernetes Cluster](#--single-account-with-a-pre-existing-kubernetes-cluster)
     - [Organizational](#--organizational)
   - Many module,examples and use-cases provide ways to **re-use existing resources (as optionals)** in your infrastructure (cloudtrail, ecs, vpc, k8s cluster,...)
-  - Find some real **use-case scenario explanations** under [`/use-cases*`](./use-cases)
-    - [Single Account - Existing Cloudtrail](use-cases/single-existing-cloudtrail.md)
-    - [Organizational - Existing Cloudtrail, ECS, VPC, Subnet](use-cases/org-existing-cloudtrail-ecs-vpc-subnet.md)
-    - [Organizational - Existing Cloudtrail withouth SNS, but with S3 configuration, with K8s Cluster and Filtered Cloudtrail Event Account](use-cases/org-s3-k8s-filtered-account.md)
+  - Find some real self-baked **use-case scenarios** under [`/use-cases`](./use-cases)
 
 ### - Single-Account on ECS
 
@@ -222,6 +219,10 @@ It may take some time, but you should see logs detecting the new image in the EC
 <br/><br/>
 
 ## Troubleshooting
+
+## Q-Debug: Need to troubleshoot cloud-connector with `debug` loglevel
+A: both in ECS and AppRunner workload types, cloud-connector configuration is passed as a base64-encoded string through the env var `CONFIG`
+<br/>S: Get current value, decode it, edit the desired `logging: debug` value, encode it again, and spin it again with this new definition.
 
 ### Q-General: Getting error "Error: cannot verify credentials" on "sysdig_secure_trusted_cloud_identity" data
 A: This happens when Sysdig credentials are not working correctly.
