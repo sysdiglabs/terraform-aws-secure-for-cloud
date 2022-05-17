@@ -41,6 +41,7 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
 ## Terraform Example Selection
 
 |                   | Single                                                            |  Organizational |
+| --| -- | -- |
 | Deployment Type   | All Sysdig resources will be deployed within the selected account |  Most Sysdig resources will be deployed within the selected account, but some require to be deployed on member-accounts (for Compliance and Image Scanning)
 | Benefits          | Will only analyse current account                                 |  Handles all accounts (managed and member)
 | Drawbacks         | Cannot re-use another account Cloudtrail data (unless its deployed on the same account where the sns/s3 bucket is) | --
