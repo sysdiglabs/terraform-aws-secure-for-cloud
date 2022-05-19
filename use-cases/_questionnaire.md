@@ -1,6 +1,7 @@
 # Use-Case Questionnaire
 
-This questionnaire is aimed to help you/us find the most suitable example or self-baked use-case.
+This questionnaire is aimed to help you/us find the most suitable way of deploying [Sysdig Secure for Cloud](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/).
+
 Despite wanting only to trial it, we suggest that you deploy, and test it, in the most-similar situation to what
 you have on your production environment.
 
@@ -10,18 +11,15 @@ Contact us with these questions answered to help us.
 > Sysdig Secure for Cloud is served in Terraform [AWS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud), [GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud) and [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud)
 modules, and we also offer [AWS Cloudformation templates](https://github.com/sysdiglabs/aws-templates-secure-for-cloud)
 
+<br/><br/>
 
-## Client Infrastructure and Sysdig Features
+## Client Infrastructure
 
 - does your company work under an organization (AWS/GCP) or tenant (Azure)?
   - if so, how many member accounts (aws) /projects (gcp) /subscriptions (azure) does it have?
-
-- in what Sysdig features are you interested in?
-    - [Runtime Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)
-    - [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/) (cis benchmarks and others)
-    - [Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/permissions-and-entitlements/)
-    - Registry/repository [Image scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)
-    - Runtime workload image scanning (ecs on Aws, cloudrun on GCP, or container instances on Azure)
+- deployment type
+  - are you familiar with the installation stack? Terraform or Cloudformation?
+  - if you want to use Kubernetes workload for Sysdig deployment, what's your current way of deploying helm charts?
 
 
 ### AWS
@@ -33,12 +31,21 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
     - in case of ECS or K8S, do you have an existing cluster you would like to re-use?
 
 
-## Demo vs. Production
+## Sysdig Features
 
-- Are you familiar with the installation stack? Terraform or Cloudformation.
-- We recommend that whether you are demoing or not, to go for the most production similar environment.
+In what [Sysdig For Cloud Features](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/) are you interested in?
 
-## Terraform Example Selection
+- [Runtime Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)
+- [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/) (cis benchmarks and others)
+- [Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/permissions-and-entitlements/)
+- Scanning
+  - Push-based registry/repository image scanning
+  - Runtime workload image scanning (ecs on Aws, cloudrun on GCP, or container instances on Azure)
+  - Note: Sysdig offers many other ways of performing scanning, and we recommend you to [Check all Scanning options in the Vulnerability Management](https://docs.sysdig.com/en/docs/sysdig-secure/vulnerabilities/)
+
+
+
+## Example Selection
 
 |                   | Single                                                            |  Organizational |
 | --| -- | -- |
