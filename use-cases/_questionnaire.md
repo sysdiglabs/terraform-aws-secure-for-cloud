@@ -17,9 +17,12 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
 
 - does your company work under an organization (AWS/GCP) or tenant (Azure)?
   - if so, how many member accounts (aws) /projects (gcp) /subscriptions (azure) does it have?
+- how do you handle permissions? any restriction we may be aware of? do you want us to set them up for you or would you just require a guidance and you will set them yourself?
+
 - deployment type
-  - are you familiar with the installation stack? Terraform or Cloudformation?
+  - are you familiar with the installation stack? Terraform, Cloudformation, AWS CDK, ...?
   - if you want to use Kubernetes workload for Sysdig deployment, what's your current way of deploying helm charts?
+  
 
 
 ### AWS
