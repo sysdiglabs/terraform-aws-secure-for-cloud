@@ -71,7 +71,7 @@ jobs:
       - name: Execute pre-commit
         # Run only validate pre-commit check on min version supported
         if: ${{ matrix.directory !=  '.' }}
-        run: pre-commit run generate-terraform-providers terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*
+        run: pre-commit run generate_tf_providers terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*
 
       - name: Execute pre-commit
         # Run only validate pre-commit check on min version supported
