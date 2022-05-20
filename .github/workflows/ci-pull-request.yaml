@@ -64,12 +64,14 @@ jobs:
           terraform_version: ${{ steps.minMax.outputs.minVersion }}
 
       - name: Install pre-commit dependencies
-        run: pip install pre-commit
+        run: |
+          pip install pre-commit
+          go install github.com/hashicorp/terraform-config-inspect@latest
 
       - name: Execute pre-commit
         # Run only validate pre-commit check on min version supported
         if: ${{ matrix.directory !=  '.' }}
-        run: pre-commit run terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*
+        run: pre-commit run generate-terraform-providers terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*
 
       - name: Execute pre-commit
         # Run only validate pre-commit check on min version supported
@@ -106,7 +108,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v2
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GO_VERSION }}
       - name: Install Terraform v${{ matrix.version }}

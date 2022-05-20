@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# use from root path  ./resources/terraform-clean.sh
+# use from root path  ./resources/scripts/terraform-clean.sh
 # we don't wanna delete possible ./test state tests
 
 pushd .
