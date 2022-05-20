@@ -72,6 +72,8 @@ jobs:
         if: ${{ matrix.directory !=  '.' }}
         run: |
           pre-commit run generate_tf_providers -a
+          ls
+          cat ./examples/organizational/aliased-providers.tf.json
 
       - name: Execute pre-commit min_version 1
         # Run only validate pre-commit check on min version supported
