@@ -63,15 +63,27 @@ jobs:
         with:
           terraform_version: ${{ steps.minMax.outputs.minVersion }}
 
-      - name: Install pre-commit dependencies
-        run: pip install pre-commit
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
 
-      - name: Execute pre-commit
+      - name: Install pre-commit dependencies
+        run: |
+          pip install pre-commit
+          go install github.com/hashicorp/terraform-config-inspect@latest
+
+      - name: Execute generate-terraform-providers for organizational
+        if: ${{ matrix.directory !=  '.' }}
+        run: |
+          pre-commit run generate_tf_providers -a
+
+      - name: Execute pre-commit min_version 1
         # Run only validate pre-commit check on min version supported
         if: ${{ matrix.directory !=  '.' }}
         run: pre-commit run terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*
 
-      - name: Execute pre-commit
+      - name: Execute pre-commit min_version 2
         # Run only validate pre-commit check on min version supported
         if: ${{ matrix.directory ==  '.' }}
         run: pre-commit run terraform_validate --color=always --show-diff-on-failure --files $(ls *.tf)
@@ -106,7 +118,7 @@ jobs:
       - name: Install Python
         uses: actions/setup-python@v2
       - name: Set up Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GO_VERSION }}
       - name: Install Terraform v${{ matrix.version }}
@@ -117,10 +129,11 @@ jobs:
         run: |
           pip install pre-commit
           go install github.com/terraform-docs/terraform-docs@v0.16.0
+          go install github.com/hashicorp/terraform-config-inspect@latest
           curl -L "$(curl -s https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip")" > tflint.zip && unzip tflint.zip && rm tflint.zip && sudo mv tflint /usr/bin/
       - name: Clean pre-commit cache
         run: pre-commit clean
-      - name: Execute pre-commit
+      - name: Execute pre-commit max_version
         # Run all pre-commit checks on max version supported
         if: ${{ matrix.version ==  needs.getTerraformMinMaxVersion.outputs.maxVersion }}
         run: pre-commit run --color=always --show-diff-on-failure --all-files

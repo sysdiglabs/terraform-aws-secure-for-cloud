@@ -22,7 +22,7 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
 - deployment type
   - are you familiar with the installation stack? Terraform, Cloudformation, AWS CDK, ...?
   - if you want to use Kubernetes workload for Sysdig deployment, what's your current way of deploying helm charts?
-  
+
 
 
 ### AWS

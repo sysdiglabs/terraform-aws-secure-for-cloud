@@ -49,7 +49,7 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.14.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.15.0 |
 
 ## Modules
 
