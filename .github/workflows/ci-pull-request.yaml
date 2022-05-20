@@ -63,6 +63,11 @@ jobs:
         with:
           terraform_version: ${{ steps.minMax.outputs.minVersion }}
 
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
       - name: Install pre-commit dependencies
         run: |
           pip install pre-commit
