@@ -68,14 +68,14 @@ jobs:
           pip install pre-commit
           go install github.com/hashicorp/terraform-config-inspect@latest
 
-      - name: Execute pre-commit 1
+      - name: Execute pre-commit min_version 1
         # Run only validate pre-commit check on min version supported
         if: ${{ matrix.directory !=  '.' }}
         run: |
           pre-commit run generate_tf_providers -a
           pre-commit run terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*
 
-      - name: Execute pre-commit 2
+      - name: Execute pre-commit min_version 2
         # Run only validate pre-commit check on min version supported
         if: ${{ matrix.directory ==  '.' }}
         run: |
@@ -125,7 +125,9 @@ jobs:
           curl -L "$(curl -s https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip")" > tflint.zip && unzip tflint.zip && rm tflint.zip && sudo mv tflint /usr/bin/
       - name: Clean pre-commit cache
         run: pre-commit clean
-      - name: Execute pre-commit
+      - name: Execute pre-commit max_version
         # Run all pre-commit checks on max version supported
         if: ${{ matrix.version ==  needs.getTerraformMinMaxVersion.outputs.maxVersion }}
-        run: pre-commit run --color=always --show-diff-on-failure --all-files
+        run: |
+          pre-commit run generate_tf_providers -a
+          pre-commit run --color=always --show-diff-on-failure --all-files
