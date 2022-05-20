@@ -67,6 +67,7 @@ jobs:
         run: |
           pip install pre-commit
           go install github.com/hashicorp/terraform-config-inspect@latest
+          go install github.com/hashicorp/terraform-config-inspect@latest
 
       - name: Execute generate-terraform-providers for organizational
         if: ${{ matrix.directory !=  '.' }}
