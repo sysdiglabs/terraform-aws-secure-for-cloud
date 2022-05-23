@@ -47,7 +47,6 @@ provider "aws" {
 
 module "cloudvision_aws_apprunner_single_account" {
    source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-apprunner"
-   name   = "<APPRUNNER_SERVICE_NAME>"
 }
 ```
 
