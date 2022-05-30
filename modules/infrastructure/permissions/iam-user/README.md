@@ -45,7 +45,7 @@ Note: Contact us if this authentication system does not match your requirement.
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.15.1 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.16.0 |
 
 ## Modules
 
