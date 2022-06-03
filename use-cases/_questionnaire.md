@@ -57,11 +57,11 @@ With both examples `single` and `org`, you can customize the desired features to
 
 We enable following optionals, to allow user to re-use their pre-existing / configured resources.
 
-|  Cloud |  Optioals | Related Input Vars | 
-| -- | --| -- |
-| AWS  | Cloudtrail-SNS | `cloudtrail_sns_arn`, (org only) `cloudtrail_s3_arn` | 
-| | ECS, VPC, Subnet | if used, the three are mandatory `ecs_cluster_name`, `ecs_vpc_id`, `ecs_vpc_subnets_private_ids` | 
-| GCP | - | - | 
-| Azure | ResourceGroup | `resource_group_name` |
-| | ACR (registry)  | `registry_name`, `registry_resource_group_name` | 
-| * | Compute Workload | All clouds allow Sysdig Secure for cloud to be deployed on a pre-existing K8S cluster| 
+|  Cloud |  Optioals | Related Input Vars | Other |
+| -- | --| -- | -- | 
+| AWS  | Cloudtrail-SNS | `cloudtrail_sns_arn`, (org only) `cloudtrail_s3_arn` | - |
+| | ECS, VPC, Subnet | `ecs_cluster_name`, `ecs_vpc_id`, `ecs_vpc_subnets_private_ids` | if used, the three are mandatory  |
+| GCP | - | - | - |
+| Azure | ResourceGroup | `resource_group_name` | - |
+| | ACR (registry)  | `registry_name`, `registry_resource_group_name` | - | 
+| * | Compute Workload | - | All clouds allow Sysdig Secure for cloud to be deployed on a pre-existing K8S cluster| 
