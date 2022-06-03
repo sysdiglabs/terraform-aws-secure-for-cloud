@@ -19,10 +19,11 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
   - if so, how many member accounts (aws) /projects (gcp) /subscriptions (azure) does it have?
 - sysdig secure for cloud is presented in different **compute workload** flavors; ecs on aws, cloudrun on gcp or azure container instances on azure, plus a K8s deployment an all three clouds, plus apprunner on aws (less resource-demaing than ecs, but region limited)
     - in case of ECS or K8S, do you have an existing cluster you would like to re-use?
-- (aws-only) do you have ** existing aws cloudtrail**, is it an organizational cloudtrail?
-    - does the cloudtrail report to an SNS?
+- (aws-only) do you have **existing aws cloudtrail**?
+    - is it an organizational cloudtrail?
+    - does the cloudtrail report to an SNS? if no, could you enable it?
     - if it's not organizational, does each trail report to the same s3 bucket?
-- how do you handle permissions? any restriction we may be aware of? do you want us to set them up for you or would you just require a guidance and you will set them yourself?
+- how do you handle IAM permissions? any restriction we may be aware of? do you want us to set them up for you or would you just require a guidance and you will set them yourself?
 - deployment type
   - are you familiar with the installation stack? Terraform, Cloudformation, AWS CDK, ...?
   - if you want to use Kubernetes compute for Sysdig deployment, what's your current way of deploying helm charts?
@@ -50,4 +51,17 @@ In what [Sysdig For Cloud Features](https://docs.sysdig.com/en/docs/sysdig-secur
 | Benefits          | Will only analyse current account                                 |  Handles all accounts (managed and member)
 | Drawbacks         | Cannot re-use another account Cloudtrail data (unless its deployed on the same account where the sns/s3 bucket is) | for scanning, a per-member-account access role is required
 
-With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted
+With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
+
+## Available Optionals
+
+We enable following optionals, to allow user to re-use their pre-existing / configured resources.
+
+|  Cloud |  Optioals | Related Input Vars | 
+| -- | --| -- |
+| AWS  | Cloudtrail-SNS | `cloudtrail_sns_arn`, (org only) `cloudtrail_s3_arn` | 
+| | ECS, VPC, Subnet | if used, the three are mandatory `ecs_cluster_name`, `ecs_vpc_id`, `ecs_vpc_subnets_private_ids` | 
+| GCP | - | - | 
+| Azure | ResourceGroup | `resource_group_name` |
+| | ACR (registry)  | `registry_name`, `registry_resource_group_name` | 
+| * | Compute Workload | All clouds allow Sysdig Secure for cloud to be deployed on a pre-existing K8S cluster| 
