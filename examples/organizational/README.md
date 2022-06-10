@@ -1,5 +1,7 @@
 # Sysdig Secure for Cloud in AWS<br/>[ Example :: Shared Organizational Trail ]
 
+Assess the security of your organization.
+
 Deploy Sysdig Secure for Cloud using an [AWS Organizational Cloudtrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html) that will fetch events from all organization member accounts (and the managed one too).
 
 * In the **management account**
