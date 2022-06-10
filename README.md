@@ -225,9 +225,10 @@ It may take some time, but you should see logs detecting the new image in the EC
 
 ## Troubleshooting
 
-## Q-Debug: Need to troubleshoot cloud-connector with `debug` loglevel
+## Q-General: Need to modify cloud-connector config (to troubleshoot with `debug` loglevel, modify ingestors for testing, ...)
 A: both in ECS and AppRunner workload types, cloud-connector configuration is passed as a base64-encoded string through the env var `CONFIG`
-<br/>S: Get current value, decode it, edit the desired `logging: debug` value, encode it again, and spin it again with this new definition.
+<br/>S: Get current value, decode it, edit the desired (ex.:`logging: debug` value), encode it again, and spin it again with this new definition.
+<br/>For information on all the modifyable configuration see [Cloud-Connector Chart](https://charts.sysdig.com/charts/cloud-connector/#configuration-detail) reference
 
 ### Q-General: Getting error "Error: cannot verify credentials" on "sysdig_secure_trusted_cloud_identity" data
 A: This happens when Sysdig credentials are not working correctly.
