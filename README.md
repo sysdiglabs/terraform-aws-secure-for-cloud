@@ -86,7 +86,7 @@ More info in [`./examples/single-account-k8s`](https://github.com/sysdiglabs/ter
 
 ### - Organizational
 
-Using an organizational configuration Cloudtrail.<br/>
+Secure all the accounts from your organization<br/>
 More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
 
 ![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/organizational/diagram-org.png)
