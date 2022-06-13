@@ -8,6 +8,7 @@ variable "sysdig_secure_for_cloud_member_account_id" {
 # optionals - with defaults
 #---------------------------------
 
+
 #
 # organizational
 #
@@ -31,7 +32,7 @@ variable "organizational_member_default_admin_role" {
 variable "cloudtrail_sns_arn" {
   type        = string
   default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permisision to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns_permissions.tf block"
+  description = "ARN of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns_permissions.tf block"
 }
 
 variable "cloudtrail_s3_arn" {
@@ -59,13 +60,13 @@ variable "cloudtrail_kms_enable" {
 variable "deploy_image_scanning_ecr" {
   type        = bool
   description = "true/false whether to deploy the image scanning on ECR pushed images"
-  default     = true
+  default     = false
 }
 
 variable "deploy_image_scanning_ecs" {
   type        = bool
   description = "true/false whether to deploy the image scanning on ECS running images"
-  default     = true
+  default     = false
 }
 
 

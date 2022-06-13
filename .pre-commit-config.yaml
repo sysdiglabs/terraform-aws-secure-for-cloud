@@ -16,38 +16,61 @@ repos:
 #    hooks:
 #        - id: terraform_validate
 #          name: Terraform validate
-#          entry: .pre-commit-terraform-validate-examples.sh
+#          entry: resources/scripts/terraform_validate.sh
 #          pass_filenames: false
 #          language: script
 #          verbose: true
 
-  - repo: git://github.com/antonbabenko/pre-commit-terraform
+  # https://github.com/antonbabenko/pre-commit-terraform/blob/master/README.md#terraform_validate (point 4)
+  - repo: local
+    hooks:
+      - id: terraform_clean
+        name: "Terraform Cleanup"
+        pass_filenames: false
+        language: system
+        entry: bash -c "find . \( -iname ".terraform*" ! -iname ".terraform-docs*" ! -path "*/test/*" \)  -print0 | xargs -0 rm -r; true"
+
+
+  - repo: local
+    # Adding this patch to fix organizational multi-provider terraform validate error
+    # 'missing provider provider["registry.terraform.io/hashicorp/aws"].member'
+    # https://github.com/antonbabenko/pre-commit-terraform/#terraform_validate
+    hooks:
+      - id: generate_tf_providers
+        name: generate_tf_providers
+        language: system
+        entry: bash -c "./resources/scripts/generate_providers.sh ./modules/infrastructure/permissions/org-role-ecs ./examples/organizational"
+        pass_filenames: false
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.64.0
     hooks:
       - id: terraform_fmt
       # https://github.com/antonbabenko/pre-commit-terraform#terraform_validate
       - id: terraform_validate
-        exclude: (modules/infrastructure/permissions/org-role-ecs)|(examples/organizational)|(test)|(examples-internal)\/.*$
+        exclude: (test)|(examples-internal)\/.*$
       - id: terraform_docs
         args:
           - '--args=--sort-by required'
       - id: terraform_tflint
         exclude: (test)|(examples-internal)\/.*$
         args:
-          - '--args=--only=terraform_deprecated_interpolation'
-          - '--args=--only=terraform_deprecated_index'
-          - '--args=--only=terraform_unused_declarations'
           - '--args=--only=terraform_comment_syntax'
+          - '--args=--only=terraform_deprecated_index'
+          - '--args=--only=terraform_deprecated_interpolation'
           - '--args=--only=terraform_documented_outputs'
           - '--args=--only=terraform_documented_variables'
-          - '--args=--only=terraform_typed_variables'
           - '--args=--only=terraform_module_pinned_source'
+          - '--args=--only=terraform_module_version'
           - '--args=--only=terraform_naming_convention'
-          - '--args=--only=terraform_required_version'
           - '--args=--only=terraform_required_providers'
+          - '--args=--only=terraform_required_version'
           - '--args=--only=terraform_standard_module_structure'
+          - '--args=--only=terraform_typed_variables'
+          - '--args=--only=terraform_unused_declarations'
+          - '--args=--only=terraform_unused_required_providers'
           - '--args=--only=terraform_workspace_remote'
-  - repo: git://github.com/pre-commit/pre-commit-hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:
       - id: check-merge-conflict

@@ -24,4 +24,7 @@ provider "helm" {
 module "cloudvision_aws_single_account_k8s" {
   source = "../../../examples/single-account-k8s"
   name   = "${var.name}-singlek8s"
+
+  deploy_image_scanning_ecr = true
+  deploy_image_scanning_ecs = true
 }

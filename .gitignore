@@ -42,5 +42,8 @@ override.tf.json
 
 # test
 .kitchen/*
-test/fixtures/single-account/.kitchen/
+test/fixtures/**/.kitchen/
 test/snippets/*
+
+# pre-commit workarounds
+**/aliased-providers.tf.json

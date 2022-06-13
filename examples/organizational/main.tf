@@ -28,6 +28,7 @@ module "ssm" {
   source                  = "../../modules/infrastructure/ssm"
   name                    = var.name
   sysdig_secure_api_token = data.sysdig_secure_connection.current.secure_api_token
+  tags                    = var.tags
 }
 
 
@@ -43,14 +44,18 @@ module "codebuild" {
   source                       = "../../modules/infrastructure/codebuild"
   name                         = var.name
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
-  depends_on                   = [module.ssm]
+
+  tags = var.tags
+  # note. this is required to avoid race conditions
+  depends_on = [module.ssm]
 }
 
 module "cloud_connector" {
   providers = {
     aws = aws.member
   }
-  source = "../../modules/services/cloud-connector"
+
+  source = "../../modules/services/cloud-connector-ecs"
   name   = "${var.name}-cloudconnector"
 
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
@@ -85,8 +90,8 @@ module "cloud_connector" {
 #-------------------------------------
 
 module "cloud_bench" {
-  source = "../../modules/services/cloud-bench"
   count  = var.deploy_benchmark ? 1 : 0
+  source = "../../modules/services/cloud-bench"
 
   name              = "${var.name}-cloudbench"
   is_organizational = true

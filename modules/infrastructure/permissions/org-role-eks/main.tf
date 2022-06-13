@@ -22,13 +22,12 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_trusted" {
 # ------------------------------
 
 resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_s3" {
-  count  = var.deploy_threat_detection ? 1 : 0
   name   = "${var.name}-AllowCloudtrailS3Policy"
   role   = aws_iam_role.secure_for_cloud_role.id
-  policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_s3[0].json
+  policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_s3.json
 }
+
 data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
-  count = var.deploy_threat_detection ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
@@ -52,6 +51,7 @@ resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_assume_role" {
   role   = aws_iam_role.secure_for_cloud_role.id
   policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_assume_role[0].json
 }
+
 data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_assume_role" {
   count = var.deploy_image_scanning ? 1 : 0
   statement {

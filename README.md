@@ -5,13 +5,13 @@ Terraform module that deploys the [**Sysdig Secure for Cloud** stack in **AWS**]
 
 Provides unified threat-detection, compliance, forensics and analysis through these major components:
 
-* **[CSPM/Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance-unified-/)**: It evaluates periodically your cloud configuration, using Cloud Custodian, against some benchmarks and returns the results and remediation you need to fix. Managed through `cloud-bench` module. <br/>
+* **[Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through `cloud-connector` module. <br/>
 
-* **[CIEM](https://docs.sysdig.com/en/docs/sysdig-secure/posture/)**: Permissions and Entitlements management. Requires BOTH modules  `cloud-connector` and `cloud-bench`. <br/>
+* **[Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)**: Enables the evaluation of standard compliance frameworks. Requires both modules  `cloud-connector` and `cloud-bench`. <br/>
 
-* **[Cloud Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through `cloud-connector` module. <br/>
+* **[Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/identity-and-access/)**: Analyses user access overly permissive policies. Requires both modules  `cloud-connector` and `cloud-bench`. <br/>
 
-* **[Cloud Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry (ECR) and the images that run on the AWS workload (currently ECS). Managed through `cloud-connector`. <br/>
+* **[Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry (ECR) and the images that run on the AWS workload (currently ECS). Managed through `cloud-connector`. <br/>Disabled by Default, can be enabled through `deploy_image_scanning_ecr` and `deploy_image_scanning_ecs` input variable parameters.<br/>
 
 For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud), [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud)
 
@@ -42,37 +42,51 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 ### Notice
 
-* **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
+* [AWS regions](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints)
+* **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/>
+* All Sysdig Secure for Cloud features but [Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/) are enabled by default. You can enable it through `deploy_scanning` input variable parameters.<br/>
 * **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
-
+* For **free subscription** users, beware that organizational examples may not deploy properly due to the [1 cloud-account limitation](https://docs.sysdig.com/en/docs/administration/administration-settings/subscription/#cloud-billing-free-tier). Open an Issue so we can help you here!
 <br/>
 
 
 ## Usage
 
-  - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
-  - Many module,examples and use-cases provide ways to **re-use existing resources (as optionals)** in your infrastructure (cloudtrail, ecs, vpc, k8s cluster,...)
-  - Find some real **use-case scenario explanations** under [`/examples-internal/use-cases*`](./examples-internal)
-    - [Single Account - Existing Cloudtrail](./examples-internal/use-cases-reuse-resources/single-existing-cloudtrail.md)
-    - [Organizational - Existing Cloudtrail, ECS, VPC, Subnet](./examples-internal/use-cases-reuse-resources/org-existing-cloudtrail-ecs-vpc-subnet.md)
-    - [Organizational - Existing Cloudtrail withouth SNS, but with S3 configuration, with K8s Cluster and Filtered Cloudtrail Event Account](./examples-internal/use-cases-self-baked/org-s3-k8s-filtered-account.md)
+If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help and improve our module.
 
-### - Single-Account
+  - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
+    - [Single Account on ECS](#--single-account-on-ecs)
+    - [Single Account on AppRunner](#--single-account-on-apprunner)
+    - [Single-Account with a pre-existing Kubernetes Cluster](#--single-account-with-a-pre-existing-kubernetes-cluster)
+    - [Organizational](#--organizational)
+  - Many module,examples and use-cases provide ways to **re-use existing resources (as optionals)** in your infrastructure (cloudtrail, ecs, vpc, k8s cluster,...)
+  - Find some real self-baked **use-case scenarios** under [`/use-cases`](./use-cases)
+
+
+### - Single-Account on ECS
 
 Sysdig workload will be deployed in the same account where user's resources will be watched.<br/>
-More info in [`./examples/single-account`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account)
+More info in [`./examples/single-account-ecs`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs)
 
-![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account/diagram-single.png)
+![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-ecs/diagram-single.png)
 
+### - Single-Account on AppRunner
+
+Sysdig workload will be deployed using AppRunner in the same account where user's resources will be watched.<br/>
+More info in [`./examples/single-account-apprunner`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner)
+
+![single-account diagram on apprunner](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-apprunner/diagram-single.png)
 
 ### - Single-Account with a pre-existing Kubernetes Cluster
 
 If you already own a Kubernetes Cluster on AWS, you can use it to deploy Sysdig Secure for Cloud, instead of default ECS cluster.<br/>
 More info in [`./examples/single-account-k8s`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s)
 
+![single-account with pre-existing kubernetes cluster](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-k8s/diagram.png)
+
 ### - Organizational
 
-Using an organizational configuration Cloudtrail.<br/>
+Secure all the accounts from your organization<br/>
 More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
 
 ![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/organizational/diagram-org.png)
@@ -116,6 +130,68 @@ $ terraform plan
 $ terraform apply
 ```
 
+## Required Permissions
+
+### Provisioning Permissions
+
+Terraform provider credentials/token, requires `Administrative` permissions in order to be able to create the
+resources specified in the per-example diagram.
+
+Some components may vary, and you can check full resources on each module "Resources" section in their README's, but this would be an overall schema of the **created resources**:
+
+- SSM Parameter for Sysdig API Token Storage
+- Cloudtrail / SNS / S3 / SQS
+
+- Sysdig Workload: ECS / AppRunner creation (EKS is pre-required, not created)
+  - each compute solution require a role to assume for execution
+
+- CodeBuild for on-demand image scanning
+- Role for Sysdig [Benchmarks](./modules/services/cloud-bench)
+
+### Runtime Permissions
+
+Modules create several roles to be able to manage the following permissions.
+
+**General  Permissions**
+
+```shell
+ssm: GetParameters
+
+sqs: ReceiveMessage
+sqs: DeleteMessage
+
+s3: ListBucket
+s3: GetObject
+```
+
+**Image-Scanning specific**
+
+```shell
+codebuild: StartBuild
+
+ecr: GetAuthorizationToken
+ecr: BatchCheckLayerAvailability
+ecr: GetDownloadUrlForLayer
+ecr: GetRepositoryPolicy
+ecr: DescribeRepositories
+ecr: ListImages
+ecr: DescribeImages
+ecr: BatchGetImage
+ecr: GetLifecyclePolicy
+ecr: GetLifecyclePolicyPreview
+ecr: ListTagsForResource
+ecr: DescribeImageScanFindings
+
+ecs:DescribeTaskDefinition
+
+```
+
+Notes:
+- only Sysdig workload related permissions are specified above; infrastructure internal resource permissions (such as Cloudtrail permissions to publish on SNS, or SNS-SQS Subscription)
+are not detailed.
+- For a better security, permissions are resource pinned, instead of `*`
+- Check [Organizational Use Case - Role Summary](./examples/organizational/README.md#role-summary) for more details
+
 
 ## Forcing Events
 
@@ -149,9 +225,14 @@ It may take some time, but you should see logs detecting the new image in the EC
 
 ## Troubleshooting
 
+## Q-General: Need to modify cloud-connector config (to troubleshoot with `debug` loglevel, modify ingestors for testing, ...)
+A: both in ECS and AppRunner workload types, cloud-connector configuration is passed as a base64-encoded string through the env var `CONFIG`
+<br/>S: Get current value, decode it, edit the desired (ex.:`logging: debug` value), encode it again, and spin it again with this new definition.
+<br/>For information on all the modifyable configuration see [Cloud-Connector Chart](https://charts.sysdig.com/charts/cloud-connector/#configuration-detail) reference
+
 ### Q-General: Getting error "Error: cannot verify credentials" on "sysdig_secure_trusted_cloud_identity" data
 A: This happens when Sysdig credentials are not working correctly.
-S: Check sysdig provider block is correctly configured with the `sysdig_secure_url` and `sysdig_secure_api_token` variables
+<br/>S: Check sysdig provider block is correctly configured with the `sysdig_secure_url` and `sysdig_secure_api_token` variables
 with the correct values. Check [Sysdig SaaS per-region URLs if required](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges)
 
 ### Q-General: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
@@ -160,7 +241,7 @@ A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terr
 
 ### Q-AWS: Getting error "Error: failed creating ECS Task Definition: ClientException: No Fargate configuration exists for given values.
 A: Your ECS task_size values aren't valid for Fargate. Specifically, your mem_limit value is too big for the cpu_limit you specified
-S: Check [supported task cpu and memory values](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html)
+<br/>S: Check [supported task cpu and memory values](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-cpu-memory-error.html)
 
 ### Q-AWS: Getting error "404 Invalid parameter: TopicArn" when trying to reuse an existing cloudtrail-sns
 
@@ -204,24 +285,10 @@ This error happens when the ECS `TaskRole` has no permissions to assume this rol
 <br/>S: Give permissions to `sts:AssumeRole` to the role used.
 
 
-### Q-Dev-Contrib: How to iterate cloud-connector modification testing
+### Q-AWS: Getting error 409 `EntityAlreadyExists`
 
-A: Build a custom docker image of cloud-connector `docker build . -t <DOCKER_IMAGE> -f ./build/cloud-connector/Dockerfile` and upload it to any registry (like dockerhub).
-Modify the [var.image](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector/variables.tf) variable to point to your image and deploy
-
-### Q-Dev-Contrib: How can I iterate ECS modification testing
-
-A: After applying your modifications (vía terraform for example) restart the service
-  ```
-  $ aws ecs update-service --force-new-deployment --cluster sysdig-secure-for-cloud-ecscluster --service sysdig-secure-for-cloud-cloudconnector --profile <AWS_PROFILE>
-  ```
-For the AWS_PROFILE, set your `~/.aws/config` to impersonate
-  ```
-  [profile secure-for-cloud]
-  region=eu-central-1
-  role_arn=arn:aws:iam::<AWS_MANAGEMENT_ORGANIZATION_ACCOUNT>:role/OrganizationAccountAccessRole
-  source_profile=<AWS_MANAGEMENT_ACCOUNT_PROFILE>
-  ```
+A: Probably you or someone in the same environment you're using, already deployed a resource with the sysdig terraform module and a naming collision is happening.
+<br/>S: If you want to maintain several versions, make use of the [`name` input var of the examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account#input_name)
 
 <br/><br/>
 ## Authors

@@ -6,7 +6,6 @@ locals {
 # requirements
 #-------------------------------------
 module "cloud_connector_sqs" {
-  count  = var.deploy_threat_detection ? 1 : 0
   source = "../../modules/infrastructure/sqs-sns-subscription"
 
   name          = var.name
@@ -30,8 +29,6 @@ module "codebuild" {
 # cloud_connector
 #-------------------------------------
 resource "helm_release" "cloud_connector" {
-  count = var.deploy_threat_detection ? 1 : 0
-
   name       = "cloud-connector"
   repository = "https://charts.sysdig.com"
   chart      = "cloud-connector"
@@ -64,12 +61,17 @@ resource "helm_release" "cloud_connector" {
     value = data.aws_region.current.name
   }
 
+  set {
+    name  = "telemetryDeploymentMethod"
+    value = "terraform_aws_k8s_single"
+  }
+
   values = [
     yamlencode({
       ingestors = [
         {
           cloudtrail-sns-sqs = {
-            queueURL = module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_url
+            queueURL = module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url
           }
         }
       ]

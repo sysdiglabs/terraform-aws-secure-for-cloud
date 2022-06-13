@@ -9,7 +9,7 @@
 variable "cloudtrail_sns_arn" {
   type        = string
   default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns. If it does not exist, it will be inferred from created cloudtrail"
+  description = "ARN of a pre-existing cloudtrail_sns. If defaulted, a new cloudtrail will be created. If specified, deployment region must match Cloudtrail S3 bucket region"
 }
 
 variable "cloudtrail_is_multi_region_trail" {
@@ -39,29 +39,19 @@ variable "tags" {
 }
 
 #
-# threat-detection configuration
-#
-
-variable "deploy_threat_detection" {
-  type        = bool
-  description = "true/false whether to deploy cloud_connector"
-  default     = true
-}
-
-#
 # scanning configuration
 #
 
 variable "deploy_image_scanning_ecr" {
   type        = bool
   description = "true/false whether to deploy the image scanning on ECR pushed images"
-  default     = true
+  default     = false
 }
 
 variable "deploy_image_scanning_ecs" {
   type        = bool
   description = "true/false whether to deploy the image scanning on ECS running images"
-  default     = true
+  default     = false
 }
 
 

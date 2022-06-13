@@ -12,7 +12,7 @@ Deployed on **Sysdig Backend**
 - An `aws_foundations_bench-1.3.0` benchmak task schedule on a random hour of the day `rand rand * * *`
 
 
-<!-- BEGIN_TF_DOCS -->
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
 | Name | Version |
@@ -26,9 +26,9 @@ Deployed on **Sysdig Backend**
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.62.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | >= 3.1.0 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.29 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.18.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.3.1 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.37 |
 
 ## Modules
 
@@ -61,12 +61,12 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | The name of the IAM Role that will be created. | `string` | `"sfc-cloudbench"` | no |
 | <a name="input_provision_in_management_account"></a> [provision\_in\_management\_account](#input\_provision\_in\_management\_account) | Whether to deploy the stack in the management account | `bool` | `true` | no |
 | <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in organization mode | `string` | `"eu-central-1"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
 
 No outputs.
-<!-- END_TF_DOCS -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors
 
