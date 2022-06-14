@@ -125,6 +125,7 @@ provider "aws" {
   region = "<AWS_REGION>"   # must match s3 AND sns region
 }
 
+# you can setup this provider as desired, just giving an example
 provider "aws" {
   alias  = "member"
   region = "<AWS_REGION>"   # must match s3 AND sns region
