@@ -21,7 +21,7 @@ data "aws_iam_policy_document" "cloudtrail_kms" {
     effect = "Allow"
     principals {
       # identifiers = ["arn:aws:iam::${data.aws_caller_identity.me.account_id}:root"]
-      identifiers = ["*"]
+      identifiers = [data.aws_caller_identity.me.account_id]
       type        = "AWS"
     }
     actions   = ["kms:*"]
