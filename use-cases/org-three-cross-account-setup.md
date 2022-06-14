@@ -6,6 +6,7 @@
 
 - AWS Organization Setup
 - AWS Organizational Cloudtrail within the managed account, with Cloudtrail-SNS activation + reporting to another member-account S3 bucket
+  - This setup is popular with user that are under AWS Control Tower Setup
 - Existing VPC network setup.
     
 **Sysdig Secure For Cloud [Features](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/)**
@@ -18,14 +19,17 @@
 ## Suggested setup
 
 We're going to use existing use case [/use-cases/org-existing-cloudtrail-ecs-vpc-subnet.md](./org-existing-cloudtrail-ecs-vpc-subnet.md), with some permission-related changes, due to the three-way cross-account scenario.
-This setup is popular with user that are under AWS Control Tower Setup
+
+Final scenario would be:
 
 - Management Account 
-  - the Cloudtrail-SNS
+  - Cloudtrail-SNS
 - Log-Archive Account
-  - the Cloudtrail-S3 bucket
+  - Cloudtrail-S3 bucket
 - Member Account
   - Sysdig Secure for Cloud deployment
+
+It's important that all three resources (cloudtrail-sns, cloudtrail-s3 and sysdig workload), is **within same AWS_REGION**. Otherwise, contact us so we can alleviate this limitation.
 
 For network setup, please refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/).
 
