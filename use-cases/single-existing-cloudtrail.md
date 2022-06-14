@@ -85,9 +85,9 @@ provider "aws" {
   region = "<AWS_REGION>"
 }
 
-module "sysdig-s4c" {
+module "sysdig-sfc" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-ecs"
-  name   = "sysdig-s4c"
+  name   = "sysdig-sfc"
 
   cloudtrail_sns_arn  = "<CLOUDRAIL_SNS_TOPIC_ARN>"
 }

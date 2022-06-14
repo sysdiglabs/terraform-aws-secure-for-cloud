@@ -86,7 +86,7 @@ module "utils_ecs-vpc" {
 
    - General
      - `AWS_REGION` Same region is to be used for both organizational managed account and Sysdig workload member account resources.
-     - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` where Sysdig Workoad is to be deployed under the pre-existing ECS
+     - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` where Sysdig Workload is to be deployed under the pre-existing ECS
 
    - Existing Organizational Cloudtrail Setup
      - `CLOUDTRAIL_SNS_ARN`
@@ -94,15 +94,6 @@ module "utils_ecs-vpc" {
      - You MUST grant manual permissions to the organizational cloudtrail, for the AWS member-account management role `OrganizationAccountAccessRole` to be able to perform `SNS:Subscribe`.
        - This will be required for the CloudConnector SQS Topic subscription.
        - Use [`./modules/infrastructure/cloudtrail/sns_permissions.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/infrastructure/cloudtrail/sns_permissions.tf#L22) as guideline
-
-
-   - Existing ECS Cluster Workload  Setup
-     - `ECS_CLUSTER_NAME` ex.: "sfc"
-
-   - Existing Networking Setup
-     - `ECS_VPC_ID` ex.: "vpc-0e91bfef6693f296b"
-     - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
-
 
 ### Terraform Manifest Snippet
 
@@ -122,36 +113,31 @@ provider "sysdig" {
 }
 
 provider "aws" {
-  region = "<AWS_REGION>"
+  region = "<AWS_REGION>"       # must match s3 AND sns region
 }
 
+# you can setup this provider as desired, just giving an example
 provider "aws" {
   alias  = "member"
-  region = "<AWS_REGION>"
+  region = "<AWS_REGION>"       # must match s3 AND sns region
   assume_role {
     # 'OrganizationAccountAccessRole' is the default role created by AWS for management-account users to be able to admin member accounts.
-    # if this is changed, please change to the `examples/organizational` input var `organizational_member_default_admin_role` too
     # <br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
     role_arn = "arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/OrganizationAccountAccessRole"
   }
 }
 
-module "sysdig-s4c" {
+module "sysdig-sfc" {
   providers = {
     aws.member = aws.member
   }
 
   source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
-  name   = "sysdig-s4c"
+  name   = "sysdig-sfc"
 
   sysdig_secure_for_cloud_member_account_id="<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>"
 
   cloudtrail_sns_arn  = "<CLOUDTRAIL_SNS_ARN>"
   cloudtrail_s3_arn   = "<CLOUDTRAIL_S3_ARN>"
-
-  ecs_cluster_name              = "<ECS_CLUSTER_NAME>"
-  ecs_vpc_id                    = "<ECS_VPC_ID>"
-  ecs_vpc_subnets_private_ids   = ["<ECS_VPC_SUBNET_PRIVATE_ID_1>","<ECS_VPC_SUBNET_PRIVATE_ID_2>"]
-
 }
 ```
