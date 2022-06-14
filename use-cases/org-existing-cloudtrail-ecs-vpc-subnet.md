@@ -95,6 +95,15 @@ module "utils_ecs-vpc" {
        - This will be required for the CloudConnector SQS Topic subscription.
        - Use [`./modules/infrastructure/cloudtrail/sns_permissions.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/infrastructure/cloudtrail/sns_permissions.tf#L22) as guideline
 
+
+   - Existing ECS Cluster Workload  Setup
+     - `ECS_CLUSTER_NAME` ex.: "sfc"
+
+   - Existing Networking Setup
+     - `ECS_VPC_ID` ex.: "vpc-0e91bfef6693f296b"
+     - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
+
+
 ### Terraform Manifest Snippet
 
 ```terraform
@@ -113,13 +122,12 @@ provider "sysdig" {
 }
 
 provider "aws" {
-  region = "<AWS_REGION>"       # must match s3 AND sns region
+  region = "<AWS_REGION>"   # must match s3 AND sns region
 }
 
-# you can setup this provider as desired, just giving an example
 provider "aws" {
   alias  = "member"
-  region = "<AWS_REGION>"       # must match s3 AND sns region
+  region = "<AWS_REGION>"   # must match s3 AND sns region
   assume_role {
     # 'OrganizationAccountAccessRole' is the default role created by AWS for management-account users to be able to admin member accounts.
     # <br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
@@ -139,5 +147,10 @@ module "sysdig-sfc" {
 
   cloudtrail_sns_arn  = "<CLOUDTRAIL_SNS_ARN>"
   cloudtrail_s3_arn   = "<CLOUDTRAIL_S3_ARN>"
+
+  ecs_cluster_name              = "<ECS_CLUSTER_NAME>"
+  ecs_vpc_id                    = "<ECS_VPC_ID>"
+  ecs_vpc_subnets_private_ids   = ["<ECS_VPC_SUBNET_PRIVATE_ID_1>","<ECS_VPC_SUBNET_PRIVATE_ID_2>"]
+
 }
 ```
