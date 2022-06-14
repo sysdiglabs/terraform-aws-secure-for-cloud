@@ -70,7 +70,7 @@ Please contact us if something requires to be adjusted.
 
     - Before running Terraform, we need to give permissions to the role of the `member`-aliased terraform aws provider, to be able to create an SQS queue
    and subscribe it to the provided SNS. Otherwise, Terraform will fail with an error such as 
-   > AuthorizationError: User: ***  is not authorized to perform: SNS:Subscribe on resource <SNS_ARN>:  because no resource-based policy allows the SNS:Subscribe action
+       > AuthorizationError: User: ***  is not authorized to perform: SNS:Subscribe on resource <SNS_ARN>:  because no resource-based policy allows the SNS:Subscribe action
     - We'll need to add following permissions to the SNS queue
    ```text
     {
@@ -83,6 +83,7 @@ Please contact us if something requires to be adjusted.
       "Resource": "<CLOUDTRAIL_SNS_ARN>"          
    }
     ```
+  - Check [`./modules/infrastructure/cloudtrail/sns_permissions.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/infrastructure/cloudtrail/sns_permissions.tf#L22) for more insight
    
 4. Use `organizational` example snippet with following parameters
 
@@ -94,9 +95,6 @@ Please contact us if something requires to be adjusted.
     - Existing Organizational Cloudtrail Setup
         - `CLOUDTRAIL_SNS_ARN`
         - `CLOUDTRAIL_S3_ARN`
-        - You MUST grant manual permissions to the organizational cloudtrail, for the AWS member-account management role `OrganizationAccountAccessRole` to be able to perform `SNS:Subscribe`.
-            - This will be required for the CloudConnector SQS Topic subscription.
-            - Use [`./modules/infrastructure/cloudtrail/sns_permissions.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/infrastructure/cloudtrail/sns_permissions.tf#L22) as guideline
 
    - Existing ECS Cluster Workload  Setup
        - `ECS_CLUSTER_NAME` ex.: "sfc"
@@ -107,9 +105,10 @@ Please contact us if something requires to be adjusted.
 
 5. Permissions - S3
     - Terraform should have successfully deployed everything, but still, ECS task will fail due to missing permissions on S3 access.
-    - We cannot prepare this beforehand, as S3 will say `Invalid principal in policy` if the referenced Role does not exist yet.
+    - We cannot prepare this beforehand, as S3 will throw following error if the referenced Role does not exist yet.
+        > Invalid principal in policy
     - For cross-account S3 access, we will provision permissions on both management-account role and s3 bucket
-    - For Terraform provisioned role in the management account, "<ARN_SYSDIG_S3_ACCESS_ROLE>", in form of "arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/sysdig-sfc-SysdigSecureForCloudRole", <br/>we will add
+    - For Terraform provisioned role in the management account, `<ARN_SYSDIG_S3_ACCESS_ROLE>`,<br/> in form of `arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/sysdig-sfc-SysdigSecureForCloudRole`, <br/>      
     ```text
      {
         "Sid": "AllowSysdigReadS3",
