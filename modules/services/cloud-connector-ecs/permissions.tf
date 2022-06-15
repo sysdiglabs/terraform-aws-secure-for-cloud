@@ -70,7 +70,7 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       "sqs:DeleteMessageBatch",
       "sqs:ReceiveMessage"
     ]
-    resources = [var.cloudtrail_s3_sns_sqs_url == nil?module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_arn:var.cloudtrail_s3_sns_sqs_url]
+    resources = [var.cloudtrail_s3_sns_sqs_url == null ? module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_arn : var.cloudtrail_s3_sns_sqs_url]
   }
 }
 
