@@ -73,7 +73,8 @@ module "cloud_connector" {
   build_project_arn  = length(module.codebuild) == 1 ? module.codebuild[0].project_arn : "na"
   build_project_name = length(module.codebuild) == 1 ? module.codebuild[0].project_name : "na"
 
-  sns_topic_arn = local.cloudtrail_sns_arn
+  sns_topic_arn             = local.cloudtrail_sns_arn
+  cloudtrail_s3_sns_sqs_url = var.cloudtrail_s3_sns_sqs_url
 
   ecs_cluster_name            = local.ecs_cluster_name
   ecs_vpc_id                  = local.ecs_vpc_id

@@ -41,6 +41,13 @@ variable "cloudtrail_s3_arn" {
   description = "ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"
 }
 
+variable "cloudtrail_s3_sns_sqs_url" {
+  type        = string
+  default     = null
+  description = "Optional for using pre-existing resources. URL of the cloudtrail-s3-sns-sqs event forwarder for event ingestion.<br/>sqs:ReceiveMessage and sqs:DeleteMessage permissions have to be provided to the compute role"
+}
+
+
 variable "cloudtrail_is_multi_region_trail" {
   type        = bool
   default     = true

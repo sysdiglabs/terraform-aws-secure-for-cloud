@@ -1,5 +1,6 @@
 locals {
-  cloudtrail_deploy  = var.cloudtrail_sns_arn == "create"
+  cloudtrail_deploy = var.cloudtrail_s3_sns_sqs_url != null && var.cloudtrail_sns_arn == "create"
+
   cloudtrail_sns_arn = local.cloudtrail_deploy ? module.cloudtrail[0].sns_topic_arn : var.cloudtrail_sns_arn
   cloudtrail_s3_arn  = local.cloudtrail_deploy ? module.cloudtrail[0].s3_bucket_arn : var.cloudtrail_s3_arn
 }

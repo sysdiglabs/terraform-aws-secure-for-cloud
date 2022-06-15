@@ -43,9 +43,9 @@ variable "sns_topic_arn" {
 }
 
 variable "cloudtrail_s3_sns_sqs_url" {
-  type = string
+  type        = string
+  default     = null
   description = "Optional for using pre-existing resources. URL of the cloudtrail-s3-sns-sqs event forwarder for event ingestion.<br/>sqs:ReceiveMessage and sqs:DeleteMessage permissions have to be provided to the compute role"
-  nullable = true
 }
 
 
