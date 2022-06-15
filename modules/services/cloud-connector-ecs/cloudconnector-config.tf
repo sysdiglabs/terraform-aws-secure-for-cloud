@@ -3,16 +3,27 @@ locals {
     logging = "info"
     rules   = []
     ingestors = [
-      {
-        cloudtrail-sns-sqs = merge(
+      merge(
+        var.cloudtrail_s3_sns_sqs_url == null?{
+          cloudtrail-sns-sqs = merge(
+            {
+              queueURL = module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_url
+            },
+            var.is_organizational ? {
+              assumeRole = var.organizational_config.sysdig_secure_for_cloud_role_arn
+            } : {}
+          )
+      }:{},
+      var.cloudtrail_s3_sns_sqs_url != null?{
+        aws-cloudtrail-s3-sns-sqs = merge(
           {
-            queueURL = module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url
+            queueURL = var.cloudtrail_s3_sns_sqs_url
           },
           var.is_organizational ? {
             assumeRole = var.organizational_config.sysdig_secure_for_cloud_role_arn
           } : {}
         )
-      }
+    }:{})
     ]
     },
     {
