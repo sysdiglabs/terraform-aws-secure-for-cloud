@@ -22,4 +22,5 @@ module "cloudvision_aws_apprunner_single_account" {
 
   deploy_image_scanning_ecr = true
   deploy_image_scanning_ecs = true
+  use_standalone_scanner = false
 }
