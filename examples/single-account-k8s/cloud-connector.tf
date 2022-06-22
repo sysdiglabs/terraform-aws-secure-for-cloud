@@ -82,7 +82,7 @@ resource "helm_release" "cloud_connector" {
           }
         }
       ]
-      scanners  = [
+      scanners  = local.deploy_image_scanning ? [
         merge(
         local.ecr_scanning_with_infra ? {
           aws-ecr = {
@@ -103,7 +103,7 @@ resource "helm_release" "cloud_connector" {
           aws-ecs-inline = {}
         } : {},
         )
-      ]
+      ] : []
     })
   ]
   depends_on = [module.iam_user]
