@@ -34,7 +34,7 @@ No modules.
 | <a name="input_scanning_codebuild_project_arn"></a> [scanning\_codebuild\_project\_arn](#input\_scanning\_codebuild\_project\_arn) | ARN of codebuild to launch the image scanning process | `string` | n/a | yes |
 | <a name="input_sfc_user_name"></a> [sfc\_user\_name](#input\_sfc\_user\_name) | Name of the IAM user to provision permissions | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_use_standalone_scanner"></a> [use\_standalone\_scanner](#input\_use\_standalone\_scanner) | true/false whether use inline scanner or not | `bool` | `false` | no |
+| <a name="input_use_scanning_v2"></a> [use\_scanning\_v2](#input\_use\_scanning\_v2) | true/false whether use inline scanner or not | `bool` | `false` | no |
 
 ## Outputs
 

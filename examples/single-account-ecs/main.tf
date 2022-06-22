@@ -1,6 +1,6 @@
 locals {
   deploy_image_scanning = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs
-  deploy_scanning_infra = local.deploy_image_scanning && !var.use_standalone_scanner
+  deploy_scanning_infra = local.deploy_image_scanning && !var.use_scanning_v2
 }
 #-------------------------------------
 # general resources
@@ -49,7 +49,7 @@ module "cloud_connector" {
 
   deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
   deploy_image_scanning_ecs = var.deploy_image_scanning_ecs
-  use_standalone_scanner    = var.use_standalone_scanner
+  use_scanning_v2           = var.use_scanning_v2
 
   is_organizational = false
 

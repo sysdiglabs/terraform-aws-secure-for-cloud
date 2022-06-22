@@ -8,7 +8,7 @@ variable "deploy_image_scanning" {
   default     = true
 }
 
-variable "use_standalone_scanner" {
+variable "use_scanning_v2" {
   type        = bool
   description = "true/false whether use inline scanner or not"
   default     = false

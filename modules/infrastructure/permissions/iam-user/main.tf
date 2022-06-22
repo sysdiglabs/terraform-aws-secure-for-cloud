@@ -41,7 +41,7 @@ module "credentials_cloud_scanning" {
   sfc_user_name                  = aws_iam_user.this.name
   scanning_codebuild_project_arn = var.scanning_codebuild_project_arn
   cloudtrail_subscribed_sqs_arn  = var.cloudtrail_subscribed_sqs_arn
-  use_standalone_scanner         = var.use_standalone_scanner
+  use_scanning_v2                = var.use_scanning_v2
 
   depends_on = [aws_iam_user.this]
 }

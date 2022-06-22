@@ -19,7 +19,7 @@ data "aws_iam_policy_document" "cloud_scanner" {
   }
 
   dynamic "statement" {
-    for_each = var.use_standalone_scanner ? [1] : []
+    for_each = var.use_scanning_v2 ? [1] : []
     content {
       sid    = "AllowScanningCodeBuildStartBuild"
       effect = "Allow"
