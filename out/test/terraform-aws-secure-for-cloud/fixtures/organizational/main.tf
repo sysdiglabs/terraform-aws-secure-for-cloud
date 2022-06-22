@@ -40,5 +40,4 @@ module "cloudvision_aws_organizational" {
   sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
   deploy_image_scanning_ecr                 = true
   deploy_image_scanning_ecs                 = true
-  use_standalone_scanner                    = false
 }

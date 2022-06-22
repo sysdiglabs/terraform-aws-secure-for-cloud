@@ -13,14 +13,13 @@ provider "sysdig" {
 }
 
 provider "aws" {
-  region = "eu-west-1"
+  region = var.region
 }
 
-module "cloudvision_aws_apprunner_single_account" {
-  source = "../../../examples/single-account-apprunner"
-  name   = var.name
+module "cloudvision_aws_single_account_ecs" {
+  source = "../../../examples/single-account-ecs"
+  name   = "${var.name}-single"
 
   deploy_image_scanning_ecr = true
   deploy_image_scanning_ecs = true
-  use_standalone_scanner    = false
 }
