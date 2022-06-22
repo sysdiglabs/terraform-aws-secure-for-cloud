@@ -25,7 +25,7 @@ module "codebuild" {
   name                         = var.name
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
-  tags       = var.tags
+  tags = var.tags
   # note. this is required to avoid race conditions
   depends_on = [module.ssm]
 }
@@ -71,10 +71,10 @@ resource "helm_release" "cloud_connector" {
     value = "terraform_aws_k8s_single"
   }
 
-  values     = [
+  values = [
     yamlencode({
-      logging   = "info"
-      rules     = []
+      logging = "info"
+      rules   = []
       ingestors = [
         {
           cloudtrail-sns-sqs = {
@@ -82,26 +82,26 @@ resource "helm_release" "cloud_connector" {
           }
         }
       ]
-      scanners  = local.deploy_image_scanning ? [
+      scanners = local.deploy_image_scanning ? [
         merge(
-        local.ecr_scanning_with_infra ? {
-          aws-ecr = {
-            codeBuildProject         = module.codebuild[0].project_name
-            secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
-          }
-        } : {},
-        local.ecs_scanning_with_infra ? {
-          aws-ecs = {
-            codeBuildProject         = module.codebuild[0].project_name
-            secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
-          }
-        } : {},
-        local.ecr_standalone_scanning ? {
-          aws-ecr-inline = {},
-        } : {},
-        local.ecs_standalone_scanning ? {
-          aws-ecs-inline = {},
-        } : {},
+          local.ecr_scanning_with_infra ? {
+            aws-ecr = {
+              codeBuildProject         = module.codebuild[0].project_name
+              secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
+            }
+          } : {},
+          local.ecs_scanning_with_infra ? {
+            aws-ecs = {
+              codeBuildProject         = module.codebuild[0].project_name
+              secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
+            }
+          } : {},
+          local.ecr_standalone_scanning ? {
+            aws-ecr-inline = {},
+          } : {},
+          local.ecs_standalone_scanning ? {
+            aws-ecs-inline = {},
+          } : {},
         )
       ] : []
     })
