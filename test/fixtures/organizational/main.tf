@@ -1,6 +1,6 @@
 terraform {
   required_providers {
-    aws = {
+    aws    = {
       version               = ">= 4.0.0"
       configuration_aliases = [aws.member]
     }
@@ -34,10 +34,11 @@ module "cloudvision_aws_organizational" {
   providers = {
     aws.member = aws.member
   }
-  source = "../../../examples/organizational"
-  name   = var.name
+  source    = "../../../examples/organizational"
+  name      = var.name
 
   sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
   deploy_image_scanning_ecr                 = true
   deploy_image_scanning_ecs                 = true
+  use_standalone_scanner                    = false
 }
