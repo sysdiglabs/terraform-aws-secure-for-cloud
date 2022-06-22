@@ -100,7 +100,7 @@ resource "helm_release" "cloud_connector" {
           aws-ecr-inline = {},
         } : {},
         local.ecs_standalone_scanning ? {
-          aws-ecs-inline = {}
+          aws-ecs-inline = {},
         } : {},
         )
       ] : []
