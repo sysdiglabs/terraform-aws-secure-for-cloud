@@ -1,7 +1,6 @@
 locals {
   deploy_image_scanning   = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs
   deploy_scanning_infra   = local.deploy_image_scanning && !var.use_standalone_scanner
-
 }
 #-------------------------------------
 # general resources
