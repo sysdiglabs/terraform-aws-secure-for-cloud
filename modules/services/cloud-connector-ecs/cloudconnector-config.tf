@@ -38,7 +38,7 @@ locals {
           organizationalRolePerAccount = var.organizational_config.organizational_role_per_account
         } : {})
       } : {}),
-      local.ecr_scanning_with_infra ? {
+      local.ecr_standalone_scanning ? {
         aws-ecr-inline = {},
       } : {},
       local.ecs_standalone_scanning ? {
