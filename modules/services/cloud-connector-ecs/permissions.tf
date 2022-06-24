@@ -72,6 +72,18 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
     ]
     resources = [module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_arn]
   }
+
+  dynamics statement {
+    for_each = var.s3_kms_key_arn == "" ? toset([]) : toset([1])
+    content{
+      effect = "Allow"
+      actions = [
+        "kms:Decrypt"
+      ]
+      resources = [var.s3_kms_key_arn]
+    }
+
+  }
 }
 
 #

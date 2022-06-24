@@ -42,6 +42,12 @@ variable "sns_topic_arn" {
   description = "ARN of a cloudtrail-sns topic. If specified, deployment region must match Cloudtrail S3 bucket region"
 }
 
+variable "s3_kms_key_arn" {
+  type = string
+  description = "KMS key that is used to decrypt objects in Cloudtrail S3 bucket."
+  default = ""
+}
+
 
 #---------------------------------
 # optionals - with default
