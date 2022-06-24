@@ -1,3 +1,8 @@
+locals {
+  deploy_image_scanning = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs
+  deploy_scanning_infra = local.deploy_image_scanning && !var.use_standalone_scanner
+}
+
 #-------------------------------------
 # general resources
 #-------------------------------------
@@ -19,7 +24,7 @@ module "ssm" {
 # cloud-connector
 #-------------------------------------
 module "codebuild" {
-  count = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
+  count = local.deploy_scanning_infra ? 1 : 0
 
   source                       = "../../modules/infrastructure/codebuild"
   name                         = "${var.name}-codebuild"
@@ -45,6 +50,7 @@ module "cloud_connector" {
   cloudconnector_ecr_image_uri = var.cloudconnector_ecr_image_uri
   deploy_image_scanning_ecr    = var.deploy_image_scanning_ecr
   deploy_image_scanning_ecs    = var.deploy_image_scanning_ecs
+  use_standalone_scanner       = var.use_standalone_scanner
 
   cloudtrail_sns_arn = local.cloudtrail_sns_arn
   tags               = var.tags

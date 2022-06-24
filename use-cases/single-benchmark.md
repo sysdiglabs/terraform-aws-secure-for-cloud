@@ -33,7 +33,7 @@ provider "aws" {
   region = "<AWS_REGION>"
 }
 
-module "sysdig-s4c" {
+module "sysdig-sfc" {
   source = "sysdiglabs/secure-for-cloud/aws//module/services/cloud-bench"
   name    = "TEST-NAME-cloudbench"
 }

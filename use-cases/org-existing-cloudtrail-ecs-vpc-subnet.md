@@ -86,7 +86,7 @@ module "utils_ecs-vpc" {
 
    - General
      - `AWS_REGION` Same region is to be used for both organizational managed account and Sysdig workload member account resources.
-     - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` where Sysdig Workoad is to be deployed under the pre-existing ECS
+     - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` where Sysdig Workload is to be deployed under the pre-existing ECS
 
    - Existing Organizational Cloudtrail Setup
      - `CLOUDTRAIL_SNS_ARN`
@@ -122,27 +122,27 @@ provider "sysdig" {
 }
 
 provider "aws" {
-  region = "<AWS_REGION>"
+  region = "<AWS_REGION>"   # must match s3 AND sns region
 }
 
+# you can setup this provider as desired, just giving an example
 provider "aws" {
   alias  = "member"
-  region = "<AWS_REGION>"
+  region = "<AWS_REGION>"   # must match s3 AND sns region
   assume_role {
     # 'OrganizationAccountAccessRole' is the default role created by AWS for management-account users to be able to admin member accounts.
-    # if this is changed, please change to the `examples/organizational` input var `organizational_member_default_admin_role` too
     # <br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
     role_arn = "arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/OrganizationAccountAccessRole"
   }
 }
 
-module "sysdig-s4c" {
+module "sysdig-sfc" {
   providers = {
     aws.member = aws.member
   }
 
   source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
-  name   = "sysdig-s4c"
+  name   = "sysdig-sfc"
 
   sysdig_secure_for_cloud_member_account_id="<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>"
 

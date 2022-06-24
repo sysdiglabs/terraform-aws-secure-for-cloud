@@ -1,5 +1,10 @@
 locals {
-  deploy_image_scanning = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs
+  deploy_image_scanning   = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs
+  deploy_scanning_infra   = local.deploy_image_scanning && !var.use_standalone_scanner
+  ecr_standalone_scanning = var.deploy_image_scanning_ecr && var.use_standalone_scanner
+  ecs_standalone_scanning = var.deploy_image_scanning_ecs && var.use_standalone_scanner
+  ecr_scanning_with_infra = var.deploy_image_scanning_ecr && !var.use_standalone_scanner
+  ecs_scanning_with_infra = var.deploy_image_scanning_ecs && !var.use_standalone_scanner
 }
 
 #-------------------------------------
@@ -14,7 +19,7 @@ module "cloud_connector_sqs" {
 }
 
 module "codebuild" {
-  count  = local.deploy_image_scanning ? 1 : 0
+  count  = local.deploy_scanning_infra ? 1 : 0
   source = "../../modules/infrastructure/codebuild"
 
   name                         = var.name
@@ -68,6 +73,8 @@ resource "helm_release" "cloud_connector" {
 
   values = [
     yamlencode({
+      logging = "info"
+      rules   = []
       ingestors = [
         {
           cloudtrail-sns-sqs = {
@@ -76,18 +83,26 @@ resource "helm_release" "cloud_connector" {
         }
       ]
       scanners = local.deploy_image_scanning ? [
-        merge(var.deploy_image_scanning_ecr ? {
-          aws-ecr = {
-            codeBuildProject         = module.codebuild[0].project_name
-            secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
-          }
+        merge(
+          local.ecr_scanning_with_infra ? {
+            aws-ecr = {
+              codeBuildProject         = module.codebuild[0].project_name
+              secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
+            }
           } : {},
-          var.deploy_image_scanning_ecs ? {
+          local.ecs_scanning_with_infra ? {
             aws-ecs = {
               codeBuildProject         = module.codebuild[0].project_name
               secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
             }
-        } : {})
+          } : {},
+          local.ecr_standalone_scanning ? {
+            aws-ecr-inline = {},
+          } : {},
+          local.ecs_standalone_scanning ? {
+            aws-ecs-inline = {},
+          } : {},
+        )
       ] : []
     })
   ]

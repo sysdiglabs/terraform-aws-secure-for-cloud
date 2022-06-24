@@ -98,7 +98,7 @@ data "aws_iam_policy_document" "cloud_connector" {
 
 
   dynamic "statement" {
-    for_each = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? [1] : []
+    for_each = local.deploy_scanning_infra ? [1] : []
     content {
       sid    = "AllowCodebuild"
       effect = "Allow"

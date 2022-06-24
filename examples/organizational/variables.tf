@@ -69,7 +69,11 @@ variable "deploy_image_scanning_ecs" {
   default     = false
 }
 
-
+variable "use_standalone_scanner" {
+  type        = bool
+  description = "true/false whether use inline scanner or not"
+  default     = false
+}
 #
 # benchmark configuration
 #

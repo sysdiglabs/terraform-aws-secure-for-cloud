@@ -101,7 +101,7 @@ variable "ecs_task_cpu" {
 variable "ecs_task_memory" {
   type        = string
   description = "Amount of memory (in megabytes) to reserve for cloud-connector task"
-  default     = "512"
+  default     = "2000"
 }
 
 variable "connector_ecs_task_role_name" {
@@ -152,7 +152,11 @@ variable "deploy_image_scanning_ecs" {
   default     = false
 }
 
-
+variable "use_standalone_scanner" {
+  type        = bool
+  description = "true/false whether use inline scanner or not"
+  default     = false
+}
 
 #
 # general
