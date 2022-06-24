@@ -82,7 +82,6 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
       ]
       resources = [var.s3_kms_key_arn]
     }
-
   }
 }
 

@@ -83,7 +83,9 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="ecs_task_role_arn"></a> [ecs\_task\_role\_arn](#ecs\_task\_role\_arn) | ARN of ECS task role |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors

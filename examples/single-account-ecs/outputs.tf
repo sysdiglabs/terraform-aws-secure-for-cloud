@@ -3,7 +3,7 @@ output "cloudtrail_sns_topic_arn" {
   description = "ARN of cloudtrail_sns topic"
 }
 
-output "cloudconnector_iam_role" {
+output "cloudconnector_iam_role_arn" {
   value = module.cloudconnector.ecs_task_role_arn
   description = "ARN of cloudconnector ecs_task role"
 }

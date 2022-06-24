@@ -117,6 +117,7 @@ $ terraform apply
 | Name | Description |
 |------|-------------|
 | <a name="output_cloudtrail_sns_topic_arn"></a> [cloudtrail\_sns\_topic\_arn](#output\_cloudtrail\_sns\_topic\_arn) | ARN of cloudtrail\_sns topic |
+| <a name="output_cloudconnector_iam_role_arn"></a> [cloudconnector\_iam\_role\_arn](#output\_cloudconnector\_iam\_role\_arn) | ARN of cloudconnector ecs\_task role |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
