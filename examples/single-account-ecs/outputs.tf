@@ -4,6 +4,6 @@ output "cloudtrail_sns_topic_arn" {
 }
 
 output "cloudconnector_iam_role_arn" {
-  value = module.cloudconnector.ecs_task_role_arn
+  value = module.cloud_connector.ecs_task_role_arn
   description = "ARN of cloudconnector ecs_task role"
 }
