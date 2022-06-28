@@ -18,7 +18,7 @@ locals {
     {
       scanners = local.deploy_image_scanning ? [
         merge(
-          local.ecr_scanning_with_infra ? {
+          local.ecs_scanning_with_infra ? {
             aws-ecr = merge({
               codeBuildProject         = var.build_project_name
               secureAPITokenSecretName = var.secure_api_token_secret_name
