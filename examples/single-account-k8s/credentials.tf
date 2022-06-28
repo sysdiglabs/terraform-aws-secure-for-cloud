@@ -2,7 +2,7 @@ module "iam_user" {
   source = "../../modules/infrastructure/permissions/iam-user"
   name   = var.name
 
-  deploy_image_scanning  = local.deploy_image_scanning
+  deploy_image_scanning = local.deploy_image_scanning
   use_standalone_scanner = var.use_standalone_scanner
 
   ssm_secure_api_token_arn       = module.ssm.secure_api_token_secret_arn

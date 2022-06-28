@@ -84,8 +84,8 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.19.0 |
-| <a name="provider_helm"></a> [helm](#provider\_helm) | 2.6.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.18.0 |
+| <a name="provider_helm"></a> [helm](#provider\_helm) | 2.5.1 |
 | <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.37 |
 
 ## Modules
@@ -121,7 +121,6 @@ $ terraform apply
 | <a name="input_deploy_image_scanning_ecs"></a> [deploy\_image\_scanning\_ecs](#input\_deploy\_image\_scanning\_ecs) | true/false whether to deploy the image scanning on ECS running images | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
-| <a name="input_use_standalone_scanner"></a> [use\_standalone\_scanner](#input\_use\_standalone\_scanner) | true/false whether use inline scanner or not | `bool` | `false` | no |
 
 ## Outputs
 
