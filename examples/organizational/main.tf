@@ -1,7 +1,3 @@
-locals {
-  deploy_image_scanning = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs
-  deploy_scanning_infra = local.deploy_image_scanning && !var.use_standalone_scanner
-}
 #-------------------------------------
 # resources deployed always in management account
 # with default provider
@@ -40,7 +36,7 @@ module "ssm" {
 # cloud-connector
 #-------------------------------------
 module "codebuild" {
-  count = local.deploy_scanning_infra ? 1 : 0
+  count = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
 
   providers = {
     aws = aws.member
@@ -66,7 +62,6 @@ module "cloud_connector" {
 
   deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
   deploy_image_scanning_ecs = var.deploy_image_scanning_ecs
-  use_standalone_scanner    = var.use_standalone_scanner
 
   is_organizational = true
   organizational_config = {

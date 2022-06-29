@@ -8,11 +8,6 @@ variable "deploy_image_scanning" {
   default     = true
 }
 
-variable "use_standalone_scanner" {
-  type        = bool
-  description = "true/false whether use inline scanner or not"
-  default     = false
-}
 
 # permission defaults to all resources; ARN *
 

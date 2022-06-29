@@ -17,18 +17,17 @@ locals {
     },
     {
       scanners = local.deploy_image_scanning ? [
-        merge(
-          local.ecr_scanning_with_infra ? {
-            aws-ecr = merge({
-              codeBuildProject         = var.build_project_name
-              secureAPITokenSecretName = var.secure_api_token_secret_name
-              },
-              var.is_organizational ? {
-                masterOrganizationRole       = var.organizational_config.sysdig_secure_for_cloud_role_arn
-                organizationalRolePerAccount = var.organizational_config.organizational_role_per_account
-            } : {})
+        merge(var.deploy_image_scanning_ecr ? {
+          aws-ecr = merge({
+            codeBuildProject         = var.build_project_name
+            secureAPITokenSecretName = var.secure_api_token_secret_name
+            },
+            var.is_organizational ? {
+              masterOrganizationRole       = var.organizational_config.sysdig_secure_for_cloud_role_arn
+              organizationalRolePerAccount = var.organizational_config.organizational_role_per_account
+          } : {})
           } : {},
-          local.ecs_scanning_with_infra ? {
+          var.deploy_image_scanning_ecs ? {
             aws-ecs = merge({
               codeBuildProject         = var.build_project_name
               secureAPITokenSecretName = var.secure_api_token_secret_name
@@ -37,13 +36,7 @@ locals {
                 masterOrganizationRole       = var.organizational_config.sysdig_secure_for_cloud_role_arn
                 organizationalRolePerAccount = var.organizational_config.organizational_role_per_account
             } : {})
-        } : {}),
-        local.ecr_standalone_scanning ? {
-          aws-ecr-inline = {},
-        } : {},
-        local.ecs_standalone_scanning ? {
-          aws-ecs-inline = {},
-        } : {}
+        } : {})
       ] : []
     }
   ))

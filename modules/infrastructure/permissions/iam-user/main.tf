@@ -1,3 +1,4 @@
+
 resource "aws_iam_user" "this" {
   name          = var.name
   force_destroy = true
@@ -9,6 +10,7 @@ resource "aws_iam_access_key" "this" {
     create_before_destroy = true
   }
 }
+
 
 
 module "credentials_general" {
@@ -41,7 +43,6 @@ module "credentials_cloud_scanning" {
   sfc_user_name                  = aws_iam_user.this.name
   scanning_codebuild_project_arn = var.scanning_codebuild_project_arn
   cloudtrail_subscribed_sqs_arn  = var.cloudtrail_subscribed_sqs_arn
-  use_standalone_scanner         = var.use_standalone_scanner
 
   depends_on = [aws_iam_user.this]
 }

@@ -14,11 +14,6 @@ variable "scanning_codebuild_project_arn" {
   description = "ARN of codebuild to launch the image scanning process"
 }
 
-variable "use_standalone_scanner" {
-  type        = bool
-  description = "true/false whether use inline scanner or not"
-  default     = false
-}
 
 #---------------------------------
 # optionals - with default

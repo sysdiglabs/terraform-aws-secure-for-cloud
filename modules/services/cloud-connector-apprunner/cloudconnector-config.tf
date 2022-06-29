@@ -14,25 +14,18 @@ locals {
     },
     {
       scanners = local.deploy_image_scanning ? [
-        merge(
-          local.ecr_scanning_with_infra ? {
-            aws-ecr = {
-              codeBuildProject         = var.build_project_name
-              secureAPITokenSecretName = var.secure_api_token_secret_name
-            }
+        merge(var.deploy_image_scanning_ecr ? {
+          aws-ecr = {
+            codeBuildProject         = var.build_project_name
+            secureAPITokenSecretName = var.secure_api_token_secret_name
+          }
           } : {},
-          local.ecs_scanning_with_infra ? {
+          var.deploy_image_scanning_ecs ? {
             aws-ecs = {
               codeBuildProject         = var.build_project_name
               secureAPITokenSecretName = var.secure_api_token_secret_name
             }
-        } : {}),
-        local.ecs_standalone_scanning ? {
-          aws-ecs-inline = {}
-        } : {},
-        local.ecr_standalone_scanning ? {
-          aws-ecr-inline = {},
-        } : {}
+        } : {})
       ] : []
     }
   ))

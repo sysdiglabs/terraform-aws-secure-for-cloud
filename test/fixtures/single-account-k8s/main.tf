@@ -27,5 +27,4 @@ module "cloudvision_aws_single_account_k8s" {
 
   deploy_image_scanning_ecr = true
   deploy_image_scanning_ecs = true
-  use_standalone_scanner    = false
 }
