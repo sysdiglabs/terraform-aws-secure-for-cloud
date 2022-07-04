@@ -6,8 +6,8 @@ resource "aws_sns_topic_policy" "allow_cloudtrail_publish" {
 
 data "aws_iam_policy_document" "cloudtrail_sns" {
   statement {
-    sid       = "AllowCloudtrailPublish"
-    effect    = "Allow"
+    sid    = "AllowCloudtrailPublish"
+    effect = "Allow"
     principals {
       identifiers = ["cloudtrail.amazonaws.com"]
       type        = "Service"
@@ -22,13 +22,13 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
   dynamic "statement" {
     for_each = var.is_organizational ? [1] : []
     content {
-      sid       = "AllowSysdigSecureForCloudSubscribe"
-      effect    = "Allow"
+      sid    = "AllowSysdigSecureForCloudSubscribe"
+      effect = "Allow"
       principals {
         identifiers = [
           local.snsSubscribeRole
         ]
-        type        = "AWS"
+        type = "AWS"
         #        more open policy but without requiring aws provider role
         #        identifiers = ["sqs.amazonaws.com"]
         #        type        = "Service"
