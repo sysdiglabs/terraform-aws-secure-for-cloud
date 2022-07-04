@@ -6,8 +6,8 @@ resource "aws_sns_topic_policy" "allow_cloudtrail_publish" {
 
 data "aws_iam_policy_document" "cloudtrail_sns" {
   statement {
-    sid    = "AllowCloudtrailPublish"
-    effect = "Allow"
+    sid       = "AllowCloudtrailPublish"
+    effect    = "Allow"
     principals {
       identifiers = ["cloudtrail.amazonaws.com"]
       type        = "Service"
@@ -22,10 +22,12 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
   dynamic "statement" {
     for_each = var.is_organizational ? [1] : []
     content {
-      sid    = "AllowSysdigSecureForCloudSubscribe"
-      effect = "Allow"
+      sid       = "AllowSysdigSecureForCloudSubscribe"
+      effect    = "Allow"
       principals {
-        identifiers = ["arn:aws:iam::${var.organizational_config.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_config.organizational_role_per_account}"]
+        identifiers = [
+          local.snsSubscribeRole
+        ]
         type        = "AWS"
         #        more open policy but without requiring aws provider role
         #        identifiers = ["sqs.amazonaws.com"]
@@ -35,4 +37,8 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
       resources = [aws_sns_topic.cloudtrail.arn]
     }
   }
+}
+
+locals {
+  snsSubscribeRole = data.aws_caller_identity.me.account_id == data.aws_caller_identity.member.account_id ? data.aws_caller_identity.member.arn : "arn:aws:iam::${var.organizational_config.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_config.organizational_role_per_account}"
 }

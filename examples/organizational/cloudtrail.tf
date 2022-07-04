@@ -10,6 +10,10 @@ module "cloudtrail" {
   source = "../../modules/infrastructure/cloudtrail"
   name   = var.name
 
+  providers = {
+    aws.member = aws.member
+  }
+
   is_organizational = true
   organizational_config = {
     sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id

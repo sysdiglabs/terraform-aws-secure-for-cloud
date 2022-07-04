@@ -14,7 +14,7 @@ module "resource_group_secure_for_cloud_member" {
     aws = aws.member
   }
   source = "../../modules/infrastructure/resource-group"
-  name   = var.name
+  name   = "${var.name}-member"
   tags   = var.tags
 }
 

@@ -22,3 +22,7 @@ resource "aws_cloudtrail" "cloudtrail" {
 }
 
 data "aws_caller_identity" "me" {}
+
+data "aws_caller_identity" "member" {
+  provider = aws.member
+}
