@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
       effect = "Allow"
       principals {
         identifiers = [
-          local.sns_subscribe_role
+          "arn:aws:iam::${var.organizational_config.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_config.organizational_role_per_account}"
         ]
         type = "AWS"
         #        more open policy but without requiring aws provider role
@@ -37,8 +37,4 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
       resources = [aws_sns_topic.cloudtrail.arn]
     }
   }
-}
-
-locals {
-  sns_subscribe_role = data.aws_caller_identity.me.account_id == var.organizational_config.sysdig_secure_for_cloud_member_account_id ? var.organizational_config.sysdig_secure_for_cloud_member_account_id : "arn:aws:iam::${var.organizational_config.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_config.organizational_role_per_account}"
 }
