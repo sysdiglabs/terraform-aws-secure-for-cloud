@@ -9,7 +9,7 @@ Provides unified threat-detection, compliance, forensics and analysis through th
 
 * **[Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)**: Enables the evaluation of standard compliance frameworks. Requires both modules  `cloud-connector` and `cloud-bench`. <br/>
 
-* **[Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/permissions-and-entitlements/)**: Analyses user access overly permissive policies. Requires both modules  `cloud-connector` and `cloud-bench`. <br/>
+* **[Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/identity-and-access/)**: Analyses user access overly permissive policies. Requires both modules  `cloud-connector` and `cloud-bench`. <br/>
 
 * **[Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry (ECR) and the images that run on the AWS workload (currently ECS). Managed through `cloud-connector`. <br/>Disabled by Default, can be enabled through `deploy_image_scanning_ecr` and `deploy_image_scanning_ecs` input variable parameters.<br/>
 
@@ -86,7 +86,7 @@ More info in [`./examples/single-account-k8s`](https://github.com/sysdiglabs/ter
 
 ### - Organizational
 
-Using an organizational configuration Cloudtrail.<br/>
+Secure all the accounts from your organization<br/>
 More info in [`./examples/organizational`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
 
 ![organizational diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/organizational/diagram-org.png)
@@ -225,9 +225,10 @@ It may take some time, but you should see logs detecting the new image in the EC
 
 ## Troubleshooting
 
-## Q-Debug: Need to troubleshoot cloud-connector with `debug` loglevel
+## Q-General: Need to modify cloud-connector config (to troubleshoot with `debug` loglevel, modify ingestors for testing, ...)
 A: both in ECS and AppRunner workload types, cloud-connector configuration is passed as a base64-encoded string through the env var `CONFIG`
-<br/>S: Get current value, decode it, edit the desired `logging: debug` value, encode it again, and spin it again with this new definition.
+<br/>S: Get current value, decode it, edit the desired (ex.:`logging: debug` value), encode it again, and spin it again with this new definition.
+<br/>For information on all the modifyable configuration see [Cloud-Connector Chart](https://charts.sysdig.com/charts/cloud-connector/#configuration-detail) reference
 
 ### Q-General: Getting error "Error: cannot verify credentials" on "sysdig_secure_trusted_cloud_identity" data
 A: This happens when Sysdig credentials are not working correctly.
