@@ -52,7 +52,7 @@ resource "random_integer" "hour" {
 }
 
 resource "sysdig_secure_benchmark_task" "benchmark_task" {
-  name     = "Sysdig Secure for Cloud (AWS) - ${local.benchmark_task_name}"
+  name     = "Sysdig Secure for Cloud (AWS) - ${local.benchmark_task_name} - ${var.name}"
   schedule = "${random_integer.minute.result} ${random_integer.hour.result} * * *"
   schema   = "aws_foundations_bench-1.3.0"
   scope    = "${local.accounts_scope_clause}${local.regions_scope_clause}"
