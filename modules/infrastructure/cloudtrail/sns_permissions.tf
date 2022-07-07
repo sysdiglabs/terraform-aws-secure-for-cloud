@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
       sid    = "AllowSysdigSecureForCloudSubscribe"
       effect = "Allow"
       principals {
-        identifiers = ["sqs.amazonaws.com"],
+        identifiers = ["sqs.amazonaws.com"]
         type        = "Service"
       }
       actions   = ["sns:Subscribe"]
