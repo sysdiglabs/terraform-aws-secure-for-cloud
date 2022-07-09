@@ -27,6 +27,9 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
     - if it's not organizational, does each trail report to the same s3 bucket?
       - if so, does that S3 bucket already have any "Event Notification System"? Is it an SNS we could subscribe to?
       - if so, does that S3 bucket already have an "Amazon EventBridge" system activated?
+- how many **regions** do you work with? 
+    - is secure for cloud to be deployed on the same region as your existing resources?
+    - (aws-only) if in previous point you said you have a cloudtrail, cloudtrail-sns, or cloudtrail-s3, in which region is it?    
 - how do you handle **IAM permissions**? would you let our Terraform scripts set them up for you, or you want to set them yourself manually? any restriction we may be aware of?
 - how do you handle **outbound newtwork connection** securization? does your infrastructure have any customized VPC/firewally setup?
 - **Deployment** type
