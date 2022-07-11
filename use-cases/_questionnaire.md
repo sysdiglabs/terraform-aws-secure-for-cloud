@@ -19,6 +19,8 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
 
 - does your company work under an **organization** (AWS/GCP) or tenant (Azure)?
   - if so, how many member accounts (aws) /projects (gcp) /subscriptions (azure) does it have?
+    - regarding of the number, how many accounts would be required to enroll in the secure for cloud setup?
+    - do you have dynamic accounts/projects/subscriptions? what's their lifecycle?
   - does it have any landing such as aws control-tower?
 - sysdig secure for cloud is presented in different **compute workload** flavors; ecs on aws, cloudrun on gcp or azure container instances on azure, plus a K8s deployment an all three clouds, plus apprunner on aws (less resource-demaing than ecs, but region limited)
     - in case of ECS or K8S, do you have an existing cluster you would like to re-use?
