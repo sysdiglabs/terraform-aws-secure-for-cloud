@@ -145,9 +145,9 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.21.0 |
-| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | 4.21.0 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.37 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.22.0 |
+| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | 4.22.0 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.39 |
 
 ## Modules
 

@@ -84,9 +84,9 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.21.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.22.0 |
 | <a name="provider_helm"></a> [helm](#provider\_helm) | 2.6.0 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.37 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.39 |
 
 ## Modules
 
