@@ -23,5 +23,3 @@ resource "aws_cloudtrail" "cloudtrail" {
     aws_sns_topic_policy.allow_cloudtrail_publish
   ]
 }
-
-data "aws_caller_identity" "me" {}
