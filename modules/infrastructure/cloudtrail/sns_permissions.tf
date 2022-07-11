@@ -25,7 +25,7 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
   # Organizational Requirements
   # note; this statement is required to be on the SNS creation, don't move to other module as policies cannot be overriten/exteneded after creation
   dynamic "statement" {
-    for_each = var.is_organizational || local.cross_account ? [1] : []
+    for_each = var.is_organizational && local.cross_account ? [1] : []
     content {
       sid    = "AllowSysdigSecureForCloudSubscribe"
       effect = "Allow"
