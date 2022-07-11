@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "cloudtrail_sns" {
       effect = "Allow"
       principals {
         identifiers = ["arn:aws:iam::${var.organizational_config.sysdig_secure_for_cloud_member_account_id}:role/${var.organizational_config.organizational_role_per_account}"]
-        type = "AWS"
+        type        = "AWS"
       }
       actions   = ["sns:Subscribe"]
       resources = [aws_sns_topic.cloudtrail.arn]
