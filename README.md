@@ -216,6 +216,8 @@ If that's not working as expected, some other questions can be checked
 
 **Image Scanning**
 
+Image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place
+
   - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
   - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
 
@@ -237,6 +239,13 @@ with the correct values. Check [Sysdig SaaS per-region URLs if required](https:/
 
 ### Q-General: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
 A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
+
+### Q-Scanning: I'm not seeing any image scanning results
+A: Need to check several steps
+<br/>S: First, image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place.
+<br/>Currently, images are scanned on registry/repository push events, and on the supported compute services on deployment. Make sure these events are triggered.
+<br/>Dig into secure for cloud compute log (cloud-connector) and check for errors.
+<br/>If previous logs are ok, check [spawned scanning service](http://localhost:1313/en/docs/sysdig-secure/sysdig-secure-for-cloud/#summary) logs
 
 
 ### Q-AWS: Getting error "Error: failed creating ECS Task Definition: ClientException: No Fargate configuration exists for given values.
