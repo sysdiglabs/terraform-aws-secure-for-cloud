@@ -26,13 +26,15 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
     - in case of ECS or K8S, do you have an existing cluster you would like to re-use?
 - (aws-only) do you have **existing aws cloudtrail**?
     - is it an organizational cloudtrail?
-    - does the cloudtrail report to an SNS? if no, could you enable it?
+      - does the cloudtrail report to an SNS? if no, could you enable it?
+      - is the S3 bucket of that cloudtrail in the management account or a sepparated member account?
     - if it's not organizational, does each trail report to the same s3 bucket?
       - if so, does that S3 bucket already have any "Event Notification System"? Is it an SNS we could subscribe to?
       - if so, does that S3 bucket already have an "Amazon EventBridge" system activated?
     - whether it's organizational or not, could you give us a quick picture of the account setup in terms of purpose?
 - how many **regions** do you work with?
     - is secure for cloud to be deployed on the same region as your existing resources?
+    -   if not, explain us your current region setup
     - (aws-only) if in previous point you said you have a cloudtrail, cloudtrail-sns, or cloudtrail-s3, in which region is it?
 - how do you handle **IAM permissions**? would you let our Terraform scripts set them up for you, or you want to set them yourself manually? any restriction we may be aware of?
 - how do you handle **outbound newtwork connection** securization? does your infrastructure have any customized VPC/firewally setup?
