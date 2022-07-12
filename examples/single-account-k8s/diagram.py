@@ -65,7 +65,7 @@ with Diagram("Sysdig Secure for Cloud{}(single-account-k8s)".format("\n"), graph
 
 
             # scanning
-            codebuild = Codebuild("Build-project")
+            codebuild = Codebuild("CodeBuild Project")
             cloud_connector >> codebuild
             codebuild >> Edge(color=color_non_important) >>  ecr
             codebuild >> Edge(color=color_non_important) >>  public_registries

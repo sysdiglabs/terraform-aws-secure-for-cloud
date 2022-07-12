@@ -67,7 +67,7 @@ with Diagram("Sysdig Secure for Cloud\n(organizational)", graph_attr=diagram_att
 
             sqs         = SQS("cloudtrail-sqs")
             cloudwatch  = Cloudwatch("cloudwatch\nlogs and alarms")
-            codebuild   = Codebuild("codebuild project")
+            codebuild   = Codebuild("CodeBuild Project")
 
             with Cluster("CFT StackSet Instance"):
                 cft_stack_2 = CloudformationStack("cloudformation-stack")
