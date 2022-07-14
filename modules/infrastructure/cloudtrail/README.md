@@ -53,8 +53,8 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_cloudtrail_sns_arn"></a> [cloudtrail\_sns\_arn](#output\_cloudtrail\_sns\_arn) | ARN of Cloudtrail SNS topic |
 | <a name="output_s3_bucket_arn"></a> [s3\_bucket\_arn](#output\_s3\_bucket\_arn) | ARN of Cloudtrail SNS topic |
-| <a name="output_sns_topic_arn"></a> [sns\_topic\_arn](#output\_sns\_topic\_arn) | ARN of Cloudtrail SNS topic |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 ## Authors

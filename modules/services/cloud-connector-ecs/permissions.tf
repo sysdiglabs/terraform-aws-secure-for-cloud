@@ -63,14 +63,17 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
     #    resources = [var.connector_ecs_task_role_name]
   }
 
-  statement {
-    effect = "Allow"
-    actions = [
-      "sqs:DeleteMessage",
-      "sqs:DeleteMessageBatch",
-      "sqs:ReceiveMessage"
-    ]
-    resources = [var.cloudtrail_s3_sns_sqs_url == null ? module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_arn : var.cloudtrail_s3_sns_sqs_url]
+  dynamic statement {
+    for_each = local.deploy_sqs ? [1]:[0]
+    content {
+      effect  = "Allow"
+      actions = [
+        "sqs:DeleteMessage",
+        "sqs:DeleteMessageBatch",
+        "sqs:ReceiveMessage"
+      ]
+      resources = [module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_arn]
+    }
   }
 }
 
