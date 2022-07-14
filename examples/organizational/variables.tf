@@ -43,10 +43,10 @@ variable "cloudtrail_kms_enable" {
 
 variable "existing_cloudtrail_config" {
   type = object({
-    cloudtrail_sns_arn        = string
-    cloudtrail_s3_arn         = string
-    cloudtrail_s3_sns_sqs_arn = string
-    cloudtrail_s3_sns_sqs_url = string
+    cloudtrail_sns_arn        = optional(string)
+    cloudtrail_s3_arn         = optional(string)
+    cloudtrail_s3_sns_sqs_arn = optional(string)
+    cloudtrail_s3_sns_sqs_url = optional(string)
   })
   default = {
     cloudtrail_sns_arn        = "create"
