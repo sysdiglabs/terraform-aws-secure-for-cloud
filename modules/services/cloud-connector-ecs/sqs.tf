@@ -1,4 +1,4 @@
-locals{
+locals {
   deploy_sqs = var.cloudtrail_s3_sns_sqs_url == null
 }
 module "cloud_connector_sqs" {

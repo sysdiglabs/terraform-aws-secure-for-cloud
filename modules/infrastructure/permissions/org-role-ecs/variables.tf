@@ -6,7 +6,7 @@ variable "cloudconnector_ecs_task_role_name" {
 variable "cloudtrail_config" {
   type = object({
     cloudtrail_s3_arn         = string
-    cloudtrail_s3_sns_sqs_arn = string
+    cloudtrail_s3_sns_sqs_arn = optional(string)
   })
   default = {
     cloudtrail_s3_arn         = null
