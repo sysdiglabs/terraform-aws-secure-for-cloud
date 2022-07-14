@@ -3,10 +3,22 @@ variable "cloudconnector_ecs_task_role_name" {
   description = "cloudconnector ecs task role name"
 }
 
-variable "cloudtrail_s3_arn" {
-  type        = string
-  description = "Cloudtrail S3 bucket ARN"
+variable "cloudtrail_config" {
+  type = object({
+    cloudtrail_s3_arn         = string
+    cloudtrail_s3_sns_sqs_arn = string
+  })
+  default = {
+    cloudtrail_s3_arn         = null
+    cloudtrail_s3_sns_sqs_arn = null
+  }
+
+  description = <<-EOT
+    At least `cloudtrail_s3_arn` is required. `cloudtrail_s3_sns_sqs_arn` optional
+  EOT
 }
+
+
 
 #---------------------------------
 # optionals - with defaults

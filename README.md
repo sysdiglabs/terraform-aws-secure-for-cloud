@@ -249,7 +249,7 @@ A: Need to check several steps
 
 ### Q-AWS: In the ECS compute flavor of secure for cloud, I don't see any logs in the cloud-connector component
 A: This may be due to the task not beinb able to start, normally due not not having enough permissions to even fetch the secure apiToken, stored in the AWS SSM service.
-<br/>S: Access the task and see if there is any value in the "Stoped Reason" field. 
+<br/>S: Access the task and see if there is any value in the "Stopped Reason" field.
 
 ### Q-AWS: Getting error "Error: failed creating ECS Task Definition: ClientException: No Fargate configuration exists for given values.
 A: Your ECS task_size values aren't valid for Fargate. Specifically, your mem_limit value is too big for the cpu_limit you specified

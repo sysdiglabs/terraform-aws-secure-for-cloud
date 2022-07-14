@@ -61,12 +61,12 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 |------|-------------|------|---------|:--------:|
 | <a name="input_build_project_arn"></a> [build\_project\_arn](#input\_build\_project\_arn) | Code Build project arn | `string` | n/a | yes |
 | <a name="input_build_project_name"></a> [build\_project\_name](#input\_build\_project\_name) | Code Build project name | `string` | n/a | yes |
+| <a name="input_cloudtrail_sns_arn"></a> [cloudtrail\_sns\_arn](#input\_cloudtrail\_sns\_arn) | ARN of a cloudtrail-sns topic. If specified, deployment region must match Cloudtrail S3 bucket region | `string` | n/a | yes |
 | <a name="input_ecs_cluster_name"></a> [ecs\_cluster\_name](#input\_ecs\_cluster\_name) | Name of a pre-existing ECS (elastic container service) cluster | `string` | n/a | yes |
 | <a name="input_ecs_vpc_id"></a> [ecs\_vpc\_id](#input\_ecs\_vpc\_id) | ID of the VPC where the workload is to be deployed. | `string` | n/a | yes |
 | <a name="input_ecs_vpc_subnets_private_ids"></a> [ecs\_vpc\_subnets\_private\_ids](#input\_ecs\_vpc\_subnets\_private\_ids) | List of VPC subnets where workload is to be deployed. | `list(string)` | n/a | yes |
 | <a name="input_secure_api_token_secret_name"></a> [secure\_api\_token\_secret\_name](#input\_secure\_api\_token\_secret\_name) | Sysdig Secure API token SSM parameter name | `string` | n/a | yes |
-| <a name="input_sns_topic_arn"></a> [sns\_topic\_arn](#input\_sns\_topic\_arn) | ARN of a cloudtrail-sns topic. If specified, deployment region must match Cloudtrail S3 bucket region | `string` | n/a | yes |
-| <a name="input_cloudtrail_s3_sns_sqs_url"></a> [cloudtrail\_s3\_sns\_sqs\_url](#input\_cloudtrail\_s3\_sns\_sqs\_url) | Optional for using pre-existing resources. URL of the cloudtrail-s3-sns-sqs event forwarder for event ingestion.<br/>sqs:ReceiveMessage and sqs:DeleteMessage permissions have to be provided to the compute role | `string` | `null` | no |
+| <a name="input_cloudtrail_s3_sns_sqs_url"></a> [cloudtrail\_s3\_sns\_sqs\_url](#input\_cloudtrail\_s3\_sns\_sqs\_url) | Optional for pre-existing resources. URL of the cloudtrail-s3-sns-sqs event forwarder for event ingestion.<br/>sqs:ReceiveMessage and sqs:DeleteMessage permissions have to be provided to the compute role | `string` | `null` | no |
 | <a name="input_cloudwatch_log_retention"></a> [cloudwatch\_log\_retention](#input\_cloudwatch\_log\_retention) | Days to keep logs for CloudConnector | `number` | `5` | no |
 | <a name="input_connector_ecs_task_role_name"></a> [connector\_ecs\_task\_role\_name](#input\_connector\_ecs\_task\_role\_name) | Default ecs cloudconnector task role name | `string` | `"ECSTaskRole"` | no |
 | <a name="input_deploy_image_scanning_ecr"></a> [deploy\_image\_scanning\_ecr](#input\_deploy\_image\_scanning\_ecr) | true/false whether to deploy the image scanning on ECR pushed images | `bool` | `false` | no |

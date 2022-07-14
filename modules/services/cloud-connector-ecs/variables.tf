@@ -37,7 +37,7 @@ variable "ecs_vpc_subnets_private_ids" {
 # cloud-connector parametrization
 #
 
-variable "sns_topic_arn" {
+variable "cloudtrail_sns_arn" {
   type        = string
   description = "ARN of a cloudtrail-sns topic. If specified, deployment region must match Cloudtrail S3 bucket region"
 }
@@ -45,7 +45,7 @@ variable "sns_topic_arn" {
 variable "cloudtrail_s3_sns_sqs_url" {
   type        = string
   default     = null
-  description = "Optional for using pre-existing resources. URL of the cloudtrail-s3-sns-sqs event forwarder for event ingestion.<br/>sqs:ReceiveMessage and sqs:DeleteMessage permissions have to be provided to the compute role"
+  description = "Optional for pre-existing resources. URL of the cloudtrail-s3-sns-sqs event forwarder for event ingestion.<br/>sqs:ReceiveMessage and sqs:DeleteMessage permissions have to be provided to the compute role"
 }
 
 

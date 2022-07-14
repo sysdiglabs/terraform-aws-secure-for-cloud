@@ -46,6 +46,29 @@ data "aws_iam_policy_document" "enable_assume_secure_for_cloud_role" {
   }
 }
 
+# ----------------------------------------------------
+# enable cloudtrail_s3_sns_sqs management permissions
+# ----------------------------------------------------
+
+resource "aws_iam_role_policy" "sysdig_secure_for_cloud_role_s3_sns_sqs" {
+  count  = var.cloudtrail_config.cloudtrail_s3_sns_sqs_arn != null ? 1 : 0
+  name   = "${var.name}-AllowCloudtrailSNSSQSPolicy"
+  role   = aws_iam_role.secure_for_cloud_role.id
+  policy = data.aws_iam_policy_document.sysdig_secure_for_cloud_role_s3_sns_sqs[0].json
+}
+
+data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3_sns_sqs" {
+  count = var.cloudtrail_config.cloudtrail_s3_sns_sqs_arn != null ? 1 : 0
+  statement {
+    effect = "Allow"
+    actions = [
+      "sqs:DeleteMessage",
+      "sqs:DeleteMessageBatch",
+      "sqs:ReceiveMessage"
+    ]
+    resources = [var.cloudtrail_config.cloudtrail_s3_sns_sqs_arn]
+  }
+}
 
 
 # ------------------------------
@@ -65,8 +88,8 @@ data "aws_iam_policy_document" "sysdig_secure_for_cloud_role_s3" {
       "s3:GetObject"
     ]
     resources = [
-      var.cloudtrail_s3_arn,
-      "${var.cloudtrail_s3_arn}/*"
+      var.cloudtrail_config.cloudtrail_s3_arn,
+      "${var.cloudtrail_config.cloudtrail_s3_arn}/*"
     ]
   }
 }

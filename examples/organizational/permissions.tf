@@ -5,7 +5,11 @@ module "secure_for_cloud_role" {
   }
   name = var.name
 
-  cloudtrail_s3_arn                 = local.cloudtrail_s3_arn
+  cloudtrail_config = {
+    cloudtrail_s3_arn         = local.cloudtrail_s3_arn
+    cloudtrail_s3_sns_sqs_arn = var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn
+  }
+
   cloudconnector_ecs_task_role_name = aws_iam_role.connector_ecs_task.name
   organizational_role_per_account   = var.organizational_member_default_admin_role
 

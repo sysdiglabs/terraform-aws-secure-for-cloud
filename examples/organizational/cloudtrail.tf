@@ -1,13 +1,12 @@
 locals {
-  cloudtrail_deploy = var.cloudtrail_s3_sns_sqs_url == null && var.cloudtrail_sns_arn == "create"
-
-  cloudtrail_sns_arn = local.cloudtrail_deploy ? module.cloudtrail[0].sns_topic_arn : var.cloudtrail_sns_arn
-  cloudtrail_s3_arn  = local.cloudtrail_deploy ? module.cloudtrail[0].s3_bucket_arn : var.cloudtrail_s3_arn
+  deploy_cloudtrail  = var.existing_cloudtrail_config == null
+  cloudtrail_sns_arn = local.deploy_cloudtrail ? module.cloudtrail[0].sns_topic_arn : var.existing_cloudtrail_config.cloudtrail_sns_arn
+  cloudtrail_s3_arn  = local.deploy_cloudtrail ? module.cloudtrail[0].s3_bucket_arn : var.existing_cloudtrail_config.cloudtrail_s3_arn
 }
 
 
 module "cloudtrail" {
-  count  = local.cloudtrail_deploy ? 1 : 0
+  count  = local.deploy_cloudtrail ? 1 : 0
   source = "../../modules/infrastructure/cloudtrail"
   name   = var.name
 

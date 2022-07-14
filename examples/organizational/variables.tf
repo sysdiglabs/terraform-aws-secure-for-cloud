@@ -28,37 +28,45 @@ variable "organizational_member_default_admin_role" {
 #
 # cloudtrail configuration
 #
-
-variable "cloudtrail_sns_arn" {
-  type        = string
-  default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns_permissions.tf block"
-}
-
-variable "cloudtrail_s3_arn" {
-  type        = string
-  default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"
-}
-
-variable "cloudtrail_s3_sns_sqs_url" {
-  type        = string
-  default     = null
-  description = "Optional for using pre-existing resources. URL of the cloudtrail-s3-sns-sqs event forwarder for event ingestion.<br/>sqs:ReceiveMessage and sqs:DeleteMessage permissions have to be provided to the compute role"
-}
-
-
 variable "cloudtrail_is_multi_region_trail" {
   type        = bool
   default     = true
-  description = "true/false whether cloudtrail will ingest multiregional events. testing/economization purpose."
+  description = "true/false whether the created cloudtrail will ingest multi-regional events. testing/economization purpose."
 }
 
 variable "cloudtrail_kms_enable" {
   type        = bool
   default     = true
-  description = "true/false whether cloudtrail delivered events to S3 should persist encrypted"
+  description = "true/false whether the created cloudtrail should deliver encrypted events to s3"
 }
+
+
+variable "existing_cloudtrail_config" {
+  type = object({
+    cloudtrail_sns_arn        = string
+    cloudtrail_s3_arn         = string
+    cloudtrail_s3_sns_sqs_arn = string
+    cloudtrail_s3_sns_sqs_url = string
+  })
+  default = {
+    cloudtrail_sns_arn        = "create"
+    cloudtrail_s3_arn         = "create"
+    cloudtrail_s3_sns_sqs_arn = null
+    cloudtrail_s3_sns_sqs_url = null
+  }
+
+  description = <<-EOT
+    Optional block. If not set, a new cloudtrail, sns and sqs resources will be created<br/>
+    If there's an existing cloudtrail, input mandatory attributes, and one of the 1 or 2 labeled optionals.
+    <ul>
+      <li>cloudtrail_s3_arn: Mandatory `ARN` of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"</li>
+      <li>cloudtrail_sns_arn: Optional 1. `ARN` of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns_permissions.tf block
+      <li>cloudtrail_s3_sns_sqs_arn: Optional 2. `ARN` of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns</li>
+      <li>cloudtrail_s3_sns_sqs_url: Optional 2. `URL` of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns<</li>
+    </ul>
+  EOT
+}
+
 
 #
 # scanning configuration
