@@ -63,10 +63,10 @@ data "aws_iam_policy_document" "iam_role_task_policy" {
     #    resources = [var.connector_ecs_task_role_name]
   }
 
-  dynamic statement {
-    for_each = local.deploy_sqs ? [1]:[0]
+  dynamic "statement" {
+    for_each = local.deploy_sqs ? [1] : []
     content {
-      effect  = "Allow"
+      effect = "Allow"
       actions = [
         "sqs:DeleteMessage",
         "sqs:DeleteMessageBatch",
