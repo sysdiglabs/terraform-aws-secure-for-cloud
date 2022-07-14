@@ -3,7 +3,7 @@ variable "name" {
   description = "Queue name"
 }
 
-variable "sns_topic_arn" {
+variable "cloudtrail_sns_arn" {
   type        = string
   description = "CloudTrail SNS Topic ARN to subscribe the SQS queue"
 }

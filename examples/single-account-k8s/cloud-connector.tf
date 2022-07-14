@@ -9,7 +9,7 @@ module "cloud_connector_sqs" {
   source = "../../modules/infrastructure/sqs-sns-subscription"
 
   name          = var.name
-  sns_topic_arn = local.cloudtrail_sns_arn
+  cloudtrail_sns_arn = local.cloudtrail_sns_arn
   tags          = var.tags
 }
 

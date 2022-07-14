@@ -49,7 +49,7 @@ resource "aws_s3_bucket_notification" "bucket_notification" {
 module "cloudtrail_s3_sns_sqs" {
   source        = "../sqs-sns-subscription"
   name          = "${var.name}-s3-sqs"
-  sns_topic_arn = aws_sns_topic.s3_sns.arn
+  cloudtrail_sns_arn = aws_sns_topic.s3_sns.arn
 
   tags = var.tags
 }

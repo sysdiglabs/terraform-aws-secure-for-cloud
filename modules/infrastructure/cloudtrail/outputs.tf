@@ -1,4 +1,4 @@
-output "sns_topic_arn" {
+output "cloudtrail_sns_arn" {
   value       = aws_sns_topic.cloudtrail.arn
   description = "ARN of Cloudtrail SNS topic"
 }
