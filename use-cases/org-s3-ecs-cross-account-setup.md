@@ -8,9 +8,9 @@
 
 - AWS Organization Setup
 - AWS Organizational Cloudtrail within the managed account, with no SNS activation
-  - we'll leverage Cloudtrail-S3 event forwarder to an SQS
+    - we'll leverage Cloudtrail-S3 event forwarder to an SQS
 - Cloudtrail-S3 is not in the management account nor in the member account where we will deployed Secure for Cloud.
-  - This setup is popular when working under AWS Control Tower setup.
+    - This setup is popular when working under AWS Control Tower setup.
 - Existing VPC network setup.
 
 **Sysdig Secure For Cloud [Features](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/)**
@@ -27,11 +27,11 @@ We're going to use existing use case [/use-cases/org-existing-cloudtrail-ecs-vpc
 Final scenario would be:
 
 - Management Account
-  - Cloudtrail (no SNS)
+    - Cloudtrail (no SNS)
 - Log-Archive Account
-  - Cloudtrail-S3 bucket with SQS event forward? event-bridge?
+    - Cloudtrail-S3 bucket with SQS event forward? event-bridge?
 - Member Account
-  - Sysdig Secure for Cloud deployment
+    - Sysdig Secure for Cloud deployment
 
 It's important that all required resources (cloudtrail-s3, cloudtrail-s3-??, and sysdig workload), is **within same AWS_REGION**. Otherwise, contact us, so we can alleviate this limitation.
 
@@ -74,18 +74,18 @@ Please contact us if something requires to be adjusted.
 
     - General
         - `AWS_REGION` Same region is to be used for both organizational managed account and Sysdig workload member account resources.<br/>
-          - **Region MUST match both S3 bucket and SNS Cloudtrail**.
+            - **Region MUST match both S3 bucket and SNS Cloudtrail**.
         - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` where Sysdig Workload is to be deployed under the pre-existing ECS
 
     - Existing Organizational Cloudtrail Setup vía Cloudtrail-S3 SQS event-forwarder
         - `CLOUDTRAIL_S3_SNS_SQS_URL`
 
-   - Existing ECS Cluster Workload  Setup
-       - `ECS_CLUSTER_NAME` ex.: "sfc"
+    - Existing ECS Cluster Workload  Setup
+        - `ECS_CLUSTER_NAME` ex.: "sfc"
 
-   - Existing Networking Setup
-       - `ECS_VPC_ID` ex.: "vpc-0e91bfef6693f296b"
-       - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
+    - Existing Networking Setup
+        - `ECS_VPC_ID` ex.: "vpc-0e91bfef6693f296b"
+        - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
 
 4. Permissions - SQS
 
@@ -110,7 +110,7 @@ Please contact us if something requires to be adjusted.
 4. Permissions - S3
     - Terraform should have successfully deployed everything, but still, ECS task will fail due to missing permissions on S3 access.
     - We cannot prepare this beforehand, as S3 will throw following error if the referenced Role does not exist yet.
-        > Invalid principal in policy
+      > Invalid principal in policy
     - For cross-account S3 access, we will provision permissions on both management-account role and s3 bucket
     - For Terraform provisioned role in the management account, `<ARN_SYSDIG_S3_ACCESS_ROLE>`,<br/> in form of `arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/sysdig-sfc-SysdigSecureForCloudRole`, <br/>
     ```text

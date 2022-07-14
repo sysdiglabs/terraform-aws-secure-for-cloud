@@ -216,6 +216,8 @@ If that's not working as expected, some other questions can be checked
 
 **Image Scanning**
 
+Image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place
+
   - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
   - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
 
@@ -238,6 +240,16 @@ with the correct values. Check [Sysdig SaaS per-region URLs if required](https:/
 ### Q-General: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
 A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
 
+### Q-Scanning: I'm not seeing any image scanning results
+A: Need to check several steps
+<br/>S: First, image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place.
+<br/>Currently, images are scanned on registry/repository push events, and on the supported compute services on deployment. Make sure these events are triggered.
+<br/>Dig into secure for cloud compute log (cloud-connector) and check for errors.
+<br/>If previous logs are ok, check [spawned scanning service](http://localhost:1313/en/docs/sysdig-secure/sysdig-secure-for-cloud/#summary) logs
+
+### Q-AWS: In the ECS compute flavor of secure for cloud, I don't see any logs in the cloud-connector component
+A: This may be due to the task not beinb able to start, normally due not not having enough permissions to even fetch the secure apiToken, stored in the AWS SSM service.
+<br/>S: Access the task and see if there is any value in the "Stoped Reason" field. 
 
 ### Q-AWS: Getting error "Error: failed creating ECS Task Definition: ClientException: No Fargate configuration exists for given values.
 A: Your ECS task_size values aren't valid for Fargate. Specifically, your mem_limit value is too big for the cpu_limit you specified
@@ -289,6 +301,20 @@ This error happens when the ECS `TaskRole` has no permissions to assume this rol
 
 A: Probably you or someone in the same environment you're using, already deployed a resource with the sysdig terraform module and a naming collision is happening.
 <br/>S: If you want to maintain several versions, make use of the [`name` input var of the examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account#input_name)
+
+<br/><br/>
+
+## Upgrading
+
+- Ideally you would like to upgrade the full terraform example with
+
+```
+$ terraform init -upgrade
+$ terraform plan
+$ terraform apply
+```
+
+- If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the latest one.
 
 <br/><br/>
 ## Authors
