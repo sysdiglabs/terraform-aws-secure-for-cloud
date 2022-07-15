@@ -47,11 +47,9 @@ No modules.
 | [aws_iam_role_policy.enable_assume_secure_for_cloud_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.sysdig_secure_for_cloud_role_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.sysdig_secure_for_cloud_role_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.sysdig_secure_for_cloud_role_s3_sns_sqs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_policy_document.enable_assume_secure_for_cloud_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.sysdig_secure_for_cloud_role_assume_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.sysdig_secure_for_cloud_role_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
-| [aws_iam_policy_document.sysdig_secure_for_cloud_role_s3_sns_sqs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.sysdig_secure_for_cloud_role_trusted](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_role.ecs_task_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_role) | data source |
 
@@ -60,7 +58,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudconnector_ecs_task_role_name"></a> [cloudconnector\_ecs\_task\_role\_name](#input\_cloudconnector\_ecs\_task\_role\_name) | cloudconnector ecs task role name | `string` | n/a | yes |
-| <a name="input_cloudtrail_config"></a> [cloudtrail\_config](#input\_cloudtrail\_config) | At least `cloudtrail_s3_arn` is required. `cloudtrail_s3_sns_sqs_arn` optional | <pre>object({<br>    cloudtrail_s3_arn         = string<br>    cloudtrail_s3_sns_sqs_arn = optional(string)<br>  })</pre> | <pre>{<br>  "cloudtrail_s3_arn": null,<br>  "cloudtrail_s3_sns_sqs_arn": null<br>}</pre> | no |
+| <a name="input_cloudtrail_s3_arn"></a> [cloudtrail\_s3\_arn](#input\_cloudtrail\_s3\_arn) | Cloudtrail S3 bucket ARN | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_organizational_role_per_account"></a> [organizational\_role\_per\_account](#input\_organizational\_role\_per\_account) | Name of the organizational role deployed by AWS in each account of the organization | `string` | `"OrganizationAccountAccessRole"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
