@@ -23,7 +23,7 @@ with Diagram("Three-Way Cross-Account", filename="org-three-way-permissions", sh
 
     with Cluster("member account - SFC compute"):
         ecs = ECS("sfc")
-        ecs_role = IAM("organizational-ECSTaskRole")
+        ecs_role = IAM("sfc-organizational-ECSTaskRole")
         ecs - ecs_role
 
     cloudtrail >> cloudtrail_s3

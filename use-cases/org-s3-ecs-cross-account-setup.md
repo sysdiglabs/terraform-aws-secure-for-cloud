@@ -75,7 +75,7 @@ log archive account - s3, sns, sqs
 #### 2. Choose an Organizational **Member account for Sysdig Workload** to be deployed.
     - This accountID will be provided in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` parameter
 
-#### 3. Permissions - S3AccessRole
+#### 3. Permissions - SysdigSecureForCloud-S3AccessRole
   - Create a `SysdigSecureForCloud-S3AccessRole` in the same account where the S3 bucket exists.
   - We need to input in the principal a role that exists, but becaus we've not launched the terraform yet, we don't have this value.
     <br/>Will add a generic value, and modify afterwards.
@@ -121,15 +121,67 @@ log archive account - s3, sns, sqs
 
    - Existing Networking Setup
        - `ECS_VPC_ID` ex.: "vpc-0e91bfef6693f296b"
-       - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
+       - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"<br/><br/>
 
-   - With this parameters, you should have a Terraform manifest ready to apply.
-   <br/>This should run without errors, but still we've got some more permissions to adjust.
+Now Run it; this should go without errors (we've got some more permissions to adjust afterwards)
+
+```terraform
+terraform {
+  required_providers {
+    sysdig = {
+      source  = "sysdiglabs/sysdig"
+      configuration_aliases = [aws.member]
+    }
+  }
+}
+
+provider "sysdig" {
+  sysdig_secure_url         = "<SYSDIG_SECURE_URL>"
+  sysdig_secure_api_token   = "<SYSDIG_SECURE_API_TOKEN>"
+}
+
+provider "aws" {
+  region = "<AWS_REGION>"       # must match s3 AND sqs region
+}
+
+# you can setup this provider as desired, just giving an example
+# this assumeRole / permission setup is referenced in point #3
+provider "aws" {
+  alias  = "member"
+  region = "<AWS_REGION>"       # must match s3 AND sqs region
+  assume_role {
+    # 'OrganizationAccountAccessRole' is the default role created by AWS for management-account users to be able to admin member accounts.
+    # if this is changed, please change to the `examples/organizational` input var `organizational_member_default_admin_role` too
+    # <br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
+    role_arn = "arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/OrganizationAccountAccessRole"
+  }
+}
+
+module "sysdig-sfc" {
+  providers = {
+    aws.member = aws.member
+  }
+
+  source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
+  name   = "sysdig-sfc"
+
+  sysdig_secure_for_cloud_member_account_id="<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>"
+
+  existing_cloudtrail_config={
+    cloudtrail_s3_sns_sqs_arn="<CLOUDTRAIL_S3_SNS_SQS_ARN>"
+    cloudtrail_s3_sns_sqs_url="<CLOUDTRAIL_S3_SNS_SQS_URL>"
+    cloudtrail_s3_role_arn="<CLOUDTRAIL_S3_ROLE_ARN>"
+  }
+
+  ecs_cluster_name              = "<ECS_CLUSTER_NAME>"
+  ecs_vpc_id                    = "<ECS_VPC_ID>"
+  ecs_vpc_subnets_private_ids   = ["<ECS_VPC_SUBNET_PRIVATE_ID_1>","<ECS_VPC_SUBNET_PRIVATE_ID_2>"]}
+```
 
 #### 5. Permissions
 
-   We need provided pre-existing cloudtrail S3 and SQS to allow Sysdig Secure to access both resources. That will be done through the `sfc-organizational-ECSTaskRole"` (default name value) role to provide following permissions.
-   ![organizational three-way-account permission setup](./org-three-way-permissions.png)
+We need provided pre-existing cloudtrail S3 and SQS to allow Sysdig Secure to access both resources. That will be done through the `sfc-organizational-ECSTaskRole"` (default name value) role to provide following permissions.
+![organizational three-way-account permission setup](./org-three-way-permissions.png)
 
 ##### 5.1 Fetch `SYSDIG_ECS_TASK_ROLE_ARN` ARN
 
@@ -171,57 +223,14 @@ We'll need to add following permissions to the SQS queue
    }
 ```
 
-### Terraform Manifest Snippet
+### 6. Check-up
 
-```terraform
-terraform {
-  required_providers {
-    sysdig = {
-      source  = "sysdiglabs/sysdig"
-      configuration_aliases = [aws.member]
-    }
-  }
-}
+Suggested steps
 
-provider "sysdig" {
-  sysdig_secure_url         = "<SYSDIG_SECURE_URL>"
-  sysdig_secure_api_token   = "<SYSDIG_SECURE_API_TOKEN>"
-}
-
-provider "aws" {
-  region = "<AWS_REGION>"       # must match s3 AND sns region
-}
-
-# you can setup this provider as desired, just giving an example
-# this assumeRole / permission setup is referenced in point #3
-provider "aws" {
-  alias  = "member"
-  region = "<AWS_REGION>"       # must match s3 AND sns region
-  assume_role {
-    # 'OrganizationAccountAccessRole' is the default role created by AWS for management-account users to be able to admin member accounts.
-    # if this is changed, please change to the `examples/organizational` input var `organizational_member_default_admin_role` too
-    # <br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
-    role_arn = "arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/OrganizationAccountAccessRole"
-  }
-}
-
-module "sysdig-sfc" {
-  providers = {
-    aws.member = aws.member
-  }
-
-  source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
-  name   = "sysdig-sfc"
-
-  sysdig_secure_for_cloud_member_account_id="<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>"
-
-  existing_cloudtrail_config={
-    cloudtrail_s3_sns_sqs_arn="<CLOUDTRAIL_S3_SNS_SQS_ARN>"
-    cloudtrail_s3_sns_sqs_url="<CLOUDTRAIL_S3_SNS_SQS_URL>"
-    cloudtrail_s3_role_arn="<CLOUDTRAIL_S3_ROLE_ARN>"
-  }
-
-  ecs_cluster_name              = "<ECS_CLUSTER_NAME>"
-  ecs_vpc_id                    = "<ECS_VPC_ID>"
-  ecs_vpc_subnets_private_ids   = ["<ECS_VPC_SUBNET_PRIVATE_ID_1>","<ECS_VPC_SUBNET_PRIVATE_ID_2>"]}
-```
+1. Access ECS logs for the SecureForCloud task
+    - check that there are no errors
+2. If logs are OK, check in Sysdig Secure
+   - Integrations > Data Sources - Cloud Accounts
+   - Posture > Identity and Access Management - Overview
+   - Posture > Compliance - AWS
+   - Insights > Cloud Activity
