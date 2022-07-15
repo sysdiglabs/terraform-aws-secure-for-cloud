@@ -80,6 +80,7 @@ module "cloud_connector" {
   existing_cloudtrail_config = {
     cloudtrail_sns_arn        = local.cloudtrail_sns_arn
     cloudtrail_s3_sns_sqs_url = var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_url
+    cloudtrail_s3_sns_sqs_arn = var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn
   }
 
   ecs_cluster_name            = local.ecs_cluster_name
