@@ -70,7 +70,7 @@ module "cloud_connector" {
   is_organizational = true
   organizational_config = {
     # FIXME. if scanning is activated, using 'cloudtrail_s3_role_arn' won't work
-    sysdig_secure_for_cloud_role_arn = var.existing_cloudtrail_config.cloudtrail_s3_role_arn != null? var.existing_cloudtrail_config.cloudtrail_s3_role_arn : module.secure_for_cloud_role.sysdig_secure_for_cloud_role_arn
+    sysdig_secure_for_cloud_role_arn = var.existing_cloudtrail_config.cloudtrail_s3_role_arn != null ? var.existing_cloudtrail_config.cloudtrail_s3_role_arn : module.secure_for_cloud_role.sysdig_secure_for_cloud_role_arn
     organizational_role_per_account  = var.organizational_member_default_admin_role
     connector_ecs_task_role_name     = aws_iam_role.connector_ecs_task.name
   }
