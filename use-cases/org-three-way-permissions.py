@@ -12,25 +12,23 @@ color_event="firebrick"
 
 with Diagram("Three-Way Cross-Account", filename="org-three-way-permissions", show=True):
 
+    with Cluster("management account - cloudtrail"):
+        cloudtrail = Cloudtrail("cloudtrail\n(no sns activated)")
+        #org_role = IAM("sfc-SysdigSecureForCloudRole")
+
     with Cluster("member account - cloudtrail S3 bucket"):
         cloudtrail_s3 = S3("cloudtrail-s3")
-        cloudtrail_sns_sqs = SQS("cloudtrail-sns-sqs")
-        cloudtrail_s3 >> cloudtrail_sns_sqs
-
+        cloudtrail_sns_sqs = SQS("cloudtrail-s3-sns-sqs\nevent forward")
+        org_role = IAM("SysdigSecureForCloud-S3AccessRole")
 
     with Cluster("member account - SFC compute"):
-
         ecs = ECS("sfc")
         ecs_role = IAM("organizational-ECSTaskRole")
         ecs - ecs_role
 
+    cloudtrail >> cloudtrail_s3
+    cloudtrail_s3 >> cloudtrail_sns_sqs
 
-    with Cluster("management account - cloudtrail"):
-        cloudtrail = Cloudtrail("cloudtrail\n(no sns activated)")
-        cloudtrail >> cloudtrail_s3
-
-        org_role = IAM("sfc-SysdigSecureForCloudRole")
-
-    ecs_role >> Edge(color=color_event, style="dashed", xlabel="sts:AssumeRole") << org_role
-    org_role >> Edge(color=color_event, style="dashed", label="sqs:Receive+Delete")  << cloudtrail_sns_sqs
+    ecs_role >> Edge(color=color_event, style="dashed", label="sts:AssumeRole") << org_role
+    ecs_role >> Edge(color=color_event, style="dashed", label="sqs:Receive+Delete")  << cloudtrail_sns_sqs
     org_role >> Edge(color=color_event, style="dashed", label="s3:GetObject") << cloudtrail_s3
