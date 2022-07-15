@@ -103,7 +103,7 @@ log archive account - s3, sns, sqs
        - `AWS_REGION` Same region is to be used for both organizational managed account and Sysdig workload member account resources.<br/>
            - Region MUST match both S3 bucket, SNS and SQS
        - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` where Sysdig Workload is to be deployed under the pre-existing ECS<br/><br/>
-    
+
    - Existing Organizational Cloudtrail Setup vía Cloudtrail-S3 vía SNS-SQS event-forwarder.
      <br/>This use-cases is specific for S3 buckets that are isolated in an account that's not the default management account, neither sysdig compute workload depoyment account.
      <br/>Due to S3 access limitations, cross-account access requires a role in the same S3 account, to be assumed by the caller.
@@ -132,14 +132,14 @@ log archive account - s3, sns, sqs
    ![organizational three-way-account permission setup](./org-three-way-permissions.png)
 
 ##### 5.1 Fetch `SYSDIG_ECS_TASK_ROLE_ARN` ARN
-    
+
 Get this ARN at hand, because it's what you'll use to configure your pre-existing CLOUDTRAIL_S3 and CLOUDTRAIL_S3_SNS_SQS permissions to allow SysdigWorkload to operate with it.
 
 ```terraform
 $ terraform state list | grep aws_iam_role.connector_ecs_task
 <RESULTING_RESOURCE>
-        
-$ terraform state show <RESULTING_RESOURCE> | grep "arn"     
+
+$ terraform state show <RESULTING_RESOURCE> | grep "arn"
 arn = "arn:aws:iam::****:role/sfc-organizational-ECSTaskRole"
 ```
 
@@ -163,7 +163,7 @@ We'll need to add following permissions to the SQS queue
       "Principal": {
         "AWS": "<SYSDIG_ECS_TASK_ROLE_ARN>"
       },
-      "Action": [              
+      "Action": [
         "sqs:ReceiveMessage",
         "sqs:DeleteMessage"
       ],
@@ -214,13 +214,13 @@ module "sysdig-sfc" {
   name   = "sysdig-sfc"
 
   sysdig_secure_for_cloud_member_account_id="<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>"
-  
+
   existing_cloudtrail_config={
     cloudtrail_s3_sns_sqs_arn="<CLOUDTRAIL_S3_SNS_SQS_ARN>"
     cloudtrail_s3_sns_sqs_url="<CLOUDTRAIL_S3_SNS_SQS_URL>"
     cloudtrail_s3_role_arn="<CLOUDTRAIL_S3_ROLE_ARN>"
   }
-  
+
   ecs_cluster_name              = "<ECS_CLUSTER_NAME>"
   ecs_vpc_id                    = "<ECS_VPC_ID>"
   ecs_vpc_subnets_private_ids   = ["<ECS_VPC_SUBNET_PRIVATE_ID_1>","<ECS_VPC_SUBNET_PRIVATE_ID_2>"]}
