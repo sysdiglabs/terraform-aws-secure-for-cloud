@@ -1,35 +1,35 @@
-# OrganizationSetup - Three way CrossAccount - Existing Cloudtrail with no SNS - S3-SQS event forward
-
-:warning: WIP.
+# OrganizationSetup - Three way Cross-Account - Existing VPC,Subnet and Cloudtrail with no SNS - Event Notification with S3-SNS-SQS
 
 ## Use-Case explanation
 
-**Current User Setup**
+This use case will cover 
 
-- AWS Organization Setup with three-way account setup
+- **User Infrastructure Setup**: AWS Organization Setup with three-way account setup
   1. Management Account
-    - Organizational Cloudtrail, no SNS activation
+    - Organizational Cloudtrail with no SNS activation
   2. Log Archive Account
-    - Cloudtrail-S3 bucket, SNS and SQS
+    - Cloudtrail-S3 bucket, with event notification to an SNS > SQS
   3. Member Account
     - Sysdig Secure for cloud deployment
     - Existing VPC network setup.
 
-**Sysdig Secure For Cloud [Features](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/)**
+- Besides, we will make use of an **existing VPC/Subnet configuration**.
 
-- Threat-Detection
-- Posture; Compliance + Identity Access Management
-  <br/><br/>
+- Required **Sysdig Secure For Cloud [Features](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/)**
+  - Threat-Detection
+  - Posture; Compliance + Identity Access Management
+  - :warning: Cloud image scanning is not supported yet
+<br/><br/>
 
 
 ## Suggested setup
 
-- We're going to use existing use case [/use-cases/org-existing-cloudtrail-ecs-vpc-subnet.md](./org-existing-cloudtrail-ecs-vpc-subnet.md), with some permission-related changes, due to the three-way cross-account scenario.
-- It's important that all required resources (cloudtrail-s3, cloudtrail-s3-sns-sqs, and sysdig workload), is **within same AWS_REGION**. Otherwise, contact us, so we can alleviate this limitation.
-- For network setup, please refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/).
+- Default `organizational` example is pre-configured to work with managed-account level resources (cloudtrail, s3, sns and sqs resources).
+  - We will make use of an alternative event ingestion vía S3 Event Notification through an SNS-SQS.
+  - It's important that all existing resources (cloudtrail-s3, cloudtrail-s3-sns-sqs, and sysdig workload), are **within same AWS_REGION**. Otherwise, contact us, so we can alleviate this limitation.
+  - We will need some permission setup, in order to let Sysdig Modules to be able to read resources from customer's infrastructure setup.
+- For existing VPC/Subnet usage, we will make use of the optional variables. Right now these two fields also require an ECS cluster to be configured.
 
-Before proceeding, please read the referenced use-cases and examples and check whether you comply with requirements.
-Please contact us if something requires to be adjusted.
 
 ### Step by Step Example Guide
 
@@ -55,7 +55,7 @@ log archive account - s3, sns, sqs
     ]
 }
 
-0.2. Provision the s3 bucket sns event forward. Need to add permissions to SNS
+0.2. Provision the s3 bucket sns event notification. Need to add permissions to SNS
 {
       "Sid": "AllowS3ToPublishSNS",
       "Effect": "Allow",
@@ -72,58 +72,46 @@ log archive account - s3, sns, sqs
 
 #### 1. Configure `AWS_PROFILE` with an organizational Administration credentials
 
-#### 2. Choose an Organizational **Member account for Sysdig Workload** to be deployed.
-    - This accountID will be provided in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` parameter
+Module is intended to create resources on your management account, as well as member-accounts.
 
-#### 3. Permissions - SysdigSecureForCloud-S3AccessRole
-  - Create a `SysdigSecureForCloud-S3AccessRole` in the same account where the S3 bucket exists.
-  - We need to input in the principal a role that exists, but becaus we've not launched the terraform yet, we don't have this value.
-    <br/>Will add a generic value, and modify afterwards.
-    ```text
-    {
-     "Sid": "AllowSysdigToRead",
-     "Effect": "Allow",
-     "Principal": {
-         "Service": "ecs-tasks.amazonaws.com"
-     },
-     "Action": "s3:GetObject",
-     "Resource": [
-         "<CLOUDTRAIL_S3_ARN>",
-         "<CLOUDTRAIL_S3_ARN>/*"
-     ]
-    }
-    ```
-  - Fetch the created role arn as CLOUDTRAIL_S3_ROLE_ARN
+Refer to [General Permissions](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud#required-permissions) to get more detail on what's required,
+and [Organizational Role Summary](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational#role-summary) for this specific use-case scenario.
+
+#### 2. Choose an Organizational **Member account for Sysdig Workload** to be deployed.
+
+This accountID will be required in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` parameter
+
+#### 3. Pre-Terraform Requirements
+
+#### 3.1 ECS Cluster
+
+  - Create an ECS cluster and configure it with the existing VPC/Subnet/... network configuration suiting your needs.
+  - For Sysdig outbound connection, please refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/).
+  - Deployment will create following [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
+
+#### 3.2 Permissions - SysdigSecureForCloud-S3AccessRole
+
+Required action to allow AWS S3 cross-account access.
+
+- Create a `SysdigSecureForCloud-S3AccessRole` in the same account where the S3 bucket exists.
+- Give it whatever trust-permissions you feel comfortable with, we will edit it later.
+- Add permissions to be able to read from the S3 bucket (create a resource/action pinned policy if required)
+  ```text
+  {
+   "Sid": "AllowSysdigToRead",
+   "Effect": "Allow",   
+   "Action": "s3:GetObject",
+   "Resource": [
+       "<CLOUDTRAIL_S3_ARN>",
+       "<CLOUDTRAIL_S3_ARN>/*"
+   ]
+  }
+  ```
+- Fetch the created role arn as `CLOUDTRAIL_S3_ROLE_ARN`
 
 #### 4. Launch Terraform
 
-   - Use provided [Terraform Snippet](#terraform-manifest-snippet)
-   - We'll use the `organizational` example
-   - General
-       - `AWS_REGION` Same region is to be used for both organizational managed account and Sysdig workload member account resources.<br/>
-           - Region MUST match both S3 bucket, SNS and SQS
-       - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` where Sysdig Workload is to be deployed under the pre-existing ECS<br/><br/>
-
-   - Existing Organizational Cloudtrail Setup vía Cloudtrail-S3 vía SNS-SQS event-forwarder.
-     <br/>This use-cases is specific for S3 buckets that are isolated in an account that's not the default management account, neither sysdig compute workload depoyment account.
-     <br/>Due to S3 access limitations, cross-account access requires a role in the same S3 account, to be assumed by the caller.
-
-      ```terraform
-       existing_cloudtrail_config={
-          cloudtrail_s3_sns_sqs_arn="<CLOUDTRAIL_S3_SNS_SQS_ARN>"    # for permission setup on ECSTaskRole to be able to access SQS
-          cloudtrail_s3_sns_sqs_url="<CLOUDTRAIL_S3_SNS_SQS_URL>"    # for sysdig cloud-connector compute to fetch events
-          cloudtrail_s3_role_arn="<CLOUDTRAIL_S3_ROLE_ARN>"          # for ECSTask assumeRole and access S3
-      }
-     ```
-
-   - Existing ECS Cluster Workload  Setup
-       - `ECS_CLUSTER_NAME` ex.: "sfc"
-
-   - Existing Networking Setup
-       - `ECS_VPC_ID` ex.: "vpc-0e91bfef6693f296b"
-       - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"<br/><br/>
-
-Now Run it; this should go without errors (we've got some more permissions to adjust afterwards)
+We will use this Terraform Manifest. Get detailed explanation of each variable bellow.
 
 ```terraform
 terraform {
@@ -167,26 +155,50 @@ module "sysdig-sfc" {
 
   sysdig_secure_for_cloud_member_account_id="<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>"
 
-  existing_cloudtrail_config={
-    cloudtrail_s3_sns_sqs_arn="<CLOUDTRAIL_S3_SNS_SQS_ARN>"
-    cloudtrail_s3_sns_sqs_url="<CLOUDTRAIL_S3_SNS_SQS_URL>"
-    cloudtrail_s3_role_arn="<CLOUDTRAIL_S3_ROLE_ARN>"
-  }
-
   ecs_cluster_name              = "<ECS_CLUSTER_NAME>"
   ecs_vpc_id                    = "<ECS_VPC_ID>"
-  ecs_vpc_subnets_private_ids   = ["<ECS_VPC_SUBNET_PRIVATE_ID_1>","<ECS_VPC_SUBNET_PRIVATE_ID_2>"]}
+  ecs_vpc_subnets_private_ids   = ["<ECS_VPC_SUBNET_PRIVATE_ID_1>","<ECS_VPC_SUBNET_PRIVATE_ID_2>"]
+
+  existing_cloudtrail_s3_config={
+      cloudtrail_s3_sns_sqs_arn = "<CLOUDTRAIL_S3_SNS_SQS_ARN>"
+      cloudtrail_s3_sns_sqs_url = "<CLOUDTRAIL_S3_SNS_SQS_URL>"
+      cloudtrail_s3_role_arn    = "<CLOUDTRAIL_S3_ROLE_ARN>"
+  }
+}
 ```
 
-#### 5. Permissions
+- We'll use the **organizational** example
+- **General** parameters
+    - `AWS_REGION` Same region is to be used for both organizational managed account and Sysdig workload member account resources.<br/>
+        - Region MUST match both S3 bucket, SNS and SQS
+    - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` where Sysdig Workload is to be deployed under the pre-existing ECS<br/><br/>
 
-We need provided pre-existing cloudtrail S3 and SQS to allow Sysdig Secure to access both resources. That will be done through the `sfc-organizational-ECSTaskRole"` (default name value) role to provide following permissions.
+- Existing **ECS Cluster and networking** setup
+    - `ECS_CLUSTER_NAME` ex.: "sfc"
+    - `ECS_VPC_ID` ex.: "vpc-0e91bfef6693f296b"
+    - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"<br/><br/>
+
+- Existing Organizational **Cloudtrail setup** vía S3 event notification through SNS-SQS.
+  - `CLOUDTRAIL_S3_SNS_SQS_ARN` ARN of the queue, for us to setup ECSTaskRole to be able to access SQS
+  - `CLOUDTRAIL_S3_SNS_SQS_URL` URL of the queue from were to ingest events in the cloud-connector compute deployment
+  - `CLOUDTRAIL_S3_ROLE_ARN` ARN of the S3Role for ECSTaskRole to assumeRole and access S3
+
+#### 5. Use-Case Specific Permissions
+
+When applying Terraform manifest it will create resources, and we should have no errors there.
+However, deployed compute will fail (can check the logs in the ECS Task) due to permissions.
+
+Let's fix that.
+- We need to allow S3 and SQS resources to be accessed by the compute role, `sfc-organizational-ECSTaskRole"` (default name value).
+
 ![organizational three-way-account permission setup](./org-three-way-permissions.png)
 
 ##### 5.1 Fetch `SYSDIG_ECS_TASK_ROLE_ARN` ARN
 
 Get this ARN at hand, because it's what you'll use to configure your pre-existing CLOUDTRAIL_S3 and CLOUDTRAIL_S3_SNS_SQS permissions to allow SysdigWorkload to operate with it.
 
+Default `SYSDIG_ECS_TASK_ROLE_ARN` should be `arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/sfc-organizational-ECSTaskRole` 
+but you can check its value accessing the ECS Cluster and checking deployed Task definition, or launching following CLI:
 ```terraform
 $ terraform state list | grep aws_iam_role.connector_ecs_task
 <RESULTING_RESOURCE>
@@ -195,20 +207,10 @@ $ terraform state show <RESULTING_RESOURCE> | grep "arn"
 arn = "arn:aws:iam::****:role/sfc-organizational-ECSTaskRole"
 ```
 
-##### 5.2 Cloudtrail-S3
+##### 5.2 Cloudtrail-S3-SNS-SQS
 
-- From the previously created `CLOUDTRAIL_S3_ROLE_ARN`, we will change the following in the trusted-identity setup.
-    ```
-    "Principal": {
-    <    "Service": "ecs-tasks.amazonaws.com"
-    >    "AWS": "<SYSDIG_ECS_TASK_ROLE_ARN>"
-    }
-    ```
-
-##### 5.3 Cloudtrail-S3-SNS-SQS
-
-We'll need to add following permissions to the SQS queue
-   ```text
+We'll need to add following permissions to the `CLOUDTRAIL_S3_SNS_SQS`
+```text
     {
       "Sid": "AllowSQSSubscribe",
       "Effect": "Allow",
@@ -223,12 +225,30 @@ We'll need to add following permissions to the SQS queue
    }
 ```
 
+##### 5.3 Cloudtrail-S3
+
+We'll need to add following trust policy to the `CLOUDTRAIL_S3_ROLE`
+```text
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "<SYSDIG_ECS_TASK_ROLE_ARN>"
+            },
+            "Action": "sts:AssumeRole"
+        }
+]
+}
+```
+
 ### 6. Check-up
 
 Suggested steps
 
 1. Access ECS logs for the SecureForCloud task
-    - check that there are no errors
+    - check that there are no errors and events are being ingested
 2. If logs are OK, check in Sysdig Secure
    - Integrations > Data Sources - Cloud Accounts
    - Posture > Identity and Access Management - Overview
