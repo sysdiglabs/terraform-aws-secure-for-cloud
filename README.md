@@ -137,20 +137,18 @@ $ terraform apply
 Terraform provider credentials/token, requires `Administrative` permissions in order to be able to create the
 resources specified in the per-example diagram.
 
-Some components may vary, and you can check full resources on each module "Resources" section in their README's, but this would be an overall schema of the **created resources**:
+Some components may vary, or may be deployed on different accounts (depending on the example). You can check full resources on each module "Resources" section in their README's. You can also check our source code and suggest changes.
 
-- SSM Parameter for Sysdig API Token Storage
+This would be an overall schema of the **created resources**, for the default setup.
+
 - Cloudtrail / SNS / S3 / SQS
-
+- SSM Parameter for Sysdig API Token Storage 
 - Sysdig Workload: ECS / AppRunner creation (EKS is pre-required, not created)
   - each compute solution require a role to assume for execution
-
 - CodeBuild for on-demand image scanning
-- Role for Sysdig [Benchmarks](./modules/services/cloud-bench)
+- Sysdig role for [Compliance](./modules/services/cloud-bench)
 
 ### Runtime Permissions
-
-Modules create several roles to be able to manage the following permissions.
 
 **General  Permissions**
 
@@ -183,14 +181,12 @@ ecr: ListTagsForResource
 ecr: DescribeImageScanFindings
 
 ecs:DescribeTaskDefinition
-
-```
-
-Notes:
-- only Sysdig workload related permissions are specified above; infrastructure internal resource permissions (such as Cloudtrail permissions to publish on SNS, or SNS-SQS Subscription)
-are not detailed.
-- For a better security, permissions are resource pinned, instead of `*`
-- Check [Organizational Use Case - Role Summary](./examples/organizational/README.md#role-summary) for more details
+  ```
+- Other Notes:
+  - only Sysdig workload related permissions are specified above; infrastructure internal resource permissions (such as Cloudtrail permissions to publish on SNS, or SNS-SQS Subscription)
+  are not detailed.
+  - For a better security, permissions are resource pinned, instead of `*`
+  - Check [Organizational Use Case - Role Summary](./examples/organizational/README.md#role-summary) for more details
 
 
 ## Forcing Events
