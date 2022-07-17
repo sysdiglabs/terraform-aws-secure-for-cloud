@@ -2,7 +2,7 @@
 
 ## Use-Case explanation
 
-This use case will cover 
+This use case will cover
 
 - **User Infrastructure Setup**: AWS Organization Setup with three-way account setup
   1. Management Account
@@ -99,10 +99,9 @@ Required action to allow AWS S3 cross-account access.
   ```text
   {
    "Sid": "AllowSysdigToRead",
-   "Effect": "Allow",   
+   "Effect": "Allow",
    "Action": "s3:GetObject",
    "Resource": [
-       "<CLOUDTRAIL_S3_ARN>",
        "<CLOUDTRAIL_S3_ARN>/*"
    ]
   }
@@ -181,7 +180,7 @@ module "sysdig-sfc" {
 - Existing Organizational **Cloudtrail setup** vía S3 event notification through SNS-SQS.
   - `CLOUDTRAIL_S3_SNS_SQS_ARN` ARN of the queue, for us to setup ECSTaskRole to be able to access SQS
   - `CLOUDTRAIL_S3_SNS_SQS_URL` URL of the queue from were to ingest events in the cloud-connector compute deployment
-  - `CLOUDTRAIL_S3_ROLE_ARN` ARN of the S3Role for ECSTaskRole to assumeRole and access S3
+  - `CLOUDTRAIL_S3_ROLE_ARN` ARN of the `SysdigSecureForCloud-S3AccessRole` created in step 3.2, for ECSTaskRole to assumeRole and access S3
 
 #### 5. Use-Case Specific Permissions
 
@@ -196,7 +195,7 @@ Let's fix that; we need to allow S3 and SQS resources to be accessed by the comp
 
 Get this ARN at hand, because it's what you'll use to configure your pre-existing CLOUDTRAIL_S3 and CLOUDTRAIL_S3_SNS_SQS permissions to allow SysdigWorkload to operate with it.
 
-Default `SYSDIG_ECS_TASK_ROLE_ARN` should be `arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/sfc-organizational-ECSTaskRole` 
+Default `SYSDIG_ECS_TASK_ROLE_ARN` should be `arn:aws:iam::<SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID>:role/sfc-organizational-ECSTaskRole`
 but you can check its value accessing the ECS Cluster and checking deployed Task definition, or launching following CLI:
 ```terraform
 $ terraform state list | grep aws_iam_role.connector_ecs_task
@@ -241,6 +240,8 @@ We'll need to add following trust policy to the `CLOUDTRAIL_S3_ROLE`
 ]
 }
 ```
+
+We should not need to restart ECSTask as this changes will be applied on runtime.
 
 ### 6. Check-up
 

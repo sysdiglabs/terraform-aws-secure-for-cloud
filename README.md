@@ -142,7 +142,7 @@ Some components may vary, or may be deployed on different accounts (depending on
 This would be an overall schema of the **created resources**, for the default setup.
 
 - Cloudtrail / SNS / S3 / SQS
-- SSM Parameter for Sysdig API Token Storage 
+- SSM Parameter for Sysdig API Token Storage
 - Sysdig Workload: ECS / AppRunner creation (EKS is pre-required, not created)
   - each compute solution require a role to assume for execution
 - CodeBuild for on-demand image scanning
