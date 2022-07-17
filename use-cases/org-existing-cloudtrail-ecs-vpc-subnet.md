@@ -95,13 +95,13 @@ module "utils_ecs-vpc" {
        - This will be required for the CloudConnector SQS Topic subscription.
        - Use [`./modules/infrastructure/cloudtrail/sns_permissions.tf`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/infrastructure/cloudtrail/sns_permissions.tf#L22) as guideline
 
-
-   - Existing ECS Cluster Workload  Setup
+   - Existing **ECS Cluster and networking** setup
+     - Create an ECS cluster and configure it with the existing VPC/Subnet/... network configuration suiting your needs.
+     <br/>Refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) to get Sysdig SaaS endpoint and allow both outbound (for compute vulnerability report) and inbound (for scheduled compliance checkups)
+     <br/>ECS type deployment will create following [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
      - `ECS_CLUSTER_NAME` ex.: "sfc"
-
-   - Existing Networking Setup
      - `ECS_VPC_ID` ex.: "vpc-0e91bfef6693f296b"
-     - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"
+     - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"<br/><br/>
 
 
 ### Terraform Manifest Snippet

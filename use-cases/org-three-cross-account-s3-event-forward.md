@@ -1,4 +1,4 @@
-# OrganizationSetup - Three way Cross-Account - Existing VPC,Subnet and Cloudtrail with no SNS - Event Notification with S3-SNS-SQS
+# OrganizationSetup - Three way Cross-Account - Cloudtrail with no SNS - Event Notification with S3-SNS-SQS
 
 ## Use-Case explanation
 
@@ -86,8 +86,8 @@ This accountID will be required in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_I
 #### 3.1 ECS Cluster
 
   - Create an ECS cluster and configure it with the existing VPC/Subnet/... network configuration suiting your needs.
-  - For Sysdig outbound connection, please refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/).
-  - Deployment will create following [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
+  - Refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) to get Sysdig SaaS endpoint and allow both outbound (for compute vulnerability report) and inbound (for scheduled compliance checkups)
+  - ECS type deployment will create following [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
 
 #### 3.2 Permissions - SysdigSecureForCloud-S3AccessRole
 
@@ -128,12 +128,12 @@ provider "sysdig" {
   sysdig_secure_api_token   = "<SYSDIG_SECURE_API_TOKEN>"
 }
 
+# provider used to deploy RO compliance role on organizational accounts
 provider "aws" {
   region = "<AWS_REGION>"       # must match s3 AND sqs region
 }
 
-# you can setup this provider as desired, just giving an example
-# this assumeRole / permission setup is referenced in point #3
+# provider used to deploy sfc on the selected member-account
 provider "aws" {
   alias  = "member"
   region = "<AWS_REGION>"       # must match s3 AND sqs region
@@ -188,10 +188,9 @@ module "sysdig-sfc" {
 When applying Terraform manifest it will create resources, and we should have no errors there.
 However, deployed compute will fail (can check the logs in the ECS Task) due to permissions.
 
-Let's fix that.
-- We need to allow S3 and SQS resources to be accessed by the compute role, `sfc-organizational-ECSTaskRole"` (default name value).
+Let's fix that; we need to allow S3 and SQS resources to be accessed by the compute role, `sfc-organizational-ECSTaskRole"` (default name value).
 
-![organizational three-way-account permission setup](./org-three-way-permissions.png)
+![organizational three-way-account permission setup](resources/org-three-way-permissions.png)
 
 ##### 5.1 Fetch `SYSDIG_ECS_TASK_ROLE_ARN` ARN
 

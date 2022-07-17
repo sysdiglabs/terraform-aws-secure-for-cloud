@@ -36,7 +36,7 @@ Skip step 4 and remove `aws_access_key_id` and `aws_secret_access_key` parameter
 
 1. Define different **AWS providers**
     - Populate  `REGION`. Currently, same region is to be used
-    - Because we are going to provision resources on multiple accounts, we're gonna use **two AWS providers**
+    - Because we are going to provision resources on multiple accounts, we're going to use **two AWS providers**
        - `aws.s3` for s3-sns-sqs resources to be deployed. IAM user-credentials, to be used for k8s must also be in S3 account
        - `aws.sfc` for secure-for-cloud utility resources to be deployed
 
