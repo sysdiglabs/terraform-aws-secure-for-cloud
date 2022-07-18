@@ -40,11 +40,13 @@ data "aws_iam_policy_document" "task_assume_role" {
 }
 
 resource "aws_iam_role_policy" "task_policy_sqs" {
+  count = local.deploy_sqs?1:0
   name   = "${var.name}-AllowSQSUsage"
   role   = local.ecs_task_role_id
-  policy = data.aws_iam_policy_document.iam_role_task_policy_sqs.json
+  policy = data.aws_iam_policy_document.iam_role_task_policy_sqs[1].json
 }
 data "aws_iam_policy_document" "iam_role_task_policy_sqs" {
+  count = local.deploy_sqs?1:0
   statement {
     effect = "Allow"
     actions = [
