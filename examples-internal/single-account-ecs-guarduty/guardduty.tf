@@ -18,6 +18,23 @@ locals {
   })
 }
 
+resource "aws_guardduty_detector" "this" {
+  enable = true
+
+  datasources {
+    s3_logs {
+      enable = true
+    }
+    kubernetes {
+      audit_logs {
+        enable = true
+      }
+    }
+  }
+  tags = var.tags
+}
+
+
 resource "aws_sqs_queue" "sqs" {
   name_prefix = var.name
   tags        = var.tags
