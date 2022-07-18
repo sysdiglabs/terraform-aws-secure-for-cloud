@@ -71,8 +71,8 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.22.0 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.39 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0.0 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.33 |
 
 ## Modules
 
@@ -98,8 +98,6 @@ $ terraform apply
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_deploy_image_scanning_ecr"></a> [deploy\_image\_scanning\_ecr](#input\_deploy\_image\_scanning\_ecr) | true/false whether to deploy the image scanning on ECR pushed images | `bool` | `false` | no |
-| <a name="input_deploy_image_scanning_ecs"></a> [deploy\_image\_scanning\_ecs](#input\_deploy\_image\_scanning\_ecs) | true/false whether to deploy the image scanning on ECS running images | `bool` | `false` | no |
 | <a name="input_ecs_cluster_name"></a> [ecs\_cluster\_name](#input\_ecs\_cluster\_name) | Name of a pre-existing ECS (elastic container service) cluster. If defaulted, a new ECS cluster/VPC/Security Group will be created | `string` | `"create"` | no |
 | <a name="input_ecs_task_cpu"></a> [ecs\_task\_cpu](#input\_ecs\_task\_cpu) | Amount of CPU (in CPU units) to reserve for cloud-connector task | `string` | `"256"` | no |
 | <a name="input_ecs_task_memory"></a> [ecs\_task\_memory](#input\_ecs\_task\_memory) | Amount of memory (in megabytes) to reserve for cloud-connector task | `string` | `"512"` | no |
@@ -111,9 +109,7 @@ $ terraform apply
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_cloudtrail_sns_topic_arn"></a> [cloudtrail\_sns\_topic\_arn](#output\_cloudtrail\_sns\_topic\_arn) | ARN of cloudtrail\_sns topic |
+No outputs.
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 
 
