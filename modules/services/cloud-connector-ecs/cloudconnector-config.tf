@@ -1,4 +1,7 @@
+
 locals {
+  config = length(var.config) == 0 ? local.default_config : var.config
+
   default_config = yamlencode(merge({
     logging = "info"
     rules   = []
@@ -6,7 +9,7 @@ locals {
       {
         cloudtrail-sns-sqs = merge(
           {
-            queueURL = module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_url
+            queueURL = data.aws_sqs_queue.sqs.url
           },
           var.is_organizational ? {
             assumeRole = var.organizational_config.sysdig_secure_for_cloud_role_arn
