@@ -35,6 +35,15 @@ variable "ecs_vpc_subnets_private_ids" {
   description = "List of VPC subnets where workload is to be deployed."
 }
 
+#
+# guard-duty parametrization
+#
+variable "guarduty_sqs_arn" {
+  type        = string
+  default     = null
+  description = "Optional. Experimental. ARN of the guardduty-sqs"
+}
+
 
 #
 # cloudtrail parametrization
@@ -146,7 +155,7 @@ variable "connector_ecs_task_role_name" {
 
 variable "image" {
   type        = string
-  default     = "quay.io/sysdig/cloud-connector:latest"
+  default     = "quay.io/sysdig/cloud-connector:master"
   description = "Image of the cloud connector to deploy"
 }
 

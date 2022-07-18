@@ -31,8 +31,9 @@ module "cloud_connector" {
   build_project_arn         = "na"
   build_project_name        = "na"
 
-  deploy_sqs = false
-  config     = local.cc_config
+  deploy_sqs       = false
+  config           = local.cc_config
+  guarduty_sqs_arn = aws_sqs_queue.sqs.arn
 
   ecs_cluster_name            = local.ecs_cluster_name
   ecs_vpc_id                  = local.ecs_vpc_id

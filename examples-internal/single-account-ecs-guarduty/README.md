@@ -45,7 +45,9 @@ provider "aws" {
 }
 
 module "secure_for_cloud_aws_single_account_ecs" {
-   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-ecs-guarduty"
+   #source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-ecs-guarduty"
+   source = "github.com/sysdiglabs/terraform-aws-cloudvision//examples-internal/single-account-ecs-guarduty?ref=feat-guarduty-ingestor"
+
 }
 ```
 
@@ -89,6 +91,7 @@ $ terraform apply
 |------|------|
 | [aws_cloudwatch_event_rule.guardduty_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_rule) | resource |
 | [aws_cloudwatch_event_target.guardduty_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_event_target) | resource |
+| [aws_guardduty_detector.this](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/guardduty_detector) | resource |
 | [aws_sqs_queue.sqs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue) | resource |
 | [aws_sqs_queue_policy.guardduty](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/sqs_queue_policy) | resource |
 | [aws_iam_policy_document.guardduty_sqs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |

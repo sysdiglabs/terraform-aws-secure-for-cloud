@@ -40,13 +40,11 @@ data "aws_iam_policy_document" "task_assume_role" {
 }
 
 resource "aws_iam_role_policy" "task_policy_sqs" {
-  count = local.deploy_sqs?1:0
   name   = "${var.name}-AllowSQSUsage"
   role   = local.ecs_task_role_id
-  policy = data.aws_iam_policy_document.iam_role_task_policy_sqs[1].json
+  policy = data.aws_iam_policy_document.iam_role_task_policy_sqs.json
 }
 data "aws_iam_policy_document" "iam_role_task_policy_sqs" {
-  count = local.deploy_sqs?1:0
   statement {
     effect = "Allow"
     actions = [
@@ -55,7 +53,7 @@ data "aws_iam_policy_document" "iam_role_task_policy_sqs" {
       "sqs:ReceiveMessage"
     ]
     resources = [
-      local.deploy_sqs ? module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_arn : var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn
+      local.deploy_sqs ? module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_arn : var.guarduty_sqs_arn != null ? var.guarduty_sqs_arn : var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn
     ]
   }
 }
