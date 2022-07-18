@@ -24,7 +24,8 @@ Minimum requirements:
 
 ## Usage
 
-For quick testing, use this snippet on your terraform files
+For quick testing, use this snippet on your terraform files.
+You can generate Guarduty events after deploying terraform, in `Guarduty > Settings > Sample findings | Generate sample findings`. After 5' you should see events in `Sysdig Secure > Events (activate info-level events)`
 
 ```terraform
 terraform {
