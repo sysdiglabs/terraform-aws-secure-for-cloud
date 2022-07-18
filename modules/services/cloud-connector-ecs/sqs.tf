@@ -1,5 +1,5 @@
 locals {
-  deploy_sqs = var.deploy_sqs && var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_url == null && var.guarduty_sqs_arn == null
+  deploy_sqs = var.deploy_sqs && var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_url == null
 }
 
 
