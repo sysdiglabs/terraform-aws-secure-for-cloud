@@ -142,7 +142,7 @@ Some components may vary, or may be deployed on different accounts (depending on
 This would be an overall schema of the **created resources**, for the default setup.
 
 - Cloudtrail / SNS / S3 / SQS
-- SSM Parameter for Sysdig API Token Storage 
+- SSM Parameter for Sysdig API Token Storage
 - Sysdig Workload: ECS / AppRunner creation (EKS is pre-required, not created)
   - each compute solution require a role to assume for execution
 - CodeBuild for on-demand image scanning
@@ -223,6 +223,10 @@ It may take some time, but you should see logs detecting the new image in the EC
 
 ## Troubleshooting
 
+## Q-Networking: What's the requirements for the inbound/outbound connection?
+A: Refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) to get Sysdig SaaS endpoint and allow both outbound (for compute vulnerability report) and inbound (for scheduled compliance checkups)
+<br/>ECS type deployment will create following [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
+
 ## Q-General: Need to modify cloud-connector config (to troubleshoot with `debug` loglevel, modify ingestors for testing, ...)
 A: both in ECS and AppRunner workload types, cloud-connector configuration is passed as a base64-encoded string through the env var `CONFIG`
 <br/>S: Get current value, decode it, edit the desired (ex.:`logging: debug` value), encode it again, and spin it again with this new definition.
@@ -245,7 +249,7 @@ A: Need to check several steps
 
 ### Q-AWS: In the ECS compute flavor of secure for cloud, I don't see any logs in the cloud-connector component
 A: This may be due to the task not beinb able to start, normally due not not having enough permissions to even fetch the secure apiToken, stored in the AWS SSM service.
-<br/>S: Access the task and see if there is any value in the "Stoped Reason" field. 
+<br/>S: Access the task and see if there is any value in the "Stopped Reason" field.
 
 ### Q-AWS: Getting error "Error: failed creating ECS Task Definition: ClientException: No Fargate configuration exists for given values.
 A: Your ECS task_size values aren't valid for Fargate. Specifically, your mem_limit value is too big for the cpu_limit you specified

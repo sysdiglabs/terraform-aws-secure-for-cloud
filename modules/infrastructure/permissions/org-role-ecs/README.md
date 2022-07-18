@@ -7,6 +7,7 @@ The aim of this module is to manage the organizational **managed account** requi
 
 
 ## Permissions
+
 * Threat-Detection feature
   * S3 Get and List permissions in order to fetch the events
   * SNS Subscription permissions in order to subscribe a topic to it
