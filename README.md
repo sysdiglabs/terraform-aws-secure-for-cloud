@@ -143,7 +143,7 @@ This would be an overall schema of the **created resources**, for the default se
 
 - Cloudtrail / SNS / S3 / SQS
 - SSM Parameter for Sysdig API Token Storage
-- Sysdig Workload: ECS / AppRunner creation (EKS is pre-required, not created)
+- Sysdig Workload: ECS / AppRunner creation (K8s cluster is pre-required, not created)
   - each compute solution require a role to assume for execution
 - CodeBuild for on-demand image scanning
 - Sysdig role for [Compliance](./modules/services/cloud-bench)
@@ -217,7 +217,7 @@ Image scanning is not activated by default. Ensure you have the [required scanni
   - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
   - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
 
-It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task 
+It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task
 
 ```
 {"component":"ecs-action","message":"processing detection {\"account\":\"***\",\"region\":\"eu-west-3\",\"taskDefinition\":\"apache:1\"}. source=aws_cloudtrail"}
