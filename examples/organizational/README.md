@@ -101,12 +101,12 @@ provider "sysdig" {
 }
 
 provider "aws" {
-  region = "<AWS_REGION>; ex. us-east-1"
+  region = "<AWS_REGION>   # same role in both providers. ex. us-east-1"
 }
 
 provider "aws" {
   alias  = "member"
-  region = "<AWS_REGION>; ex. us-east-1"
+  region = "<AWS_REGION>  # same role in both providers. ex. us-east-1"
   assume_role {
     # 'OrganizationAccountAccessRole' is the default role created by AWS for managed-account users to be able to admin member accounts.
     # <br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
