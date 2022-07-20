@@ -217,7 +217,15 @@ Image scanning is not activated by default. Ensure you have the [required scanni
   - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
   - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
 
-It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task and a CodeBuild project being launched successfully
+It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task 
+
+```
+{"component":"ecs-action","message":"processing detection {\"account\":\"***\",\"region\":\"eu-west-3\",\"taskDefinition\":\"apache:1\"}. source=aws_cloudtrail"}
+{"component":"ecs-action","message":"analyzing task 'apache:1' in region 'eu-west-3'"}
+{"component":"ecs-action","message":"starting ECS scanning for container index 0 in task 'apache:1'"}
+```
+
+and a CodeBuild project being launched successfully
 
 <br/><br/>
 
