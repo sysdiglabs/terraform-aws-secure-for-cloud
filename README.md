@@ -232,10 +232,6 @@ and a CodeBuild project being launched successfully
 
 ## Troubleshooting
 
-## Q-Networking: What's the requirements for the inbound/outbound connection?
-A: Refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) to get Sysdig SaaS endpoint and allow both outbound (for compute vulnerability report) and inbound (for scheduled compliance checkups)
-<br/>ECS type deployment will create following [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
-
 ## Q-General: Need to modify cloud-connector config (to troubleshoot with `debug` loglevel, modify ingestors for testing, ...)
 A: both in ECS and AppRunner workload types, cloud-connector configuration is passed as a base64-encoded string through the env var `CONFIG`
 <br/>S: Get current value, decode it, edit the desired (ex.:`logging: debug` value), encode it again, and spin it again with this new definition.
@@ -249,6 +245,11 @@ with the correct values. Check [Sysdig SaaS per-region URLs if required](https:/
 ### Q-General: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
 A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
 
+
+## Q-General-Networking: What's the requirements for the inbound/outbound connection?
+A: Refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) to get Sysdig SaaS endpoint and allow both outbound (for compute vulnerability report) and inbound (for scheduled compliance checkups)
+<br/>ECS type deployment will create following [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
+
 ### Q-Scanning: I'm not seeing any image scanning results
 A: Need to check several steps
 <br/>S: First, image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place.
@@ -256,7 +257,7 @@ A: Need to check several steps
 <br/>Dig into secure for cloud compute log (cloud-connector) and check for errors.
 <br/>If previous logs are ok, check [spawned scanning service](http://localhost:1313/en/docs/sysdig-secure/sysdig-secure-for-cloud/#summary) logs
 
-### Q-Scanning: Images pushed to Management Account ECR are not scanned
+### Q-AWS-Scanning: Images pushed to Management Account ECR are not scanned
 A: We don’t scan images from the management account ECR because is not a best practies to have an ECR in this account.
 </br>S: Following Role has to be created in the management account
 - Role Name: **OrganizationAccountAccessRole**
