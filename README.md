@@ -45,6 +45,7 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 * [AWS regions](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints)
 * **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/>
 * All Sysdig Secure for Cloud features but [Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/) are enabled by default. You can enable it through `deploy_scanning` input variable parameters.<br/>
+  - **Management Account ECR image scanning** is not support since it's [not a best practies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in the management account. However, we have a workaround to [solve this problem](#q-scanning-images-pushed-to-management-account-ecr-are-not-scanned)  in case you need to scan images pushed to the management account ECR.
 * **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * For **free subscription** users, beware that organizational examples may not deploy properly due to the [1 cloud-account limitation](https://docs.sysdig.com/en/docs/administration/administration-settings/subscription/#cloud-billing-free-tier). Open an Issue so we can help you here!
 <br/>
@@ -254,6 +255,40 @@ A: Need to check several steps
 <br/>Currently, images are scanned on registry/repository push events, and on the supported compute services on deployment. Make sure these events are triggered.
 <br/>Dig into secure for cloud compute log (cloud-connector) and check for errors.
 <br/>If previous logs are ok, check [spawned scanning service](http://localhost:1313/en/docs/sysdig-secure/sysdig-secure-for-cloud/#summary) logs
+
+### Q-Scanning: Images pushed to Management Account ECR are not scanned
+A: We don’t scan images from the management account ECR because is not a best practies to have an ECR in this account.
+</br>S: Following Role has to be created in the management account
+- Role Name: **OrganizationAccountAccessRole**
+- Permissions Policies:
+  ```json
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "CustomPolicy",
+            "Effect": "Allow",
+            "Action": "ecr:GetAuthorizationToken",
+            "Resource": "*"
+        }
+    ]
+  }
+  ```
+- Trust Relationships: 
+  ```json
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::<<managementAccountID>>:root"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+  }
+  ```
 
 ### Q-AWS: In the ECS compute flavor of secure for cloud, I don't see any logs in the cloud-connector component
 A: This may be due to the task not beinb able to start, normally due not not having enough permissions to even fetch the secure apiToken, stored in the AWS SSM service.
