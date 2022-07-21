@@ -60,6 +60,12 @@ variable "existing_cloudtrail_config" {
   EOT
 }
 
+variable "s3_kms_key_arn" {
+  type = string
+  description = "KMS key that is used to decrypt objects in Cloudtrail S3 bucket."
+  default = ""
+}
+
 
 
 #---------------------------------
