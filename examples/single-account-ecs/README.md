@@ -9,7 +9,7 @@ All the required resources and workloads will be run under the same account.
 * **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/><br/>
 * **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 
-![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account/diagram-single.png)
+![single-account diagram](https://raw.githubusercontent.com/sysdiglabs/terraform-aws-secure-for-cloud/master/examples/single-account-ecs/diagram-single.png)
 
 
 ## Prerequisites
