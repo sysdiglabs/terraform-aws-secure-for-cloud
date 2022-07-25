@@ -1,4 +1,6 @@
 locals {
+  final_config = var.config == null ? local.default_config : var.config
+
   default_config = yamlencode(merge({
     logging = "info"
     rules   = []

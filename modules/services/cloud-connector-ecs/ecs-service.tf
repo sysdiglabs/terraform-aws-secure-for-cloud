@@ -73,7 +73,7 @@ locals {
     },
     {
       name  = "CONFIG"
-      value = base64encode(local.default_config)
+      value = base64encode(local.final_config)
     },
     {
       name  = "SECURE_URL",

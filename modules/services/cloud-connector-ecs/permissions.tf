@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "iam_role_task_policy_sqs" {
       "sqs:ReceiveMessage"
     ]
     resources = [
-      local.deploy_sqs ? module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_arn : var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn
+      local.deploy_sqs ? module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_arn : var.guarduty_sqs_arn != null ? var.guarduty_sqs_arn : var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn
     ]
   }
 }
