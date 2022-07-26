@@ -292,7 +292,7 @@ A: We don’t scan images from the management account ECR because is not a best 
   ```
 ### Q-AWS: Getting Error "BadRequestException: Cannot create group: group already exists
 A: This happens when a previous installation of secure-for-cloud exists.
-<br/>S: Remove previous installation, or multiple setups are required, provide a prefix through `name` input variable on each example (defaulted to 
+<br/>S: Remove previous installation, or if multiple setups are required, provide a prefix through `name` input variable on each example (defaulted to 
 
 ### Q-AWS: In the ECS compute flavor of secure for cloud, I don't see any logs in the cloud-connector component
 A: This may be due to the task not beinb able to start, normally due not not having enough permissions to even fetch the secure apiToken, stored in the AWS SSM service.
