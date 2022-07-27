@@ -353,7 +353,12 @@ A: Probably you or someone in the same environment you're using, already deploye
 
 ## Upgrading
 
-- Ideally you would like to upgrade the full terraform example with
+- Uninstall previous deployment resources before upgrading
+```
+$ terraform destroy
+```
+
+- Upgrade the full terraform example with
 
 ```
 $ terraform init -upgrade
