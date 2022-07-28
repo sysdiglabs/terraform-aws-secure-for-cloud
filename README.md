@@ -349,6 +349,18 @@ This error happens when the ECS `TaskRole` has no permissions to assume this rol
 A: Probably you or someone in the same environment you're using, already deployed a resource with the sysdig terraform module and a naming collision is happening.
 <br/>S: If you want to maintain several versions, make use of the [`name` input var of the examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account#input_name)
 
+### Q-AWS-Datasources: I cannot see my acccount alias in the `Data Sources > Cloud page`
+A: There are several causes to this.
+<br/>Check that your aws account has an alias set-up. It's not the same as the account name.
+```bash
+$ aws iam list-account-aliases
+```
+If all good, test `deploy_benchmark` flag is enabled on your account, hence the trust-relationship is enabled between Sysdig and your cloud infrastructure.
+In order to validate the trust-relationship expect no errows on following API.
+```shell
+$ curl -v https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID>/validateRole \
+--header 'Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>'
+```
 <br/><br/>
 
 ## Upgrading
