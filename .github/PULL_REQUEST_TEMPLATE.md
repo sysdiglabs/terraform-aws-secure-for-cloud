@@ -11,13 +11,12 @@ For a cleaner PR make sure you follow these recommendations:
 
 ## Checklist
 
-- [ ] If `test/fixtures/*/main.tf` files are modified. I have updated: 
+- [ ] If `test/fixtures/*/main.tf` files are modified. I have updated:
     - [ ] the snippets in the README.md file under root folder.
-    - [ ] the snippets in the README.md file for the corresponding example. 
+    - [ ] the snippets in the README.md file for the corresponding example.
 - [ ] If `examples` folder are modified. I have updated:
     - [ ] README.md file with pertinent changes.
     - [ ] `test/fixtures/*/main.tf` in case the snippet needs modifications.
-- [ ] If any architectural change has been made, I have updated the diagrams. 
-    
--->
+- [ ] If any architectural change has been made, I have updated the diagrams.
 
+-->

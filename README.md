@@ -275,7 +275,7 @@ A: We don’t scan images from the management account ECR because is not a best 
     ]
   }
   ```
-- Trust Relationships: 
+- Trust Relationships:
   ```json
   {
     "Version": "2012-10-17",

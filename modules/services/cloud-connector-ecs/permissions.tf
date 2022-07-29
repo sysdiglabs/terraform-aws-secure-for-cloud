@@ -49,7 +49,6 @@ data "aws_iam_policy_document" "iam_role_task_policy_sqs" {
     effect = "Allow"
     actions = [
       "sqs:DeleteMessage",
-      "sqs:DeleteMessageBatch",
       "sqs:ReceiveMessage"
     ]
     resources = [
