@@ -28,7 +28,7 @@ This module will be deployed as a StackSet and it will take into account newly m
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.22.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.23.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.3.2 |
 | <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.39 |
 

@@ -29,8 +29,7 @@ data "aws_iam_policy_document" "this" {
       values   = [var.cloudtrail_sns_arn]
     }
     actions = [
-      "sqs:SendMessage",
-      "sqs:SendMessageBatch"
+      "sqs:SendMessage"
     ]
     resources = [aws_sqs_queue.this.arn]
   }
