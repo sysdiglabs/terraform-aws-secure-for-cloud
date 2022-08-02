@@ -1,8 +1,8 @@
-# SingleAccount-Benchmark
+# SingleAccount-CIS Benchmarks
 
 ## Use-Case explanation
 
-Simple single-account benchmark
+Simple single-account setu in order to get CIS Benchmark
 
 **Client Setup**
 
@@ -35,6 +35,6 @@ provider "aws" {
 
 module "sysdig-sfc" {
   source = "sysdiglabs/secure-for-cloud/aws//module/services/cloud-bench"
-  name    = "TEST-NAME-cloudbench"
+  name    = "TEST-NAME-cloudbench"  # optional
 }
 ```
