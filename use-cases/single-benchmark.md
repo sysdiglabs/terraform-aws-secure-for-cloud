@@ -11,7 +11,7 @@ Simple single-account benchmark
 
 **Sysdig Secure For Cloud Features**
 
-- [X] CSPM/Compliance (WIP?)
+- [X] A part of Compliance, only CIS Benchmarks
 
 ## Suggested setup
 
