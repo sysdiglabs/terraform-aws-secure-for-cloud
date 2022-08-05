@@ -347,7 +347,7 @@ This error happens when the ECS `TaskRole` has no permissions to assume this rol
 ### Q-AWS: Getting error 409 `EntityAlreadyExists`
 
 A: Probably you or someone in the same environment you're using, already deployed a resource with the sysdig terraform module and a naming collision is happening.
-<br/>S: If you want to maintain several versions, make use of the [`name` input var of the examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account#input_name)
+<br/>S: If you want to maintain several versions, make use of the [`name` input var of the examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs#input_name)
 
 ### Q-AWS-Datasources: I cannot see my acccount alias in the `Data Sources > Cloud page`
 A: There are several causes to this.
