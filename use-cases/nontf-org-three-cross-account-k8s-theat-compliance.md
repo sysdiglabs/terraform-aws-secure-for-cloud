@@ -4,7 +4,7 @@
 
 - Organizational setup
     - Dynamic environments with accounts created and destroyed on-demand
-    - Pre-Existing organizational-cloudtrail 
+    - Pre-Existing organizational-cloudtrail
       - Cloudtrail-SNS activated (in management account)
       - Cloudtrail-S3 is not in the management account, but in a log-archive member account
     - Sysdig features: Threat-detection and Compliance for all org accounts. No image scanning
@@ -26,10 +26,10 @@ As a quick summary we'll need
 - Rest of member accounts
     - CloudBench Role for compliance
 
-Note: 
-- All event ingestion resource (cloudtrail-sns, and cloudtrail-s3 bucket) live in same `AWS_REGION` AWS region. 
+Note:
+- All event ingestion resource (cloudtrail-sns, and cloudtrail-s3 bucket) live in same `AWS_REGION` AWS region.
   Otherwise, contact us, so we can alleviate this limitation.
- 
+
 
 ![three-way k8s setup](./resources/org-three-way.png)
 
@@ -106,9 +106,9 @@ Access your cloudtrail and activate SNS notification if it's not already availab
    - Ideally, this account will gather the EKS cluster where the compute workload will be deployed, and the SQS to ingest Cloudtrail events.
 
 <br/>
-   
 
-2. Create an **SQS queue** (in the same region as the SNS, and in the same account as where the EKS cluster is). 
+
+2. Create an **SQS queue** (in the same region as the SNS, and in the same account as where the EKS cluster is).
 Default parametrization is enough.
    - Subscribe the Cloudtrail-SNS topic to it.
    - Due to cross-account limitations, you may need to enable `SNS:Subscribe` permissions on the queue first
@@ -152,7 +152,7 @@ Default parametrization is enough.
           "Resource": "<CLOUDTRAIL_S3_ARN>/*"
        }
         ```
-   - Last step, is to allow cross-account `assumeRole`, but first we need to create the user on next steps. We will 
+   - Last step, is to allow cross-account `assumeRole`, but first we need to create the user on next steps. We will
      come to this IAM role afterwards.
 
 <br/><br/>
@@ -163,14 +163,14 @@ Default parametrization is enough.
 In the `SYSDIG_ACCOUNT_ID` account.
 
 1. Kubernetes **Credentials** creation
-   - This step is not really required if Kubernetes role binding is properly configured for the deployment, with an 
+   - This step is not really required if Kubernetes role binding is properly configured for the deployment, with an
      IAM role with required permissions listed in following points.
-   - Otherwise, we will create an AWS user `SYSDIG_K8S_USER_ARN`, with `SYSDIG_K8S_ACCESS_KEY_ID` and 
+   - Otherwise, we will create an AWS user `SYSDIG_K8S_USER_ARN`, with `SYSDIG_K8S_ACCESS_KEY_ID` and
      `SYSDIG_K8S_SECRET_ACCESS_KEY`, in order to give Kubernetes compute permissions to be able to handle S3 and SQS operations
    - Secure for Cloud [does not manage IAM key-rotation, but find some suggestions to rotate access-key](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/infrastructure/permissions/iam-user#access-key-rotation)
 
 <br/>
-   
+
 2. **Permissions** Setup Summary
 <br/>Check K8s credentials IAM user or Role has the following permissions
 
@@ -208,7 +208,7 @@ In the `SYSDIG_ACCOUNT_ID` account.
       "Resource": "<SYSDIG_CLOUDTRAIL_SNS_SQS_ARN>"
     }
     ```
-   
+
 <br/>
 
 3. Sysdig **Helm** [cloud-connector chart](https://charts.sysdig.com/charts/cloud-connector/) will be used with following parametrization
@@ -226,14 +226,14 @@ aws:
   region: <AWS_REGION>
   accessKeyId: <SYSDIG_K8S_ACCESS_KEY_ID>
   secretAccessKey: <SYSDIG_K8S_SECRET_ACCESS_KEY>
-  
+
 # not required but would help developing product :)
 telemetryDeploymentMethod: "helm_aws_k8s_org"
 
 ingestors:
   - aws-cloudtrail-sns-sqs:
       queueURL: <SYSDIG_CLOUDTRAIL_SNS_SQS_URL>
-      assumeRole: <SYSDIG_S3_ACCESS_ROLE_ARN> 
+      assumeRole: <SYSDIG_S3_ACCESS_ROLE_ARN>
 ```
 
 
@@ -364,7 +364,7 @@ You should get success or the reason of failure.
 
 <br/>
 
---- 
+---
 
 ## Confirm services are working
 
