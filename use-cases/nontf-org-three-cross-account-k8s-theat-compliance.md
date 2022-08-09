@@ -6,7 +6,7 @@
     - Pre-Existing organizational-cloudtrail
       - Cloudtrail-SNS activated (in management account)
       - Cloudtrail-S3 is not in the management account, but in a log-archive member account
-    - Pre-Existing Kubernetes Cluster, where Sysdig compute will be deployed 
+    - Pre-Existing Kubernetes Cluster, where Sysdig compute will be deployed
     - Sysdig features: Threat-detection and Compliance for selected org accounts. No image scanning
     - Dynamic environments with accounts created and destroyed on-demand
 - Due to dynamic nature of customer's environment, a heavy programmatically ops tooling are used (not including Terraform) .
@@ -34,7 +34,7 @@ Note:
 
 
 We suggest to
-- start with Cloud-Connector module required infrastructure wiring and deployment; this will cover threat-detection 
+- start with Cloud-Connector module required infrastructure wiring and deployment; this will cover threat-detection
   side
 - then move on to Compliance role setup
   <br/><br/>
@@ -98,15 +98,15 @@ log archive account - s3, sns, sqs
 -->
 
 
-We will leverage Secure for Cloud - cloudtrail ingestion, in order to consume organizational events. 
-For that, we will need to prepare an SQS to ingest the events, and the Cloudtrail-S3 bucket, in order to allow 
+We will leverage Secure for Cloud - cloudtrail ingestion, in order to consume organizational events.
+For that, we will need to prepare an SQS to ingest the events, and the Cloudtrail-S3 bucket, in order to allow
 cross-account read.
 
-1. Verify that your Organizational Cloudtrail has the **Cloudtrail-SNS notification activated** within same account and 
+1. Verify that your Organizational Cloudtrail has the **Cloudtrail-SNS notification activated** within same account and
    region.<br/><br/>
 
-2. In your organization, **choose a member account** as `SYSDIG_ACCOUNT_ID`.<br/>Ideally, this account will gather 
-   the EKS cluster where Sysdig compute workload will be deployed, and the SQS topic to 
+2. In your organization, **choose a member account** as `SYSDIG_ACCOUNT_ID`.<br/>Ideally, this account will gather
+   the EKS cluster where Sysdig compute workload will be deployed, and the SQS topic to
 ingest Cloudtrail events.<br/><br/>
 
 3. In `SYSDIG_ACCOUNT_ID`, create an **SQS queue** (in the same region as the SNS/EKS).
@@ -170,7 +170,7 @@ In the `SYSDIG_ACCOUNT_ID` account.
 2. **Permissions** Setup
 <br/>Check previous point K8s credentials, IAM user or Role, has the following permissions<br/><br/>
 
-   - Be able to assumeRole on `SYSDIG_S3_ACCESS_ROLE_ARN`. 
+   - Be able to assumeRole on `SYSDIG_S3_ACCESS_ROLE_ARN`.
      <br/>Firstly, this must be setup on the `SYSDIG_S3_ACCESS_ROLE_ARN`
     ```json
     {
@@ -181,7 +181,7 @@ In the `SYSDIG_ACCOUNT_ID` account.
       "Action": "sts:AssumeRole"
     }
     ```
-   
+
      - As well as in the current `SYSDIG_K8S_USER_ARN` user
     ```json
     {
@@ -314,8 +314,8 @@ We will guide you to provide, on the Sysdig Secure SaaS backend, the following r
     ```shell
     arn:aws:iam::SYSDIG_AWS_ACCOUNT_ID:role/SYSDIG_AWS_ROLE_NAME
     ```
-<br/>   
-   
+<br/>
+
 4. Get **Sysdig ExternalId**
     - For later usage, fetch `SYSDIG_AWS_EXTERNAL_ID` from one of the previously registered GCP accounts. All accounts will have same id (you only need to run it once).
     ```shell
