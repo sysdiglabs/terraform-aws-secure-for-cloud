@@ -31,9 +31,9 @@ with Diagram("Three-Way Cross-Account", filename="org-three-way", show=True):
 
         with Cluster("member account - logging"):
             cloudtrail_s3 = S3("cloudtrail-s3")
-            org_role = IAM("SysdigCrossAccountS3Access")
+            s3_role = IAM("SysdigCrossAccountS3Access")
 
-            org_role - cloudtrail_s3
+            s3_role - cloudtrail_s3
 
         with Cluster("member account - SFC compute"):
             with Cluster("K8s Cluster\n(pre-existing)"):
@@ -45,8 +45,9 @@ with Diagram("Three-Way Cross-Account", filename="org-three-way", show=True):
         cloudtrail - cloudtrail_s3
         cloudtrail_sns - cloudtrail_sns_sqs
 
-        k8s_iam >> Edge(color=color_event, style="dashed", label="s3:GetObject\nTrustedIdentity,sts:AssumeRole") << org_role
+        k8s_iam >> Edge(color=color_event, style="dashed", label="TrustedIdentity,sts:AssumeRole") << s3_role
         k8s_iam >> Edge(color=color_event, style="dashed", label="sqs:Receive+Delete")  << cloudtrail_sns_sqs
+        s3_role >> Edge(color=color_event, style="dashed", label="s3:GetObject")  << cloudtrail_s3
 
         with Cluster("member account(s) - compliance"):
             ccBenchRoleOnEachProject = IAM("Sysdig Compliance Role\n(aws:SecurityAudit policy)")

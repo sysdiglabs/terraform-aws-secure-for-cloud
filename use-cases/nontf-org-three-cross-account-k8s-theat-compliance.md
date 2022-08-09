@@ -3,11 +3,12 @@
 ## Use-Case explanation
 
 - Organizational setup
-    - Dynamic environments with accounts created and destroyed on-demand
     - Pre-Existing organizational-cloudtrail
       - Cloudtrail-SNS activated (in management account)
       - Cloudtrail-S3 is not in the management account, but in a log-archive member account
+    - Pre-Existing Kubernetes Cluster, where Sysdig compute will be deployed 
     - Sysdig features: Threat-detection and Compliance for selected org accounts. No image scanning
+    - Dynamic environments with accounts created and destroyed on-demand
 - Due to dynamic nature of customer's environment, a heavy programmatically ops tooling are used (not including Terraform) .
 - A summary of the required resources/permissions will be done, so they're provisioned for the Secure for Cloud features to work.
 
@@ -17,13 +18,13 @@ As a quick summary we'll need
 - Organizational **Management** Account
     - Pre-Existing organizational-cloudtrail with SNS activated
 - Member Account - **Logs Account**
-    - Pre-Existing S3 bucket
+    - Pre-Existing Cloudtrail-S3 bucket
     - Create a specific role for CrossAccount S3 access
 - Member Account - **Sysdig Compute Account**
     - Pre-Existing K8s cluster for cloud-connector (SFC compute)
-    - Crate a Cloudtrail-SNS-SQS wiring, from organizational cloudtrail into cloud-connector compute module
+    - Create a topic for Cloudtrail-SNS-SQS wiring, from organizational cloudtrail into cloud-connector compute module
 - **Member Account(s)**
-    - Sysdig ReadOnly Compliance role setup
+    - Sysdig Compliance Role (aws:SecurityAudit policy)
 
 Note:
 - All event ingestion resource (cloudtrail-sns, and cloudtrail-s3 bucket) live in same `AWS_REGION` AWS region.
@@ -104,11 +105,12 @@ cross-account read.
 1. Verify that your Organizational Cloudtrail has the **Cloudtrail-SNS notification activated** within same account and 
    region.<br/><br/>
 
-2. In your organization, **choose a member account** as `SYSDIG_ACCOUNT_ID`.<br/>Ideally, this account will gather the EKS cluster where Sysdig compute workload will be deployed, and the SQS to 
+2. In your organization, **choose a member account** as `SYSDIG_ACCOUNT_ID`.<br/>Ideally, this account will gather 
+   the EKS cluster where Sysdig compute workload will be deployed, and the SQS topic to 
 ingest Cloudtrail events.<br/><br/>
 
 3. In `SYSDIG_ACCOUNT_ID`, create an **SQS queue** (in the same region as the SNS/EKS).
-Default queue parametrization is enough.
+   - Default queue parametrization is enough.
    - Subscribe the Cloudtrail-SNS topic to it.
    - Due to cross-account limitations, you may need to enable `SNS:Subscribe` permissions on the queue first
     ```json
@@ -116,7 +118,7 @@ Default queue parametrization is enough.
       "Sid": "AllowCrossAccountSNSSubscription",
       "Effect": "Allow",
       "Principal": {
-        "AWS": "<SPECIFIC_USER_ARN>"
+        "AWS": "<SUBSCRIPTION_ACTION_USER_ARN>"
       },
       "Action": "sns:Subscribe",
       "Resource": "<CLOUDTRAIL_SNS_ARN>"
@@ -326,20 +328,21 @@ We will guide you to provide, on the Sysdig Secure SaaS backend, the following r
 
 ### Customer's Side
 
-1. Now create `SysdigComplianceRole` on each member account, using [Sysdig Compliance IAM policy](../../general_templates/ComplianceAgentlessRole.yaml) as guidance
-  and using the values gathered in previous step.
-```json
-{
-  "Effect": "Allow",
-  "Action": "sts:AssumeRole",
-  "Principal": {
-    "AWS": [ "<SYSDIG_AWS_TRUSTED_IDENTITY_ARN>" ]
-  },
-  "Condition": {
-    "StringEquals": {"sts:ExternalId": "<SYSDIG_AWS_EXTERNAL_ID>"}
-  }
-}
-```
+1. Now create `SysdigCompliance` role on each member account using the values gathered in previous step.
+   - Add `arn:aws:iam::aws:policy/SecurityAudit` AWS managed policy
+   - Allow following Trusted-Identity
+    ```json
+    {
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "AWS": [ "<SYSDIG_AWS_TRUSTED_IDENTITY_ARN>" ]
+      },
+      "Condition": {
+        "StringEquals": {"sts:ExternalId": "<SYSDIG_AWS_EXTERNAL_ID>"}
+      }
+    }
+    ```
 
 ### End-To-End Validation
 
