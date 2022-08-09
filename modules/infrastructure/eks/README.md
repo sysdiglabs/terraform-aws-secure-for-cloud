@@ -13,5 +13,5 @@ module "eks"{
 ```
   aws eks --region <REGION> update-kubeconfig --name <IDENTIFYING_NAME>
 ```
-  
+
 - kubectx; select the cluster and enjoy
