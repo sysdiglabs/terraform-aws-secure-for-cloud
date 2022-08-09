@@ -7,35 +7,34 @@
     - Pre-Existing organizational-cloudtrail
       - Cloudtrail-SNS activated (in management account)
       - Cloudtrail-S3 is not in the management account, but in a log-archive member account
-    - Sysdig features: Threat-detection and Compliance for all org accounts. No image scanning
+    - Sysdig features: Threat-detection and Compliance for selected org accounts. No image scanning
 - Due to dynamic nature of customer's environment, a heavy programmatically ops tooling are used (not including Terraform) .
 - A summary of the required resources/permissions will be done, so they're provisioned for the Secure for Cloud features to work.
 
 ## Infrastructure Solution
 
 As a quick summary we'll need
-- Organizational Management Account
+- Organizational **Management** Account
     - Pre-Existing organizational-cloudtrail with SNS activated
-    - (optional) CloudBench Role for compliance
-- Logs member account
+- Member Account - **Logs Account**
     - Pre-Existing S3 bucket
-- Member account (for Sysdig compute resources, existing account or new one)
-    - Cloudtrail-SNS-SQS wiring, from organizational cloudtrail into cloud-connector compute module
-    - CloudBench Role for compliance
-    - K8s cluster for cloud-connector (Sysdig compute workload for threat detection)
-- Rest of member accounts
-    - CloudBench Role for compliance
+    - Create a specific role for CrossAccount S3 access
+- Member Account - **Sysdig Compute Account**
+    - Pre-Existing K8s cluster for cloud-connector (SFC compute)
+    - Crate a Cloudtrail-SNS-SQS wiring, from organizational cloudtrail into cloud-connector compute module
+- **Member Account(s)**
+    - Sysdig ReadOnly Compliance role setup
 
 Note:
 - All event ingestion resource (cloudtrail-sns, and cloudtrail-s3 bucket) live in same `AWS_REGION` AWS region.
   Otherwise, contact us, so we can alleviate this limitation.
 
-
 ![three-way k8s setup](./resources/org-three-way.png)
 
 
 We suggest to
-- start with secure for cloud, cloud-connector module required infrastructure wiring and deployment (this will cover threat-detection side)
+- start with Cloud-Connector module required infrastructure wiring and deployment; this will cover threat-detection 
+  side
 - then move on to Compliance role setup
   <br/><br/>
 
@@ -90,8 +89,7 @@ log archive account - s3, sns, sqs
 },
 "Action": [
 "SQS:ReceiveMessage",
-"SQS:DeleteMessage",
-"SQS:DeleteMessageBatch"
+"SQS:DeleteMessage"
 ],
 "Resource": "<CLOUDTRAIL_SNS_SQS_ARN>"
 }
@@ -99,17 +97,18 @@ log archive account - s3, sns, sqs
 -->
 
 
-In order to ingest cloudtrail events we will need a queue endpoint.
-Access your cloudtrail and activate SNS notification if it's not already available.
+We will leverage Secure for Cloud - cloudtrail ingestion, in order to consume organizational events. 
+For that, we will need to prepare an SQS to ingest the events, and the Cloudtrail-S3 bucket, in order to allow 
+cross-account read.
 
-1. In your organization, **choose a member account** as `SYSDIG_ACCOUNT_ID`.
-   - Ideally, this account will gather the EKS cluster where the compute workload will be deployed, and the SQS to ingest Cloudtrail events.
+1. Verify that your Organizational Cloudtrail has the **Cloudtrail-SNS notification activated** within same account and 
+   region.<br/><br/>
 
-<br/>
+2. In your organization, **choose a member account** as `SYSDIG_ACCOUNT_ID`.<br/>Ideally, this account will gather the EKS cluster where Sysdig compute workload will be deployed, and the SQS to 
+ingest Cloudtrail events.<br/><br/>
 
-
-2. Create an **SQS queue** (in the same region as the SNS, and in the same account as where the EKS cluster is).
-Default parametrization is enough.
+3. In `SYSDIG_ACCOUNT_ID`, create an **SQS queue** (in the same region as the SNS/EKS).
+Default queue parametrization is enough.
    - Subscribe the Cloudtrail-SNS topic to it.
    - Due to cross-account limitations, you may need to enable `SNS:Subscribe` permissions on the queue first
     ```json
@@ -123,12 +122,9 @@ Default parametrization is enough.
       "Resource": "<CLOUDTRAIL_SNS_ARN>"
     }
     ```
+   - Save `SYSDIG_CLOUDTRAIL_SNS_SQS_URL` and `SYSDIG_CLOUDTRAIL_SNS_SQS_ARN` for later<br/><br/>
 
-   - Save `SYSDIG_CLOUDTRAIL_SNS_SQS_URL` and `SYSDIG_CLOUDTRAIL_SNS_SQS_ARN` for later
-
-<br/>
-
-3. Configure **Cross-Account S3 access-credentials**
+4. Configure **Cross-Account S3 access-credentials**
    - In the organizational account where Cloudtrail-S3 bucket is placed, create a new role to handle following permissions and save `SYSDIG_S3_ACCESS_ROLE_ARN`
      ```json
      {
@@ -152,7 +148,7 @@ Default parametrization is enough.
           "Resource": "<CLOUDTRAIL_S3_ARN>/*"
        }
         ```
-   - Last step, is to allow cross-account `assumeRole`, but first we need to create the user on next steps. We will
+   - Last step, is to allow cross-account `assumeRole`, but first we need to create the user/role on next steps. We will
      come to this IAM role afterwards.
 
 <br/><br/>
@@ -167,14 +163,13 @@ In the `SYSDIG_ACCOUNT_ID` account.
      IAM role with required permissions listed in following points.
    - Otherwise, we will create an AWS user `SYSDIG_K8S_USER_ARN`, with `SYSDIG_K8S_ACCESS_KEY_ID` and
      `SYSDIG_K8S_SECRET_ACCESS_KEY`, in order to give Kubernetes compute permissions to be able to handle S3 and SQS operations
-   - Secure for Cloud [does not manage IAM key-rotation, but find some suggestions to rotate access-key](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/infrastructure/permissions/iam-user#access-key-rotation)
+   - Secure for Cloud [does not manage IAM key-rotation, but find some suggestions to rotate access-key](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/infrastructure/permissions/iam-user#access-key-rotation)<br/><br/>
 
-<br/>
+2. **Permissions** Setup
+<br/>Check previous point K8s credentials, IAM user or Role, has the following permissions<br/><br/>
 
-2. **Permissions** Setup Summary
-<br/>Check K8s credentials IAM user or Role has the following permissions
-
-   - Being able to assumeRole on `SYSDIG_S3_ACCESS_ROLE_ARN`. This must be setup on the `SYSDIG_S3_ACCESS_ROLE_ARN`
+   - Be able to assumeRole on `SYSDIG_S3_ACCESS_ROLE_ARN`. 
+     <br/>Firstly, this must be setup on the `SYSDIG_S3_ACCESS_ROLE_ARN`
     ```json
     {
       "Effect": "Allow",
@@ -184,19 +179,20 @@ In the `SYSDIG_ACCOUNT_ID` account.
       "Action": "sts:AssumeRole"
     }
     ```
-    as well as in the current user
+   
+     - As well as in the current `SYSDIG_K8S_USER_ARN` user
     ```json
-     {
-      "Sid": "AllowSysdigAssumeRoleCrossS3",
-      "Effect": "Allow",
-      "Action": [
-        "sts:AssumeRole"
-      ],
-      "Resource": "<SYSDIG_S3_ACCESS_ROLE_ARN>"
+    {
+        "Sid": "AllowSysdigAssumeRoleCrossS3",
+        "Effect": "Allow",
+        "Action": [
+            "sts:AssumeRole"
+        ],
+        "Resource": "<SYSDIG_S3_ACCESS_ROLE_ARN>"
     }
     ```
 
-   - SQS access to process events
+   - For the `SYSDIG_K8S_USER_ARN` user, also give SQS access to process events
     ```json
      {
       "Sid": "AllowSysdigProcessSQS",
@@ -206,15 +202,13 @@ In the `SYSDIG_ACCOUNT_ID` account.
         "SQS:DeleteMessage"
       ],
       "Resource": "<SYSDIG_CLOUDTRAIL_SNS_SQS_ARN>"
-    }
+        }
     ```
-
 <br/>
 
 3. Sysdig **Helm** [cloud-connector chart](https://charts.sysdig.com/charts/cloud-connector/) will be used with following parametrization
-<br/> Locate your `<SYSDIG_SECURE_ENDPOINT>` and `<SYSDIG_SECURE_API_TOKEN>`. [Howto fetch ApiToken](https://docs.sysdig.com/en/docs/administration/administration-settings/user-profile-and-password/retrieve-the-sysdig-api-token/)
-
-Crate a `values.yaml` file with following manifest
+- Locate your `<SYSDIG_SECURE_ENDPOINT>` and `<SYSDIG_SECURE_API_TOKEN>`.<br/> [Howto fetch ApiToken](https://docs.sysdig.com/en/docs/administration/administration-settings/user-profile-and-password/retrieve-the-sysdig-api-token)
+- Create a `values.yaml` file with following manifest
 ```yaml
 rules: []
 scanners: []
@@ -258,8 +252,6 @@ Check that deployment logs throw no errors and can go to [confirm services are w
 <br/>
 
 
----
-
 ## Compliance
 
 On each member-account where compliance wants to be checked (`AWS_ACCOUNT_ID`), we need to provide a role for Sysdig to be able to impersonate and perform `SecurityAudit` tasks.
@@ -275,7 +267,7 @@ We will guide you to provide, on the Sysdig Secure SaaS backend, the following r
     - For each account you want to provision for the Compliance feature, we need to register it on Sysdig Secure
     - For Sysdig Secure backend API communication [How to use development tools](https://docs.sysdig.com/en/docs/developer-tools/). Also, we have this [AWS provisioning script](https://github.com/sysdiglabs/aws-templates-secure-for-cloud/blob/main/utils/sysdig_cloud_compliance_provisioning.sh) as reference, but we will explain it here too.
     ```shell
-    curl "https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts?upsert=true" \
+    $ curl "https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts?upsert=true" \
     --header "Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>" \
     -X POST \
     -H 'Accept: application/json' \
@@ -288,7 +280,6 @@ We will guide you to provide, on the Sysdig Secure SaaS backend, the following r
        "roleName": "SysdigComplianceRole"
     }'
     ```
-<br/>
 <br/>
 
 2. Register **Benchmark Task**
@@ -310,7 +301,6 @@ We will guide you to provide, on the Sysdig Secure SaaS backend, the following r
     ```
 
 <br/>
-<br/>
 
 3. Get **Sysdig Federation Trusted Identity**
     - For later usage, fetch the Trusted Identity `SYSDIG_AWS_TRUSTED_IDENTITY_ARN`
@@ -322,16 +312,17 @@ We will guide you to provide, on the Sysdig Secure SaaS backend, the following r
     ```shell
     arn:aws:iam::SYSDIG_AWS_ACCOUNT_ID:role/SYSDIG_AWS_ROLE_NAME
     ```
-   <br/><br/>
+<br/>   
+   
 4. Get **Sysdig ExternalId**
     - For later usage, fetch `SYSDIG_AWS_EXTERNAL_ID` from one of the previously registered GCP accounts. All accounts will have same id (you only need to run it once).
     ```shell
     $ curl -s "https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID>?includeExternalId=true" \
-    --header "Authorization: Bearer $SYSDIG_API_TOKEN"
+    --header "Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>"
     ```
    From the resulting payload get the `externalId` attribute value.
 
-   <br/><br/>
+<br/>
 
 ### Customer's Side
 
@@ -364,7 +355,6 @@ You should get success or the reason of failure.
 
 <br/>
 
----
 
 ## Confirm services are working
 

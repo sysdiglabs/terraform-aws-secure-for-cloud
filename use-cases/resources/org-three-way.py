@@ -10,33 +10,44 @@ from diagrams.aws.compute import EKS
 from diagrams.aws.security import IAM, IAMRole
 from diagrams.k8s.group import Namespace
 from diagrams.k8s.compute import Deployment
+from diagrams.custom import Custom
 
 color_event="firebrick"
 
 with Diagram("Three-Way Cross-Account", filename="org-three-way", show=True):
 
-    with Cluster("management account - cloudtrail"):
-        cloudtrail = Cloudtrail("cloudtrail")
-        cloudtrail_sns = SNS("cloudtrail-sns")
 
-        cloudtrail - cloudtrail_sns
+    with Cluster("AWS account (sysdig)", graph_attr={"bgcolor": "lightblue"}):
+        sds = Custom("Sysdig Secure", "../../resources/diag-sysdig-icon.png")
+        bench = General("Cloud Bench")
+        sds >> Edge(label="schedule on rand rand * * *") >> bench
 
-    with Cluster("member account - logging"):
-        cloudtrail_s3 = S3("cloudtrail-s3")
-        org_role = IAM("SysdigCrossAccountS3Access")
+    with Cluster("AWS Organization"):
+        with Cluster("management account"):
+            cloudtrail = Cloudtrail("cloudtrail")
+            cloudtrail_sns = SNS("cloudtrail-sns")
 
-        org_role - cloudtrail_s3
+            cloudtrail - cloudtrail_sns
 
-    with Cluster("member account - SFC compute"):
-        with Cluster("K8s Cluster\n(pre-existing)"):
-            cloud_connector = Deployment("cloud-connector")
-        k8s_iam = IAM("SysdigK8sUser/Role")
-        cloudtrail_sns_sqs = SQS("cloudtrail-sns-sqs")
-        cloud_connector - k8s_iam
+        with Cluster("member account - logging"):
+            cloudtrail_s3 = S3("cloudtrail-s3")
+            org_role = IAM("SysdigCrossAccountS3Access")
 
-    cloudtrail - cloudtrail_s3
-    cloudtrail_sns - cloudtrail_sns_sqs
+            org_role - cloudtrail_s3
 
-    k8s_iam >> Edge(color=color_event, style="dashed", label="sts:AssumeRole + TrustedIdentity") << org_role
-    k8s_iam >> Edge(color=color_event, style="dashed", label="sqs:Receive+Delete")  << cloudtrail_sns_sqs
-    k8s_iam >> Edge(color=color_event, style="dashed", label="s3:GetObject") << org_role
+        with Cluster("member account - SFC compute"):
+            with Cluster("K8s Cluster\n(pre-existing)"):
+                cloud_connector = Deployment("cloud-connector")
+            k8s_iam = IAM("SysdigK8sUser/Role")
+            cloudtrail_sns_sqs = SQS("cloudtrail-sns-sqs")
+            cloud_connector - k8s_iam
+
+        cloudtrail - cloudtrail_s3
+        cloudtrail_sns - cloudtrail_sns_sqs
+
+        k8s_iam >> Edge(color=color_event, style="dashed", label="s3:GetObject\nTrustedIdentity,sts:AssumeRole") << org_role
+        k8s_iam >> Edge(color=color_event, style="dashed", label="sqs:Receive+Delete")  << cloudtrail_sns_sqs
+
+        with Cluster("member account(s) - compliance"):
+            ccBenchRoleOnEachProject = IAM("Sysdig Compliance Role\n(aws:SecurityAudit policy)")
+            bench >> ccBenchRoleOnEachProject
