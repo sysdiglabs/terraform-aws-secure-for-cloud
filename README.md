@@ -56,13 +56,13 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help and improve our module.
 
   - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
-    - [Single Account on ECS](#--single-account-on-ecs)
-    - [Single Account on AppRunner](#--single-account-on-apprunner)
-    - [Single-Account with a pre-existing Kubernetes Cluster](#--single-account-with-a-pre-existing-kubernetes-cluster)
-    - [Organizational](#--organizational)
-  - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your 
-    infrastructure (cloudtrail, ecs, vpc, k8s cluster,...). Check input summary on each example/module.
-  - Find some real self-baked **use-case scenarios** under [`/use-cases`](./use-cases)
+    - [Single Account on ECS](./examples/single-account-ecs/README.md)
+    - [Single Account on AppRunner](./examples/single-account-apprunner/README.md)
+    - [Single-Account with a pre-existing Kubernetes Cluster](./examples/single-account-k8s/README.md)
+    - [Organizational](./examples/organizational/README.md)
+    - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your
+      infrastructure. Check input summary on each example/module.
+    - Find some real self-baked **use-case scenarios** under [`/use-cases`](./use-cases)
 
 
 ## Required Permissions
