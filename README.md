@@ -190,9 +190,11 @@ ecs:DescribeTaskDefinition
   - Check [Organizational Use Case - Role Summary](./examples/organizational/README.md#role-summary) for more details
 
 
-## Forcing Events
+## Confirm the Services are Working
 
-**Threat Detection**
+Check official documentation on [Secure for cloud - AWS, Confirm the Services are working](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are-working)
+
+### Forcing Events - Threat Detection
 
 Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/trigger-events).
 
@@ -211,7 +213,7 @@ If that's not working as expected, some other questions can be checked
 - are events consumed in the sqs queue, or are they pending?
 - are events being sent to sns topic?
 
-**Image Scanning**
+### Forcing Events - Image Scanning
 
 Image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place
 
