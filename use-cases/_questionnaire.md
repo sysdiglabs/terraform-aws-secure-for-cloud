@@ -88,7 +88,7 @@ We enable following optionals, to allow user to re-use their pre-existing / conf
 
 |  Cloud |  Optionals | Related Input Vars | Other |
 | -- | --| -- | -- |
-| AWS  | Cloudtrail-SNS | `cloudtrail_sns_arn`, (org only) `cloudtrail_s3_arn` | - |
+| AWS  | Cloudtrail | single: [`cloudtrail_sns_arn`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs#input_cloudtrail_sns_arn)<br/>organizational: [`existing_cloudtrail_config`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational#input_existing_cloudtrail_config) | - |
 | | ECS, VPC, Subnet | `ecs_cluster_name`, `ecs_vpc_id`, `ecs_vpc_subnets_private_ids` | if used, the three are mandatory  |
 | GCP | - | - | - |
 | Azure | ResourceGroup | `resource_group_name` | - |
