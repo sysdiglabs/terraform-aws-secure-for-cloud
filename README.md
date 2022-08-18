@@ -130,10 +130,7 @@ Check official documentation on [Secure for cloud - AWS, Confirm the Services ar
 
 ### Forcing Events - Threat Detection
 
-Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/trigger-events).
-
-In another case, you can do it manually. Choose one of the rules contained in the `AWS Best Practices` policy and execute it in your AWS account.
-
+Choose one of the rules contained in an activated Runtime Policies for AWS, such as `Sysdig AWS Activity Logs` policy and execute it in your AWS account.
 ex.: 'Delete Bucket Public Access Block' can be easily tested going to an
 `S3 bucket > Permissions > Block public access (bucket settings) > edit >
 uncheck 'Block all public access'`
@@ -146,6 +143,11 @@ In the `cloud-connector` logs you should see similar logs to these
 If that's not working as expected, some other questions can be checked
 - are events consumed in the sqs queue, or are they pending?
 - are events being sent to sns topic?
+
+
+In `Secure > Events` you should see the event coming through, but beware you may need to activate specific levels such as `Info` depending on the rule you're firing.
+
+Alternativelly, use Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/trigger-events).
 
 ### Forcing Events - Image Scanning
 
