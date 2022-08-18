@@ -1,4 +1,4 @@
-# Sysdig Secure for Cloud in AWS<br/>:: Organizational, threat-detection with pre-existing resources (EKS + cloudtrail through S3-SNS-SQS events)
+# Sysdig Secure for Cloud in AWS<br/>:: Organizational, threat-detection with pre-existing resources (K8S + cloudtrail through S3-SNS-SQS events)
 
 
 - Sysdig **Helm** chart will be used to deploy threat-detection
