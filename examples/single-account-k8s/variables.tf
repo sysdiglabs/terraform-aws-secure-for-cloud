@@ -68,3 +68,12 @@ variable "benchmark_regions" {
   description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
   default     = []
 }
+
+#
+# aws iam user configuration
+#
+variable "deploy_aws_iam_user" {
+  type = bool
+  description = "Whether to deploy or not the aws iam user module"
+  default = true
+}

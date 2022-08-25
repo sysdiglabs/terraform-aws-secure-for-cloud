@@ -46,14 +46,20 @@ resource "helm_release" "cloud_connector" {
     value = data.sysdig_secure_connection.current.secure_api_token
   }
 
-  set_sensitive {
-    name  = "aws.accessKeyId"
-    value = module.iam_user.sfc_user_access_key_id
+  dynamic "set_sensitive" {
+    for_each = var.deploy_aws_iam_user ? [true] : []
+    content {
+      name  = "aws.accessKeyId"
+      value = module.iam_user[0].sfc_user_access_key_id
+    }
   }
 
-  set_sensitive {
-    name  = "aws.secretAccessKey"
-    value = module.iam_user.sfc_user_secret_access_key
+  dynamic "set_sensitive" {
+    for_each = var.deploy_aws_iam_user ? [true] : []
+    content {
+      name  = "aws.secretAccessKey"
+      value = module.iam_user[0].sfc_user_secret_access_key
+    }
   }
 
   set {
@@ -91,5 +97,5 @@ resource "helm_release" "cloud_connector" {
       ] : []
     })
   ]
-  depends_on = [module.iam_user]
+  depends_on = [module.iam_user[0]]
 }

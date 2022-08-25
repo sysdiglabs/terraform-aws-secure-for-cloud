@@ -1,5 +1,6 @@
 module "iam_user" {
   source = "../../modules/infrastructure/permissions/iam-user"
+  count  = var.deploy_aws_iam_user ? 1 : 0
   name   = var.name
 
   deploy_image_scanning = local.deploy_image_scanning
