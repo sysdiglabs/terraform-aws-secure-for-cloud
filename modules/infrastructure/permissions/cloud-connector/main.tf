@@ -25,8 +25,7 @@ data "aws_iam_policy_document" "cloud_connector" {
     effect = "Allow"
     actions = [
       "sqs:ReceiveMessage",
-      "sqs:DeleteMessage",
-      "sqs:DeleteMessageBatch"
+      "sqs:DeleteMessage"
     ]
     resources = [var.cloudtrail_subscribed_sqs_arn]
   }

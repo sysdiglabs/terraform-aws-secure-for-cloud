@@ -26,11 +26,11 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
     - in case of ECS or K8S, do you have an existing cluster you would like to re-use?
 - (aws-only) do you have **existing aws cloudtrail**?
     - is it an organizational cloudtrail?
-      - does the cloudtrail report to an SNS? if no, could you enable it?
+      - does the cloudtrail report to an SNS? if no, could you enable it? ingestor-type: `aws-cloudtrail-sns-sqs`
       - is the S3 bucket of that cloudtrail in the management account or a sepparated member account?
     - if it's not organizational, does each trail report to the same s3 bucket?
-      - if so, does that S3 bucket already have any "Event Notification System"? Is it an SNS we could subscribe to?
-      - if so, does that S3 bucket already have an "Amazon EventBridge" system activated?
+      - if so, does that S3 bucket already have any "Event Notification System"? Is it an SNS we could subscribe to? ingestor-type: `aws-cloudtrail-s3-sns-sqs`
+      - if so, does that S3 bucket already have an "Amazon EventBridge" system activated? ingestor-type: `aws-cloudtrail-s3-sns-sqs-eventbridge`
     - whether it's organizational or not, could you give us a quick picture of the account setup in terms of purpose?
 - how many **regions** do you work with?
     - is secure for cloud to be deployed on the same region as your existing resources?
@@ -88,7 +88,7 @@ We enable following optionals, to allow user to re-use their pre-existing / conf
 
 |  Cloud |  Optionals | Related Input Vars | Other |
 | -- | --| -- | -- |
-| AWS  | Cloudtrail-SNS | `cloudtrail_sns_arn`, (org only) `cloudtrail_s3_arn` | - |
+| AWS  | Cloudtrail | single: [`cloudtrail_sns_arn`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs#input_cloudtrail_sns_arn)<br/>organizational: [`existing_cloudtrail_config`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational#input_existing_cloudtrail_config) | - |
 | | ECS, VPC, Subnet | `ecs_cluster_name`, `ecs_vpc_id`, `ecs_vpc_subnets_private_ids` | if used, the three are mandatory  |
 | GCP | - | - | - |
 | Azure | ResourceGroup | `resource_group_name` | - |

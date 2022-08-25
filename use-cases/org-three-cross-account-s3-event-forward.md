@@ -158,7 +158,7 @@ module "sysdig-sfc" {
   ecs_vpc_id                    = "<ECS_VPC_ID>"
   ecs_vpc_subnets_private_ids   = ["<ECS_VPC_SUBNET_PRIVATE_ID_1>","<ECS_VPC_SUBNET_PRIVATE_ID_2>"]
 
-  existing_cloudtrail_s3_config={
+  existing_cloudtrail_config={
       cloudtrail_s3_sns_sqs_arn = "<CLOUDTRAIL_S3_SNS_SQS_ARN>"
       cloudtrail_s3_sns_sqs_url = "<CLOUDTRAIL_S3_SNS_SQS_URL>"
       cloudtrail_s3_role_arn    = "<CLOUDTRAIL_S3_ROLE_ARN>"

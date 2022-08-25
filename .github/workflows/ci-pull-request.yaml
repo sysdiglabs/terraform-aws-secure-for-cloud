@@ -6,12 +6,12 @@ on:
       - '**.tf'
       - '**.md'
       - '.pre-commit-config.yaml'
+  # only direct-push to master for small tasks such as markdown modifications and such
   push:
     branches:
       - master
     paths:
       - '**.tf'
-      - '**.md'
 env:
   GO_VERSION: "^1.17"
 
