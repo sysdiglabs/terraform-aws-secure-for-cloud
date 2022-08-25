@@ -73,7 +73,7 @@ variable "benchmark_regions" {
 # aws iam user configuration
 #
 variable "deploy_aws_iam_user" {
-  type = bool
+  type        = bool
   description = "Whether to deploy or not the aws iam user module"
-  default = true
+  default     = true
 }
