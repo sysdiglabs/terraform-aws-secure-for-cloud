@@ -90,7 +90,6 @@ terraform {
   required_providers {
     sysdig = {
       source  = "sysdiglabs/sysdig"
-      configuration_aliases = [aws.member]
     }
   }
 }
