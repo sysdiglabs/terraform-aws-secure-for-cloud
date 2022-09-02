@@ -14,6 +14,12 @@ variable "cloudtrail_sns_arn" {
   description = "ARN of a pre-existing cloudtrail_sns. If defaulted, a new cloudtrail will be created. If specified, sysdig deployment account and region must match with the specified SNS"
 }
 
+variable "cloudtrail_kms_arn" {
+  type        = string
+  default     = null
+  description = "ARN of a pre-existing cloudtrail KMS key for encrypting the logs."
+}
+
 variable "cloudtrail_is_multi_region_trail" {
   type        = bool
   default     = true

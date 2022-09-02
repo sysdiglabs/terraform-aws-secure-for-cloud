@@ -45,6 +45,7 @@ variable "existing_cloudtrail_config" {
   type = object({
     cloudtrail_s3_arn         = optional(string)
     cloudtrail_sns_arn        = optional(string)
+    cloudtrail_kms_arn        = optional(string)
     cloudtrail_s3_role_arn    = optional(string)
     cloudtrail_s3_sns_sqs_arn = optional(string)
     cloudtrail_s3_sns_sqs_url = optional(string)
@@ -52,6 +53,7 @@ variable "existing_cloudtrail_config" {
   default = {
     cloudtrail_s3_arn         = "create"
     cloudtrail_sns_arn        = "create"
+    cloudtrail_kms_arn        = null
     cloudtrail_s3_role_arn    = null
     cloudtrail_s3_sns_sqs_arn = null
     cloudtrail_s3_sns_sqs_url = null
@@ -63,9 +65,10 @@ variable "existing_cloudtrail_config" {
     <ul>
       <li>cloudtrail_s3_arn: Mandatory ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"</li>
       <li>cloudtrail_sns_arn: Optional 1. ARN of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns_permissions.tf block</li>
-      <li>cloudtrail_s3_role_arn: Optional 2. ARN of the role to be assumed for S3 access. This role must be in the same account of the S3 bucket. Currently this setup is not compatible with organizational scanning feature</li>
-      <li>cloudtrail_s3_sns_sqs_arn: Optional 3. ARN of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns</li>
-      <li>cloudtrail_s3_sns_sqs_url: Optional 3. URL of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns<</li>
+      <li>cloudtrail_kms_arn: Optional 2. ARN of a cloudtrail KMS key used for encrypting the logs. Required in order to retrieve the encrypted logs from S3</li>
+      <li>cloudtrail_s3_role_arn: Optional 3. ARN of the role to be assumed for S3 access. This role must be in the same account of the S3 bucket. Currently this setup is not compatible with organizational scanning feature</li>
+      <li>cloudtrail_s3_sns_sqs_arn: Optional 4. ARN of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns</li>
+      <li>cloudtrail_s3_sns_sqs_url: Optional 5. URL of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns<</li>
     </ul>
   EOT
 }

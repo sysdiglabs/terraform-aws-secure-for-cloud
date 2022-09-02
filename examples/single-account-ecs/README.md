@@ -72,7 +72,7 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.39 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.33 |
 
 ## Modules
 
@@ -98,6 +98,7 @@ $ terraform apply
 |------|-------------|------|---------|:--------:|
 | <a name="input_benchmark_regions"></a> [benchmark\_regions](#input\_benchmark\_regions) | List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default. | `list(string)` | `[]` | no |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
+| <a name="input_cloudtrail_kms_arn"></a> [cloudtrail\_kms\_arn](#input\_cloudtrail\_kms\_arn) | ARN of a pre-existing cloudtrail KMS key for encrypting the logs. | `string` | `null` | no |
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether cloudtrail delivered events to S3 should persist encrypted | `bool` | `true` | no |
 | <a name="input_cloudtrail_sns_arn"></a> [cloudtrail\_sns\_arn](#input\_cloudtrail\_sns\_arn) | ARN of a pre-existing cloudtrail\_sns. If defaulted, a new cloudtrail will be created. If specified, sysdig deployment account and region must match with the specified SNS | `string` | `"create"` | no |
 | <a name="input_deploy_benchmark"></a> [deploy\_benchmark](#input\_deploy\_benchmark) | Whether to deploy or not the cloud benchmarking | `bool` | `true` | no |

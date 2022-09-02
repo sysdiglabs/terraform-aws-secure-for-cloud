@@ -53,8 +53,8 @@ module "cloud_connector" {
 
   existing_cloudtrail_config = {
     cloudtrail_sns_arn = local.cloudtrail_sns_arn
+    cloudtrail_kms_arn = var.cloudtrail_kms_arn
   }
-
 
   ecs_cluster_name            = local.ecs_cluster_name
   ecs_vpc_id                  = local.ecs_vpc_id
