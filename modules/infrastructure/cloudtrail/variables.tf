@@ -45,6 +45,12 @@ variable "cloudtrail_kms_enable" {
   description = "true/false whether s3 should be encrypted"
 }
 
+variable "cloudtrail_kms_arn" {
+  type        = string
+  default     = null
+  description = "ARN of a pre-existing KMS key for encrypting the Cloudtrail logs. Incompatible with var.cloudtrail_kms_enable when set to true"
+}
+
 variable "is_multi_region_trail" {
   type        = bool
   default     = true

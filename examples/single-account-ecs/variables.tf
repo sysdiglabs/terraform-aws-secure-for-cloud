@@ -1,5 +1,3 @@
-
-
 #---------------------------------
 # optionals - with defaults
 #---------------------------------
@@ -17,7 +15,7 @@ variable "cloudtrail_sns_arn" {
 variable "cloudtrail_kms_arn" {
   type        = string
   default     = null
-  description = "ARN of a pre-existing cloudtrail KMS key for encrypting the logs."
+  description = "ARN of a pre-existing KMS key for encrypting the Cloudtrail logs. Incompatible with var.cloudtrail_kms_enable when set to true"
 }
 
 variable "cloudtrail_is_multi_region_trail" {
