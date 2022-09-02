@@ -11,6 +11,8 @@ Deployed on **Sysdig Backend**
 - The required provisioning on Sysdig Backend to use the `ExternalId`-basedIAM Role with an AssumeRole.
 - An `aws_foundations_bench-1.3.0` benchmak task schedule on a random hour of the day `rand rand * * *`
 
+This module will be deployed as a StackSet and it will take into account newly member accounts added to the Organization.
+
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -26,9 +28,9 @@ Deployed on **Sysdig Backend**
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.21.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.26.0 |
 | <a name="provider_random"></a> [random](#provider\_random) | 3.3.2 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.37 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.39 |
 
 ## Modules
 

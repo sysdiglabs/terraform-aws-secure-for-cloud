@@ -69,7 +69,8 @@ module "cloud_connector" {
 
   is_organizational = true
   organizational_config = {
-    sysdig_secure_for_cloud_role_arn = module.secure_for_cloud_role.sysdig_secure_for_cloud_role_arn
+    # see local.deploy_org_management_sysdig_role notes
+    sysdig_secure_for_cloud_role_arn = local.deploy_org_management_sysdig_role ? module.secure_for_cloud_role[0].sysdig_secure_for_cloud_role_arn : var.existing_cloudtrail_config.cloudtrail_s3_role_arn
     organizational_role_per_account  = var.organizational_member_default_admin_role
     connector_ecs_task_role_name     = aws_iam_role.connector_ecs_task.name
   }
@@ -77,7 +78,11 @@ module "cloud_connector" {
   build_project_arn  = length(module.codebuild) == 1 ? module.codebuild[0].project_arn : "na"
   build_project_name = length(module.codebuild) == 1 ? module.codebuild[0].project_name : "na"
 
-  sns_topic_arn = local.cloudtrail_sns_arn
+  existing_cloudtrail_config = {
+    cloudtrail_sns_arn        = local.cloudtrail_sns_arn
+    cloudtrail_s3_sns_sqs_url = var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_url
+    cloudtrail_s3_sns_sqs_arn = var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn
+  }
 
   ecs_cluster_name            = local.ecs_cluster_name
   ecs_vpc_id                  = local.ecs_vpc_id

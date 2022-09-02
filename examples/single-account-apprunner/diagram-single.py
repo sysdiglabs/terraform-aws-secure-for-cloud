@@ -69,7 +69,7 @@ with Diagram("Sysdig Secure for Cloud{}(single-account)".format("\n"), graph_att
             cloud_connector >> Edge(color=color_non_important) >>  cloudwatch
 
             # scanning
-            codebuild = Codebuild("Build-project")
+            codebuild = Codebuild("CodeBuild Project")
             cloud_connector >> Edge(color=color_non_important) >> cloudwatch
             cloud_connector >> codebuild
             codebuild >> Edge(color=color_non_important) >>  ecr

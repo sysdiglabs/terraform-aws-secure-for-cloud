@@ -59,13 +59,13 @@ with Diagram("Sysdig Secure for Cloud{}(single-account-k8s)".format("\n"), graph
             cloudtrail >> Edge(color=color_event, style="dashed") >> sns
 
             with Cluster(""):
-                eks = EKS("EKS\n(pre-existing)")
-                with Cluster("namespace: sfc"):
+                eks = Deployment()
+                with Cluster("K8s Cluster\n(pre-existing)\nnamespace: sfc"):
                     cloud_connector = Deployment("cloud-connector")
 
 
             # scanning
-            codebuild = Codebuild("Build-project")
+            codebuild = Codebuild("CodeBuild Project")
             cloud_connector >> codebuild
             codebuild >> Edge(color=color_non_important) >>  ecr
             codebuild >> Edge(color=color_non_important) >>  public_registries

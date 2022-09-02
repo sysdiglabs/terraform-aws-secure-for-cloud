@@ -10,8 +10,9 @@ data "aws_ssm_parameter" "sysdig_secure_api_token" {
 
 #---------------------------------
 # task role
-# notes
-# - duplicated in /examples/organizational/credentials.tf, where root lvl role is created, to avoid cyclic dependencies
+# - if organizational, role is inherited from root lvl, to avoid cyclic dependencies
+# - otherwise is created in current account
+# - duplicated in /examples/organizational/permissions.tf
 #---------------------------------
 data "aws_iam_role" "task_inherited" {
   count = var.is_organizational ? 1 : 0
@@ -38,39 +39,58 @@ data "aws_iam_policy_document" "task_assume_role" {
   }
 }
 
-resource "aws_iam_role_policy" "task" {
-  name   = "${var.name}-TaskPolicy"
+resource "aws_iam_role_policy" "task_policy_sqs" {
+  name   = "${var.name}-AllowSQSUsage"
   role   = local.ecs_task_role_id
-  policy = data.aws_iam_policy_document.iam_role_task_policy.json
+  policy = data.aws_iam_policy_document.iam_role_task_policy_sqs.json
 }
-
-data "aws_iam_policy_document" "iam_role_task_policy" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "s3:GetObject",
-      "s3:ListBucket",
-    ]
-    resources = ["*"]
-    # resources = [var.cloudtrail_s3_arn # would need this as param]
-  }
-  statement {
-    effect = "Allow"
-    actions = [
-      "sts:AssumeRole",
-    ]
-    resources = ["*"]
-    #    resources = [var.connector_ecs_task_role_name]
-  }
-
+data "aws_iam_policy_document" "iam_role_task_policy_sqs" {
   statement {
     effect = "Allow"
     actions = [
       "sqs:DeleteMessage",
-      "sqs:DeleteMessageBatch",
       "sqs:ReceiveMessage"
     ]
-    resources = [module.cloud_connector_sqs.cloudtrail_sns_subscribed_sqs_arn]
+    resources = [
+      local.deploy_sqs ? module.cloud_connector_sqs[0].cloudtrail_sns_subscribed_sqs_arn : var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn
+    ]
+  }
+}
+
+resource "aws_iam_role_policy" "task_policy_s3" {
+  count  = var.is_organizational ? 0 : 1
+  name   = "${var.name}-AllowS3Read"
+  role   = local.ecs_task_role_id
+  policy = data.aws_iam_policy_document.iam_role_task_policy_s3[0].json
+}
+data "aws_iam_policy_document" "iam_role_task_policy_s3" {
+  count = var.is_organizational ? 0 : 1
+  statement {
+    effect = "Allow"
+    actions = [
+      "s3:GetObject",
+      "s3:ListBucket"
+    ]
+    resources = ["*"]
+    # resources = [var.cloudtrail_s3_arn # would need this as param]
+  }
+}
+
+resource "aws_iam_role_policy" "task_policy_assume_role" {
+  count  = var.is_organizational ? 1 : 0
+  name   = "${var.name}-AllowS3AssumeRole"
+  role   = local.ecs_task_role_id
+  policy = data.aws_iam_policy_document.iam_role_task_assume_role[0].json
+}
+
+data "aws_iam_policy_document" "iam_role_task_assume_role" {
+  count = var.is_organizational ? 1 : 0
+  statement {
+    effect = "Allow"
+    actions = [
+      "sts:AssumeRole"
+    ]
+    resources = [var.organizational_config.sysdig_secure_for_cloud_role_arn]
   }
 }
 

@@ -28,30 +28,48 @@ variable "organizational_member_default_admin_role" {
 #
 # cloudtrail configuration
 #
-
-variable "cloudtrail_sns_arn" {
-  type        = string
-  default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns_permissions.tf block"
-}
-
-variable "cloudtrail_s3_arn" {
-  type        = string
-  default     = "create"
-  description = "ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"
-}
-
 variable "cloudtrail_is_multi_region_trail" {
   type        = bool
   default     = true
-  description = "true/false whether cloudtrail will ingest multiregional events. testing/economization purpose."
+  description = "true/false whether the created cloudtrail will ingest multi-regional events. testing/economization purpose."
 }
 
 variable "cloudtrail_kms_enable" {
   type        = bool
   default     = true
-  description = "true/false whether cloudtrail delivered events to S3 should persist encrypted"
+  description = "true/false whether the created cloudtrail should deliver encrypted events to s3"
 }
+
+
+variable "existing_cloudtrail_config" {
+  type = object({
+    cloudtrail_s3_arn         = optional(string)
+    cloudtrail_sns_arn        = optional(string)
+    cloudtrail_s3_role_arn    = optional(string)
+    cloudtrail_s3_sns_sqs_arn = optional(string)
+    cloudtrail_s3_sns_sqs_url = optional(string)
+  })
+  default = {
+    cloudtrail_s3_arn         = "create"
+    cloudtrail_sns_arn        = "create"
+    cloudtrail_s3_role_arn    = null
+    cloudtrail_s3_sns_sqs_arn = null
+    cloudtrail_s3_sns_sqs_url = null
+  }
+
+  description = <<-EOT
+    Optional block. If not set, a new cloudtrail, sns and sqs resources will be created<br/>
+    If there's an existing cloudtrail, input mandatory attributes, and one of the 1, 2 or 3 grouped labeled optionals.
+    <ul>
+      <li>cloudtrail_s3_arn: Mandatory ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"</li>
+      <li>cloudtrail_sns_arn: Optional 1. ARN of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns_permissions.tf block</li>
+      <li>cloudtrail_s3_role_arn: Optional 2. ARN of the role to be assumed for S3 access. This role must be in the same account of the S3 bucket. Currently this setup is not compatible with organizational scanning feature</li>
+      <li>cloudtrail_s3_sns_sqs_arn: Optional 3. ARN of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns</li>
+      <li>cloudtrail_s3_sns_sqs_url: Optional 3. URL of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns<</li>
+    </ul>
+  EOT
+}
+
 
 #
 # scanning configuration
@@ -94,19 +112,19 @@ variable "benchmark_regions" {
 variable "ecs_cluster_name" {
   type        = string
   default     = "create"
-  description = "Name of a pre-existing ECS (elastic container service) cluster. If defaulted, a new ECS cluster/VPC/Security Group will be created. For both options, ECS location will/must be within the `sysdig_secure_for_cloud_member_account_id` parameter accountID"
+  description = "Name of a pre-existing ECS (elastic container service) cluster. If defaulted, a new ECS cluster/VPC/Security Group will be created. If specified all three parameters `ecs_cluster_name`, `ecs_vpc_id` and `ecs_vpc_subnets_private_ids` are required. ECS location will/must be within the `sysdig_secure_for_cloud_member_account_id` parameter accountID"
 }
 
 variable "ecs_vpc_id" {
   type        = string
   default     = "create"
-  description = "ID of the VPC where the workload is to be deployed. Defaulted to be created when `ecs_cluster_name is not provided."
+  description = "ID of the VPC where the workload is to be deployed. If defaulted a new VPC will be created. If specified all three parameters `ecs_cluster_name`, `ecs_vpc_id` and `ecs_vpc_subnets_private_ids` are required"
 }
 
 variable "ecs_vpc_subnets_private_ids" {
   type        = list(string)
   default     = []
-  description = "List of VPC subnets where workload is to be deployed. Defaulted to be created when `ecs_cluster_name is not provided."
+  description = "List of VPC subnets where workload is to be deployed. If defaulted new subnets will be created within the VPC. A minimum of two subnets is suggested. If specified all three parameters `ecs_cluster_name`, `ecs_vpc_id` and `ecs_vpc_subnets_private_ids` are required."
 }
 
 variable "ecs_vpc_region_azs" {

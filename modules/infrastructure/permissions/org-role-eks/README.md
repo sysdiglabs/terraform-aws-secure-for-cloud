@@ -1,4 +1,4 @@
-# AWS Organizational Secure for Cloud Role for EKS
+# AWS Organizational Secure for Cloud Role for K8s
 
 The aim of this module is to manage the organizational **managed account** required role and permissions for threat-detection and image scanning modules to work properly.
 
@@ -13,9 +13,6 @@ The aim of this module is to manage the organizational **managed account** requi
   * Enable this role to assumeRole to member accounts through the `organizational_role_per_account` role,
     in order to be able to fetch images that may be in member-account repositories
 
-* Other permissions
-  * ECS-Task roles (of both modules) to be able to assume this role
-
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
@@ -29,7 +26,7 @@ The aim of this module is to manage the organizational **managed account** requi
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.21.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.26.0 |
 
 ## Modules
 

@@ -7,6 +7,7 @@ The aim of this module is to manage the organizational **managed account** requi
 
 
 ## Permissions
+
 * Threat-Detection feature
   * S3 Get and List permissions in order to fetch the events
   * SNS Subscription permissions in order to subscribe a topic to it
@@ -31,8 +32,8 @@ The aim of this module is to manage the organizational **managed account** requi
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.21.0 |
-| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | 4.21.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.26.0 |
+| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | 4.26.0 |
 
 ## Modules
 
