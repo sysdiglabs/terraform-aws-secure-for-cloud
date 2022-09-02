@@ -19,7 +19,7 @@ generate-terraform-providers:
 terraform-init: generate-terraform-providers
 	find -name "*.tf" | xargs dirname | uniq | xargs -I% -P0 sh -c 'cd %; terraform init --backend=false' 1>/dev/null
 
-docs:
+docs: clean generate-terraform-providers
 	pre-commit run -a terraform_docs
 
 lint: terraform-init
