@@ -17,28 +17,26 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 <br/>
 
-[comment]: <> (## Permissions)
 
-[comment]: <> (Inspect `/module/infrastructure/permissions` subdirectories to understand the several)
+## Usage
 
-[comment]: <> (permissions required.)
+There are several ways to deploy Secure for Cloud in you AWS infrastructure, 
+- **[`/examples`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples)** for the most common scenarios
+  - [Single Account on ECS](./examples/single-account-ecs/)
+  - [Single Account on AppRunner](./examples/single-account-apprunner/)
+  - [Single-Account with a pre-existing Kubernetes Cluster](./examples/single-account-k8s/)
+  - [Organizational](./examples/organizational/README.md)
+  - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your
+    infrastructure. Check input summary on each example/module.
 
-[comment]: <> (- `/iam-user` creates an IAM user + adds permissions for required modules &#40;general, cloud-connector, cloud-scanning&#41;<br/><br/>)
+- **[`/use-cases`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/use-cases)** with self-baked customer-specific alternative scenarios.
+<br/>
 
-[comment]: <> (- `/general` concerns general permissions that apply to both threat-detection and image-scanning features)
+Find specific overall service arquitecture diagrams attached to each example/use-case.
 
-[comment]: <> (- `/cloud-connector` for threat-detection features)
+In the long-term our purpose is to evaluate those use-cases and if they're common enough, convert them into examples to make their usage easier.
 
-[comment]: <> (- `/cloud-scanning` for image-scanning features)
-
-[comment]: <> (TODO review `/module/*/ permissions` vs. the ones in permissions folder)
-
-[comment]: <> (TODO review)
-
-[comment]: <> (- `/org-role-ecs`)
-
-[comment]: <> (- `/org-role-eks`)
-
+If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help.
 
 ### Notice
 
@@ -48,22 +46,9 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
   - **Management Account ECR image scanning** is not support since it's [not a best practies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in the management account. However, we have a workaround to [solve this problem](#q-scanning-images-pushed-to-management-account-ecr-are-not-scanned)  in case you need to scan images pushed to the management account ECR.
 * **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * For **free subscription** users, beware that organizational examples may not deploy properly due to the [1 cloud-account limitation](https://docs.sysdig.com/en/docs/administration/administration-settings/subscription/#cloud-billing-free-tier). Open an Issue so we can help you here!
+
+
 <br/>
-
-
-## Usage
-
-If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help and improve our module.
-
-  - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
-    - [Single Account on ECS](./examples/single-account-ecs/README.md)
-    - [Single Account on AppRunner](./examples/single-account-apprunner/README.md)
-    - [Single-Account with a pre-existing Kubernetes Cluster](./examples/single-account-k8s/README.md)
-    - [Organizational](./examples/organizational/README.md)
-    - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your
-      infrastructure. Check input summary on each example/module.
-    - Find some real self-baked **use-case scenarios** under [`/use-cases`](./use-cases)
-
 
 ## Required Permissions
 
@@ -123,6 +108,8 @@ ecs:DescribeTaskDefinition
   - For a better security, permissions are resource pinned, instead of `*`
   - Check [Organizational Use Case - Role Summary](./examples/organizational/README.md#role-summary) for more details
 
+
+<br/>
 
 ## Confirm the Services are Working
 
@@ -304,21 +291,21 @@ $ curl -v https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID
 ## Upgrading
 
 - Uninstall previous deployment resources before upgrading
-```
-$ terraform destroy
-```
+  ```
+  $ terraform destroy
+  ```
 
 - Upgrade the full terraform example with
-
-```
-$ terraform init -upgrade
-$ terraform plan
-$ terraform apply
-```
+  ```
+  $ terraform init -upgrade
+  $ terraform plan
+  $ terraform apply
+  ```
 
 - If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the latest one.
 
-<br/><br/>
+<br/>
+
 ## Authors
 
 Module is maintained and supported by [Sysdig](https://sysdig.com).
