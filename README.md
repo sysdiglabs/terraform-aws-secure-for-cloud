@@ -22,10 +22,10 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 There are several ways to deploy Secure for Cloud in you AWS infrastructure, 
 - **[`/examples`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples)** for the most common scenarios
-  - [Single Account on ECS](./examples/single-account-ecs/)
-  - [Single Account on AppRunner](./examples/single-account-apprunner/)
-  - [Single-Account with a pre-existing Kubernetes Cluster](./examples/single-account-k8s/)
-  - [Organizational](./examples/organizational/README.md)
+  - [Single Account on ECS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs/)
+  - [Single Account on AppRunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner/)
+  - [Single-Account with a pre-existing Kubernetes Cluster](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s/)
+  - [Organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational/)
   - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your
     infrastructure. Check input summary on each example/module.
 
