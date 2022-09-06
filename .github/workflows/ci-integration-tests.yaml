@@ -139,7 +139,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
           TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
-        run: bundle exec kitchen test "organizational-aws"
+        run: bundle exec kitchen test "organizational"
 
       - name: Destroy organizational resources
         env:
@@ -148,8 +148,25 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
         if: ${{ failure() }}
-        run: bundle exec kitchen destroy "organizational-aws"
+        run: bundle exec kitchen destroy "organizational"
 
+
+      - name: Run organizational-single test
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_MANAGED_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
+        run: bundle exec kitchen test "organizational-single"
+
+      - name: Destroy organizational-single resources
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_QA_MANAGED_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_QA_MANAGED_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          TF_VAR_sysdig_secure_for_cloud_member_account_id: ${{ secrets.AWS_QA_CLOUDNATIVE_ACCOUNT_ID }}
+        if: ${{ failure() }}
+        run: bundle exec kitchen destroy "organizational-single"
   integration_test_app_runner:
     needs: integration_test_ecs
     concurrency: terraform-account

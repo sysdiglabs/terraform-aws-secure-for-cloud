@@ -22,6 +22,9 @@ suites:
   - name: organizational
     driver:
       root_module_directory: test/fixtures/organizational
+  - name: organizational-single
+    driver:
+      root_module_directory: test/fixtures/organizational-single
   - name: organizational-k8s
     driver:
       root_module_directory: test/fixtures/organizational-k8s
