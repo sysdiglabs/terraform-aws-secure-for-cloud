@@ -20,7 +20,7 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 ## Usage
 
-There are several ways to deploy Secure for Cloud in you AWS infrastructure, 
+There are several ways to deploy Secure for Cloud in you AWS infrastructure,
 - **[`/examples`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples)** for the most common scenarios
   - [Single Account on ECS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs/)
   - [Single Account on AppRunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner/)
