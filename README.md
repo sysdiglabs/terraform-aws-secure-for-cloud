@@ -115,6 +115,13 @@ ecs:DescribeTaskDefinition
 
 Check official documentation on [Secure for cloud - AWS, Confirm the Services are working](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are-working)
 
+### General 
+
+Generally speaking, a triggered situation (threat or image-scanning) whould be check (from more functional-side to more technical)
+- Secure UI > Events / Insights / ...
+- Cloud-Connector Logs
+- Cloudtrail > Event History
+
 ### Forcing Events - Threat Detection
 
 Choose one of the rules contained in an activated Runtime Policies for AWS, such as `Sysdig AWS Activity Logs` policy and execute it in your AWS account.
