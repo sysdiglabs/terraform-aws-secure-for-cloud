@@ -67,6 +67,17 @@ module "cloud_connector" {
   deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
   deploy_image_scanning_ecs = var.deploy_image_scanning_ecs
 
+  #
+  # note;
+  # these two variables `is_organizational` and `organizational_config` is for image-scanning requirements (double inception)
+  # this must still be true to be able to handle future image-scanning
+  # is_organizational means that it will attempt an assumeRole on management account, as cloud_connector is deployed on `aws.member` alias
+  #
+  # TODO
+  # - avoid all these parameters if `deploy_image_scanning_ecr` and `deploy_image_scanning_ecs` == false
+  # - is_organizational to be renamed to enable_management_account_assume_role?
+  # - we could check whether aws.member = aws (management account) infer the value of the variable
+  #
   is_organizational = true
   organizational_config = {
     # see local.deploy_org_management_sysdig_role notes
@@ -92,20 +103,4 @@ module "cloud_connector" {
 
   tags       = var.tags
   depends_on = [local.cloudtrail_sns_arn, module.ssm]
-}
-
-#-------------------------------------
-# cloud-bench
-#-------------------------------------
-
-module "cloud_bench" {
-  count  = var.deploy_benchmark ? 1 : 0
-  source = "../../modules/services/cloud-bench"
-
-  name              = "${var.name}-cloudbench"
-  is_organizational = true
-  region            = data.aws_region.current.name
-  benchmark_regions = var.benchmark_regions
-
-  tags = var.tags
 }

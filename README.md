@@ -20,7 +20,7 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 ## Usage
 
-There are several ways to deploy Secure for Cloud in you AWS infrastructure, 
+There are several ways to deploy Secure for Cloud in you AWS infrastructure,
 - **[`/examples`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples)** for the most common scenarios
   - [Single Account on ECS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs/)
   - [Single Account on AppRunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner/)
@@ -115,7 +115,7 @@ ecs:DescribeTaskDefinition
 
 Check official documentation on [Secure for cloud - AWS, Confirm the Services are working](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are-working)
 
-### General 
+### General
 
 Generally speaking, a triggered situation (threat or image-scanning) whould be check (from more functional-side to more technical)
 - Secure UI > Events / Insights / ...
