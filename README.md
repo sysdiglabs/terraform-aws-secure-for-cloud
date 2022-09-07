@@ -115,7 +115,7 @@ ecs:DescribeTaskDefinition
 
 Check official documentation on [Secure for cloud - AWS, Confirm the Services are working](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are-working)
 
-### General 
+### General
 
 Generally speaking, a triggered situation (threat or image-scanning) whould be check (from more functional-side to more technical)
 - Secure UI > Events / Insights / ...
