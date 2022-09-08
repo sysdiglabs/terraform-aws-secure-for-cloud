@@ -59,10 +59,6 @@ We're using **pre-commit** |  https://pre-commit.com
   <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
   ```
 
-- If pre-commit fails on Github but not on your local, try cleaning-up `terraform` files with
-`./resources/terraform-clean.sh` script
-
-
 ## 2. Check::Integration tests
 
 Final user validation. Checks that the snippets for the usage, stated in the official Sysdig Terraform Registry, are working correctly.
@@ -86,6 +82,19 @@ Implemented vía **Terraform Kitchen** | https://newcontext-oss.github.io/kitche
 ### Terraform Backend
 
 Because CI/CD sometimes fail, we setup the Terraform state to be handled in backend (s3+dynamo) within the Sysdig AWS backend (sysdig-test-account).
+
+#### Howto unlock terraform backend
+
+```
+# go to the specific test ex.:
+cd test/fixtures/single-subscription
+
+# unlock kitchetn state
+terraform init
+terraform workspace list
+terraform workspace select kitchen-terraform-WORKSPACE_NAME
+terraform force-unlock LOCK_ID
+```
 
 ### Remote state cleanup from local
 
