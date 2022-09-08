@@ -8,7 +8,7 @@ resource "aws_cloudtrail" "cloudtrail" {
   s3_bucket_name        = aws_s3_bucket.cloudtrail.id
   is_multi_region_trail = var.is_multi_region_trail
 
-  kms_key_id     = var.cloudtrail_kms_enable ? aws_kms_key.cloudtrail_kms[0].arn : var.cloudtrail_kms_arn
+  kms_key_id     = var.cloudtrail_kms_enable ? (local.create_kms_key ? aws_kms_key.cloudtrail_kms[0].arn : var.var.cloudtrail_kms_arn) : null
   sns_topic_name = aws_sns_topic.cloudtrail.id
 
   enable_logging                = true
