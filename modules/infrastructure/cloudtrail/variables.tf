@@ -42,7 +42,7 @@ variable "s3_bucket_expiration_days" {
 variable "cloudtrail_kms_enable" {
   type        = bool
   default     = true
-  description = "true/false whether s3 should be encrypted. If `var.cloudtrail_kms_arn` is set, then the pre-existing KMS key will be used, otherwise a new KMS key will be created"
+  description = "true/false whether cloudtrail delivered events to S3 should persist encrypted. If `var.cloudtrail_kms_arn` is set, then the pre-existing KMS key will be used, otherwise a new KMS key will be created"
 }
 
 variable "cloudtrail_kms_arn" {

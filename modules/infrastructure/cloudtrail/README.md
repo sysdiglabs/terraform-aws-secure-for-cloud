@@ -41,8 +41,8 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_cloudtrail_kms_arn"></a> [cloudtrail\_kms\_arn](#input\_cloudtrail\_kms\_arn) | ARN of a pre-existing KMS key for encrypting the Cloudtrail logs. Incompatible with var.cloudtrail\_kms\_enable when set to true | `string` | `null` | no |
-| <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether s3 should be encrypted | `bool` | `true` | no |
+| <a name="input_cloudtrail_kms_arn"></a> [cloudtrail\_kms\_arn](#input\_cloudtrail\_kms\_arn) | When `var.cloudtrail_kms_enable` is set to true, ARN of a pre-existing KMS key for encrypting the Cloudtrail logs | `string` | `null` | no |
+| <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether s3 should be encrypted. If `var.cloudtrail_kms_arn` is set, then the pre-existing KMS key will be used, otherwise a new KMS key will be created | `bool` | `true` | no |
 | <a name="input_is_multi_region_trail"></a> [is\_multi\_region\_trail](#input\_is\_multi\_region\_trail) | true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether secure-for-cloud should be deployed in an organizational setup | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |

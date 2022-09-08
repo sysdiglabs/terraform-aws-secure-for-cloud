@@ -52,8 +52,8 @@ module "cloud_connector" {
   build_project_name = length(module.codebuild) == 1 ? module.codebuild[0].project_name : "na"
 
   existing_cloudtrail_config = {
-    cloudtrail_sns_arn = local.cloudtrail_sns_arn
     cloudtrail_kms_arn = var.cloudtrail_kms_arn
+    cloudtrail_sns_arn = local.cloudtrail_sns_arn
   }
 
   ecs_cluster_name            = local.ecs_cluster_name

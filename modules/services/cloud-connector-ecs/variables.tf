@@ -39,14 +39,14 @@ variable "ecs_vpc_subnets_private_ids" {
 
 variable "existing_cloudtrail_config" {
   type = object({
-    cloudtrail_sns_arn        = optional(string)
     cloudtrail_kms_arn        = optional(string)
+    cloudtrail_sns_arn        = optional(string)
     cloudtrail_s3_sns_sqs_arn = optional(string)
     cloudtrail_s3_sns_sqs_url = optional(string)
   })
   default = {
-    cloudtrail_sns_arn        = "create"
     cloudtrail_kms_arn        = null
+    cloudtrail_sns_arn        = "create"
     cloudtrail_s3_sns_sqs_arn = null
     cloudtrail_s3_sns_sqs_url = null
   }
@@ -55,15 +55,13 @@ variable "existing_cloudtrail_config" {
     Optional block. If not set, a new cloudtrail, sns and sqs resources will be created<br/>
     If there's an existing cloudtrail, input mandatory attributes, and one of the 1 or 2 labeled optionals.
     <ul>
-      <li>cloudtrail_sns_arn: Optional 1. ARN of a cloudtrail-sns topic. If specified, deployment region must match Cloudtrail S3 bucket region</li>
-      <li>cloudtrail_kms_arn: Optional 2. ARN of a cloudtrail KMS key used for encrypting the logs. Required in order to retrieve the encrypted logs from S3</li>
-      <li>cloudtrail_s3_sns_sqs_arn: Optional 3. ARN of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns</li>
-      <li>cloudtrail_s3_sns_sqs_url: Optional 4. URL of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns<br/>sqs:ReceiveMessage and sqs:DeleteMessage permissions have to be provided to the compute role</li>
+      <li>cloudtrail_kms_arn: Optional. ARN of a cloudtrail KMS key used for encrypting the logs. Required in order to retrieve the encrypted logs from S3</li>
+      <li>cloudtrail_sns_arn: Optional CloudTrail SNS. ARN of a cloudtrail-sns topic. If specified, deployment region must match Cloudtrail S3 bucket region</li>
+      <li>cloudtrail_s3_sns_sqs_arn: Optional CloudTrail S3. ARN of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns</li>
+      <li>cloudtrail_s3_sns_sqs_url: Optional CloudTrail S3. URL of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns<br/>sqs:ReceiveMessage and sqs:DeleteMessage permissions have to be provided to the compute role</li>
     </ul>
   EOT
 }
-
-
 
 #---------------------------------
 # optionals - with default
