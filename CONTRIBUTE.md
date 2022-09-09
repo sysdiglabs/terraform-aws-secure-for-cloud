@@ -59,10 +59,6 @@ We're using **pre-commit** |  https://pre-commit.com
   <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
   ```
 
-- If pre-commit fails on Github but not on your local, try cleaning-up `terraform` files with
-`./resources/terraform-clean.sh` script
-
-
 ## 2. Check::Integration tests
 
 Final user validation. Checks that the snippets for the usage, stated in the official Sysdig Terraform Registry, are working correctly.
@@ -87,7 +83,7 @@ Implemented vía **Terraform Kitchen** | https://newcontext-oss.github.io/kitche
 
 Because CI/CD sometimes fail, we setup the Terraform state to be handled in backend (s3+dynamo) within the Sysdig AWS backend (sysdig-test-account).
 
-### Remote state cleanup from local
+#### Remote state cleanup from local
 
 In case you need to handle terraform backend state from failing kitchen tests, some guidance for using the `backend.tf` remote state manifest, present on each test
  - Configure same parameters as the github action, that is `AWS_PROFILE`, and leave default `name` and `region` values
@@ -95,6 +91,18 @@ In case you need to handle terraform backend state from failing kitchen tests, s
  - Perform the desired terraform task
 
 You can also use `kitchen destroy` instead of `terraform` but the requirements are the same, except that the workspace will be managed through kitchen
+
+#### State unlock
+```
+# go to the specific test ex.:
+cd test/fixtures/single-subscription
+
+# unlock kitchetn state
+terraform init
+terraform workspace list
+terraform workspace select kitchen-terraform-WORKSPACE_NAME
+terraform force-unlock LOCK_ID
+```
 
 
 ### Running Kitchen tests locally

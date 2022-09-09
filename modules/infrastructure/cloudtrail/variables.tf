@@ -9,7 +9,7 @@
 variable "is_organizational" {
   type        = bool
   default     = false
-  description = "whether secure-for-cloud should be deployed in an organizational setup"
+  description = "true/false whether cloudtrail is organizational or not"
 }
 
 

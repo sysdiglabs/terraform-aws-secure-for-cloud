@@ -47,11 +47,11 @@ repos:
     hooks:
       - id: terraform_fmt
       # https://github.com/antonbabenko/pre-commit-terraform#terraform_validate
-      - id: terraform_validate
-        exclude: (test)|(examples-internal)\/.*$
       - id: terraform_docs
         args:
           - '--args=--sort-by required'
+      - id: terraform_validate
+        exclude: (test)|(examples-internal)\/.*$
       - id: terraform_tflint
         exclude: (test)|(examples-internal)\/.*$
         args:
