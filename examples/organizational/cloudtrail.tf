@@ -1,5 +1,6 @@
 locals {
-  deploy_cloudtrail  = var.existing_cloudtrail_config == null || var.existing_cloudtrail_config.cloudtrail_sns_arn == "create" || var.existing_cloudtrail_config.cloudtrail_sns_arn == null
+  deploy_cloudtrail = var.existing_cloudtrail_config == null || (var.existing_cloudtrail_config != null && var.existing_cloudtrail_config.cloudtrail_sns_arn == "create" && var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn == null)
+
   cloudtrail_sns_arn = local.deploy_cloudtrail ? module.cloudtrail[0].cloudtrail_sns_arn : var.existing_cloudtrail_config.cloudtrail_sns_arn
   cloudtrail_s3_arn  = local.deploy_cloudtrail ? module.cloudtrail[0].s3_bucket_arn : var.existing_cloudtrail_config.cloudtrail_s3_arn
 }
