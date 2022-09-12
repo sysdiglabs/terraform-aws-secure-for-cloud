@@ -63,6 +63,7 @@ resource "aws_iam_role_policy" "task_policy_s3" {
   role   = local.ecs_task_role_id
   policy = data.aws_iam_policy_document.iam_role_task_policy_s3[0].json
 }
+
 data "aws_iam_policy_document" "iam_role_task_policy_s3" {
   count = var.is_organizational ? 0 : 1
   statement {
@@ -73,6 +74,24 @@ data "aws_iam_policy_document" "iam_role_task_policy_s3" {
     ]
     resources = ["*"]
     # resources = [var.cloudtrail_s3_arn # would need this as param]
+  }
+}
+
+resource "aws_iam_role_policy" "task_policy_kms" {
+  count  = var.existing_cloudtrail_config.cloudtrail_kms_arn == null ? 0 : 1
+  name   = "${var.name}-AllowKMSDecryption"
+  role   = local.ecs_task_role_id
+  policy = data.aws_iam_policy_document.iam_role_task_policy_kms[0].json
+}
+
+data "aws_iam_policy_document" "iam_role_task_policy_kms" {
+  count = var.existing_cloudtrail_config.cloudtrail_kms_arn == null ? 0 : 1
+  statement {
+    effect = "Allow"
+    actions = [
+      "kms:Decrypt"
+    ]
+    resources = [var.existing_cloudtrail_config.cloudtrail_kms_arn]
   }
 }
 

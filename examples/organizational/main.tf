@@ -91,6 +91,7 @@ module "cloud_connector" {
 
   existing_cloudtrail_config = {
     cloudtrail_sns_arn        = local.cloudtrail_sns_arn
+    cloudtrail_kms_arn        = var.existing_cloudtrail_config.cloudtrail_kms_arn
     cloudtrail_s3_sns_sqs_url = var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_url
     cloudtrail_s3_sns_sqs_arn = var.existing_cloudtrail_config.cloudtrail_s3_sns_sqs_arn
   }
