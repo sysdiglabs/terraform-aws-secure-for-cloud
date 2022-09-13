@@ -10,6 +10,7 @@ module "cloudtrail" {
   is_organizational     = false
   is_multi_region_trail = var.cloudtrail_is_multi_region_trail
   cloudtrail_kms_enable = var.cloudtrail_kms_enable
+  s3_bucket_expiration_days = var.cloudtrail_s3_bucket_expiration_days
 
   tags = var.tags
 }
