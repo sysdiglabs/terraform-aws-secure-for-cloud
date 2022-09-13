@@ -26,7 +26,11 @@ variable "cloudtrail_kms_enable" {
   description = "true/false whether cloudtrail delivered events to S3 should persist encrypted"
 }
 
-
+variable "cloudtrail_s3_bucket_expiration_days" {
+  type        = number
+  default     = 5
+  description = "Number of days that the logs will persist in the bucket"
+}
 #
 # ecs, security group,  vpc
 #

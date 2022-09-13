@@ -40,6 +40,11 @@ variable "cloudtrail_kms_enable" {
   description = "true/false whether the created cloudtrail should deliver encrypted events to s3"
 }
 
+variable "cloudtrail_s3_bucket_expiration_days" {
+  type        = number
+  default     = 5
+  description = "Number of days that the logs will persist in the bucket"
+}
 
 variable "existing_cloudtrail_config" {
   type = object({
