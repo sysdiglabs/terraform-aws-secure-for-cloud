@@ -16,8 +16,8 @@ module "cloudtrail" {
     sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
     organizational_role_per_account           = var.organizational_member_default_admin_role
   }
-  is_multi_region_trail = var.cloudtrail_is_multi_region_trail
-  cloudtrail_kms_enable = var.cloudtrail_kms_enable
+  is_multi_region_trail     = var.cloudtrail_is_multi_region_trail
+  cloudtrail_kms_enable     = var.cloudtrail_kms_enable
   s3_bucket_expiration_days = var.cloudtrail_s3_bucket_expiration_days
 
   tags = var.tags
