@@ -1,5 +1,5 @@
 {
-  "Version": "<PUT_YOUR_OWN_VERSION>",
+  "Version": "2012-10-17",
   "Statement": [
     {
       "Sid": "AllowSysdigSQSDeleteAndReceive",
@@ -8,7 +8,7 @@
         "sqs:DeleteMessage",
         "sqs:ReceiveMessage"
       ],
-      "Resource": "arn:aws:sqs:<<region>>:<<managementAccountID>>:<<s4cDeploymentName>>"
+      "Resource": "<SYSDIG_CLOUDTRAIL_SNS_SQS_ARN>"
     },
     {
       "Sid": "AllowSysdigReadS3",
@@ -16,7 +16,7 @@
       "Action": [
         "s3:GetObject"
       ],
-      "Resource": "arn:aws:s3:::<<s4cDeploymentName>>-<<managementAccountID>>/*"
+      "Resource": "<SYSDIG_CLOUDTRAIL_S3_ARN>/*"
     },
     {
       "Sid": "AllowSysdigECSTaskDefinition",
@@ -32,7 +32,7 @@
       "Action": [
         "codebuild:StartBuild"
       ],
-      "Resource": "arn:aws:codebuild:<<region>>:<<managementAccountID>>:project/<<managementAccountID>>-BuildProject"
+      "Resource": "<SYSDIG_CODEBUILD_ARN>"
     },
     {
       "Sid": "AllowSysdigECRActions",

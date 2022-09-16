@@ -74,6 +74,6 @@ variable "benchmark_regions" {
 #
 variable "deploy_aws_iam_user" {
   type        = bool
-  description = "Whether to deploy or not the aws iam user module"
+  description = "true/false whether to deploy an iam user. if set to false, check [required role permissions](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/resources/policy-single-account-k8s-aws.json)"
   default     = true
 }

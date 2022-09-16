@@ -51,13 +51,13 @@ provider "aws" {
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
-    config_context = "arn:aws:eks:<AWS-REGION>:<AWS-MANAGEMENT-ACCOUNT-ID>:cluster/<AWS-EKS-CLUSTER-NAME>; OPTIONAL: if you have multiple k8s contexts and desire specify your eks context"
+    # optional: if you have multiple k8s contexts and desire specify your eks context
+    config_context = "arn:aws:eks:<AWS-REGION>:<AWS-MANAGEMENT-ACCOUNT-ID>:cluster/<AWS-EKS-CLUSTER-NAME>"
   }
 }
 
 module "secure_for_cloud_aws_single_account_k8s" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-k8s"
-  name = "S4C-DEPLOYMENT-NAME; ex. s4c-single-account-k8s"
 }
 ```
 
@@ -118,7 +118,7 @@ $ terraform apply
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | true/false whether cloudtrail will ingest multiregional events. testing/economization purpose. | `bool` | `true` | no |
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether s3 should be encrypted. testing/economization purpose. | `bool` | `true` | no |
 | <a name="input_cloudtrail_sns_arn"></a> [cloudtrail\_sns\_arn](#input\_cloudtrail\_sns\_arn) | ARN of a pre-existing cloudtrail\_sns. If defaulted, a new cloudtrail will be created. If specified, deployment region must match Cloudtrail S3 bucket region | `string` | `"create"` | no |
-| <a name="input_deploy_aws_iam_user"></a> [deploy\_aws\_iam\_user](#input\_deploy\_aws\_iam\_user) | Whether to deploy or not the aws iam user module | `bool` | `true` | no |
+| <a name="input_deploy_aws_iam_user"></a> [deploy\_aws\_iam\_user](#input\_deploy\_aws\_iam\_user) | true/false whether to deploy an iam user. if set to false, check [required role permissions](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/resources/policy-single-account-k8s-aws.json) | `bool` | `true` | no |
 | <a name="input_deploy_benchmark"></a> [deploy\_benchmark](#input\_deploy\_benchmark) | Whether to deploy or not the cloud benchmarking | `bool` | `true` | no |
 | <a name="input_deploy_image_scanning_ecr"></a> [deploy\_image\_scanning\_ecr](#input\_deploy\_image\_scanning\_ecr) | true/false whether to deploy the image scanning on ECR pushed images | `bool` | `false` | no |
 | <a name="input_deploy_image_scanning_ecs"></a> [deploy\_image\_scanning\_ecs](#input\_deploy\_image\_scanning\_ecs) | true/false whether to deploy the image scanning on ECS running images | `bool` | `false` | no |
