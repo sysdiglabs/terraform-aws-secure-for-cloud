@@ -155,6 +155,14 @@ When scanning is activated, should see following lines on the cloud-connector co
 ```
 
   - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
+
+    It may take some time, but you should see logs detecting the new image in the ECR repository
+    ```
+    {“component”:“ecr-action”,“message”:“processing detection {\"account\":\"***\",\“image\“:\“***.dkr.ecr.us-east-1.amazonaws.com/myimage:tag\“,\“region\“:\“us-east-1\“}. source=aws_cloudtrail”}
+    {“component”:“ecr-action”,“message”:“starting ECR scanning for ***.dkr.ecr.us-east-1.amazonaws.com/myimage:tag at account ‘***’ region ‘us-east-1’“}
+    ```
+    and a CodeBuild project being launched successfully
+
   - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
 
     It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task
