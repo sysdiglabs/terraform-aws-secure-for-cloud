@@ -1,0 +1,57 @@
+{
+  "Version": "<PUT_YOUR_OWN_VERSION>",
+  "Statement": [
+    {
+      "Sid": "AllowSysdigSQSDeleteAndReceive",
+      "Effect": "Allow",
+      "Action": [
+        "sqs:DeleteMessage",
+        "sqs:ReceiveMessage"
+      ],
+      "Resource": "arn:aws:sqs:<<region>>:<<managementAccountID>>:<<s4cDeploymentName>>"
+    },
+    {
+      "Sid": "AllowSysdigReadS3",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::<<s4cDeploymentName>>-<<managementAccountID>>/*"
+    },
+    {
+      "Sid": "AllowSysdigECSTaskDefinition",
+      "Effect": "Allow",
+      "Action": [
+        "ecs:DescribeTaskDefinition"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "AllowSysdigCodeBuildStartBuild",
+      "Effect": "Allow",
+      "Action": [
+        "codebuild:StartBuild"
+      ],
+      "Resource": "arn:aws:codebuild:<<region>>:<<managementAccountID>>:project/<<managementAccountID>>-BuildProject"
+    },
+    {
+      "Sid": "AllowSysdigECRActions",
+      "Effect": "Allow",
+      "Action": [
+        "ecr:GetAuthorizationToken",
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:GetRepositoryPolicy",
+        "ecr:DescribeRepositories",
+        "ecr:ListImages",
+        "ecr:DescribeImages",
+        "ecr:BatchGetImage",
+        "ecr:GetLifecyclePolicy",
+        "ecr:GetLifecyclePolicyPreview",
+        "ecr:ListTagsForResource",
+        "ecr:DescribeImageScanFindings"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
