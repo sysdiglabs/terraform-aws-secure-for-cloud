@@ -51,11 +51,13 @@ provider "aws" {
 provider "helm" {
   kubernetes {
     config_path = "~/.kube/config"
+    config_context = "arn:aws:eks:<AWS-REGION>:<AWS-MANAGEMENT-ACCOUNT-ID>:cluster/<AWS-EKS-CLUSTER-NAME>; OPTIONAL: if you have multiple k8s contexts and desire specify your eks context"
   }
 }
 
 module "secure_for_cloud_aws_single_account_k8s" {
   source = "sysdiglabs/secure-for-cloud/aws//examples/single-account-k8s"
+  name = "S4C-DEPLOYMENT-NAME; ex. s4c-single-account-k8s"
 }
 ```
 
