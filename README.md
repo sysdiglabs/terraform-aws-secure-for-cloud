@@ -145,20 +145,26 @@ Alternativelly, use Terraform example module to trigger **Create IAM Policy that
 
 ### Forcing Events - Image Scanning
 
-Image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place
+:warning: Image scanning is not activated by default.
+Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place.
+
+When scanning is activated, should see following lines on the cloud-connector compute componente logs
+```
+{"component":"ecs-action","message":"starting Cloud Scanning ECS action"}
+{"component":"ecr-action","message":"starting Cloud Scanning ECR action"}
+```
 
   - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
   - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
 
-It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task
+    It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task
 
-```
-{"component":"ecs-action","message":"processing detection {\"account\":\"***\",\"region\":\"eu-west-3\",\"taskDefinition\":\"apache:1\"}. source=aws_cloudtrail"}
-{"component":"ecs-action","message":"analyzing task 'apache:1' in region 'eu-west-3'"}
-{"component":"ecs-action","message":"starting ECS scanning for container index 0 in task 'apache:1'"}
-```
-
-and a CodeBuild project being launched successfully
+    ```
+    {"component":"ecs-action","message":"processing detection {\"account\":\"***\",\"region\":\"eu-west-3\",\"taskDefinition\":\"apache:1\"}. source=aws_cloudtrail"}
+    {"component":"ecs-action","message":"analyzing task 'apache:1' in region 'eu-west-3'"}
+    {"component":"ecs-action","message":"starting ECS scanning for container index 0 in task 'apache:1'"}
+    ```
+    and a CodeBuild project being launched successfully
 
 <br/><br/>
 
