@@ -17,28 +17,26 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 <br/>
 
-[comment]: <> (## Permissions)
 
-[comment]: <> (Inspect `/module/infrastructure/permissions` subdirectories to understand the several)
+## Usage
 
-[comment]: <> (permissions required.)
+There are several ways to deploy Secure for Cloud in you AWS infrastructure,
+- **[`/examples`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples)** for the most common scenarios
+  - [Single Account on ECS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs/)
+  - [Single Account on AppRunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner/)
+  - [Single-Account with a pre-existing Kubernetes Cluster](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s/)
+  - [Organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational/)
+  - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your
+    infrastructure. Check input summary on each example/module.
 
-[comment]: <> (- `/iam-user` creates an IAM user + adds permissions for required modules &#40;general, cloud-connector, cloud-scanning&#41;<br/><br/>)
+- **[`/use-cases`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/use-cases)** with self-baked customer-specific alternative scenarios.
+<br/>
 
-[comment]: <> (- `/general` concerns general permissions that apply to both threat-detection and image-scanning features)
+Find specific overall service arquitecture diagrams attached to each example/use-case.
 
-[comment]: <> (- `/cloud-connector` for threat-detection features)
+In the long-term our purpose is to evaluate those use-cases and if they're common enough, convert them into examples to make their usage easier.
 
-[comment]: <> (- `/cloud-scanning` for image-scanning features)
-
-[comment]: <> (TODO review `/module/*/ permissions` vs. the ones in permissions folder)
-
-[comment]: <> (TODO review)
-
-[comment]: <> (- `/org-role-ecs`)
-
-[comment]: <> (- `/org-role-eks`)
-
+If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help.
 
 ### Notice
 
@@ -48,22 +46,9 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
   - **Management Account ECR image scanning** is not support since it's [not a best practies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in the management account. However, we have a workaround to [solve this problem](#q-scanning-images-pushed-to-management-account-ecr-are-not-scanned)  in case you need to scan images pushed to the management account ECR.
 * **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * For **free subscription** users, beware that organizational examples may not deploy properly due to the [1 cloud-account limitation](https://docs.sysdig.com/en/docs/administration/administration-settings/subscription/#cloud-billing-free-tier). Open an Issue so we can help you here!
+
+
 <br/>
-
-
-## Usage
-
-If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help and improve our module.
-
-  - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
-    - [Single Account on ECS](./examples/single-account-ecs/README.md)
-    - [Single Account on AppRunner](./examples/single-account-apprunner/README.md)
-    - [Single-Account with a pre-existing Kubernetes Cluster](./examples/single-account-k8s/README.md)
-    - [Organizational](./examples/organizational/README.md)
-    - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your
-      infrastructure. Check input summary on each example/module.
-    - Find some real self-baked **use-case scenarios** under [`/use-cases`](./use-cases)
-
 
 ## Required Permissions
 
@@ -124,9 +109,18 @@ ecs:DescribeTaskDefinition
   - Check [Organizational Use Case - Role Summary](./examples/organizational/README.md#role-summary) for more details
 
 
+<br/>
+
 ## Confirm the Services are Working
 
 Check official documentation on [Secure for cloud - AWS, Confirm the Services are working](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are-working)
+
+### General
+
+Generally speaking, a triggered situation (threat or image-scanning) whould be check (from more functional-side to more technical)
+- Secure UI > Events / Insights / ...
+- Cloud-Connector Logs
+- Cloudtrail > Event History
 
 ### Forcing Events - Threat Detection
 
@@ -151,20 +145,26 @@ Alternativelly, use Terraform example module to trigger **Create IAM Policy that
 
 ### Forcing Events - Image Scanning
 
-Image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place
+:warning: Image scanning is not activated by default.
+Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place.
+
+When scanning is activated, should see following lines on the cloud-connector compute componente logs
+```
+{"component":"ecs-action","message":"starting Cloud Scanning ECS action"}
+{"component":"ecr-action","message":"starting Cloud Scanning ECR action"}
+```
 
   - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
   - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
 
-It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task
+    It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task
 
-```
-{"component":"ecs-action","message":"processing detection {\"account\":\"***\",\"region\":\"eu-west-3\",\"taskDefinition\":\"apache:1\"}. source=aws_cloudtrail"}
-{"component":"ecs-action","message":"analyzing task 'apache:1' in region 'eu-west-3'"}
-{"component":"ecs-action","message":"starting ECS scanning for container index 0 in task 'apache:1'"}
-```
-
-and a CodeBuild project being launched successfully
+    ```
+    {"component":"ecs-action","message":"processing detection {\"account\":\"***\",\"region\":\"eu-west-3\",\"taskDefinition\":\"apache:1\"}. source=aws_cloudtrail"}
+    {"component":"ecs-action","message":"analyzing task 'apache:1' in region 'eu-west-3'"}
+    {"component":"ecs-action","message":"starting ECS scanning for container index 0 in task 'apache:1'"}
+    ```
+    and a CodeBuild project being launched successfully
 
 <br/><br/>
 
@@ -304,21 +304,21 @@ $ curl -v https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID
 ## Upgrading
 
 - Uninstall previous deployment resources before upgrading
-```
-$ terraform destroy
-```
+  ```
+  $ terraform destroy
+  ```
 
 - Upgrade the full terraform example with
-
-```
-$ terraform init -upgrade
-$ terraform plan
-$ terraform apply
-```
+  ```
+  $ terraform init -upgrade
+  $ terraform plan
+  $ terraform apply
+  ```
 
 - If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the latest one.
 
-<br/><br/>
+<br/>
+
 ## Authors
 
 Module is maintained and supported by [Sysdig](https://sysdig.com).

@@ -13,18 +13,21 @@ platforms:
   - name: "aws"
 
 suites:
-  - name: single-account-ecs
-    driver:
-      root_module_directory: test/fixtures/single-account-ecs
-  - name: single-account-k8s
-    driver:
-      root_module_directory: test/fixtures/single-account-k8s
   - name: organizational
     driver:
       root_module_directory: test/fixtures/organizational
   - name: organizational-k8s
     driver:
       root_module_directory: test/fixtures/organizational-k8s
+  - name: organizational-single
+    driver:
+      root_module_directory: test/fixtures/organizational-single
   - name: single-account-apprunner
     driver:
       root_module_directory: test/fixtures/single-account-apprunner
+  - name: single-account-ecs
+    driver:
+      root_module_directory: test/fixtures/single-account-ecs
+  - name: single-account-k8s
+    driver:
+      root_module_directory: test/fixtures/single-account-k8s

@@ -49,6 +49,8 @@ repos:
       - id: terraform_docs
         args:
           - '--args=--sort-by required'
+      - id: terraform_validate
+        exclude: (test)|(examples-internal)\/.*$
       - id: terraform_tflint
         exclude: (test)|(examples-internal)\/.*$
         args:

@@ -40,6 +40,11 @@ variable "cloudtrail_kms_enable" {
   description = "true/false whether the created cloudtrail should deliver encrypted events to s3"
 }
 
+variable "cloudtrail_s3_bucket_expiration_days" {
+  type        = number
+  default     = 5
+  description = "Number of days that the logs will persist in the bucket"
+}
 
 variable "existing_cloudtrail_config" {
   type = object({
@@ -50,18 +55,20 @@ variable "existing_cloudtrail_config" {
     cloudtrail_s3_sns_sqs_url = optional(string)
   })
   default = {
-    cloudtrail_s3_arn         = "create"
-    cloudtrail_sns_arn        = "create"
-    cloudtrail_s3_role_arn    = null
+    cloudtrail_s3_arn  = "create"
+    cloudtrail_sns_arn = "create"
+
+    cloudtrail_s3_role_arn = null
+
     cloudtrail_s3_sns_sqs_arn = null
     cloudtrail_s3_sns_sqs_url = null
   }
 
   description = <<-EOT
     Optional block. If not set, a new cloudtrail, sns and sqs resources will be created<br/>
-    If there's an existing cloudtrail, input mandatory attributes, and one of the 1, 2 or 3 grouped labeled optionals.
+    If there's an existing cloudtrail, input one of the Optional 1/2/3 blocks.
     <ul>
-      <li>cloudtrail_s3_arn: Mandatory ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"</li>
+      <li>cloudtrail_s3_arn: Optional 1. ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"</li>
       <li>cloudtrail_sns_arn: Optional 1. ARN of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns_permissions.tf block</li>
       <li>cloudtrail_s3_role_arn: Optional 2. ARN of the role to be assumed for S3 access. This role must be in the same account of the S3 bucket. Currently this setup is not compatible with organizational scanning feature</li>
       <li>cloudtrail_s3_sns_sqs_arn: Optional 3. ARN of the queue that will ingest events forwarded from an existing cloudtrail_s3_sns</li>
@@ -96,6 +103,12 @@ variable "deploy_benchmark" {
   type        = bool
   description = "Whether to deploy or not the cloud benchmarking"
   default     = true
+}
+
+variable "deploy_benchmark_organizational" {
+  type        = bool
+  default     = true
+  description = "true/false whether benchmark module should be deployed on organizational or single-account mode (1 role per org accounts if true, 1 role in default aws provider account if false)</li></ul>"
 }
 
 variable "benchmark_regions" {
