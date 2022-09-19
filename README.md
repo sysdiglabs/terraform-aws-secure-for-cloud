@@ -70,7 +70,7 @@ This would be an overall schema of the **created resources**, for the default se
 
 ### Runtime Permissions
 
-**Thread-Detection specific**
+**Threat-Detection specific**
 
 ```shell
 ssm: GetParameters
