@@ -46,12 +46,9 @@ repos:
     rev: v1.64.0
     hooks:
       - id: terraform_fmt
-      # https://github.com/antonbabenko/pre-commit-terraform#terraform_validate
       - id: terraform_docs
         args:
           - '--args=--sort-by required'
-      - id: terraform_validate
-        exclude: (test)|(examples-internal)\/.*$
       - id: terraform_tflint
         exclude: (test)|(examples-internal)\/.*$
         args:
@@ -70,6 +67,9 @@ repos:
           - '--args=--only=terraform_unused_declarations'
           - '--args=--only=terraform_unused_required_providers'
           - '--args=--only=terraform_workspace_remote'
+      # https://github.com/antonbabenko/pre-commit-terraform#terraform_validate
+      - id: terraform_validate
+        exclude: (test)|(examples-internal)\/.*$
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:

@@ -66,11 +66,11 @@ This would be an overall schema of the **created resources**, for the default se
 - Sysdig Workload: ECS / AppRunner creation (K8s cluster is pre-required, not created)
   - each compute solution require a role to assume for execution
 - CodeBuild for on-demand image scanning
-- Sysdig role for [Compliance](./modules/services/cloud-bench)
+- Sysdig role for [Compliance](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-bench)
 
 ### Runtime Permissions
 
-**General  Permissions**
+**Threat-Detection specific**
 
 ```shell
 ssm: GetParameters
@@ -85,8 +85,14 @@ s3: GetObject
 **Image-Scanning specific**
 
 ```shell
+
+# all type scanning
 codebuild: StartBuild
 
+# deploy_image_scanning_ecr
+ecs:DescribeTaskDefinition
+
+# deploy_image_scanning_ecs
 ecr: GetAuthorizationToken
 ecr: BatchCheckLayerAvailability
 ecr: GetDownloadUrlForLayer
@@ -99,14 +105,13 @@ ecr: GetLifecyclePolicy
 ecr: GetLifecyclePolicyPreview
 ecr: ListTagsForResource
 ecr: DescribeImageScanFindings
-
-ecs:DescribeTaskDefinition
   ```
 - Other Notes:
+  - [Runtime AWS IAM permissions on JSON Statement format](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/resources/policy-single-account-k8s-aws.json)
   - only Sysdig workload related permissions are specified above; infrastructure internal resource permissions (such as Cloudtrail permissions to publish on SNS, or SNS-SQS Subscription)
   are not detailed.
   - For a better security, permissions are resource pinned, instead of `*`
-  - Check [Organizational Use Case - Role Summary](./examples/organizational/README.md#role-summary) for more details
+  - Check [Organizational Use Case - Role Summary](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/organizational/README.md#role-summary) for more details
 
 
 <br/>
@@ -155,6 +160,14 @@ When scanning is activated, should see following lines on the cloud-connector co
 ```
 
   - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
+
+    It may take some time, but you should see logs detecting the new image in the ECR repository
+    ```
+    {"component":"ecr-action","message":"processing detection {\"account\":\"***\",\"image\":\"***.dkr.ecr.us-east-1.amazonaws.com/myimage:tag\",\"region\":\"us-east-1\"}. source=aws_cloudtrail"}
+    {"component":"ecr-action","message":"starting ECR scanning for ***.dkr.ecr.us-east-1.amazonaws.com/myimage:tag at account ‘***’ region ‘us-east-1’"}
+    ```
+    and a CodeBuild project being launched successfully
+
   - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
 
     It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task
