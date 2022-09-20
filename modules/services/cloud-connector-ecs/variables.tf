@@ -125,7 +125,7 @@ variable "connector_ecs_task_role_name" {
 
 variable "image" {
   type        = string
-  default     = "quay.io/sysdig/cloud-connector:latest"
+  default     = "quay.io/sysdig/cloud-connector:master"
   description = "Image of the cloud connector to deploy"
 }
 
@@ -152,6 +152,12 @@ variable "extra_env_vars" {
 #
 # scanning configuration
 #
+
+variable "deploy_beta_image_scanning_ecr" {
+  type        = bool
+  description = "true/false whether to deploy the beta image scanning on ECR pushed images (experimental)"
+  default     = false
+}
 
 variable "deploy_image_scanning_ecr" {
   type        = bool
