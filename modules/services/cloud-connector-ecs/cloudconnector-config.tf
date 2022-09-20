@@ -29,7 +29,10 @@ locals {
     {
       scanners = local.deploy_image_scanning ? [
         merge(var.deploy_beta_image_scanning_ecr ? {
-          aws-ecr-inline = merge({},
+          aws-ecr-inline = merge({
+            codeBuildProject         = var.build_project_name
+            secureAPITokenSecretName = var.secure_api_token_secret_name
+            },
             var.is_organizational ? {
               masterOrganizationRole       = var.organizational_config.sysdig_secure_for_cloud_role_arn
               organizationalRolePerAccount = var.organizational_config.organizational_role_per_account
