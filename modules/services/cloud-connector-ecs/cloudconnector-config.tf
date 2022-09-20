@@ -33,8 +33,8 @@ locals {
             var.is_organizational ? {
               masterOrganizationRole       = var.organizational_config.sysdig_secure_for_cloud_role_arn
               organizationalRolePerAccount = var.organizational_config.organizational_role_per_account
-            } : {})
-            } : {},
+          } : {})
+          } : {},
           var.deploy_image_scanning_ecr ? {
             aws-ecr = merge({
               codeBuildProject         = var.build_project_name
@@ -44,7 +44,7 @@ locals {
                 masterOrganizationRole       = var.organizational_config.sysdig_secure_for_cloud_role_arn
                 organizationalRolePerAccount = var.organizational_config.organizational_role_per_account
             } : {})
-            } : {},
+          } : {},
           var.deploy_image_scanning_ecs ? {
             aws-ecs = merge({
               codeBuildProject         = var.build_project_name
