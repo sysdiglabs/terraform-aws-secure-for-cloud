@@ -35,7 +35,7 @@ locals {
               organizationalRolePerAccount = var.organizational_config.organizational_role_per_account
           } : {})
           } : {},
-          var.deploy_image_scanning_ecr ? {
+          local.deploy_image_scanning_with_codebuild ? {
             aws-ecr = merge({
               codeBuildProject         = var.build_project_name
               secureAPITokenSecretName = var.secure_api_token_secret_name
