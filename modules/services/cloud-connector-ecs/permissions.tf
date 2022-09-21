@@ -104,7 +104,7 @@ resource "aws_iam_role_policy" "trigger_scan" {
   policy = data.aws_iam_policy_document.trigger_scan[0].json
 }
 data "aws_iam_policy_document" "trigger_scan" {
-  count = local.deploy_image_scanning ? 1 : 0
+  count = local.deploy_image_scanning_with_codebuild ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
