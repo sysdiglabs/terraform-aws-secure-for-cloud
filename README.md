@@ -89,10 +89,11 @@ s3: GetObject
 # all type scanning
 codebuild: StartBuild
 
-# deploy_image_scanning_ecr
-ecs:DescribeTaskDefinition
 
 # deploy_image_scanning_ecs
+ecs:DescribeTaskDefinition
+
+# deploy_image_scanning_ecr
 ecr: GetAuthorizationToken
 ecr: BatchCheckLayerAvailability
 ecr: GetDownloadUrlForLayer
@@ -107,7 +108,7 @@ ecr: ListTagsForResource
 ecr: DescribeImageScanFindings
   ```
 - Other Notes:
-  - [Runtime AWS IAM permissions on JSON Statement format](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/resources/policy-single-account-k8s-aws.json)
+  - [Runtime AWS IAM permissions on JSON Statement format](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/resources/sfc-policy.json)
   - only Sysdig workload related permissions are specified above; infrastructure internal resource permissions (such as Cloudtrail permissions to publish on SNS, or SNS-SQS Subscription)
   are not detailed.
   - For a better security, permissions are resource pinned, instead of `*`
