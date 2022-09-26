@@ -43,7 +43,7 @@ If you're unsure about what/how to use this module, please fill the [questionnai
 * [AWS regions](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints)
 * **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/>
 * All Sysdig Secure for Cloud features but [Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/) are enabled by default. You can enable it through `deploy_scanning` input variable parameters.<br/>
-  - **Management Account ECR image scanning** is not support since it's [not a best practies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in the management account. However, we have a workaround to [solve this problem](#q-scanning-images-pushed-to-management-account-ecr-are-not-scanned)  in case you need to scan images pushed to the management account ECR.
+  - **Management Account ECR image scanning** is not support since it's [not a best practice](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in the management account. However, we have a workaround to [solve this problem](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud#q-aws-scanning-images-pushed-to-management-account-ecr-are-not-scanned) in case you need to scan images pushed to the management account ECR.
 * **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * For **free subscription** users, beware that organizational examples may not deploy properly due to the [1 cloud-account limitation](https://docs.sysdig.com/en/docs/administration/administration-settings/subscription/#cloud-billing-free-tier). Open an Issue so we can help you here!
 
@@ -210,7 +210,7 @@ A: Need to check several steps
 <br/>If previous logs are ok, check [spawned scanning service](http://localhost:1313/en/docs/sysdig-secure/sysdig-secure-for-cloud/#summary) logs
 
 ### Q-AWS-Scanning: Images pushed to Management Account ECR are not scanned
-A: We don’t scan images from the management account ECR because is not a best practies to have an ECR in this account.
+A: We don’t scan images from the management account ECR because is [not a best pratice](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in this account.
 </br>S: Following Role has to be created in the management account
 - Role Name: **OrganizationAccountAccessRole**
 - Permissions Policies:
@@ -235,7 +235,7 @@ A: We don’t scan images from the management account ECR because is not a best 
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::<<managementAccountID>>:root"
+                "AWS": "arn:aws:iam::<ORG_MANAGEMENT_ACCOUNT_ID>:root"
             },
             "Action": "sts:AssumeRole"
         }
