@@ -68,3 +68,12 @@ variable "benchmark_regions" {
   description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
   default     = []
 }
+
+#
+# aws iam user configuration
+#
+variable "deploy_aws_iam_user" {
+  type        = bool
+  description = "true/false whether to deploy an iam user. if set to false, check [required role permissions](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/resources/policy-single-account-k8s-aws.json)"
+  default     = true
+}

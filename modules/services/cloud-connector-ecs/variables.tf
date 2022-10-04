@@ -73,7 +73,7 @@ variable "existing_cloudtrail_config" {
 variable "is_organizational" {
   type        = bool
   default     = false
-  description = "whether secure-for-cloud should be deployed in an organizational setup"
+  description = "true/false whether `organizational_config` should be used to handle organizational setup"
 }
 
 

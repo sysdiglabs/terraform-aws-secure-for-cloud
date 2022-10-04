@@ -28,9 +28,9 @@ This module will be deployed as a StackSet and it will take into account newly m
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.26.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.3.2 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.39 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.62.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | >= 3.1.0 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.29 |
 
 ## Modules
 
@@ -59,9 +59,9 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_benchmark_regions"></a> [benchmark\_regions](#input\_benchmark\_regions) | List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default. | `list(string)` | `[]` | no |
-| <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | whether secure-for-cloud should be deployed in an organizational setup | `bool` | `false` | no |
+| <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | true/false whether secure-for-cloud should be deployed in an organizational setup (all accounts of org) or not (only on default aws provider account) | `bool` | `false` | no |
 | <a name="input_name"></a> [name](#input\_name) | The name of the IAM Role that will be created. | `string` | `"sfc-cloudbench"` | no |
-| <a name="input_provision_in_management_account"></a> [provision\_in\_management\_account](#input\_provision\_in\_management\_account) | Whether to deploy the stack in the management account | `bool` | `true` | no |
+| <a name="input_provision_caller_account"></a> [provision\_caller\_account](#input\_provision\_caller\_account) | true/false whether to provision the aws provider account (if is\_organizational=true management account, if is\_organizational=false it will depend on the provider setup on the caller module | `bool` | `true` | no |
 | <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in organization mode | `string` | `"eu-central-1"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 

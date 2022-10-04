@@ -90,7 +90,6 @@ terraform {
   required_providers {
     sysdig = {
       source  = "sysdiglabs/sysdig"
-      configuration_aliases = [aws.member]
     }
   }
 }
@@ -108,9 +107,10 @@ provider "aws" {
   alias  = "member"
   region = "<AWS_REGION>  # same region in both providers. ex. us-east-1"
   assume_role {
+    # ORG_MEMBER_SFC_ACCOUNT_ID is the organizational account where sysdig secure for cloud compute component is to be deployed
     # 'OrganizationAccountAccessRole' is the default role created by AWS for managed-account users to be able to admin member accounts.
     # <br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html
-    role_arn = "arn:aws:iam::${var.sysdig_secure_for_cloud_member_account_id}:role/OrganizationAccountAccessRole"
+    role_arn = "arn:aws:iam::${ORG_MEMBER_SFC_ACCOUNT_ID}:role/OrganizationAccountAccessRole"
   }
 }
 
@@ -119,6 +119,7 @@ module "secure_for_cloud_organizational" {
     aws.member = aws.member
   }
   source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
+  sysdig_secure_for_cloud_member_account_id = "<ORG_MEMBER_SFC_ACCOUNT_ID>"
 }
 ```
 
@@ -145,15 +146,16 @@ $ terraform apply
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.26.0 |
-| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | 4.26.0 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 0.5.39 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.0.0 |
+| <a name="provider_aws.member"></a> [aws.member](#provider\_aws.member) | >= 4.0.0 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.33 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloud_bench"></a> [cloud\_bench](#module\_cloud\_bench) | ../../modules/services/cloud-bench | n/a |
+| <a name="module_cloud_bench_org"></a> [cloud\_bench\_org](#module\_cloud\_bench\_org) | ../../modules/services/cloud-bench | n/a |
+| <a name="module_cloud_bench_single"></a> [cloud\_bench\_single](#module\_cloud\_bench\_single) | ../../modules/services/cloud-bench | n/a |
 | <a name="module_cloud_connector"></a> [cloud\_connector](#module\_cloud\_connector) | ../../modules/services/cloud-connector-ecs | n/a |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ../../modules/infrastructure/cloudtrail | n/a |
 | <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ../../modules/infrastructure/codebuild | n/a |
@@ -181,8 +183,10 @@ $ terraform apply
 | <a name="input_benchmark_regions"></a> [benchmark\_regions](#input\_benchmark\_regions) | List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default. | `list(string)` | `[]` | no |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | true/false whether the created cloudtrail will ingest multi-regional events. testing/economization purpose. | `bool` | `true` | no |
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether the created cloudtrail should deliver encrypted events to s3 | `bool` | `true` | no |
+| <a name="input_cloudtrail_s3_bucket_expiration_days"></a> [cloudtrail\_s3\_bucket\_expiration\_days](#input\_cloudtrail\_s3\_bucket\_expiration\_days) | Number of days that the logs will persist in the bucket | `number` | `5` | no |
 | <a name="input_connector_ecs_task_role_name"></a> [connector\_ecs\_task\_role\_name](#input\_connector\_ecs\_task\_role\_name) | Name for the ecs task role. This is only required to resolve cyclic dependency with organizational approach | `string` | `"organizational-ECSTaskRole"` | no |
 | <a name="input_deploy_benchmark"></a> [deploy\_benchmark](#input\_deploy\_benchmark) | Whether to deploy or not the cloud benchmarking | `bool` | `true` | no |
+| <a name="input_deploy_benchmark_organizational"></a> [deploy\_benchmark\_organizational](#input\_deploy\_benchmark\_organizational) | true/false whether benchmark module should be deployed on organizational or single-account mode (1 role per org accounts if true, 1 role in default aws provider account if false)</li></ul> | `bool` | `true` | no |
 | <a name="input_deploy_image_scanning_ecr"></a> [deploy\_image\_scanning\_ecr](#input\_deploy\_image\_scanning\_ecr) | true/false whether to deploy the image scanning on ECR pushed images | `bool` | `false` | no |
 | <a name="input_deploy_image_scanning_ecs"></a> [deploy\_image\_scanning\_ecs](#input\_deploy\_image\_scanning\_ecs) | true/false whether to deploy the image scanning on ECS running images | `bool` | `false` | no |
 | <a name="input_ecs_cluster_name"></a> [ecs\_cluster\_name](#input\_ecs\_cluster\_name) | Name of a pre-existing ECS (elastic container service) cluster. If defaulted, a new ECS cluster/VPC/Security Group will be created. If specified all three parameters `ecs_cluster_name`, `ecs_vpc_id` and `ecs_vpc_subnets_private_ids` are required. ECS location will/must be within the `sysdig_secure_for_cloud_member_account_id` parameter accountID | `string` | `"create"` | no |
@@ -191,7 +195,7 @@ $ terraform apply
 | <a name="input_ecs_vpc_id"></a> [ecs\_vpc\_id](#input\_ecs\_vpc\_id) | ID of the VPC where the workload is to be deployed. If defaulted a new VPC will be created. If specified all three parameters `ecs_cluster_name`, `ecs_vpc_id` and `ecs_vpc_subnets_private_ids` are required | `string` | `"create"` | no |
 | <a name="input_ecs_vpc_region_azs"></a> [ecs\_vpc\_region\_azs](#input\_ecs\_vpc\_region\_azs) | List of Availability Zones for ECS VPC creation. e.g.: ["apne1-az1", "apne1-az2"]. If defaulted, two of the default 'aws\_availability\_zones' datasource will be taken | `list(string)` | `[]` | no |
 | <a name="input_ecs_vpc_subnets_private_ids"></a> [ecs\_vpc\_subnets\_private\_ids](#input\_ecs\_vpc\_subnets\_private\_ids) | List of VPC subnets where workload is to be deployed. If defaulted new subnets will be created within the VPC. A minimum of two subnets is suggested. If specified all three parameters `ecs_cluster_name`, `ecs_vpc_id` and `ecs_vpc_subnets_private_ids` are required. | `list(string)` | `[]` | no |
-| <a name="input_existing_cloudtrail_config"></a> [existing\_cloudtrail\_config](#input\_existing\_cloudtrail\_config) | Optional block. If not set, a new cloudtrail, sns and sqs resources will be created<br/><br>If there's an existing cloudtrail, input mandatory attributes, and one of the 1, 2 or 3 grouped labeled optionals.<br><ul><br>  <li>cloudtrail\_s3\_arn: Mandatory ARN of a pre-existing cloudtrail\_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"</li><br>  <li>cloudtrail\_sns\_arn: Optional 1. ARN of a pre-existing cloudtrail\_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns\_permissions.tf block</li><br>  <li>cloudtrail\_s3\_role\_arn: Optional 2. ARN of the role to be assumed for S3 access. This role must be in the same account of the S3 bucket. Currently this setup is not compatible with organizational scanning feature</li><br>  <li>cloudtrail\_s3\_sns\_sqs\_arn: Optional 3. ARN of the queue that will ingest events forwarded from an existing cloudtrail\_s3\_sns</li><br>  <li>cloudtrail\_s3\_sns\_sqs\_url: Optional 3. URL of the queue that will ingest events forwarded from an existing cloudtrail\_s3\_sns<</li><br></ul> | <pre>object({<br>    cloudtrail_s3_arn         = optional(string)<br>    cloudtrail_sns_arn        = optional(string)<br>    cloudtrail_s3_role_arn    = optional(string)<br>    cloudtrail_s3_sns_sqs_arn = optional(string)<br>    cloudtrail_s3_sns_sqs_url = optional(string)<br>  })</pre> | <pre>{<br>  "cloudtrail_s3_arn": "create",<br>  "cloudtrail_s3_role_arn": null,<br>  "cloudtrail_s3_sns_sqs_arn": null,<br>  "cloudtrail_s3_sns_sqs_url": null,<br>  "cloudtrail_sns_arn": "create"<br>}</pre> | no |
+| <a name="input_existing_cloudtrail_config"></a> [existing\_cloudtrail\_config](#input\_existing\_cloudtrail\_config) | Optional block. If not set, a new cloudtrail, sns and sqs resources will be created<br/><br>If there's an existing cloudtrail, input one of the Optional 1/2/3 blocks.<br><ul><br>  <li>cloudtrail\_s3\_arn: Optional 1. ARN of a pre-existing cloudtrail\_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"</li><br>  <li>cloudtrail\_sns\_arn: Optional 1. ARN of a pre-existing cloudtrail\_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns\_permissions.tf block</li><br>  <li>cloudtrail\_s3\_role\_arn: Optional 2. ARN of the role to be assumed for S3 access. This role must be in the same account of the S3 bucket. Currently this setup is not compatible with organizational scanning feature</li><br>  <li>cloudtrail\_s3\_sns\_sqs\_arn: Optional 3. ARN of the queue that will ingest events forwarded from an existing cloudtrail\_s3\_sns</li><br>  <li>cloudtrail\_s3\_sns\_sqs\_url: Optional 3. URL of the queue that will ingest events forwarded from an existing cloudtrail\_s3\_sns<</li><br></ul> | <pre>object({<br>    cloudtrail_s3_arn         = optional(string)<br>    cloudtrail_sns_arn        = optional(string)<br>    cloudtrail_s3_role_arn    = optional(string)<br>    cloudtrail_s3_sns_sqs_arn = optional(string)<br>    cloudtrail_s3_sns_sqs_url = optional(string)<br>  })</pre> | <pre>{<br>  "cloudtrail_s3_arn": "create",<br>  "cloudtrail_s3_role_arn": null,<br>  "cloudtrail_s3_sns_sqs_arn": null,<br>  "cloudtrail_s3_sns_sqs_url": null,<br>  "cloudtrail_sns_arn": "create"<br>}</pre> | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_organizational_member_default_admin_role"></a> [organizational\_member\_default\_admin\_role](#input\_organizational\_member\_default\_admin\_role) | Default role created by AWS for management-account users to be able to admin member accounts.<br/>https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html | `string` | `"OrganizationAccountAccessRole"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |

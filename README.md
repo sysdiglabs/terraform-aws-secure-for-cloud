@@ -17,53 +17,38 @@ For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-g
 
 <br/>
 
-[comment]: <> (## Permissions)
 
-[comment]: <> (Inspect `/module/infrastructure/permissions` subdirectories to understand the several)
+## Usage
 
-[comment]: <> (permissions required.)
+There are several ways to deploy Secure for Cloud in you AWS infrastructure,
+- **[`/examples`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples)** for the most common scenarios
+  - [Single Account on ECS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs/)
+  - [Single Account on AppRunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner/)
+  - [Single-Account with a pre-existing Kubernetes Cluster](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s/)
+  - [Organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational/)
+  - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your
+    infrastructure. Check input summary on each example/module.
 
-[comment]: <> (- `/iam-user` creates an IAM user + adds permissions for required modules &#40;general, cloud-connector, cloud-scanning&#41;<br/><br/>)
+- **[`/use-cases`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/use-cases)** with self-baked customer-specific alternative scenarios.
+<br/>
 
-[comment]: <> (- `/general` concerns general permissions that apply to both threat-detection and image-scanning features)
+Find specific overall service arquitecture diagrams attached to each example/use-case.
 
-[comment]: <> (- `/cloud-connector` for threat-detection features)
+In the long-term our purpose is to evaluate those use-cases and if they're common enough, convert them into examples to make their usage easier.
 
-[comment]: <> (- `/cloud-scanning` for image-scanning features)
-
-[comment]: <> (TODO review `/module/*/ permissions` vs. the ones in permissions folder)
-
-[comment]: <> (TODO review)
-
-[comment]: <> (- `/org-role-ecs`)
-
-[comment]: <> (- `/org-role-eks`)
-
+If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help.
 
 ### Notice
 
 * [AWS regions](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints)
 * **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/>
 * All Sysdig Secure for Cloud features but [Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/) are enabled by default. You can enable it through `deploy_scanning` input variable parameters.<br/>
-  - **Management Account ECR image scanning** is not support since it's [not a best practies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in the management account. However, we have a workaround to [solve this problem](#q-scanning-images-pushed-to-management-account-ecr-are-not-scanned)  in case you need to scan images pushed to the management account ECR.
+  - **Management Account ECR image scanning** is not support since it's [not a best practice](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in the management account. However, we have a workaround to [solve this problem](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud#q-aws-scanning-images-pushed-to-management-account-ecr-are-not-scanned) in case you need to scan images pushed to the management account ECR.
 * **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
 * For **free subscription** users, beware that organizational examples may not deploy properly due to the [1 cloud-account limitation](https://docs.sysdig.com/en/docs/administration/administration-settings/subscription/#cloud-billing-free-tier). Open an Issue so we can help you here!
+
+
 <br/>
-
-
-## Usage
-
-If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help and improve our module.
-
-  - There are several ways to deploy this in you AWS infrastructure, gathered under **[`/examples`](./examples)**
-    - [Single Account on ECS](./examples/single-account-ecs/README.md)
-    - [Single Account on AppRunner](./examples/single-account-apprunner/README.md)
-    - [Single-Account with a pre-existing Kubernetes Cluster](./examples/single-account-k8s/README.md)
-    - [Organizational](./examples/organizational/README.md)
-    - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your
-      infrastructure. Check input summary on each example/module.
-    - Find some real self-baked **use-case scenarios** under [`/use-cases`](./use-cases)
-
 
 ## Required Permissions
 
@@ -81,11 +66,11 @@ This would be an overall schema of the **created resources**, for the default se
 - Sysdig Workload: ECS / AppRunner creation (K8s cluster is pre-required, not created)
   - each compute solution require a role to assume for execution
 - CodeBuild for on-demand image scanning
-- Sysdig role for [Compliance](./modules/services/cloud-bench)
+- Sysdig role for [Compliance](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-bench)
 
 ### Runtime Permissions
 
-**General  Permissions**
+**Threat-Detection specific**
 
 ```shell
 ssm: GetParameters
@@ -100,8 +85,15 @@ s3: GetObject
 **Image-Scanning specific**
 
 ```shell
+
+# all type scanning
 codebuild: StartBuild
 
+
+# deploy_image_scanning_ecs
+ecs:DescribeTaskDefinition
+
+# deploy_image_scanning_ecr
 ecr: GetAuthorizationToken
 ecr: BatchCheckLayerAvailability
 ecr: GetDownloadUrlForLayer
@@ -114,19 +106,27 @@ ecr: GetLifecyclePolicy
 ecr: GetLifecyclePolicyPreview
 ecr: ListTagsForResource
 ecr: DescribeImageScanFindings
-
-ecs:DescribeTaskDefinition
   ```
 - Other Notes:
+  - [Runtime AWS IAM permissions on JSON Statement format](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/resources/sfc-policy.json)
   - only Sysdig workload related permissions are specified above; infrastructure internal resource permissions (such as Cloudtrail permissions to publish on SNS, or SNS-SQS Subscription)
   are not detailed.
   - For a better security, permissions are resource pinned, instead of `*`
-  - Check [Organizational Use Case - Role Summary](./examples/organizational/README.md#role-summary) for more details
+  - Check [Organizational Use Case - Role Summary](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/organizational/README.md#role-summary) for more details
 
+
+<br/>
 
 ## Confirm the Services are Working
 
 Check official documentation on [Secure for cloud - AWS, Confirm the Services are working](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are-working)
+
+### General
+
+Generally speaking, a triggered situation (threat or image-scanning) whould be check (from more functional-side to more technical)
+- Secure UI > Events / Insights / ...
+- Cloud-Connector Logs
+- Cloudtrail > Event History
 
 ### Forcing Events - Threat Detection
 
@@ -151,44 +151,53 @@ Alternativelly, use Terraform example module to trigger **Create IAM Policy that
 
 ### Forcing Events - Image Scanning
 
-Image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place
+:warning: Image scanning is not activated by default.
+Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place.
+
+When scanning is activated, should see following lines on the cloud-connector compute componente logs
+```
+{"component":"ecs-action","message":"starting Cloud Scanning ECS action"}
+{"component":"ecr-action","message":"starting Cloud Scanning ECR action"}
+```
 
   - For ECR image scanning, upload any image to an ECR repository of AWS. Can find CLI instructions within the UI of AWS
+
+    It may take some time, but you should see logs detecting the new image in the ECR repository
+    ```
+    {"component":"ecr-action","message":"processing detection {\"account\":\"***\",\"image\":\"***.dkr.ecr.us-east-1.amazonaws.com/myimage:tag\",\"region\":\"us-east-1\"}. source=aws_cloudtrail"}
+    {"component":"ecr-action","message":"starting ECR scanning for ***.dkr.ecr.us-east-1.amazonaws.com/myimage:tag at account ‘***’ region ‘us-east-1’"}
+    ```
+    and a CodeBuild project being launched successfully
+
   - For ECS running image scanning, deploy any task in your own cluster, or the one that we create to deploy our workload (ex.`amazon/amazon-ecs-sample` image).
 
-It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task
+    It may take some time, but you should see logs detecting the new image in the ECS cloud-connector task
 
-```
-{"component":"ecs-action","message":"processing detection {\"account\":\"***\",\"region\":\"eu-west-3\",\"taskDefinition\":\"apache:1\"}. source=aws_cloudtrail"}
-{"component":"ecs-action","message":"analyzing task 'apache:1' in region 'eu-west-3'"}
-{"component":"ecs-action","message":"starting ECS scanning for container index 0 in task 'apache:1'"}
-```
-
-and a CodeBuild project being launched successfully
+    ```
+    {"component":"ecs-action","message":"processing detection {\"account\":\"***\",\"region\":\"eu-west-3\",\"taskDefinition\":\"apache:1\"}. source=aws_cloudtrail"}
+    {"component":"ecs-action","message":"analyzing task 'apache:1' in region 'eu-west-3'"}
+    {"component":"ecs-action","message":"starting ECS scanning for container index 0 in task 'apache:1'"}
+    ```
+    and a CodeBuild project being launched successfully
 
 <br/><br/>
 
 ## Troubleshooting
 
-### Q-General: Need to modify cloud-connector config (to troubleshoot with `debug` loglevel, modify ingestors for testing, ...)
+### Q-Debug: Need to modify cloud-connector config (to troubleshoot with `debug` loglevel, modify ingestors for testing, ...)
 A: both in ECS and AppRunner workload types, cloud-connector configuration is passed as a base64-encoded string through the env var `CONFIG`
 <br/>S: Get current value, decode it, edit the desired (ex.:`logging: debug` value), encode it again, and spin it again with this new definition.
 <br/>For information on all the modifyable configuration see [Cloud-Connector Chart](https://charts.sysdig.com/charts/cloud-connector/#configuration-detail) reference
 
-### Q-General: Getting error "Error: cannot verify credentials" on "sysdig_secure_trusted_cloud_identity" data
-A: This happens when Sysdig credentials are not working correctly.
-<br/>S: Check sysdig provider block is correctly configured with the `sysdig_secure_url` and `sysdig_secure_api_token` variables
-with the correct values. Check [Sysdig SaaS per-region URLs if required](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges)
+### Q-General: I'm not able to see any data
+A: Solution is based on Cloudtrail delivery times
+<br/>S: Wait at least 15 minutes [as specified in the official AWS documentation](https://aws.amazon.com/cloudtrail/faqs/#Event_payload.2C_Timeliness.2C_and_Delivery_Frequency)
+<br/>For Identity and Access Management, when connected it will be in the [learning mode](https://docs.sysdig.com/en/docs/sysdig-secure/posture/identity-and-access/#understanding-learning-mode-and-disconnected-states)
 
-### Q-General: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
+### Q-CIEM: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
 A: Make sure you installed both [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench) and [cloud-connector](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-connector) modules
 
-
-### Q-General-Networking: What's the requirements for the inbound/outbound connection?
-A: Refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) to get Sysdig SaaS endpoint and allow both outbound (for compute vulnerability report) and inbound (for scheduled compliance checkups)
-<br/>ECS type deployment will create following [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
-
-### Q-Scanning: I'm not seeing any image scanning results
+### Q-Scanning: I'm not able to see any image scanning results
 A: Need to check several steps
 <br/>S: First, image scanning is not activated by default. Ensure you have the [required scanning enablers](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#enabling-image-scanner) in place.
 <br/>Currently, images are scanned on registry/repository push events, and on the supported compute services on deployment. Make sure these events are triggered.
@@ -196,7 +205,7 @@ A: Need to check several steps
 <br/>If previous logs are ok, check [spawned scanning service](http://localhost:1313/en/docs/sysdig-secure/sysdig-secure-for-cloud/#summary) logs
 
 ### Q-AWS-Scanning: Images pushed to Management Account ECR are not scanned
-A: We don’t scan images from the management account ECR because is not a best practies to have an ECR in this account.
+A: We don’t scan images from the management account ECR because is [not a best pratice](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in this account.
 </br>S: Following Role has to be created in the management account
 - Role Name: **OrganizationAccountAccessRole**
 - Permissions Policies:
@@ -221,13 +230,23 @@ A: We don’t scan images from the management account ECR because is not a best 
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "arn:aws:iam::<<managementAccountID>>:root"
+                "AWS": "arn:aws:iam::<ORG_MANAGEMENT_ACCOUNT_ID>:root"
             },
             "Action": "sts:AssumeRole"
         }
     ]
   }
   ```
+
+### Q-General: Getting error "Error: cannot verify credentials" on "sysdig_secure_trusted_cloud_identity" data
+A: This happens when Sysdig credentials are not working correctly.
+<br/>S: Check sysdig provider block is correctly configured with the `sysdig_secure_url` and `sysdig_secure_api_token` variables
+with the correct values. Check [Sysdig SaaS per-region URLs if required](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges)
+
+### Q-General-Networking: What's the requirements for the inbound/outbound connection?
+A: Refer to [Sysdig SASS Region and IP Ranges Documentation](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) to get Sysdig SaaS endpoint and allow both outbound (for compute vulnerability report) and inbound (for scheduled compliance checkups)
+<br/>ECS type deployment will create following [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
+
 ### Q-AWS: Getting Error "BadRequestException: Cannot create group: group already exists
 A: This happens when a previous installation of secure-for-cloud exists. On each account where Sysdig has to create resources, it will create a grouping resource-group using the `name` variable (defaulted to `sfc` on main examples).
 <br/>S: Remove previous installation, or if multiple setups are required, use the `name` varible to change the resource-group name.
@@ -287,7 +306,7 @@ This error happens when the ECS `TaskRole` has no permissions to assume this rol
 A: Probably you or someone in the same environment you're using, already deployed a resource with the sysdig terraform module and a naming collision is happening.
 <br/>S: If you want to maintain several versions, make use of the [`name` input var of the examples](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs#input_name)
 
-### Q-AWS-Datasources: I cannot see my acccount alias in the `Data Sources > Cloud page`
+### Q-AWS-Datasources: I'm not able to see my acccount alias in the `Data Sources > Cloud page`
 A: There are several causes to this.
 <br/>Check that your aws account has an alias set-up. It's not the same as the account name.
 ```bash
@@ -304,21 +323,21 @@ $ curl -v https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID
 ## Upgrading
 
 - Uninstall previous deployment resources before upgrading
-```
-$ terraform destroy
-```
+  ```
+  $ terraform destroy
+  ```
 
 - Upgrade the full terraform example with
-
-```
-$ terraform init -upgrade
-$ terraform plan
-$ terraform apply
-```
+  ```
+  $ terraform init -upgrade
+  $ terraform plan
+  $ terraform apply
+  ```
 
 - If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the latest one.
 
-<br/><br/>
+<br/>
+
 ## Authors
 
 Module is maintained and supported by [Sysdig](https://sysdig.com).
