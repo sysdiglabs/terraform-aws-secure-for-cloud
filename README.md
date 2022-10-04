@@ -191,7 +191,7 @@ A: both in ECS and AppRunner workload types, cloud-connector configuration is pa
 
 ### Q-General: I'm not able to see any data
 A: Solution is based on Cloudtrail delivery times
-S: Wait at least 15 minutes [as specified in the official AWS documentation](https://aws.amazon.com/cloudtrail/faqs/#Event_payload.2C_Timeliness.2C_and_Delivery_Frequency)
+<br/>S: Wait at least 15 minutes [as specified in the official AWS documentation](https://aws.amazon.com/cloudtrail/faqs/#Event_payload.2C_Timeliness.2C_and_Delivery_Frequency)
 <br/>For Identity and Access Management, when connected it will be in the [learning mode](https://docs.sysdig.com/en/docs/sysdig-secure/posture/identity-and-access/#understanding-learning-mode-and-disconnected-states)
 
 ### Q-CIEM: I'm not able to see Cloud Infrastructure Entitlements Management (CIEM) results
