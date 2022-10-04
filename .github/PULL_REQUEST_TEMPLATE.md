@@ -3,10 +3,10 @@ Thank you for your contribution!
 
 ## Testing your PR
 
-You can pinpoint the pr changes as terraform module source with following format 
+You can pinpoint the pr changes as terraform module source with following format
 
 ```
-source                    = "github.com/sysdiglabs/terraform-aws-secure-for-cloud//examples/organizational?ref=<BRANCH_NAME>" 
+source                    = "github.com/sysdiglabs/terraform-aws-secure-for-cloud//examples/organizational?ref=<BRANCH_NAME>"
 ```
 
 
