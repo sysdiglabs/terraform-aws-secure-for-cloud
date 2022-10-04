@@ -79,7 +79,7 @@ variable "ecs_task_memory" {
 
 variable "deploy_beta_image_scanning_ecr" {
   type        = bool
-  description = "true/false whether to deploy the beta image scanning on ECR pushed images (experimental)"
+  description = "true/false whether to deploy the beta image scanning on ECR pushed images (experimental and unsupported)"
   default     = false
 }
 
