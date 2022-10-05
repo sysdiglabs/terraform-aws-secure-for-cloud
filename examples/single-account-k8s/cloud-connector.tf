@@ -1,5 +1,5 @@
 locals {
-  deploy_image_scanning = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs
+  deploy_image_scanning = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs || var.deploy_beta_image_scanning_ecr
 }
 
 #-------------------------------------
@@ -14,7 +14,7 @@ module "cloud_connector_sqs" {
 }
 
 module "codebuild" {
-  count  = local.deploy_image_scanning ? 1 : 0
+  count  = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
   source = "../../modules/infrastructure/codebuild"
 
   name                         = var.name
@@ -82,11 +82,15 @@ resource "helm_release" "cloud_connector" {
         }
       ]
       scanners = local.deploy_image_scanning ? [
-        merge(var.deploy_image_scanning_ecr ? {
-          aws-ecr = {
-            codeBuildProject         = module.codebuild[0].project_name
-            secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
-          }
+        merge(
+          var.deploy_beta_image_scanning_ecr ? {
+            aws-ecr-inline = {}
+          } : {},
+          var.deploy_image_scanning_ecr ? {
+            aws-ecr = {
+              codeBuildProject         = module.codebuild[0].project_name
+              secureAPITokenSecretName = module.ssm.secure_api_token_secret_name
+            }
           } : {},
           var.deploy_image_scanning_ecs ? {
             aws-ecs = {

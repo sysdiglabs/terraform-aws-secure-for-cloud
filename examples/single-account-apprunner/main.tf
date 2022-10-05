@@ -43,8 +43,11 @@ module "cloud_connector" {
   build_project_name = length(module.codebuild) == 1 ? module.codebuild[0].project_name : "na"
 
   cloudconnector_ecr_image_uri = var.cloudconnector_ecr_image_uri
-  deploy_image_scanning_ecr    = var.deploy_image_scanning_ecr
-  deploy_image_scanning_ecs    = var.deploy_image_scanning_ecs
+
+
+  deploy_beta_image_scanning_ecr = var.deploy_beta_image_scanning_ecr
+  deploy_image_scanning_ecr      = var.deploy_image_scanning_ecr
+  deploy_image_scanning_ecs      = var.deploy_image_scanning_ecs
 
   cloudtrail_sns_arn = local.cloudtrail_sns_arn
   tags               = var.tags
