@@ -49,14 +49,14 @@ jobs:
 
       - name: Terraform min/max versions
         id: minMax
-        uses: clowdhaus/terraform-min-max@v1.0.2
+        uses: clowdhaus/terraform-min-max@v1.1.1
         with:
           directory: ${{ matrix.directory }}
 
       - name: Echo Terraform min/max versions
         run: |
-          echo "min version ${{ steps.minMax.outputs.minVersion }}"
-          echo "max version ${{ steps.minMax.outputs.maxVersion }}"
+          echo "min version for ${{ matrix.directory }}: ${{ steps.minMax.outputs.minVersion }}"
+          echo "max version for ${{ matrix.directory }}: ${{ steps.minMax.outputs.maxVersion }}"
 
       - name: Install Terraform v${{ steps.minMax.outputs.minVersion }}
         uses: hashicorp/setup-terraform@v1
