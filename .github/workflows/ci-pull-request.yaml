@@ -32,7 +32,7 @@ jobs:
     outputs:
       directories: ${{ steps.matrix.outputs.directories }}
 
-  # Min Terraform version(s)
+  # min Terraform version(s)
   preCommitMinVersions:
     name: Min TF validate
     needs: getModules
@@ -49,14 +49,14 @@ jobs:
 
       - name: Terraform min/max versions
         id: minMax
-        uses: clowdhaus/terraform-min-max@v1.0.2
+        uses: clowdhaus/terraform-min-max@v1.1.1
         with:
           directory: ${{ matrix.directory }}
 
       - name: Echo Terraform min/max versions
         run: |
-          echo "min version ${{ steps.minMax.outputs.minVersion }}"
-          echo "max version ${{ steps.minMax.outputs.maxVersion }}"
+          echo "min version for ${{ matrix.directory }}: ${{ steps.minMax.outputs.minVersion }}"
+          echo "max version for ${{ matrix.directory }}: ${{ steps.minMax.outputs.maxVersion }}"
 
       - name: Install Terraform v${{ steps.minMax.outputs.minVersion }}
         uses: hashicorp/setup-terraform@v1
@@ -78,12 +78,12 @@ jobs:
         run: |
           pre-commit run generate_tf_providers -a
 
-      - name: Execute pre-commit min_version 1
+      - name: Execute pre-commit min_version for non root path
         # Run only validate pre-commit check on min version supported
         if: ${{ matrix.directory !=  '.' }}
         run: pre-commit run terraform_validate --color=always --show-diff-on-failure --files ${{ matrix.directory }}/*
 
-      - name: Execute pre-commit min_version 2
+      - name: Execute pre-commit min_version for root path
         # Run only validate pre-commit check on min version supported
         if: ${{ matrix.directory ==  '.' }}
         run: pre-commit run terraform_validate --color=always --show-diff-on-failure --files $(ls *.tf)
