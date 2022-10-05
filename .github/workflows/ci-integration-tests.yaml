@@ -27,6 +27,8 @@ jobs:
 
     steps:
       - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -112,6 +114,8 @@ jobs:
 
     steps:
       - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
       - name: Checkout
         uses: actions/checkout@v2
 
@@ -182,6 +186,8 @@ jobs:
 
     steps:
       - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
       - name: Checkout
         uses: actions/checkout@v2
 
