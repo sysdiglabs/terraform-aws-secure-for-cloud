@@ -15,7 +15,6 @@ com/en/docs/release-notes/saas-sysdig-secure-release-notes/#april-20-2022)
 - By default, Secure for cloud covers several [features](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud#sysdig-secure-for-cloud-in-aws), including threat-detection and compliance. First 
   cannot be disabled (for the  moment). Use `deploy_benchmark=false` if Unified Compliance is not desired.
   
-
 ## Usage
 
 ECR event-based scanner has been enabled through the input parameter `deploy_beta_image_scanning_ecr=true` (not 
@@ -25,9 +24,9 @@ enabled by default) in the following examples
 - single-account-ecs
 - single-account-eks
 - single-account-apprunner
-
-Once deployed, [confirm cloud-account it's correctly enrolled](https://docs.sysdig.
-com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are
+- 
+<br/>
+Once deployed, [confirm cloud-account it's correctly enrolled](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are
 -working) for the selected features.
 
 Push some images to the scoped registry (depending on the selected single-account or organizational setup), and 
@@ -37,6 +36,7 @@ check the results appear Secure Platform.
 
 ![registries](resources/vuln-scanner.png)
 
+<br/>
 ## Full setup example
 
 Based on the desired example, the only requirement to enable the vulnerability management engine, is to use the 
