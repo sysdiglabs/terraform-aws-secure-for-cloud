@@ -184,6 +184,10 @@ When scanning is activated, should see following lines on the cloud-connector co
 
 ## Troubleshooting
 
+### Q-Terraform 1.3:  Getting error "Error: Plugin did not respond
+A: Seems a bug with some providers
+<br/>S: Upgrade to Terraform [1.3.1](https://github.com/hashicorp/terraform/blob/v1.3.1/CHANGELOG.md)
+
 ### Q-Debug: Need to modify cloud-connector config (to troubleshoot with `debug` loglevel, modify ingestors for testing, ...)
 A: both in ECS and AppRunner workload types, cloud-connector configuration is passed as a base64-encoded string through the env var `CONFIG`
 <br/>S: Get current value, decode it, edit the desired (ex.:`logging: debug` value), encode it again, and spin it again with this new definition.
