@@ -6,7 +6,9 @@ This use case is aimed to internally test the new Sysdig [Vulnerability Manageme
 replace current [Container Registry Scanner](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/integrate-with-container-registries/)
 [See release notes](https://docs.sysdig.com/en/docs/release-notes/saas-sysdig-secure-release-notes/#april-20-2022)
 
-:warning: No support is given yet. If you're interested in participating in the testing phase, please contact us :)
+:warning:
+- No support is given yet. If you're interested in participating in the testing phase, please contact us :)
+- Only working in Sysdig environments right now
 
 ### Scope
 
