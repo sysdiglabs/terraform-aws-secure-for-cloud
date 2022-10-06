@@ -36,6 +36,7 @@ check the results appear Secure Platform.
 ![registries](resources/vuln-scanner.png)
 
 <br/>
+
 ## Full setup example
 
 Based on the desired example, the only requirement to enable the vulnerability management engine, is to use the 
@@ -70,6 +71,7 @@ module "cloudvision_aws_apprunner_single_account" {
    deploy_beta_image_scanning_ecr = true
 }
 ```
+
 ### Organizational
 
 For the organizational setup, based on ECS compute service, use following manifest.
