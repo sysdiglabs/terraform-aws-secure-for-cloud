@@ -110,7 +110,7 @@ module "secure-for-cloud_example_organizational" {
   providers = {
     aws.member = aws.member
   }
-  source                    = "github.com/sysdiglabs/terraform-aws-cloudvision//examples/organizational?ref=new-beta-scanning-ecr"
+  source                    = "github.com/sysdiglabs/terraform-aws-cloudvision//examples/organizational
   
   deploy_beta_image_scanning_ecr = true
   sysdig_secure_for_cloud_member_account_id = "<ORG_MEMBER_SFC_ACCOUNT_ID>"
