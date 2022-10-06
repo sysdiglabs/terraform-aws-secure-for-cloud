@@ -2,11 +2,9 @@
 
 ## Use-Case explanation
 
-This use case is aimed to internally test the new Sysdig [Vulnerability Management Engine Scanner](https://docs.sysdig.
-com/en/docs/sysdig-secure/vulnerabilities/), which is currently under CA (controlled-availability), which will 
+This use case is aimed to internally test the new Sysdig [Vulnerability Management Engine Scanner](https://docs.sysdig.com/en/docs/sysdig-secure/vulnerabilities/), which is currently under CA (controlled-availability), which will 
 replace current [Container Registry Scanner](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/integrate-with-container-registries/)
-[See release notes](https://docs.sysdig.
-com/en/docs/release-notes/saas-sysdig-secure-release-notes/#april-20-2022)
+[See release notes](https://docs.sysdig.com/en/docs/release-notes/saas-sysdig-secure-release-notes/#april-20-2022)
 
 :warning: No support is given yet. If you're interested in participating in the testing phase, please contact us :)
 
@@ -26,8 +24,7 @@ enabled by default) in the following examples
 - single-account-apprunner
 - 
 <br/>
-Once deployed, [confirm cloud-account it's correctly enrolled](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are
--working) for the selected features.
+Once deployed, [confirm cloud-account it's correctly enrolled](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are-working) for the selected features.
 
 Push some images to the scoped registry (depending on the selected single-account or organizational setup), and 
 check the results appear Secure Platform.
