@@ -98,13 +98,13 @@ data "aws_iam_policy_document" "iam_role_task_assume_role" {
 # scan images
 #
 resource "aws_iam_role_policy" "trigger_scan" {
-  count  = local.deploy_image_scanning ? 1 : 0
+  count  = local.deploy_image_scanning_with_codebuild ? 1 : 0
   name   = "${var.name}-TriggerScan"
   role   = local.ecs_task_role_id
   policy = data.aws_iam_policy_document.trigger_scan[0].json
 }
 data "aws_iam_policy_document" "trigger_scan" {
-  count = local.deploy_image_scanning ? 1 : 0
+  count = local.deploy_image_scanning_with_codebuild ? 1 : 0
   statement {
     effect = "Allow"
     actions = [
@@ -135,14 +135,14 @@ data "aws_iam_policy_document" "task_definition_reader" {
 
 # image scanning - ecr
 resource "aws_iam_role_policy" "ecr_reader" {
-  count  = var.deploy_image_scanning_ecr ? 1 : 0
+  count  = local.deploy_image_scanning_with_codebuild ? 1 : 0
   name   = "ECRReader"
   role   = local.ecs_task_role_id
   policy = data.aws_iam_policy_document.ecr_reader[0].json
 }
 
 data "aws_iam_policy_document" "ecr_reader" {
-  count = var.deploy_image_scanning_ecr ? 1 : 0
+  count = local.deploy_image_scanning_with_codebuild ? 1 : 0
   statement {
     effect = "Allow"
     actions = [

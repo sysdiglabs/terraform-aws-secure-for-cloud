@@ -3,7 +3,8 @@
 # with default provider
 #-------------------------------------
 locals {
-  deploy_same_account = data.aws_caller_identity.me.account_id == var.sysdig_secure_for_cloud_member_account_id
+  deploy_same_account                      = data.aws_caller_identity.me.account_id == var.sysdig_secure_for_cloud_member_account_id
+  deploy_old_image_scanning_with_codebuild = (var.deploy_image_scanning_ecr && !var.deploy_beta_image_scanning_ecr) || var.deploy_image_scanning_ecs
 }
 
 module "resource_group" {
@@ -40,7 +41,7 @@ module "ssm" {
 # cloud-connector
 #-------------------------------------
 module "codebuild" {
-  count = var.deploy_image_scanning_ecr || var.deploy_image_scanning_ecs ? 1 : 0
+  count = local.deploy_old_image_scanning_with_codebuild ? 1 : 0
 
   providers = {
     aws = aws.member
@@ -64,8 +65,9 @@ module "cloud_connector" {
 
   secure_api_token_secret_name = module.ssm.secure_api_token_secret_name
 
-  deploy_image_scanning_ecr = var.deploy_image_scanning_ecr
-  deploy_image_scanning_ecs = var.deploy_image_scanning_ecs
+  deploy_beta_image_scanning_ecr = var.deploy_beta_image_scanning_ecr
+  deploy_image_scanning_ecr      = var.deploy_image_scanning_ecr
+  deploy_image_scanning_ecs      = var.deploy_image_scanning_ecs
 
   #
   # note;
