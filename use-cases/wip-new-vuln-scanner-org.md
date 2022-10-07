@@ -12,6 +12,7 @@ replace current [Container Registry Scanner](https://docs.sysdig.com/en/docs/sys
 
 ### Scope
 
+- Get an insight on Overall [Secure for cloud](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/) and [AWS Terraform Installation guide](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#onboarding-using-terraform)
 - By default, Secure for cloud covers several [features](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud#sysdig-secure-for-cloud-in-aws), including threat-detection and compliance. First 
   cannot be disabled (for the  moment). Use `deploy_benchmark=false` if Unified Compliance is not desired.
   
