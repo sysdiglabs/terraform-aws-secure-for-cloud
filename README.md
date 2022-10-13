@@ -61,7 +61,7 @@ Some components may vary, or may be deployed on different accounts (depending on
 
 This would be an overall schema of the **created resources**, for the default setup.
 
-- Cloudtrail / SNS / S3 / SQS
+- Cloudtrail / SNS / S3 / SQS / KMS
 - SSM Parameter for Sysdig API Token Storage
 - Sysdig Workload: ECS / AppRunner creation (K8s cluster is pre-required, not created)
   - each compute solution require a role to assume for execution
@@ -183,6 +183,10 @@ When scanning is activated, should see following lines on the cloud-connector co
 <br/><br/>
 
 ## Troubleshooting
+
+### Q-Terraform 1.3:  Getting error "Error: Plugin did not respond
+A: Seems a bug with some providers
+<br/>S: Upgrade to Terraform [1.3.1](https://github.com/hashicorp/terraform/blob/v1.3.1/CHANGELOG.md)
 
 ### Q-Debug: Need to modify cloud-connector config (to troubleshoot with `debug` loglevel, modify ingestors for testing, ...)
 A: both in ECS and AppRunner workload types, cloud-connector configuration is passed as a base64-encoded string through the env var `CONFIG`
