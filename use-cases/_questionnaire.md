@@ -52,7 +52,6 @@ In what [Sysdig For Cloud Features](https://docs.sysdig.com/en/docs/sysdig-secur
 - [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/) (cis benchmarks and others)
 - [Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/permissions-and-entitlements/)
 - [Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)
-  - Disabled by default
   - Registry/repository push-based image scanning
   - Runtime workload image scanning (ecs on Aws, cloudrun on GCP, or container instances on Azure)
   - Note: Sysdig offers many other ways of performing scanning, and we recommend you to [Check all Scanning options in the Vulnerability Management](https://docs.sysdig.com/en/docs/sysdig-secure/vulnerabilities/) to push this task as far to the left as possible (dev side)
