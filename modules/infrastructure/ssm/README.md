@@ -1,7 +1,7 @@
 # AWS System Manager
 
 
-Sysdig Secure for Cloud uses [ssm](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html) in order to store the `sysdig_secure_api_token` parameter in its "Parameter Store"
+Sysdig Secure for Cloud uses [ssm](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html)`aws_ssm_parameter` in order to store the `sysdig_secure_api_token` parameter in its "Parameter Store"
 and pass it, in a safe way, to all the modules that require it.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
