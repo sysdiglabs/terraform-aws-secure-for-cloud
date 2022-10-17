@@ -38,7 +38,7 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
 - how do you handle **IAM permissions**? would you let our Terraform scripts set them up for you, or you want to set them yourself manually? any restriction we may be aware of?
 - how do you handle **outbound newtwork connection** securization? does your infrastructure have any customized VPC/firewally setup?
 - **Deployment** type
-  - are you familiar with the installation stack? Terraform, Cloudformation, AWS CDK, ...? would you have any preference? 
+  - are you familiar with the installation stack? Terraform, Cloudformation, AWS CDK, ...? would you have any preference?
   - do you use any other InfraAsCode frameworks?
   - if you want to use Kubernetes compute for Sysdig deployment, what's your current way of deploying helm charts?
 
