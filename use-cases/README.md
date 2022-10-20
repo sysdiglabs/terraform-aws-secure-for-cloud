@@ -6,14 +6,17 @@ Use the [questionnaire](./_questionnaire.md) to let us know your needs
 
 ### Examples
 
-|                   | Single  `single-`                                                          |  Organizational `organizational-` | More Info | 
-| --| -- | -- | -- | 
-| Deployment Type   | all Sysdig resources will be deployed within the selected account |  most Sysdig resources will be deployed within the selected account (just one), but some, require to be deployed on member-accounts (for Compliance and Image Scanning) and one role is needed on the management account for cloudtrail event access | [single-ecs](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs), [single-apprunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner), [single-k8s](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s) | 
+|                   | Single  `single-`                                                          |  Organizational `organizational-` | 
+| --| -- | -- | 
+| Deployment Type   | all Sysdig resources will be deployed within the selected account |  most Sysdig resources will be deployed within the selected account (just one), but some, require to be deployed on member-accounts (for Compliance and Image Scanning) and one role is needed on the management account for cloudtrail event access | 
 | Target          | will only analyse current account                                 |  handles all accounts (managed and member)
-| Drawbacks         | cannot re-use another account Cloudtrail data (unless its deployed on the same account where the sns/s3 bucket is) | for scanning, a per-member-account access role is required | [organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational)
+| Drawbacks         | cannot re-use another account Cloudtrail data (unless its deployed on the same account where the sns/s3 bucket is) | for scanning, a per-member-account access role is required |
+| More Info | [single-ecs](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs), [single-apprunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner), [single-k8s](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s) | [organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational) | 
 
 With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
 
+
+<br/>
 
 ### Compute Workload Type
 
