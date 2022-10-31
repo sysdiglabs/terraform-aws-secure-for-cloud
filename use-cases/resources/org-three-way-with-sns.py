@@ -14,7 +14,7 @@ from diagrams.custom import Custom
 
 color_event="firebrick"
 
-with Diagram("Three-Way Cross-Account", filename="org-three-way", show=True):
+with Diagram("Three-Way Cross-Account", filename="org-three-way-with-sns", show=True):
 
 
     with Cluster("AWS account (sysdig)", graph_attr={"bgcolor": "lightblue"}):

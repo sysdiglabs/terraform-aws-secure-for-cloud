@@ -4,11 +4,16 @@
 
 Current examples were developed for simple use-case scenarios. 
 
-New use-cases are appearing and once we consolidate an standard scenario, we will create new examples to accommodate new requirements.
+New use-cases are appearing and once we consolidate a standard scenario, we will create new examples to accommodate new requirements.
 
 Check [current use-case list](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/use-cases), or use the [questionnaire](./_questionnaire.md) to let us know your needs
 
+Secure for cloud is served through Terraform for [AWS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud) 
+[GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud) and [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud) clouds, 
+and for AWS in [Cloudformation](https://github.com/sysdiglabs/aws-templates-secure-for-cloud) too.
 
+If not Terraform nor Cloudformation suits, take a look at the `manual-*` prefixed use-cases.
+ 
 
 ## Use-Case summary
 

@@ -30,7 +30,7 @@ Note:
 - All event ingestion resource (cloudtrail-sns, and cloudtrail-s3 bucket) live in same `AWS_REGION` AWS region.
   Otherwise, contact us, so we can alleviate this limitation.
 
-![three-way k8s setup](./resources/org-three-way.png)
+![three-way k8s setup](./resources/org-three-way-with-sns.png)
 
 
 We suggest to
@@ -44,7 +44,7 @@ We suggest to
 <!--
 
 all in same region
-management account - cloudtrail
+management account - cloudtrail (no kms for quick test)
 log archive account - s3, sns, sqs
 
 0.1 Provision an S3 bucket in the selected region and allow cloudtrail access
@@ -52,13 +52,22 @@ log archive account - s3, sns, sqs
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "AllowCloudtrailToPutS3",
+            "Sid": "Statement1",
             "Effect": "Allow",
             "Principal": {
                 "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "arn:aws:s3:::irutest-neo4j/*"
+            "Resource": "S3_ARN/*"
+        },
+        {
+            "Sid": "Statement2",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+            },
+            "Action": "s3:GetBucketAcl",
+            "Resource": "S3_ARN"
         }
     ]
 }
@@ -73,7 +82,7 @@ log archive account - s3, sns, sqs
       "Action": [
         "SNS:Publish"
       ],
-      "Resource": "S3_ARN"
+      "Resource": "ARN_SNS"
     }
 -->
 
@@ -363,3 +372,4 @@ You should get success or the reason of failure.
 
 - [Official Docs Check Guide](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-gcp/#confirm-the-services-are-working)
 - [Forcing events](https://github.com/sysdiglabs/terraform-google-secure-for-cloud#forcing-events)
+
