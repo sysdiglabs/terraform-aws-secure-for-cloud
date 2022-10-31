@@ -198,7 +198,7 @@ However, deployed compute will fail (can check the logs in the ECS Task) due to 
 
 Let's fix that; we need to allow S3 and SQS resources to be accessed by the compute role, `sfc-organizational-ECSTaskRole"` (default name value).
 
-![organizational three-way-account permission setup](resources/org-three-way-permissions.png)
+![organizational three-way-account permission setup](resources/org-three-with-s3-forward.png)
 
 ##### 5.1 Fetch `SYSDIG_ECS_TASK_ROLE_ARN` ARN
 
