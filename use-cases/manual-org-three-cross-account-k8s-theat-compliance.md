@@ -30,7 +30,7 @@ Note:
 - All event ingestion resource (cloudtrail-sns, and cloudtrail-s3 bucket) live in same `AWS_REGION` AWS region.
   Otherwise, contact us, so we can alleviate this limitation.
 
-![three-way k8s setup](./resources/org-three-way.png)
+![three-way k8s setup](./resources/org-three-way-with-sns.png)
 
 
 We suggest to
