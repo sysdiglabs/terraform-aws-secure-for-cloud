@@ -36,7 +36,7 @@ This use case will cover
 <!--
 
 all in same region
-management account - cloudtrail
+management account - cloudtrail (no kms for quick test)
 log archive account - s3, sns, sqs
 
 0.1 Provision an S3 bucket in the selected region and allow cloudtrail access
@@ -51,6 +51,15 @@ log archive account - s3, sns, sqs
             },
             "Action": "s3:PutObject",
             "Resource": "S3_ARN/*"
+        },
+        {
+            "Sid": "Statement2",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+            },
+            "Action": "s3:GetBucketAcl",
+            "Resource": "S3_ARN"
         }
     ]
 }
@@ -254,3 +263,4 @@ Suggested steps
    - Posture > Identity and Access Management - Overview
    - Posture > Compliance - AWS
    - Insights > Cloud Activity
+
