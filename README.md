@@ -326,19 +326,21 @@ $ curl -v https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID
 
 ## Upgrading
 
-- Uninstall previous deployment resources before upgrading
+1. Uninstall previous deployment resources before upgrading
   ```
   $ terraform destroy
   ```
 
-- Upgrade the full terraform example with
+2. Upgrade the full terraform example with
   ```
   $ terraform init -upgrade
   $ terraform plan
   $ terraform apply
   ```
 
-- If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the latest one.
+- If the event-source is created throuh SFC, some events may get lost while upgrading with this approach. however, if the cloudtrail is re-used (normal production setup) events will be recovered once the ingestion resumes.
+
+- If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the `latest` one.
 
 <br/>
 
