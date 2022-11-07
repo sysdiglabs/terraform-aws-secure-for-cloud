@@ -63,7 +63,7 @@ No modules.
 | <a name="input_name"></a> [name](#input\_name) | The name of the IAM Role that will be created. | `string` | `"sfc-cloudbench"` | no |
 | <a name="input_provision_caller_account"></a> [provision\_caller\_account](#input\_provision\_caller\_account) | true/false whether to provision the aws provider account (if is\_organizational=true management account, if is\_organizational=false it will depend on the provider setup on the caller module | `bool` | `true` | no |
 | <a name="input_region"></a> [region](#input\_region) | Default region for resource creation in organization mode | `string` | `"eu-central-1"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | customization of tags to be assigned to all resources. <br/>always include 'product' default tag for resource-group proper functioning.<br/>can also make use of the [provider-level `default-tags`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags) | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
 
