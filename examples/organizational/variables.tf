@@ -65,7 +65,9 @@ variable "existing_cloudtrail_config" {
   }
 
   description = <<-EOT
-    Optional block. If not set, a new cloudtrail, sns and sqs resources will be created<br/>
+    Optional block. If not set, a new cloudtrail, sns and sqs resources will be created in the management account<br/>
+    If provided, all resources (cloudtrail,s3,sqs) must exist in the management account.<br/>
+    Otherwise, check [use-cases](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/use-cases) for proper permission setup.<br/>
     If there's an existing cloudtrail, input one of the Optional 1/2/3 blocks.
     <ul>
       <li>cloudtrail_s3_arn: Optional 1. ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"</li>
