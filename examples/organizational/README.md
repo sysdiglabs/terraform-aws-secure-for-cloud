@@ -1,5 +1,8 @@
 # Sysdig Secure for Cloud in AWS<br/>[ Example :: Shared Organizational Trail ]
 
+> :warning: This example will not work out of the box for **ControlTower** landing pages, since the S3 bucket is in an account different to the management account. Please check alternative [use-cases](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/docs-organizational-review/use-cases#use-case-summary)
+
+
 Assess the security of your organization.
 
 Deploy Sysdig Secure for Cloud using an [AWS Organizational Cloudtrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html) that will fetch events from all organization member accounts (and the managed one too).
