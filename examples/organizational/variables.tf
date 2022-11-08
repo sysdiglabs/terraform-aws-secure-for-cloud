@@ -65,10 +65,11 @@ variable "existing_cloudtrail_config" {
   }
 
   description = <<-EOT
-    Optional block. If not set, a new cloudtrail, sns and sqs resources will be created in the management account.
-    If provided, all resources (cloudtrail,s3,sqs) must exist in the management account.
-    Otherwise, check [use-cases](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/use-cases) for proper permission setup.
-    If there's an existing cloudtrail, input one of the Optional 1/2/3 blocks.
+    Optional block. If not set, a new cloudtrail, sns and sqs resources will be created in the **management account**.
+    If provided through Option 1,  resources (cloudtrail,cloudtrail-s3) must exist in the management account.
+    Option 2, is mandatory to be used when the cloudtrail-s3 is in a different account than where SFC worklaod is installed.
+    Option 3, is an alterntive to Option1, to be able to ingest events through cloudtrail-s3-sns subscribed SQS, instead of just cloudtrail-sns
+    Check [use-cases](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/use-cases) for proper permission setup.
     <ul>
       <li>cloudtrail_s3_arn: Optional 1. ARN of a pre-existing cloudtrail_sns s3 bucket. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from create cloudtrail"</li>
       <li>cloudtrail_sns_arn: Optional 1. ARN of a pre-existing cloudtrail_sns. Used together with `cloudtrail_sns_arn`, `cloudtrail_s3_arn`. If it does not exist, it will be inferred from created cloudtrail. Providing an ARN requires permission to SNS:Subscribe, check ./modules/infrastructure/cloudtrail/sns_permissions.tf block</li>
