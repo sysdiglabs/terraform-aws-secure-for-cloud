@@ -263,4 +263,3 @@ Suggested steps
    - Posture > Identity and Access Management - Overview
    - Posture > Compliance - AWS
    - Insights > Cloud Activity
-
