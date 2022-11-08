@@ -1,6 +1,6 @@
 # Sysdig Secure for Cloud in AWS<br/>[ Example :: Shared Organizational Trail ]
 
-> :warning: If you want to re-use your resources (cloudtrail, cloudtrail-s3), this example will not work out of the box for **ControlTower** landings, since the S3 bucket is in an account different to the management account, and this is a requirement for the default setup (see (#input_existing_cloudtrail_config)[#input_existing_cloudtrail_config]  ). Please check alternative [use-cases](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/docs-organizational-review/use-cases#use-case-summary)
+> :warning: If you want to re-use your resources such as cloudtrail or  cloudtrail-s3, through [#input_existing_cloudtrail_config](#input_existing_cloudtrail_config), this example will not work out of the box for **ControlTower** landings, since the S3 bucket is in an account different to the management account, and this is a requirement for the default setup. Please check alternative [use-cases](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/docs-organizational-review/use-cases#use-case-summary)
 
 
 Assess the security of your organization.
