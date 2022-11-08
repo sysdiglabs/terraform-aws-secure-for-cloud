@@ -33,7 +33,7 @@ $ curl "https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts?upsert=true" \
 
 2. Register **Benchmark Task**
 
-Create a single task to scope the organization account ids (or just a single account) to be assessed with the 
+Create a single task to scope the organization account ids (or just a single account) to be assessed with the
 `aws_foundations_bench-1.3.0` compliance framework.
 
 This script does not cover it, but specific regions can be scoped too. Check `Benchmarks-V2` REST-API for more detail
@@ -62,7 +62,7 @@ For later usage, fetch the Trusted Identity `SYSDIG_AWS_TRUSTED_IDENTITY_ARN`
 $ curl -s 'https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/aws/trustedIdentity' \
 --header 'Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>'
 ```
-    
+
    Response pattern:
 ```shell
 arn:aws:iam::SYSDIG_AWS_ACCOUNT_ID:role/SYSDIG_AWS_ROLE_NAME
