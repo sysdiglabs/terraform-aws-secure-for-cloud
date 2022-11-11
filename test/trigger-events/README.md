@@ -26,7 +26,7 @@ provider "aws" {
 }
 
 module "secure_for_cloud_aws_trigger-events"{
-   source = "sysdiglabs/secure-for-cloud/aws//examples/trigger-events"
+   source = "sysdiglabs/secure-for-cloud/aws//test/trigger-events"
 }
 ```
 
