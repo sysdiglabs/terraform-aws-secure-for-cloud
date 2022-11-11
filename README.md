@@ -147,7 +147,7 @@ If that's not working as expected, some other questions can be checked
 
 In `Secure > Events` you should see the event coming through, but beware you may need to activate specific levels such as `Info` depending on the rule you're firing.
 
-Alternativelly, use Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/trigger-events).
+Alternativelly, use Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/test/trigger-events).
 
 ### Forcing Events - Image Scanning
 
