@@ -1,10 +1,13 @@
-# OrganizationSetup - Three way Cross-Account - Cloudtrail with no SNS - Event Notification with S3-SNS-SQS
+# OrganizationSetup - Three way Cross-Account - ECS
 
 ## Use-Case explanation
 
-This use case will cover
+This use case will cover a three-way cross-account setup (typical from AWS ControlTower landing page).
+With ECS as workload-type.
+<br/>This is terraform-based guidelines, but can also check [Manual Organizational Setup - Three-Way Cross-Account ](./manual-org-three-way.md)
 
-- **User Infrastructure Setup**: AWS Organization Setup with three-way account setup
+
+- **User Infrastructure Setup**: 
   1. Management Account
     - Organizational Cloudtrail with no SNS activation
   2. Log Archive Account
