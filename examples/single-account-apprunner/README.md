@@ -8,7 +8,8 @@ All the required resources and workloads will be run under the same account.
 ## Prerequisites
 
 Minimum requirements:
-
+1. Beware of Apprunner limited regions https://docs.aws.amazon.com/general/latest/gr/apprunner.html
+   - This will onlly impact where you deploy the workload, not where the events come from (multi-region by default)
 1. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
 1. Secure requirements, as input variable value
     ```
@@ -42,7 +43,7 @@ provider "sysdig" {
 }
 
 provider "aws" {
-   region = "<AWS_REGION> Take care of AppRunner available zones: https://docs.aws.amazon.com/general/latest/gr/apprunner.html"
+   region = "<AWS_REGION>" # Beware of AppRunner available zones: https://docs.aws.amazon.com/general/latest/gr/apprunner.html
 }
 
 module "cloudvision_aws_apprunner_single_account" {
