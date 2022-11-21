@@ -1,7 +1,7 @@
 # AWS System Manager
 
 
-Sysdig Secure for Cloud uses [ssm](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html) in order to store the `sysdig_secure_api_token` parameter in its "Parameter Store"
+Sysdig Secure for Cloud uses [ssm](https://docs.aws.amazon.com/systems-manager/latest/userguide/what-is-systems-manager.html)`aws_ssm_parameter` in order to store the `sysdig_secure_api_token` parameter in its "Parameter Store"
 and pass it, in a safe way, to all the modules that require it.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -34,7 +34,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_sysdig_secure_api_token"></a> [sysdig\_secure\_api\_token](#input\_sysdig\_secure\_api\_token) | Sysdig Secure API token | `string` | n/a | yes |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | customization of tags to be assigned to all resources. <br/>always include 'product' default tag for resource-group proper functioning.<br/>can also make use of the [provider-level `default-tags`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags) | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 
 ## Outputs
 

@@ -147,7 +147,7 @@ If that's not working as expected, some other questions can be checked
 
 In `Secure > Events` you should see the event coming through, but beware you may need to activate specific levels such as `Info` depending on the rule you're firing.
 
-Alternativelly, use Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/trigger-events).
+Alternativelly, use Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/test/trigger-events).
 
 ### Forcing Events - Image Scanning
 
@@ -326,19 +326,21 @@ $ curl -v https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID
 
 ## Upgrading
 
-- Uninstall previous deployment resources before upgrading
+1. Uninstall previous deployment resources before upgrading
   ```
   $ terraform destroy
   ```
 
-- Upgrade the full terraform example with
+2. Upgrade the full terraform example with
   ```
   $ terraform init -upgrade
   $ terraform plan
   $ terraform apply
   ```
 
-- If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the latest one.
+- If the event-source is created throuh SFC, some events may get lost while upgrading with this approach. however, if the cloudtrail is re-used (normal production setup) events will be recovered once the ingestion resumes.
+
+- If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the `latest` one.
 
 <br/>
 

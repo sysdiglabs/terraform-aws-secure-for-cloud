@@ -38,7 +38,7 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
 - how do you handle **IAM permissions**? would you let our Terraform scripts set them up for you, or you want to set them yourself manually? any restriction we may be aware of?
 - how do you handle **outbound newtwork connection** securization? does your infrastructure have any customized VPC/firewally setup?
 - **Deployment** type
-  - are you familiar with the installation stack? Terraform, Cloudformation, AWS CDK, ...? would you have any preference? 
+  - are you familiar with the installation stack? Terraform, Cloudformation, AWS CDK, ...? would you have any preference?
   - do you use any other InfraAsCode frameworks?
   - if you want to use Kubernetes compute for Sysdig deployment, what's your current way of deploying helm charts?
 
@@ -51,7 +51,7 @@ In what [Sysdig For Cloud Features](https://docs.sysdig.com/en/docs/sysdig-secur
 - [Runtime Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)
 - [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/) (cis benchmarks and others)
 - [Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/permissions-and-entitlements/)
-- Scanning
+- [Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)
   - Registry/repository push-based image scanning
   - Runtime workload image scanning (ecs on Aws, cloudrun on GCP, or container instances on Azure)
   - Note: Sysdig offers many other ways of performing scanning, and we recommend you to [Check all Scanning options in the Vulnerability Management](https://docs.sysdig.com/en/docs/sysdig-secure/vulnerabilities/) to push this task as far to the left as possible (dev side)
