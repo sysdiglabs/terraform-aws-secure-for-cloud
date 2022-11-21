@@ -14,14 +14,14 @@ With EKS as workload-type.
     3. Member Account
     - Sysdig Secure for cloud deployment
     - Existing K8S Cluster
-      - permission setup rely on an `accessKey/secretAccessKey` parameters of the workload, but can setup the 
+      - permission setup rely on an `accessKey/secretAccessKey` parameters of the workload, but can setup the
         service-account manually and ignore those two parameters.
 
 - Required **Sysdig Secure For Cloud [Features](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/)**
   - Threat-Detection
   - :warning: Posture; Compliance + Identity Access Management not delivered with this use-case. Can use [manual compliance setup](./manual-compliance.md)
   - :warning: Cloud image scanning is not supported yet
-  
+
 
 ## Suggested building-blocks
 
@@ -68,7 +68,7 @@ provider "helm" {
        ```text
        cloudtrail_s3_name=cloudtrail-logging-237944556329
        ```
-   2. Optionally, populate `CLOUDTRAIL_S3_FILTER_PREFIX` in order to ingest a specific-account. Otherwise, just remove 
+   2. Optionally, populate `CLOUDTRAIL_S3_FILTER_PREFIX` in order to ingest a specific-account. Otherwise, just remove
       its assignation
    <br/>ex.:
        ```text
