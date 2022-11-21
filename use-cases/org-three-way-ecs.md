@@ -7,7 +7,7 @@ With ECS as workload-type.
 <br/>This is terraform-based guidelines, but can also check [Manual Organizational Setup - Three-Way Cross-Account ](./manual-org-three-way.md)
 
 
-- **User Infrastructure Setup**: 
+- **User Infrastructure Setup**:
   1. Management Account
     - Organizational Cloudtrail with no SNS activation
   2. Log Archive Account

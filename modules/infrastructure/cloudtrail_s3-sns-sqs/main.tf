@@ -13,8 +13,10 @@ locals {
 
 
 resource "aws_sns_topic" "s3_sns" {
-  name = local.s3_sns_name
-
+  # AC_AWS_0502
+  # Why: Encrypt SNS with KMS
+  #ts:skip=AC_AWS_0502 Don't encrypt as far as SNS can be provided by customer
+  name   = local.s3_sns_name
   policy = <<POLICY
 {
     "Version":"2012-10-17",

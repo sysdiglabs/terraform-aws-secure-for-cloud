@@ -1,4 +1,10 @@
 resource "aws_s3_bucket" "cloudtrail" {
+  # AC_AWS_0214
+  # Why: S3 bucket versioning is disabled
+  #ts:skip=AC_AWS_0214 S3 is for testing purpose by the customer. In production S3 it's pretended to be provided by the customer with the logging related decisions taken by them as it has costs.
+  # AC_AWS_0497
+  # Why: S3 access logging is disabled
+  #ts:skip=AC_AWS_0497 S3 is for testing purpose by the customer. In production S3 it's pretended to be provided by the customer with the logging related decisions taken by them as it has costs.
   bucket        = "${var.name}-${data.aws_caller_identity.me.account_id}"
   force_destroy = true
   tags          = var.tags

@@ -12,7 +12,7 @@ and for AWS in [Cloudformation](https://github.com/sysdiglabs/aws-templates-secu
 | GCP | K8S `-k8s`, CloudRun |
 | Azure | K8S `-k8s`, AzureContainerInstances |
 
-**Which should I choose?** 
+**Which should I choose?**
 <br/>There are no preffered way, just take a technology you're familiar with. Otherwise, prefer non K8S, as it will be harder to maintain.
 <br/>For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-apprunner/README.md#prerequisites)
 <br/><br/>

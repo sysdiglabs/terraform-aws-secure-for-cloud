@@ -2,7 +2,7 @@
 
 ```terraform
 module "eks"{
-  source = "sysdiglabs/secure-for-cloud/aws//modules/infrastructure/eks"
+  source = "sysdiglabs/secure-for-cloud/aws//test/eks"
   default_vpc_subnets = ["<SUBNET_1>", "<SUBNET_2>"]
   name = "<IDENTIFYING_NAME>"
 }
