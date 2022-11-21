@@ -66,6 +66,8 @@ resource "aws_iam_role_policy_attachment" "container_registry_read_only" {
 
 
 resource "aws_eks_cluster" "aws_eks" {
+  # AC_AWS_0465
+  #ts:skip=AC_AWS_0465 Doesn't apply as this cluster is for developer testing purposes
   name     = var.name
   role_arn = aws_iam_role.eks_cluster.arn
 

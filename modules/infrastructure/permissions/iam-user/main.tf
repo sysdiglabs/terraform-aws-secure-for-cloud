@@ -5,6 +5,8 @@ resource "aws_iam_user" "this" {
 }
 
 resource "aws_iam_access_key" "this" {
+  # AC_AWS_0133
+  #ts:skip=AC_AWS_0133 Doesn't apply
   user = aws_iam_user.this.name
   lifecycle {
     create_before_destroy = true
