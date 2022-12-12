@@ -322,6 +322,23 @@ In order to validate the trust-relationship expect no errows on following API.
 $ curl -v https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID>/validateRole \
 --header 'Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>'
 ```
+
+### Q-Benchmark: Getting Error: Not enough privileges to complete the action, Access is denied
+
+```
+Error: Not enough privileges to complete the action, Access is denied
+│
+│   with module.secure -for-cloud_organizational.module.cloud_bench_org[0].sysdig_secure_benchmark_task.benchmark_task,
+│   on.terraform / modules / secure -for-cloud_organizational / modules / services / cloud - bench / main.tf line 55, in resource "sysdig_secure_benchmark_task" "benchmark_task":
+
+│ Error: error waiting for CloudFormation StackSet(sysdig - secure - cloudbench) update: unexpected state 'FAILED', wanted target 'SUCCEEDED'.last error: Operation(terraform - 20221130212414336200000001) Results: 6 errors occurred:
+│       * Account(231399888416) Region(us - east - 1) Status(SUCCEEDED) Status Reason: No updates are to be performed.
+│       * Account(715456843736) Region(us - east - 1) Status(FAILED) Status Reason: Account 715456843736 should have 'stacksets-exec-70e2f8a88d368a5d3df60f4eb8c247dc' role with trust relationship to Role 'aws-service-role/stacksets.cloudformation.amazonaws.com/AWSServiceRoleForCloudFormationStackSetsOrgAdmin
+```
+
+A: For Organizational Setup for cloudbench (deployed through management account / delegated administrator vía stackset) make sure it's being deployed in the management account. [[1](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)][[2](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)]
+
+
 <br/><br/>
 
 ## Upgrading
