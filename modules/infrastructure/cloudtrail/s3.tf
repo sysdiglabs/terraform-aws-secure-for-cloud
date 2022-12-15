@@ -13,8 +13,10 @@ resource "aws_s3_bucket" "cloudtrail" {
 resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail" {
   bucket = aws_s3_bucket.cloudtrail.id
   rule {
+
     apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+      sse_algorithm     = var.cloudtrail_kms_enable ? "aws:kms" : "AES256"
+      kms_master_key_id = var.cloudtrail_kms_enable ? aws_kms_key.cloudtrail_kms[0].id : null
     }
   }
 }
@@ -48,7 +50,8 @@ resource "aws_s3_bucket_public_access_block" "cloudtrail" {
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
-  depends_on              = [aws_s3_bucket_policy.cloudtrail_s3] # https://github.com/hashicorp/terraform-provider-aws/issues/7628
+  depends_on              = [aws_s3_bucket_policy.cloudtrail_s3]
+  # https://github.com/hashicorp/terraform-provider-aws/issues/7628
 }
 
 
@@ -91,7 +94,7 @@ data "aws_iam_policy_document" "cloudtrail_s3" {
       identifiers = ["*"]
       type        = "AWS"
     }
-    actions = ["s3:*"]
+    actions   = ["s3:*"]
     resources = [
       aws_s3_bucket.cloudtrail.arn,
       "${aws_s3_bucket.cloudtrail.arn}/*"
