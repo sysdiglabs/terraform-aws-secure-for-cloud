@@ -21,6 +21,7 @@ Minimum requirements:
     ```
     sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
+1. For ECS deployment, 2 internet facing IPv4 addresses for NAT availability. You can [re-use an existing ECS/VPC/Subnet](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs#input_ecs_cluster_name)
 
 
 ## Usage
