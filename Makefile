@@ -1,7 +1,7 @@
 deps:
 	go install github.com/terraform-docs/terraform-docs@v0.16.0
 	go install github.com/hashicorp/terraform-config-inspect@latest
-	curl -L "`curl -s https://api.github.com/repos/terraform-linters/tflint/releases/latest | grep -o -E "https://.+?_linux_amd64.zip"`" -o tflint.zip && \
+	curl -L https://github.com/terraform-linters/tflint/releases/download/v0.43.0/tflint_linux_amd64.zip -o tflint.zip && \
 		unzip tflint.zip && \
 		rm tflint.zip && \
 		mv tflint "`go env GOPATH`/bin"

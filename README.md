@@ -340,7 +340,7 @@ A: For Organizational Setup for cloudbench (deployed through management account 
 
 ### Q-RuntimeThreat Detection: Getting error 403 `"could not load rule set from Sysdig Secure: ruleprovider#newPartialRuleSet | error loading default-rules: error from Sysdig Secure API: 403`
 
-A: The Sysdig User that deployed the components is a standard user within the Sysdig Platform. Only administrator users are given permissions to read falco rule sets. Once this permission is changed, you should no longer get this error and CSPM Cloud events should start populating. 
+A: The Sysdig User that deployed the components is a standard user within the Sysdig Platform. Only administrator users are given permissions to read falco rule sets. Once this permission is changed, you should no longer get this error and CSPM Cloud events should start populating.
 
 <br/><br/>
 
