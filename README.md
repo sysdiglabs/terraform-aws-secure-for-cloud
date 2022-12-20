@@ -125,7 +125,7 @@ Check official documentation on [Secure for cloud - AWS, Confirm the Services ar
 
 Generally speaking, a triggered situation (threat or image-scanning) whould be check (from more functional-side to more technical)
 - Secure UI > Events / Insights / ...
-- Cloud-Connector Logs
+- Cloud-Connector Logs - To access logs in AWS visit - Cloudwatch > LogGroup > sysdig or cloudconnector
 - Cloudtrail > Event History
 
 ### Forcing Events - Threat Detection
@@ -338,6 +338,9 @@ Error: Not enough privileges to complete the action, Access is denied
 
 A: For Organizational Setup for cloudbench (deployed through management account / delegated administrator vía stackset) make sure it's being deployed in the management account. [[1](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)][[2](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)]
 
+### Q-RuntimeThreat Detection: Getting error 403 `"could not load rule set from Sysdig Secure: ruleprovider#newPartialRuleSet | error loading default-rules: error from Sysdig Secure API: 403`
+
+A: The Sysdig User that deployed the components is a standard user within the Sysdig Platform. Only administrator users are given permissions to read falco rule sets. Once this permission is changed, you should no longer get this error and CSPM Cloud events should start populating. 
 
 <br/><br/>
 
