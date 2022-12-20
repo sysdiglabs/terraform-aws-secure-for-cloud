@@ -31,15 +31,21 @@ Deploy Sysdig Secure for Cloud using an [AWS Organizational Cloudtrail](https://
 
 Minimum requirements:
 
-1. Have an existing AWS account as the organization management account
+1. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+2. Secure requirements, as input variable value
+    ```
+    sysdig_secure_api_token=<SECURE_API_TOKEN>
+    ```
+3. For ECS deployment, 2 internet facing IPv4 addresses for NAT availability. You can [re-use an existing ECS/VPC/Subnet](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs#input_ecs_cluster_name)
+4. Have an existing AWS account as the organization management account
     *  Within the Organization, following services must be enabled (Organization > Services)
         * Organizational CloudTrail
         * [Organizational CloudFormation StackSets](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)
-2. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) for the `management` account of the organization
+5. Configure [Terraform **AWS** Provider](https://registry.terraform.io/providers/hashicorp/aws/latest/docs) for the `management` account of the organization
     * This provider credentials must be [able to manage cloudtrail creation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-trail-organization.html)
       > You must be logged in with the management account for the organization to create an organization trail. You must also have sufficient permissions for the IAM user or role in the management account to successfully create an organization trail.
 
-3. Organizational Multi-Account Setup, ONLY IF SCANNING feature is activated, a specific role is required, to enable Sysdig to impersonate on organization member-accounts and provide
+6. Organizational Multi-Account Setup, ONLY IF SCANNING feature is activated, a specific role is required, to enable Sysdig to impersonate on organization member-accounts and provide
 
    * The ability to pull ECR hosted images when they're allocated in a different account
    * The ability to query the ECS tasks that are allocated in different account, in order to fetch the image to be scanned
@@ -50,15 +56,11 @@ Minimum requirements:
        > You have to do this manually, as shown in the following procedure. This essentially duplicates the role automatically set up for created accounts. We recommend that you use the same name, OrganizationAccountAccessRole, for your manually created roles for consistency and ease of remembering.
      * If role name, `OrganizationAccountAccessRole` wants to be modified, it must be done both on the `aws` member-account provider AND input value `organizational_member_default_admin_role`
 
-5. Provide a member **account ID for Sysdig Secure for Cloud workload** to be deployed.
+7. Provide a member **account ID for Sysdig Secure for Cloud workload** to be deployed.
    Our recommendation is for this account to be empty, so that deployed resources are not mixed up with your workload.
    This input must be provided as terraform required input value
     ```
     sysdig_secure_for_cloud_member_account_id=<ORGANIZATIONAL_SECURE_FOR_CLOUD_ACCOUNT_ID>
-    ```
-6. **Sysdig Secure** requirements, as input variable value with the `api-token`
-    ```
-    sysdig_secure_api_token=<SECURE_API_TOKEN>
     ```
 
 
