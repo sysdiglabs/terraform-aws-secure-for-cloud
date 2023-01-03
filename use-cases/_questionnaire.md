@@ -33,8 +33,9 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
       - if so, does that S3 bucket already have an "Amazon EventBridge" system activated? ingestor-type: `aws-cloudtrail-s3-sns-sqs-eventbridge`
     - whether it's organizational or not, could you give us a quick picture of the infra setup?
 - how many **regions** do you work with?
-    - would there be any limitation for secure for cloud to be deployed in any specific region?
-    -   if yes, explain us your current region setup
+    - if more than one, could you briefly explain the region usage/setup?
+    - secure for cloud requires both s3 and cloudtrail-sns to be deployed in the same region. would that apply to the use-case?
+    - in case of AWS ECS deployment, it have to be done in the same previous region. would that be a problem?
 - how do you handle **IAM permissions**? would you let our Terraform scripts set them up for you, or you want to set them yourself manually? any restriction we may be aware of?
 - how do you handle **outbound newtwork connection** securization? does your infrastructure have any customized VPC/firewally setup?
 - **Deployment** type
