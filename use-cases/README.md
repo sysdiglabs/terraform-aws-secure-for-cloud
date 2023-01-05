@@ -44,6 +44,10 @@ Current examples were developed for simple use-case scenarios.
 If not Terraform nor Cloudformation suits, take a look at the `manual-*` prefixed use-cases.
 
 
+
+For [all-feature installation](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features), check
+
+
 |                   | `/examples/single-*`                                               | `/examples/organizational-*` |
 | --| -- | -- |
 | Deployment Type   | all Sysdig resources will be deployed within the selected account | Most Sysdig resources will be deployed within the selected account (just one), but some features, require resources to be deployed on all of the member-accounts (for Compliance and Image Scanning) . <br />One role is needed on the management account for cloudtrail-s3 event access |
@@ -53,3 +57,9 @@ If not Terraform nor Cloudformation suits, take a look at the `manual-*` prefixe
 | More Info | [single-ecs](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs), [single-apprunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner), [single-k8s](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s) | [organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational) |
 
 With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
+
+<br/>
+If you just want [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/) 
+you can make use of 
+- [Single-Account Compliance Role Setup](./single-compliance-role.md)
+- [Organizational Compliance Role setup](./organizational-compliance-role.md)
