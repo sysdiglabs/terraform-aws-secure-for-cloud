@@ -1,19 +1,10 @@
-# SingleAccount-CIS Benchmarks
+# Single Account - CIS Unified Compliance
 
 ## Use-Case explanation
 
-Simple single-account setu in order to get CIS Benchmark
+AWS single-account setup, in order to get [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)
 
-**Client Setup**
-
-- [X] single-account setup
-- [ ] pre-existing resources
-
-**Sysdig Secure For Cloud Features**
-
-- [X] A part of Compliance, only CIS Benchmarks
-
-## Suggested setup
+## Setup
 
 ```terraform
 terraform {
@@ -35,6 +26,6 @@ provider "aws" {
 
 module "sysdig-sfc" {
   source = "sysdiglabs/secure-for-cloud/aws//module/services/cloud-bench"
-  name    = "TEST-NAME-cloudbench"  # optional
+  name    = "sysdig-compliance-role"  # optional
 }
 ```
