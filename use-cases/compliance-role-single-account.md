@@ -1,8 +1,8 @@
-# SingleAccount-CIS Benchmarks
+# Single Account - CIS Unified Compliance
 
 ## Use-Case explanation
 
-Simple single-account setup, in order to get [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)
+AWS single-account setup, in order to get [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)
 
 ## Setup
 
