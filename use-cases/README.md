@@ -44,6 +44,7 @@ Current examples were developed for simple use-case scenarios.
 If not Terraform nor Cloudformation suits, take a look at the `manual-*` prefixed use-cases.
 
 
+### all-features
 
 For [all-feature installation](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features), check
 
@@ -59,6 +60,8 @@ For [all-feature installation](https://docs.sysdig.com/en/docs/sysdig-secure/sys
 With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
 
 <br/>
+
+### unified-compliance only
 
 If you just want [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/) 
 you can make use of 
