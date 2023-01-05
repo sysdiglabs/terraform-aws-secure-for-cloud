@@ -59,7 +59,9 @@ For [all-feature installation](https://docs.sysdig.com/en/docs/sysdig-secure/sys
 With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
 
 <br/>
+
 If you just want [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/) 
 you can make use of 
-- [Single-Account Compliance Role Setup](./single-compliance-role.md)
-- [Organizational Compliance Role setup](./organizational-compliance-role.md)
+
+- [Single-Account Compliance Role Setup](./compliance-role-single-account.md)
+- [Organizational Compliance Role setup](./compliance-role-organizational.md)
