@@ -1,5 +1,3 @@
-
-
 #---------------------------------
 # optionals - with defaults
 #---------------------------------
@@ -112,6 +110,14 @@ variable "benchmark_regions" {
   default     = []
 }
 
+#
+# cloud connector connector configuration
+#
+variable "cloud_connector_image" {
+  type        = string
+  description = "Image to use for the cloud connector. If empty, the default image will be used."
+  default     = "quay.io/sysdig/cloud-connector:latest"
+}
 
 #
 # general
