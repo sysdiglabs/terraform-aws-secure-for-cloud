@@ -27,7 +27,7 @@ provider "aws" {
 module "sysdig-sfc" {
   source = "sysdiglabs/secure-for-cloud/aws//modules/services/cloud-bench"
   name    = "sysdig-compliance-role"  # optional
-  
+
   is_organizational=true
 }
 ```
