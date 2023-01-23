@@ -22,4 +22,8 @@ module "cloudvision_aws_single_account_ecs" {
 
   deploy_image_scanning_ecr = true
   deploy_image_scanning_ecs = true
+
+  enable_autoscaling = true
+  min_replicas       = 2
+  max_replicas       = 4
 }
