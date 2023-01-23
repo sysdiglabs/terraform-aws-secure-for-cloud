@@ -136,3 +136,22 @@ variable "tags" {
     "product" = "sysdig-secure-for-cloud"
   }
 }
+
+#
+# Autoscaling configurations
+#
+variable "enable_autoscaling" {
+  type        = bool
+  description = "Whether to enable autoscaling or not"
+}
+
+
+variable "min_replicas" {
+  type        = number
+  description = "If autoscaling is enabled, this is the minimum number of replicas to run"
+}
+
+variable "max_replicas" {
+  type        = number
+  description = "If autoscaling is enabled, this is the maximum number of replicas to run"
+}

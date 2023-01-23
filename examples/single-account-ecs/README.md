@@ -97,6 +97,9 @@ $ terraform apply
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_enable_autoscaling"></a> [enable\_autoscaling](#input\_enable\_autoscaling) | Whether to enable autoscaling or not | `bool` | n/a | yes |
+| <a name="input_max_replicas"></a> [max\_replicas](#input\_max\_replicas) | If autoscaling is enabled, this is the maximum number of replicas to run | `number` | n/a | yes |
+| <a name="input_min_replicas"></a> [min\_replicas](#input\_min\_replicas) | If autoscaling is enabled, this is the minimum number of replicas to run | `number` | n/a | yes |
 | <a name="input_benchmark_regions"></a> [benchmark\_regions](#input\_benchmark\_regions) | List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default. | `list(string)` | `[]` | no |
 | <a name="input_cloud_connector_image"></a> [cloud\_connector\_image](#input\_cloud\_connector\_image) | Image to use for the cloud connector. If empty, the default image will be used. | `string` | `"quay.io/sysdig/cloud-connector:latest"` | no |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |

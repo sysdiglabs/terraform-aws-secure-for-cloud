@@ -66,4 +66,8 @@ module "cloud_connector" {
 
   tags       = var.tags
   depends_on = [local.cloudtrail_sns_arn, module.ssm]
+
+  enable_autoscaling = var.enable_autoscaling
+  min_replicas       = var.min_replicas
+  max_replicas       = var.max_replicas
 }
