@@ -28,6 +28,13 @@ resource "aws_appautoscaling_policy" "ecs_ram_policy" {
       scaling_adjustment          = -1
     }
 
+    # Do not scale if Memory usage is between 40% and 60% usage
+    step_adjustment {
+      metric_interval_lower_bound = -10
+      metric_interval_upper_bound = 10
+      scaling_adjustment          = 0
+    }
+
     # Scale up on Memory usage if it's above 60% usage
     step_adjustment {
       metric_interval_lower_bound = 10
