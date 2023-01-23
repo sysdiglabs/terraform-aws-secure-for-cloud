@@ -61,7 +61,6 @@ variable "existing_cloudtrail_config" {
 }
 
 
-
 #---------------------------------
 # optionals - with default
 #---------------------------------
@@ -148,7 +147,6 @@ variable "extra_env_vars" {
 }
 
 
-
 #
 # scanning configuration
 #
@@ -172,7 +170,6 @@ variable "deploy_image_scanning_ecs" {
 }
 
 
-
 #
 # general
 #
@@ -188,4 +185,25 @@ variable "tags" {
   default = {
     "product" = "sysdig-secure-for-cloud"
   }
+}
+
+#
+# autoscaling
+#
+variable "enable_autoscaling" {
+  type        = bool
+  default     = false
+  description = "Enable autoscaling for the ECS service"
+}
+
+variable "min_replicas" {
+  type        = number
+  default     = 1
+  description = "If autoscaling is enabled, this is the minimum number of replicas to run"
+}
+
+variable "max_replicas" {
+  type        = number
+  default     = 10
+  description = "If autoscaling is enabled, this is the maximum number of replicas to run"
 }
