@@ -3,6 +3,10 @@ terraform {
     sysdig = {
       source = "sysdiglabs/sysdig"
     }
+    aws = {
+      source  = "hashicorp/aws"
+      version = "<4.51.0"
+    }
   }
 }
 
