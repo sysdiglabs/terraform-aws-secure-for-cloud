@@ -27,6 +27,10 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
       - if so, does that S3 bucket already have an "Amazon EventBridge" system activated? ingestor-type: `aws-cloudtrail-s3-sns-sqs-eventbridge`
 - whether it's organizational or not, could you give us a quick picture of the infra setup in terms of what resource is in what account? the resources of interest are the ones you may want to reuse, such as the cloudtrail, cloudtrail-sns, cloudtrail-s3, existing clusters where to deploy the workload, ...
 
+### google-cloud specific
+- do you have a current sink in place (either organizational  or per-project)? 
+  - if yes, for billing estimation purpose, could you run the folowing query on the target scope? ```-resource.type="k8s_cluster"``` on the log explorer, for a given month range?
+
 
 ### general
 - does your company work under an **organization** (AWS/GCP) or tenant (Azure)?
