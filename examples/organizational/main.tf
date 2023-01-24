@@ -103,6 +103,10 @@ module "cloud_connector" {
   ecs_task_cpu                = var.ecs_task_cpu
   ecs_task_memory             = var.ecs_task_memory
 
+  enable_autoscaling = var.enable_autoscaling
+  max_replicas       = var.max_replicas
+  min_replicas       = var.min_replicas
+
   tags       = var.tags
   depends_on = [local.cloudtrail_sns_arn, module.ssm]
 }
