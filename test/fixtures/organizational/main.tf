@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      version               = ">= 4.0.0"
+      version               = ">= 4.0.0, <4.51.0"
       configuration_aliases = [aws.member]
     }
     sysdig = {

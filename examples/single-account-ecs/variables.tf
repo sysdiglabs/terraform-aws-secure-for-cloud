@@ -1,5 +1,3 @@
-
-
 #---------------------------------
 # optionals - with defaults
 #---------------------------------
@@ -112,6 +110,14 @@ variable "benchmark_regions" {
   default     = []
 }
 
+#
+# cloud connector connector configuration
+#
+variable "cloud_connector_image" {
+  type        = string
+  description = "Image to use for the cloud connector. If empty, the default image will be used."
+  default     = "quay.io/sysdig/cloud-connector:latest"
+}
 
 #
 # general
@@ -129,4 +135,26 @@ variable "tags" {
   default = {
     "product" = "sysdig-secure-for-cloud"
   }
+}
+
+#
+# Autoscaling configurations
+#
+variable "enable_autoscaling" {
+  type        = bool
+  description = "Whether to enable autoscaling or not"
+  default     = false
+}
+
+
+variable "min_replicas" {
+  type        = number
+  default     = 1
+  description = "If autoscaling is enabled, this is the minimum number of replicas to run"
+}
+
+variable "max_replicas" {
+  type        = number
+  default     = 10
+  description = "If autoscaling is enabled, this is the maximum number of replicas to run"
 }

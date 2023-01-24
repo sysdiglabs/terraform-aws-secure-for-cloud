@@ -11,10 +11,15 @@ resource "aws_ecs_service" "service" {
     security_groups = [aws_security_group.sg.id]
   }
 
-  desired_count   = 1
-  launch_type     = "FARGATE"
-  task_definition = aws_ecs_task_definition.task_definition.arn
-  tags            = var.tags
+  desired_count         = 1
+  launch_type           = "FARGATE"
+  task_definition       = aws_ecs_task_definition.task_definition.arn
+  wait_for_steady_state = true
+  tags                  = var.tags
+
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
 }
 
 

@@ -71,7 +71,6 @@ jobs:
       - name: Install pre-commit dependencies
         run: |
           pip install pre-commit
-          go install github.com/hashicorp/terraform-config-inspect@latest
           make deps
 
       - name: Execute generate-terraform-providers for organizational
