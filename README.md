@@ -333,10 +333,11 @@ Error: Not enough privileges to complete the action, Access is denied
 
 │ Error: error waiting for CloudFormation StackSet(sysdig - secure - cloudbench) update: unexpected state 'FAILED', wanted target 'SUCCEEDED'.last error: Operation(terraform - 20221130212414336200000001) Results: 6 errors occurred:
 │       * Account(231399888416) Region(us - east - 1) Status(SUCCEEDED) Status Reason: No updates are to be performed.
-│       * Account(715456843736) Region(us - east - 1) Status(FAILED) Status Reason: Account 715456843736 should have 'stacksets-exec-70e2f8a88d368a5d3df60f4eb8c247dc' role with trust relationship to Role 'aws-service-role/stacksets.cloudformation.amazonaws.com/AWSServiceRoleForCloudFormationStackSetsOrgAdmin
+│       * Account(715456843736) Region(us - east - 1) Status(FAILED) Status Reason: Account 715456843736 should have 
+'stacksets-exec-70e2f8a88d368a5d3df60f4eb8c247dc' role with trust relationship to Role 'aws-service-role/stacksets.cloudformation.amazonaws.com/AWSServiceRoleForCloudFormationStackSetsOrgAdmin
 ```
 
-A: For Organizational Setup for cloudbench (deployed through management account / delegated administrator vía stackset) make sure it's being deployed in the management account. [[1](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)][[2](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)]
+A: For **Organizational** Setup for cloudbench (deployed through management account / delegated administrator vía stackset) make sure it's being deployed in the management account. [[1](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)][[2](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)] as part of the [prerequisites for stackset operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
 
 ### Q-RuntimeThreat Detection: Getting error 403 `"could not load rule set from Sysdig Secure: ruleprovider#newPartialRuleSet | error loading default-rules: error from Sysdig Secure API: 403`
 
