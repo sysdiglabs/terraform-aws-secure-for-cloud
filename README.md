@@ -337,7 +337,7 @@ Error: Not enough privileges to complete the action, Access is denied
 'stacksets-exec-70e2f8a88d368a5d3df60f4eb8c247dc' role with trust relationship to Role 'aws-service-role/stacksets.cloudformation.amazonaws.com/AWSServiceRoleForCloudFormationStackSetsOrgAdmin
 ```
 
-A: For **Organizational** Setup for cloudbench (deployed through management account / delegated administrator vía stackset) make sure it's being deployed in the management account. [[1](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)][[2](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html)] as part of the [prerequisites for stackset operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
+A: For **Organizational** Setup for cloudbench (deployed through management account / delegated administrator vía stackset) make sure it's being deployed in the management account. [enable organizational trusted access to stackset](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html) as part of the [prerequisites for stackset operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
 
 ### Q-RuntimeThreat Detection: Getting error 403 `"could not load rule set from Sysdig Secure: ruleprovider#newPartialRuleSet | error loading default-rules: error from Sysdig Secure API: 403`
 
