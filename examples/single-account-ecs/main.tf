@@ -73,6 +73,5 @@ module "cloud_connector" {
     max_replicas        = var.autoscaling_config.max_replicas
     upscale_threshold   = var.autoscaling_config.upscale_threshold
     downscale_threshold = var.autoscaling_config.downscale_threshold
-    interval_change     = var.autoscaling_config.interval_change
   }
 }

@@ -73,12 +73,12 @@ resource "aws_appautoscaling_policy" "ecs_memory_below" {
 
     step_adjustment {
       metric_interval_upper_bound = 0
-      metric_interval_lower_bound = -var.autoscaling_config.interval_change
+      metric_interval_lower_bound = -10
       scaling_adjustment          = 0
     }
 
     step_adjustment {
-      metric_interval_upper_bound = -var.autoscaling_config.interval_change
+      metric_interval_upper_bound = -10
       scaling_adjustment          = -1
     }
   }

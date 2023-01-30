@@ -203,7 +203,6 @@ variable "autoscaling_config" {
     max_replicas        = number
     upscale_threshold   = number
     downscale_threshold = number
-    interval_change     = number
   })
 
   default = {
@@ -211,7 +210,6 @@ variable "autoscaling_config" {
     max_replicas        = 10
     upscale_threshold   = 60
     downscale_threshold = 30
-    interval_change     = 10
   }
   description = "if enable_autoscaliing is enabled, ECS autoscaling configuration. for more insight check source code"
 }
