@@ -6,6 +6,8 @@ resource "aws_appautoscaling_target" "ecs_target" {
   resource_id        = "service/${local.cluster_name}/${var.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
+
+  depends_on = [aws_ecs_service.service]
 }
 
 
@@ -52,6 +54,8 @@ resource "aws_cloudwatch_metric_alarm" "ecs_memory_above" {
     ClusterName = local.cluster_name,
     ServiceName = aws_ecs_service.service.name
   }
+
+  depends_on = [aws_ecs_service.service]
 }
 
 
@@ -105,4 +109,6 @@ resource "aws_cloudwatch_metric_alarm" "ecs_memory_below" {
     ClusterName = local.cluster_name,
     ServiceName = aws_ecs_service.service.name
   }
+
+  depends_on = [aws_ecs_service.service]
 }
