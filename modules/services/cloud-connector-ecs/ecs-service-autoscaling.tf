@@ -1,17 +1,21 @@
 resource "aws_appautoscaling_target" "ecs_target" {
   count = var.enable_autoscaling ? 1 : 0
 
-  max_capacity       = var.max_replicas
-  min_capacity       = var.min_replicas
-  resource_id        = "service/${data.aws_ecs_cluster.this.cluster_name}/${aws_ecs_service.service.name}"
+  max_capacity       = var.autoscaling_config.max_replicas
+  min_capacity       = var.autoscaling_config.min_replicas
+  resource_id        = "service/${local.cluster_name}/${var.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
+
+  depends_on = [aws_ecs_service.service]
 }
 
-resource "aws_appautoscaling_policy" "ecs_ram_policy" {
+
+# upscale memory > threshold
+resource "aws_appautoscaling_policy" "ecs_memory_above" {
   count = var.enable_autoscaling ? 1 : 0
 
-  name               = "scale-cloud-connector-ram-usage"
+  name               = "scale-cloud-connector-ram-above"
   policy_type        = "StepScaling"
   resource_id        = aws_appautoscaling_target.ecs_target[0].resource_id
   scalable_dimension = aws_appautoscaling_target.ecs_target[0].scalable_dimension
@@ -22,49 +26,89 @@ resource "aws_appautoscaling_policy" "ecs_ram_policy" {
     cooldown                = 30
     metric_aggregation_type = "Average"
 
-    # Scale down on Memory usage if it's below 40% usage
+    step_adjustment {
+      metric_interval_lower_bound = 0
+      scaling_adjustment          = 1
+    }
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "ecs_memory_above" {
+  count = var.enable_autoscaling ? 1 : 0
+
+  alarm_name        = "Step-Scaling-Alarm-Upscale-ECS:service/${local.cluster_name}/${aws_ecs_service.service.name}"
+  alarm_description = "ECS cloud-connector service is above memory utilization threshold"
+
+  metric_name = "MemoryUtilization"
+  namespace   = "AWS/ECS"
+  statistic   = "Average"
+
+  period             = "60" # minimum 60 seconds
+  evaluation_periods = "1"
+
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = var.autoscaling_config.upscale_threshold
+  alarm_actions       = [aws_appautoscaling_policy.ecs_memory_above[0].arn]
+
+  dimensions = {
+    ClusterName = local.cluster_name,
+    ServiceName = aws_ecs_service.service.name
+  }
+
+  depends_on = [aws_ecs_service.service]
+}
+
+
+
+# downscale memory > threshold
+resource "aws_appautoscaling_policy" "ecs_memory_below" {
+  count = var.enable_autoscaling ? 1 : 0
+
+  name               = "scale-cloud-connector-ram-below"
+  policy_type        = "StepScaling"
+  resource_id        = aws_appautoscaling_target.ecs_target[0].resource_id
+  scalable_dimension = aws_appautoscaling_target.ecs_target[0].scalable_dimension
+  service_namespace  = aws_appautoscaling_target.ecs_target[0].service_namespace
+
+  step_scaling_policy_configuration {
+    adjustment_type         = "ChangeInCapacity"
+    cooldown                = 30
+    metric_aggregation_type = "Average"
+
+    step_adjustment {
+      metric_interval_upper_bound = 0
+      metric_interval_lower_bound = -10
+      scaling_adjustment          = 0
+    }
+
     step_adjustment {
       metric_interval_upper_bound = -10
       scaling_adjustment          = -1
     }
-
-    # Do not scale if Memory usage is between 40% and 60% usage
-    step_adjustment {
-      metric_interval_lower_bound = -10
-      metric_interval_upper_bound = 10
-      scaling_adjustment          = 0
-    }
-
-    # Scale up on Memory usage if it's above 60% usage
-    step_adjustment {
-      metric_interval_lower_bound = 10
-      scaling_adjustment          = 1
-    }
-
   }
 }
 
-resource "aws_cloudwatch_metric_alarm" "ecs_ram_usage" {
+resource "aws_cloudwatch_metric_alarm" "ecs_memory_below" {
   count = var.enable_autoscaling ? 1 : 0
 
-  alarm_name = "Step-Scaling-AlarmHigh-ECS:service/${data.aws_ecs_cluster.this.cluster_name}/${aws_ecs_service.service.name}"
+  alarm_name        = "Step-Scaling-Alarm-Dowscale-ECS:service/${local.cluster_name}/${aws_ecs_service.service.name}"
+  alarm_description = "ECS cloud-connector service is below memory utilization threshold"
 
   metric_name = "MemoryUtilization"
-  namespace   = "AWS/EC2"
+  namespace   = "AWS/ECS"
   statistic   = "Average"
 
-  period             = "30"
-  evaluation_periods = "2"
-  threshold          = "50"
+  period             = "60" # minimum 60 seconds
+  evaluation_periods = "1"
 
-  comparison_operator = "GreaterThanOrEqualToThreshold"
+  threshold           = var.autoscaling_config.downscale_threshold
+  comparison_operator = "LessThanThreshold"
+  alarm_actions       = [aws_appautoscaling_policy.ecs_memory_below[0].arn]
 
   dimensions = {
-    Name        = data.aws_ecs_cluster.this.cluster_name,
+    ClusterName = local.cluster_name,
     ServiceName = aws_ecs_service.service.name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.ecs_ram_policy[0].arn]
-
-  alarm_description = "This metric monitors ECS Memory Utilization of Cloud Connector"
+  depends_on = [aws_ecs_service.service]
 }

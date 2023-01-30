@@ -97,6 +97,7 @@ $ terraform apply
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_autoscaling_config"></a> [autoscaling\_config](#input\_autoscaling\_config) | if enable\_autoscaliing is enabled, ECS autoscaling configuration. for more insight check source code | <pre>object({<br>    min_replicas        = number<br>    max_replicas        = number<br>    upscale_threshold   = number<br>    downscale_threshold = number<br>  })</pre> | <pre>{<br>  "downscale_threshold": 30,<br>  "max_replicas": 10,<br>  "min_replicas": 1,<br>  "upscale_threshold": 60<br>}</pre> | no |
 | <a name="input_benchmark_regions"></a> [benchmark\_regions](#input\_benchmark\_regions) | List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default. | `list(string)` | `[]` | no |
 | <a name="input_cloud_connector_image"></a> [cloud\_connector\_image](#input\_cloud\_connector\_image) | Image to use for the cloud connector. If empty, the default image will be used. | `string` | `"quay.io/sysdig/cloud-connector:latest"` | no |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
@@ -114,8 +115,6 @@ $ terraform apply
 | <a name="input_ecs_vpc_region_azs"></a> [ecs\_vpc\_region\_azs](#input\_ecs\_vpc\_region\_azs) | List of Availability Zones for ECS VPC creation. e.g.: ["apne1-az1", "apne1-az2"]. If defaulted, two of the default 'aws\_availability\_zones' datasource will be taken | `list(string)` | `[]` | no |
 | <a name="input_ecs_vpc_subnets_private_ids"></a> [ecs\_vpc\_subnets\_private\_ids](#input\_ecs\_vpc\_subnets\_private\_ids) | List of VPC subnets where workload is to be deployed. If defaulted new subnets will be created within the VPC. A minimum of two subnets is suggested. If specified all three parameters `ecs_cluster_name`, `ecs_vpc_id` and `ecs_vpc_subnets_private_ids` are required. | `list(string)` | `[]` | no |
 | <a name="input_enable_autoscaling"></a> [enable\_autoscaling](#input\_enable\_autoscaling) | Whether to enable autoscaling or not | `bool` | `false` | no |
-| <a name="input_max_replicas"></a> [max\_replicas](#input\_max\_replicas) | If autoscaling is enabled, this is the maximum number of replicas to run | `number` | `10` | no |
-| <a name="input_min_replicas"></a> [min\_replicas](#input\_min\_replicas) | If autoscaling is enabled, this is the minimum number of replicas to run | `number` | `1` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | customization of tags to be assigned to all resources. <br/>always include 'product' default tag for resource-group proper functioning.<br/>can also make use of the [provider-level `default-tags`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags) | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |
 

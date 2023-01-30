@@ -104,8 +104,12 @@ module "cloud_connector" {
   ecs_task_memory             = var.ecs_task_memory
 
   enable_autoscaling = var.enable_autoscaling
-  max_replicas       = var.max_replicas
-  min_replicas       = var.min_replicas
+  autoscaling_config = {
+    min_replicas        = var.autoscaling_config.min_replicas
+    max_replicas        = var.autoscaling_config.max_replicas
+    upscale_threshold   = var.autoscaling_config.upscale_threshold
+    downscale_threshold = var.autoscaling_config.downscale_threshold
+  }
 
   tags       = var.tags
   depends_on = [local.cloudtrail_sns_arn, module.ssm]

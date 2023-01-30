@@ -4,6 +4,7 @@ terraform {
       source  = "sysdiglabs/sysdig"
       version = ">=0.5.33"
     }
+    # version pinned until this is solved: hashicorp/terraform-provider-aws#29042
     aws = {
       source  = "hashicorp/aws"
       version = "<4.51.0"

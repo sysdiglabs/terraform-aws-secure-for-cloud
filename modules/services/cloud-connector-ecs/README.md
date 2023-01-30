@@ -28,11 +28,13 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 
 | Name | Type |
 |------|------|
-| [aws_appautoscaling_policy.ecs_ram_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
+| [aws_appautoscaling_policy.ecs_memory_above](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
+| [aws_appautoscaling_policy.ecs_memory_below](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_target.ecs_target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
 | [aws_cloudwatch_log_group.log](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_group) | resource |
 | [aws_cloudwatch_log_stream.stream](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_log_stream) | resource |
-| [aws_cloudwatch_metric_alarm.ecs_ram_usage](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_cloudwatch_metric_alarm.ecs_memory_above](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
+| [aws_cloudwatch_metric_alarm.ecs_memory_below](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudwatch_metric_alarm) | resource |
 | [aws_ecs_service.service](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_service) | resource |
 | [aws_ecs_task_definition.task_definition](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_task_definition) | resource |
 | [aws_iam_role.execution](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
@@ -72,6 +74,7 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 | <a name="input_ecs_vpc_id"></a> [ecs\_vpc\_id](#input\_ecs\_vpc\_id) | ID of the VPC where the workload is to be deployed. | `string` | n/a | yes |
 | <a name="input_ecs_vpc_subnets_private_ids"></a> [ecs\_vpc\_subnets\_private\_ids](#input\_ecs\_vpc\_subnets\_private\_ids) | List of VPC subnets where workload is to be deployed. | `list(string)` | n/a | yes |
 | <a name="input_secure_api_token_secret_name"></a> [secure\_api\_token\_secret\_name](#input\_secure\_api\_token\_secret\_name) | Sysdig Secure API token SSM parameter name | `string` | n/a | yes |
+| <a name="input_autoscaling_config"></a> [autoscaling\_config](#input\_autoscaling\_config) | if enable\_autoscaliing is enabled, ECS autoscaling configuration. for more insight check source code | <pre>object({<br>    min_replicas        = number<br>    max_replicas        = number<br>    upscale_threshold   = number<br>    downscale_threshold = number<br>  })</pre> | <pre>{<br>  "downscale_threshold": 30,<br>  "max_replicas": 10,<br>  "min_replicas": 1,<br>  "upscale_threshold": 60<br>}</pre> | no |
 | <a name="input_cloudwatch_log_retention"></a> [cloudwatch\_log\_retention](#input\_cloudwatch\_log\_retention) | Days to keep logs for CloudConnector | `number` | `5` | no |
 | <a name="input_connector_ecs_task_role_name"></a> [connector\_ecs\_task\_role\_name](#input\_connector\_ecs\_task\_role\_name) | Default ecs cloudconnector task role name | `string` | `"ECSTaskRole"` | no |
 | <a name="input_deploy_beta_image_scanning_ecr"></a> [deploy\_beta\_image\_scanning\_ecr](#input\_deploy\_beta\_image\_scanning\_ecr) | true/false whether to deploy the beta image scanning on ECR pushed images (experimental and unsupported) | `bool` | `false` | no |
@@ -84,8 +87,6 @@ A task deployed on an **ECS deployment** will detect events in your infrastructu
 | <a name="input_extra_env_vars"></a> [extra\_env\_vars](#input\_extra\_env\_vars) | Extra environment variables for the Cloud Connector deployment | `map(string)` | `{}` | no |
 | <a name="input_image"></a> [image](#input\_image) | Image of the cloud connector to deploy | `string` | `"quay.io/sysdig/cloud-connector:latest"` | no |
 | <a name="input_is_organizational"></a> [is\_organizational](#input\_is\_organizational) | true/false whether `organizational_config` should be used to handle organizational setup | `bool` | `false` | no |
-| <a name="input_max_replicas"></a> [max\_replicas](#input\_max\_replicas) | If autoscaling is enabled, this is the maximum number of replicas to run | `number` | `10` | no |
-| <a name="input_min_replicas"></a> [min\_replicas](#input\_min\_replicas) | If autoscaling is enabled, this is the minimum number of replicas to run | `number` | `1` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name to be assigned to all child resources. A suffix may be added internally when required. Use default value unless you need to install multiple instances | `string` | `"sfc-cloudconnector"` | no |
 | <a name="input_organizational_config"></a> [organizational\_config](#input\_organizational\_config) | organizational\_config. following attributes must be given<br><ul><br>  <li>`sysdig_secure_for_cloud_role_arn` for cloud-connector assumeRole in order to read cloudtrail s3 events</li><br>  <li>`connector_ecs_task_role_name` which has been granted trusted-relationship over the secure\_for\_cloud\_role</li><br>  <li>`organizational_role_per_account` is the name of the organizational role deployed by AWS in each account of the organization. used for image-scanning only</li><br></ul> | <pre>object({<br>    sysdig_secure_for_cloud_role_arn = string<br>    organizational_role_per_account  = string<br>    connector_ecs_task_role_name     = string<br>  })</pre> | <pre>{<br>  "connector_ecs_task_role_name": null,<br>  "organizational_role_per_account": null,<br>  "sysdig_secure_for_cloud_role_arn": null<br>}</pre> | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | customization of tags to be assigned to all resources. <br/>always include 'product' default tag for resource-group proper functioning.<br/>can also make use of the [provider-level `default-tags`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags) | `map(string)` | <pre>{<br>  "product": "sysdig-secure-for-cloud"<br>}</pre> | no |

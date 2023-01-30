@@ -68,6 +68,10 @@ module "cloud_connector" {
   depends_on = [local.cloudtrail_sns_arn, module.ssm]
 
   enable_autoscaling = var.enable_autoscaling
-  min_replicas       = var.min_replicas
-  max_replicas       = var.max_replicas
+  autoscaling_config = {
+    min_replicas        = var.autoscaling_config.min_replicas
+    max_replicas        = var.autoscaling_config.max_replicas
+    upscale_threshold   = var.autoscaling_config.upscale_threshold
+    downscale_threshold = var.autoscaling_config.downscale_threshold
+  }
 }
