@@ -50,7 +50,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_ram_usage" {
   alarm_name = "Step-Scaling-AlarmUpscale-ECS:service/${local.cluster_name}/${aws_ecs_service.service.name}"
 
   metric_name = "MemoryUtilization"
-  namespace   = "AWS/EC2"
+  namespace   = "AWS/ECS"
   statistic   = "Average"
 
   period             = "60"
