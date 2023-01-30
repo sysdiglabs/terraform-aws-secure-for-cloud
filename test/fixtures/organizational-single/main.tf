@@ -1,6 +1,7 @@
 terraform {
   required_providers {
     aws = {
+        # major version pinned until this is solved: hashicorp/terraform-provider-aws#29042
       version               = ">= 4.0.0, <4.51.0"
       configuration_aliases = [aws.member]
     }
