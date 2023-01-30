@@ -146,15 +146,21 @@ variable "enable_autoscaling" {
   default     = false
 }
 
+variable "autoscaling_config" {
+  type = object({
+    min_replicas        = number
+    max_replicas        = number
+    upscale_threshold   = number
+    downscale_threshold = number
+    interval_change     = number
+  })
 
-variable "min_replicas" {
-  type        = number
-  default     = 1
-  description = "If autoscaling is enabled, this is the minimum number of replicas to run"
-}
-
-variable "max_replicas" {
-  type        = number
-  default     = 10
-  description = "If autoscaling is enabled, this is the maximum number of replicas to run"
+  default = {
+    min_replicas        = 1
+    max_replicas        = 10
+    upscale_threshold   = 60
+    downscale_threshold = 30
+    interval_change     = 10
+  }
+  description = "if enable_autoscaliing is enabled, ECS autoscaling configuration. for more insight check source code"
 }
