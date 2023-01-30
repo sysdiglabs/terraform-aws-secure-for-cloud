@@ -3,7 +3,7 @@ resource "aws_appautoscaling_target" "ecs_target" {
 
   max_capacity       = var.max_replicas
   min_capacity       = var.min_replicas
-  resource_id        = "service/${split("/",var.ecs_cluster_name)[1]}/${var.name}"
+  resource_id        = "service/${local.cluster_name}/${var.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 }
@@ -47,20 +47,20 @@ resource "aws_appautoscaling_policy" "ecs_ram_policy" {
 resource "aws_cloudwatch_metric_alarm" "ecs_ram_usage" {
   count = var.enable_autoscaling ? 1 : 0
 
-  alarm_name = "Step-Scaling-AlarmHigh-ECS:service/${data.aws_ecs_cluster.this.cluster_name}/${aws_ecs_service.service.name}"
+  alarm_name = "Step-Scaling-AlarmUpscale-ECS:service/${local.cluster_name}/${aws_ecs_service.service.name}"
 
   metric_name = "MemoryUtilization"
   namespace   = "AWS/EC2"
   statistic   = "Average"
 
-  period             = "30"
+  period             = "60"
   evaluation_periods = "2"
   threshold          = "50"
 
   comparison_operator = "GreaterThanOrEqualToThreshold"
 
   dimensions = {
-    Name        = data.aws_ecs_cluster.this.cluster_name,
+    ClusterName = local.cluster_name,
     ServiceName = aws_ecs_service.service.name
   }
 
