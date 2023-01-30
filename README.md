@@ -333,7 +333,7 @@ Error: Not enough privileges to complete the action, Access is denied
 
 │ Error: error waiting for CloudFormation StackSet(sysdig - secure - cloudbench) update: unexpected state 'FAILED', wanted target 'SUCCEEDED'.last error: Operation(terraform - 20221130212414336200000001) Results: 6 errors occurred:
 │       * Account(***) Region(us - east - 1) Status(SUCCEEDED) Status Reason: No updates are to be performed.
-│       * Account(***) Region(us - east - 1) Status(FAILED) Status Reason: Account *** should have 
+│       * Account(***) Region(us - east - 1) Status(FAILED) Status Reason: Account *** should have
 'stacksets-exec-70e2f8a88d368a5d3df60f4eb8c247dc' role with trust relationship to Role 'aws-service-role/stacksets.cloudformation.amazonaws.com/AWSServiceRoleForCloudFormationStackSetsOrgAdmin
 ```
 
