@@ -30,6 +30,10 @@ module "cloudvision_aws_single_account_ecs" {
   deploy_image_scanning_ecs = true
 
   enable_autoscaling = true
-  min_replicas       = 2
-  max_replicas       = 4
+  autoscaling_config = {
+    min_replicas        = 1
+    max_replicas        = 4
+    upscale_threshold   = 60
+    downscale_threshold = 30
+  }
 }
