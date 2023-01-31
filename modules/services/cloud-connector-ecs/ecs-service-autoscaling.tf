@@ -3,7 +3,7 @@ resource "aws_appautoscaling_target" "ecs_target" {
 
   max_capacity       = var.autoscaling_config.max_replicas
   min_capacity       = var.autoscaling_config.min_replicas
-  resource_id        = "service/${local.cluster_name}/${var.name}"
+  resource_id        = "service/${local.sanitized_cluster_name}/${var.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 
@@ -36,7 +36,7 @@ resource "aws_appautoscaling_policy" "ecs_memory_above" {
 resource "aws_cloudwatch_metric_alarm" "ecs_memory_above" {
   count = var.enable_autoscaling ? 1 : 0
 
-  alarm_name        = "Step-Scaling-Alarm-Upscale-ECS:service/${local.cluster_name}/${aws_ecs_service.service.name}"
+  alarm_name        = "Step-Scaling-Alarm-Upscale-ECS:service/${local.sanitized_cluster_name}/${aws_ecs_service.service.name}"
   alarm_description = "ECS cloud-connector service is above memory utilization threshold"
 
   metric_name = "MemoryUtilization"
@@ -51,7 +51,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_memory_above" {
   alarm_actions       = [aws_appautoscaling_policy.ecs_memory_above[0].arn]
 
   dimensions = {
-    ClusterName = local.cluster_name,
+    ClusterName = local.sanitized_cluster_name,
     ServiceName = aws_ecs_service.service.name
   }
 
@@ -91,7 +91,7 @@ resource "aws_appautoscaling_policy" "ecs_memory_below" {
 resource "aws_cloudwatch_metric_alarm" "ecs_memory_below" {
   count = var.enable_autoscaling ? 1 : 0
 
-  alarm_name        = "Step-Scaling-Alarm-Dowscale-ECS:service/${local.cluster_name}/${aws_ecs_service.service.name}"
+  alarm_name        = "Step-Scaling-Alarm-Dowscale-ECS:service/${local.sanitized_cluster_name}/${aws_ecs_service.service.name}"
   alarm_description = "ECS cloud-connector service is below memory utilization threshold"
 
   metric_name = "MemoryUtilization"
@@ -106,7 +106,7 @@ resource "aws_cloudwatch_metric_alarm" "ecs_memory_below" {
   alarm_actions       = [aws_appautoscaling_policy.ecs_memory_below[0].arn]
 
   dimensions = {
-    ClusterName = local.cluster_name,
+    ClusterName = local.sanitized_cluster_name,
     ServiceName = aws_ecs_service.service.name
   }
 
