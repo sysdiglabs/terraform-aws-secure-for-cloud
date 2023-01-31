@@ -9,4 +9,3 @@ locals {
   # ex. just created cluster name, gathered through tf data : 'arn:aws:ecs:eu-west-3:425287181461:cluster/foo'
   sanitized_cluster_name = coalesce(split("/", join("/", [var.ecs_cluster_name, ""]))[1], var.ecs_cluster_name)
 }
-
