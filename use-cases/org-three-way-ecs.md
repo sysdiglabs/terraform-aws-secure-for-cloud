@@ -8,11 +8,15 @@ With ECS as workload-type.
 
 
 - **User Infrastructure Setup**:
-  1. Management Account
-    - Organizational Cloudtrail with no SNS activation
+
+This is the scenario we're going to recreate
+
+  1. Management Account / Accounts
+    - Eithere there is an Organizational Cloudtrail reporting to the log archive account
+    - Or several accounts reporting to the same log archive account
   2. Log Archive Account
     - Cloudtrail-S3 bucket, with event notification to an SNS > SQS
-  3. Member Account
+  3. Workload/Security Member Account
     - Sysdig Secure for cloud deployment
     - Existing VPC network setup.
 
