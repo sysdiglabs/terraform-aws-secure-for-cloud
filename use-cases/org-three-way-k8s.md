@@ -10,16 +10,16 @@ With EKS as workload-type.
 
 This is the scenario we're going to recreate
 
-    1. Management Account / Accounts
+  1. Management Account / Accounts
     - Eithere there is an Organizational Cloudtrail reporting to the log archive account
     - Or several accounts reporting to the same log archive account
-    2. Log Archive Account
+  2. Log Archive Account
     - Cloudtrail-S3 bucket, with event notification to an SNS > SQS
-    3. Workload/Security Member Account
+  3. Workload/Security Member Account
     - Sysdig Secure for cloud deployment
     - Existing K8S Cluster
       - permission setup rely on an `accessKey/secretAccessKey` parameters of the workload, but can setup the
-        service-account manually and ignore those two parameters.
+      service-account manually and ignore those two parameters.
 
 - Required **Sysdig Secure For Cloud [Features](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/)**
   - Threat-Detection
