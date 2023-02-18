@@ -153,4 +153,10 @@ resource "aws_cloudformation_stack_set_instance" "stackset_instance" {
   deployment_targets {
     organizational_unit_ids = [for root in data.aws_organizations_organization.org[0].roots : root.id]
   }
+  operation_preferences {
+    failure_tolerance_count = 100
+    # failure_tolerance_percentage = 100
+    max_concurrent_count = 2
+    # max_concurrent_percentage = 2
+  }
 }
