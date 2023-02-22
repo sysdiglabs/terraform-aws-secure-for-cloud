@@ -33,6 +33,10 @@ resource "sysdig_secure_cloud_account" "cloud_account" {
   cloud_provider = "aws"
   role_enabled   = "true"
   role_name      = var.name
+
+  lifecycle {
+    ignore_changes = [alias]
+  }
 }
 
 locals {
@@ -143,6 +147,11 @@ Resources:
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/SecurityAudit"
 TEMPLATE
+
+
+  lifecycle {
+    ignore_changes = [administration_role_arn]
+  }
 }
 
 resource "aws_cloudformation_stack_set_instance" "stackset_instance" {

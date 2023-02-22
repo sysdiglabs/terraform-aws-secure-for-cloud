@@ -1,15 +1,22 @@
-# OrganizationSetup - Three way Cross-Account - Cloudtrail with no SNS - Event Notification with S3-SNS-SQS
+# OrganizationSetup - Three way Cross-Account - ECS
 
 ## Use-Case explanation
 
-This use case will cover
+This use case will cover a three-way cross-account setup (typical from AWS ControlTower landing page).
+With ECS as workload-type.
+<br/>This is terraform-based guidelines, but can also check [Manual Organizational Setup - Three-Way Cross-Account ](./manual-org-three-way.md)
 
-- **User Infrastructure Setup**: AWS Organization Setup with three-way account setup
-  1. Management Account
-    - Organizational Cloudtrail with no SNS activation
+
+- **User Infrastructure Setup**:
+
+This is the scenario we're going to recreate
+
+  1. Management Account / Accounts
+    - Eithere there is an Organizational Cloudtrail reporting to the log archive account
+    - Or several accounts reporting to the same log archive account
   2. Log Archive Account
     - Cloudtrail-S3 bucket, with event notification to an SNS > SQS
-  3. Member Account
+  3. Workload/Security Member Account
     - Sysdig Secure for cloud deployment
     - Existing VPC network setup.
 
@@ -36,7 +43,7 @@ This use case will cover
 <!--
 
 all in same region
-management account - cloudtrail
+management account - cloudtrail (no kms for quick test)
 log archive account - s3, sns, sqs
 
 0.1 Provision an S3 bucket in the selected region and allow cloudtrail access
@@ -51,6 +58,15 @@ log archive account - s3, sns, sqs
             },
             "Action": "s3:PutObject",
             "Resource": "S3_ARN/*"
+        },
+        {
+            "Sid": "Statement2",
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "cloudtrail.amazonaws.com"
+            },
+            "Action": "s3:GetBucketAcl",
+            "Resource": "S3_ARN"
         }
     ]
 }
@@ -189,7 +205,7 @@ However, deployed compute will fail (can check the logs in the ECS Task) due to 
 
 Let's fix that; we need to allow S3 and SQS resources to be accessed by the compute role, `sfc-organizational-ECSTaskRole"` (default name value).
 
-![organizational three-way-account permission setup](resources/org-three-way-permissions.png)
+![organizational three-way-account permission setup](resources/org-three-with-s3-forward.png)
 
 ##### 5.1 Fetch `SYSDIG_ECS_TASK_ROLE_ARN` ARN
 

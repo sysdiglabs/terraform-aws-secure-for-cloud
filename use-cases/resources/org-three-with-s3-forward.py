@@ -10,7 +10,7 @@ from diagrams.aws.security import IAM, IAMRole
 
 color_event="firebrick"
 
-with Diagram("Three-Way Cross-Account", filename="org-three-way-permissions", show=True):
+with Diagram("Three-Way Cross-Account", filename="org-three-with-s3-forward", show=True):
 
     with Cluster("management account - cloudtrail"):
         cloudtrail = Cloudtrail("cloudtrail\n(no sns activated)")

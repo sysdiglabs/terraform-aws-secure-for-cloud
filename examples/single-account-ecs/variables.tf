@@ -1,5 +1,3 @@
-
-
 #---------------------------------
 # optionals - with defaults
 #---------------------------------
@@ -112,6 +110,14 @@ variable "benchmark_regions" {
   default     = []
 }
 
+#
+# cloud connector connector configuration
+#
+variable "cloud_connector_image" {
+  type        = string
+  description = "Image to use for the cloud connector. If empty, the default image will be used."
+  default     = "quay.io/sysdig/cloud-connector:latest"
+}
 
 #
 # general
@@ -125,8 +131,34 @@ variable "name" {
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning"
+  description = "customization of tags to be assigned to all resources. <br/>always include 'product' default tag for resource-group proper functioning.<br/>can also make use of the [provider-level `default-tags`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags)"
   default = {
     "product" = "sysdig-secure-for-cloud"
   }
+}
+
+#
+# Autoscaling configurations
+#
+variable "enable_autoscaling" {
+  type        = bool
+  description = "Whether to enable autoscaling or not"
+  default     = false
+}
+
+variable "autoscaling_config" {
+  type = object({
+    min_replicas        = number
+    max_replicas        = number
+    upscale_threshold   = number
+    downscale_threshold = number
+  })
+
+  default = {
+    min_replicas        = 1
+    max_replicas        = 10
+    upscale_threshold   = 60
+    downscale_threshold = 30
+  }
+  description = "if enable_autoscaliing is enabled, ECS autoscaling configuration. for more insight check source code"
 }

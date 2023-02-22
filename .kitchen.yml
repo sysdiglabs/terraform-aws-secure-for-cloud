@@ -19,9 +19,6 @@ suites:
   - name: organizational-k8s
     driver:
       root_module_directory: test/fixtures/organizational-k8s
-  - name: organizational-single
-    driver:
-      root_module_directory: test/fixtures/organizational-single
   - name: single-account-apprunner
     driver:
       root_module_directory: test/fixtures/single-account-apprunner

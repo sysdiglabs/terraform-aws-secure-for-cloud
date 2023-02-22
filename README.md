@@ -125,7 +125,7 @@ Check official documentation on [Secure for cloud - AWS, Confirm the Services ar
 
 Generally speaking, a triggered situation (threat or image-scanning) whould be check (from more functional-side to more technical)
 - Secure UI > Events / Insights / ...
-- Cloud-Connector Logs
+- Cloud-Connector Logs - To access logs in AWS visit - Cloudwatch > LogGroup > sysdig or cloudconnector
 - Cloudtrail > Event History
 
 ### Forcing Events - Threat Detection
@@ -147,7 +147,7 @@ If that's not working as expected, some other questions can be checked
 
 In `Secure > Events` you should see the event coming through, but beware you may need to activate specific levels such as `Info` depending on the rule you're firing.
 
-Alternativelly, use Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/trigger-events).
+Alternativelly, use Terraform example module to trigger **Create IAM Policy that Allows All** event can be found on [examples/trigger-events](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/test/trigger-events).
 
 ### Forcing Events - Image Scanning
 
@@ -322,23 +322,46 @@ In order to validate the trust-relationship expect no errows on following API.
 $ curl -v https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID>/validateRole \
 --header 'Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>'
 ```
+
+### Q-Benchmark: Getting Error: Not enough privileges to complete the action, Access is denied
+
+```
+Error: Not enough privileges to complete the action, Access is denied
+│
+│   with module.secure -for-cloud_organizational.module.cloud_bench_org[0].sysdig_secure_benchmark_task.benchmark_task,
+│   on.terraform / modules / secure -for-cloud_organizational / modules / services / cloud - bench / main.tf line 55, in resource "sysdig_secure_benchmark_task" "benchmark_task":
+
+│ Error: error waiting for CloudFormation StackSet(sysdig - secure - cloudbench) update: unexpected state 'FAILED', wanted target 'SUCCEEDED'.last error: Operation(terraform - 20221130212414336200000001) Results: 6 errors occurred:
+│       * Account(***) Region(us - east - 1) Status(SUCCEEDED) Status Reason: No updates are to be performed.
+│       * Account(***) Region(us - east - 1) Status(FAILED) Status Reason: Account *** should have
+'stacksets-exec-70e2f8a88d368a5d3df60f4eb8c247dc' role with trust relationship to Role 'aws-service-role/stacksets.cloudformation.amazonaws.com/AWSServiceRoleForCloudFormationStackSetsOrgAdmin
+```
+
+A: For **Organizational** Setup for cloudbench (deployed through management account / delegated administrator vía stackset) make sure it's being deployed in the management account. [enable organizational trusted access to stackset](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html) as part of the [prerequisites for stackset operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
+
+### Q-RuntimeThreat Detection: Getting error 403 `"could not load rule set from Sysdig Secure: ruleprovider#newPartialRuleSet | error loading default-rules: error from Sysdig Secure API: 403`
+
+A: The Sysdig User that deployed the components is a standard user within the Sysdig Platform. Only administrator users are given permissions to read falco rule sets. Once this permission is changed, you should no longer get this error and CSPM Cloud events should start populating.
+
 <br/><br/>
 
 ## Upgrading
 
-- Uninstall previous deployment resources before upgrading
+1. Uninstall previous deployment resources before upgrading
   ```
   $ terraform destroy
   ```
 
-- Upgrade the full terraform example with
+2. Upgrade the full terraform example with
   ```
   $ terraform init -upgrade
   $ terraform plan
   $ terraform apply
   ```
 
-- If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the latest one.
+- If the event-source is created throuh SFC, some events may get lost while upgrading with this approach. however, if the cloudtrail is re-used (normal production setup) events will be recovered once the ingestion resumes.
+
+- If required, you can upgrade cloud-connector component by restarting the task (stop task). Because it's not pinned to an specific version, it will download the `latest` one.
 
 <br/>
 

@@ -61,7 +61,6 @@ variable "existing_cloudtrail_config" {
 }
 
 
-
 #---------------------------------
 # optionals - with default
 #---------------------------------
@@ -148,7 +147,6 @@ variable "extra_env_vars" {
 }
 
 
-
 #
 # scanning configuration
 #
@@ -172,7 +170,6 @@ variable "deploy_image_scanning_ecs" {
 }
 
 
-
 #
 # general
 #
@@ -184,8 +181,35 @@ variable "name" {
 
 variable "tags" {
   type        = map(string)
-  description = "sysdig secure-for-cloud tags. always include 'product' default tag for resource-group proper functioning"
+  description = "customization of tags to be assigned to all resources. <br/>always include 'product' default tag for resource-group proper functioning.<br/>can also make use of the [provider-level `default-tags`](https://registry.terraform.io/providers/hashicorp/aws/latest/docs#default_tags)"
   default = {
     "product" = "sysdig-secure-for-cloud"
   }
+}
+
+#
+# autoscaling
+#
+variable "enable_autoscaling" {
+  type        = bool
+  default     = false
+  description = "Enable autoscaling for the ECS service"
+}
+
+
+variable "autoscaling_config" {
+  type = object({
+    min_replicas        = number
+    max_replicas        = number
+    upscale_threshold   = number
+    downscale_threshold = number
+  })
+
+  default = {
+    min_replicas        = 1
+    max_replicas        = 10
+    upscale_threshold   = 60
+    downscale_threshold = 30
+  }
+  description = "if enable_autoscaliing is enabled, ECS autoscaling configuration. for more insight check source code"
 }

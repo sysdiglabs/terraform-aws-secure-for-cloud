@@ -70,6 +70,10 @@ repos:
       # https://github.com/antonbabenko/pre-commit-terraform#terraform_validate
       - id: terraform_validate
         exclude: (test)|(examples-internal)\/.*$
+      - id: terrascan
+        exclude: (test)
+        args:
+          - '--args=--skip-rules AC_AWS_0369'
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.1.0
     hooks:

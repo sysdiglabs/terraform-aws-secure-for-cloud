@@ -1,36 +1,31 @@
-# OrganizationalSetup - Existing CloudtrailEventsOnS3 - Existing K8s Cluster - Filtered Account
+# OrganizationalSetup - Three way Cross-Account - K8S
 
 ## Use-Case explanation
 
-**Current User Setup**
+This use case will cover a three-way cross-account setup (typical from AWS ControlTower landing page).
+With EKS as workload-type.
+<br/>This is terraform-based guidelines, but can also check [Manual Organizational Setup - Three-Way Cross-Account ](./manual-org-three-way.md)
 
-- [X] organizational setup
-  - [ ] organizational cloudtrail that reports to SNS and persists events in a managed-account stored S3 bucket
-  - [X] centralized S3 bucket with cloudtrail-events
-  - [ ] member account usage - all required and pre-existing resources exist in the same account
-  - [X] member account usage - all required resources are in scattered
-- [X] pre-existing resources
-  - [ ] k8s cluster we want to use to deploy Sysdig for Cloud workload
-  - [ ] organizational cloudtrail, reporting to an SNS topic and delivering events to the S3 bucket
-  - [ ] ecs cluster/vpc/subnet we want to use to deploy Sysdig for Cloud workload
+- **User Infrastructure Setup**:
 
+This is the scenario we're going to recreate
 
-**Sysdig Secure For Cloud Features**
+  1. Management Account / Accounts
+    - Eithere there is an Organizational Cloudtrail reporting to the log archive account
+    - Or several accounts reporting to the same log archive account
+  2. Log Archive Account
+    - Cloudtrail-S3 bucket, with event notification to an SNS > SQS
+  3. Workload/Security Member Account
+    - Sysdig Secure for cloud deployment
+    - Existing K8S Cluster
+      - permission setup rely on an `accessKey/secretAccessKey` parameters of the workload, but can setup the
+      service-account manually and ignore those two parameters.
 
-- [X] threat-detection
-  - [X] account-specific
-  - [ ] all accounts of the organization (management account included)
-- [ ] image-scanning (WIP?)
-- [ ] compliance (WIP?)
-- [ ] CIEM (WIP?)
+- Required **Sysdig Secure For Cloud [Features](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/)**
+  - Threat-Detection
+  - :warning: Posture; Compliance + Identity Access Management not delivered with this use-case. Can use [manual compliance setup](./manual-compliance.md)
+  - :warning: Cloud image scanning is not supported yet
 
-**Other Requirements**
-
-- [X] pre-existing kubernetes management vía service account (WIP)
-<br/>this has not been tested yet, we rely on an `accessKey` created specifically for Sysdig-For-Cloud.
-<!--
-Skip step 4 and remove `aws_access_key_id` and `aws_secret_access_key` parameters from `org_k8s_threat_reuse_cloudtrail` module
--->
 
 ## Suggested building-blocks
 
@@ -77,7 +72,8 @@ provider "helm" {
        ```text
        cloudtrail_s3_name=cloudtrail-logging-237944556329
        ```
-   2. Populate `CLOUDTRAIL_S3_FILTER_PREFIX` in order to ingest a specific-account. Otherwise, just remove its assignation
+   2. Optionally, populate `CLOUDTRAIL_S3_FILTER_PREFIX` in order to ingest a specific-account. Otherwise, just remove
+      its assignation
    <br/>ex.:
        ```text
        s3_event_notification_filter_prefix=cloudtrail/AWSLogs/237944556329
@@ -90,7 +86,7 @@ module "cloudtrail_s3_sns_sqs" {
   }
   source  = "sysdiglabs/secure-for-cloud/aws//modules/infrastructure/cloudtrail_s3-sns-sqs"
   cloudtrail_s3_name = "<CLOUDTRAIL_S3_NAME>"
-  s3_event_notification_filter_prefix="<CLOUDTRAIL_S3_FILTER_PREFIX>"
+  # s3_event_notification_filter_prefix="<CLOUDTRAIL_S3_FILTER_PREFIX>"
 }
 ```
 
