@@ -164,6 +164,6 @@ resource "aws_cloudformation_stack_set_instance" "stackset_instance" {
   }
   operation_preferences {
     failure_tolerance_count = 100
-    max_concurrent_count = 5
+    max_concurrent_count    = 5
   }
 }
