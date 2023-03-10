@@ -45,6 +45,7 @@ resource "aws_s3_bucket_acl" "cloudtrail" {
 # -------------------------
 
 resource "aws_s3_bucket_public_access_block" "cloudtrail" {
+  count                   = var.s3_bucket_public_block == false ? 0 : 1
   bucket                  = aws_s3_bucket.cloudtrail.id
   block_public_acls       = true
   block_public_policy     = true

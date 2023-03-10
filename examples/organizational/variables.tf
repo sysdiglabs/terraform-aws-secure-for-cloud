@@ -46,6 +46,12 @@ variable "cloudtrail_s3_bucket_expiration_days" {
   description = "Number of days that the logs will persist in the bucket"
 }
 
+variable "cloudtrail_s3_bucket_public_block" {
+  type        = bool
+  default     = true
+  description = "Create a S3 bucket public access block configuration"
+}
+
 variable "existing_cloudtrail_config" {
   type = object({
     cloudtrail_s3_arn         = optional(string)
