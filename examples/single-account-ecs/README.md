@@ -98,7 +98,6 @@ $ terraform apply
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_autoscaling_config"></a> [autoscaling\_config](#input\_autoscaling\_config) | if enable\_autoscaliing is enabled, ECS autoscaling configuration. for more insight check source code | <pre>object({<br>    min_replicas        = number<br>    max_replicas        = number<br>    upscale_threshold   = number<br>    downscale_threshold = number<br>  })</pre> | <pre>{<br>  "downscale_threshold": 30,<br>  "max_replicas": 10,<br>  "min_replicas": 1,<br>  "upscale_threshold": 60<br>}</pre> | no |
-| <a name="input_benchmark_regions"></a> [benchmark\_regions](#input\_benchmark\_regions) | List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default. | `list(string)` | `[]` | no |
 | <a name="input_cloud_connector_image"></a> [cloud\_connector\_image](#input\_cloud\_connector\_image) | Image to use for the cloud connector. If empty, the default image will be used. | `string` | `"quay.io/sysdig/cloud-connector:latest"` | no |
 | <a name="input_cloudtrail_is_multi_region_trail"></a> [cloudtrail\_is\_multi\_region\_trail](#input\_cloudtrail\_is\_multi\_region\_trail) | true/false whether cloudtrail will ingest multiregional events | `bool` | `true` | no |
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether cloudtrail delivered events to S3 should persist encrypted | `bool` | `true` | no |

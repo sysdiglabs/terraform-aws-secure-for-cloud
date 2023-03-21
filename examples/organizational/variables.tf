@@ -126,12 +126,6 @@ variable "deploy_benchmark_organizational" {
   description = "true/false whether benchmark module should be deployed on organizational or single-account mode (1 role per org accounts if true, 1 role in default aws provider account if false)</li></ul>"
 }
 
-variable "benchmark_regions" {
-  type        = list(string)
-  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
-  default     = []
-}
-
 
 #---------------------------------
 # ecs, security group,  vpc

@@ -58,12 +58,6 @@ variable "deploy_benchmark" {
   default     = true
 }
 
-variable "benchmark_regions" {
-  type        = list(string)
-  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
-  default     = []
-}
-
 #
 # general
 #
