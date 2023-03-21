@@ -9,7 +9,6 @@ module "cloud_bench_org" {
   name              = "${var.name}-cloudbench"
   is_organizational = true
   region            = data.aws_region.current.name
-  benchmark_regions = var.benchmark_regions
 
   tags = var.tags
 }
@@ -25,7 +24,6 @@ module "cloud_bench_single" {
   name              = "${var.name}-cloudbench"
   is_organizational = false
   region            = data.aws_region.current.name
-  benchmark_regions = var.benchmark_regions
 
   tags = var.tags
 }
