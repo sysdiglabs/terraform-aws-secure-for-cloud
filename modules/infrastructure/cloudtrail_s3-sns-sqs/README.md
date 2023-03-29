@@ -33,6 +33,29 @@ EVENT FILTER/fine-tunning, regarding what we want to send to Sysdig Cloud-Connec
 - SNS must be created in the same region as Cloudtrail. Adjust `var.region` or your aws credentials region.
 -->
 
+## Usage
+```terraform
+# provider for S3 account
+# this is a sample authentication, can adapt it as long as alias is maintaned
+provider "aws"{
+  alias = "s3"
+  region = "<AWS_REGION>"
+  assume_role {
+    role_arn = "arn:aws:iam::<S3_BUCKET_ACCOUNT_ID>:role/OrganizationAccountAccessRole"
+  }
+}
+
+module "cloudtrail_s3_sns_sqs" {
+  providers = {
+    aws = aws.s3
+  }
+  source  = "sysdiglabs/secure-for-cloud/aws//modules/infrastructure/cloudtrail_s3-sns-sqs"
+  cloudtrail_s3_name = "<CLOUDTRAIL_S3_NAME>"
+  # optional
+  # s3_event_notification_filter_prefix="<CLOUDTRAIL_S3_FILTER_PREFIX>"
+}
+
+```
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
