@@ -13,6 +13,22 @@ Contact us with these questions answered to help us.
 Sysdig Secure for Cloud is served in Terraform [AWS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud), [GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud) and [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud)
 modules, and we also offer [AWS Cloudformation templates](https://github.com/sysdiglabs/aws-templates-secure-for-cloud)
 
+
+<br/>
+
+## Sysdig Features
+
+In what [Sysdig For Cloud Features](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/) are you interested in?
+
+- [Runtime Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)
+- [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/) (cis benchmarks and others)
+- [Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/permissions-and-entitlements/)
+- [Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)
+  - Registry/repository push-based image scanning
+  - Runtime workload image scanning (ecs on Aws, cloudrun on GCP, or container instances on Azure)
+  - Note: Sysdig offers many other ways of performing scanning, and we recommend you to [Check all Scanning options in the Vulnerability Management](https://docs.sysdig.com/en/docs/sysdig-secure/vulnerabilities/) to push this task as far to the left as possible (dev side)
+
+
 <br/>
 
 ## Client Infrastructure
@@ -53,15 +69,3 @@ modules, and we also offer [AWS Cloudformation templates](https://github.com/sys
   - if you want to use Kubernetes compute for Sysdig deployment, what's your current way of deploying helm charts?
 
 <br/>
-
-## Sysdig Features
-
-In what [Sysdig For Cloud Features](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/) are you interested in?
-
-- [Runtime Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)
-- [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/) (cis benchmarks and others)
-- [Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/permissions-and-entitlements/)
-- [Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)
-  - Registry/repository push-based image scanning
-  - Runtime workload image scanning (ecs on Aws, cloudrun on GCP, or container instances on Azure)
-  - Note: Sysdig offers many other ways of performing scanning, and we recommend you to [Check all Scanning options in the Vulnerability Management](https://docs.sysdig.com/en/docs/sysdig-secure/vulnerabilities/) to push this task as far to the left as possible (dev side)
