@@ -19,8 +19,9 @@ This is the scenario we're going to recreate
 3. Workload/Security Member Account
    - Sysdig Secure for cloud deployment
    - Optionally, we can re-use an existing VPC/subnet network setup.
+   - 2 and 3 account points may be same account, we will cover both options.
 
-**Sysdig Secure For Cloud [Features](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/)** covered
+This use-case cover following **[Sysdig Secure For CloudFeatures](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features)**
   - Threat-Detection
   - Posture; Compliance + Identity Access Management
   - :warning: Cloud image scanning is not available for this use-case
@@ -105,7 +106,7 @@ This accountID will be required in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_I
 
 #### 3.2 (Optional) S3 and Sysdig Workload are in different accounts
 
-If  `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` is differnt to the account where the S3 is located, we need to allow 
+If  `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` is different to the account where the S3 is located, we need to allow 
 cross-account access through a role.
 
 Permission setup for SysdigSecureForCloud-S3AccessRole
@@ -144,17 +145,17 @@ be used.
 #### 4. Launch Terraform Manifest
 
 Let's create the Terraform manifest module parametrization, based on `examples/organizational`. 
-Get detailed explanation of each variable bellow.
+<br/>Get detailed explanation of each variable bellow.
 
 ```terraform
 
 
-# --------------------------------------------------
-# Optional. for Cloudtrail S3-SNS-SQS creation
-# --------------------------------------------------
+# ----------------------------------------------------------
+# Optional. for Cloudtrail S3-SNS-SQS event-forwarder creation
+# ----------------------------------------------------------
 
 # provider for S3 account
-# this is a sample authentication, can adapt it as long as alias is maintaned
+# this is a sample authentication, can adapt it as long as alias is maintained
 provider "aws"{
   alias = "s3"
   region = "<AWS_REGION>"
