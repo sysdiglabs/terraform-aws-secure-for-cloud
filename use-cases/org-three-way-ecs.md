@@ -139,20 +139,9 @@ We provide a module to create this
 [Cloudtrail S3 bucket event-forwarder into an SNS>SQS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/infrastructure/cloudtrail_s3-sns-sqs)
 but you can do it manually too.
 
-General usage is described within the module source, and will be explained in the next point, with the variables to 
-be used.
-
-#### 4. Launch Terraform Manifest
-
-Let's create the Terraform manifest module parametrization, based on `examples/organizational`. 
-<br/>Get detailed explanation of each variable bellow.
+This module must not run on the same terraform (plan) sequence, because it will have cycle dependecies not resolved and will fail.
 
 ```terraform
-
-
-# ----------------------------------------------------------
-# Optional. for Cloudtrail S3-SNS-SQS event-forwarder creation
-# ----------------------------------------------------------
 
 # provider for S3 account
 # this is a sample authentication, can adapt it as long as alias is maintained
@@ -171,8 +160,17 @@ module "cloudtrail_s3_sns_sqs" {
   source  = "sysdiglabs/secure-for-cloud/aws//modules/infrastructure/cloudtrail_s3-sns-sqs"
   cloudtrail_s3_name = "<CLOUDTRAIL_S3_NAME>"
 }
-# --------------------------------------------------
+```
 
+Inspect `terraform state list` to gather these two values, `CLOUDTRAIL_S3_SNS_SQS_ARN` and `CLOUDTRAIL_S3_SNS_SQS_URL`.
+
+
+#### 4. Launch Terraform Manifest
+
+Let's create the Terraform manifest module parametrization, based on `examples/organizational`. 
+<br/>Get detailed explanation of each variable bellow.
+
+```terraform
 
 terraform {
   required_providers {
@@ -239,8 +237,8 @@ module "sysdig-sfc" {
 - **Cloudtrail S3 SNS-SQS** Setup
   - `S3_BUCKET_ACCOUNT_ID` in order to authenticate aws provider on the member account
   - `CLOUDTRAIL_S3_NAME` name of the cloudtrail s3 bucket
-  - `CLOUDTRAIL_S3_SNS_SQS_ARN` if manged through terraform should have value `module.cloudtrail_s3_sns_sqs.cloudtrail_subscribed_sqs_arn`
-  - `CLOUDTRAIL_S3_SNS_SQS_URL` if manged through terraform should have value `module.cloudtrail_s3_sns_sqs.cloudtrail_subscribed_sqs_url"`
+  - `CLOUDTRAIL_S3_SNS_SQS_ARN` value gathered from 3.3 action point.
+  - `CLOUDTRAIL_S3_SNS_SQS_URL` value gathered from 3.3 action point.
   - (Optional) `CLOUDTRAIL_S3_ROLE_ARN` ARN of the `SysdigSecureForCloud-S3AccessRole` created in step 3.2, for ECSTaskRole to assumeRole and access S3
 
 - (Optional) Existing **ECS Cluster and networking** setup
