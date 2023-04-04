@@ -1,3 +1,5 @@
+_Last update: 2023.04.04_
+
 # Use-Case Questionnaire
 
 This questionnaire is aimed to help you/us find the most suitable way of deploying [Sysdig Secure for Cloud](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/) in your infrastucture, as well as to understand the needs to develop new  official `/examples`, for reducing the installation friction.
@@ -35,13 +37,14 @@ In what [Sysdig For Cloud Features](https://docs.sysdig.com/en/docs/sysdig-secur
 
 ### aws-specific
 - do you have **existing aws cloudtrail**?
-    - is it an organizational cloudtrail in the organization management account?
-      - does this organizational cloudtrail report to an SNS? if yes, is it in the same management account? if no, could you enable it?  ingestor-type: `aws-cloudtrail-sns-sqs`
-      - is the S3 bucket of that cloudtrail in the management account or a sepparated member account?
-    - if it's not organizational, does each trail report to the same s3 bucket?
-      - if so, does that S3 bucket already have any "Event Notification System"? Is it an SNS we could subscribe to? ingestor-type: `aws-cloudtrail-s3-sns-sqs`
-      - if so, does that S3 bucket already have an "Amazon EventBridge" system activated? ingestor-type: `aws-cloudtrail-s3-sns-sqs-eventbridge`
+  - is it an organizational cloudtrail in the organization management account?
+    - does this organizational cloudtrail report to an SNS? if yes, is it in the same management account? if no, could you enable it?  ingestor-type: `aws-cloudtrail-sns-sqs`
+    - is the S3 bucket of that cloudtrail in the management account or a sepparated member account?
+  - if it's not organizational, does each trail report to the same s3 bucket?
+    - if so, does that S3 bucket already have any "Event Notification System"? Is it an SNS we could subscribe to? ingestor-type: `aws-cloudtrail-s3-sns-sqs`
+    - if so, does that S3 bucket already have an "Amazon EventBridge" system activated? ingestor-type: `aws-cloudtrail-s3-sns-sqs-eventbridge`
 - whether it's organizational or not, could you give us a quick picture of the infra setup in terms of what resource is in what account? the resources of interest are the ones you may want to reuse, such as the cloudtrail, cloudtrail-sns, cloudtrail-s3, existing clusters where to deploy the workload, ...
+  - where (which member account) would you like secure for cloud module to be deployed? to help simplification, would it be possible to deploy it in the same account as the S3 bucket is?
 
 ### google-cloud specific
 - do you have Logs API activated in place (either organizational  or per-project)?
@@ -54,7 +57,7 @@ In what [Sysdig For Cloud Features](https://docs.sysdig.com/en/docs/sysdig-secur
   - if so, how many member accounts (aws) /projects (gcp) /subscriptions (azure) does it have?
     - regarding of the number, how many accounts would be required to enroll in the secure for cloud setup?
     - do you have dynamic accounts/projects/subscriptions? what's their lifecycle?
-  - does it have any landing such as aws control-tower? what's event management there (if any)?
+  - does it have any landing such as aws control-tower? what's the event management there (if any)?
 - sysdig secure for cloud is presented in different **compute workload** flavors; ecs on aws, cloudrun on gcp or azure container instances on azure, plus a K8s deployment an all three clouds, plus apprunner on aws (less resource-demaing than ecs, but region limited)
     - in case of ECS or K8S, do you have an existing cluster you would like to re-use?
 - how many **regions** do you work with?
