@@ -30,11 +30,6 @@ variable "cloudtrail_s3_bucket_expiration_days" {
   description = "Number of days that the logs will persist in the bucket"
 }
 
-variable "temporary_cloudtrail_s3_bucket_public_block" {
-  type        = bool
-  default     = true
-  description = "Create a S3 bucket public access block configuration<br/>This is a temporary variable that will be removed once https://aws.amazon.com/blogs/aws/heads-up-amazon-s3-security-changes-are-coming-in-april-of-2023/ is made effective.<br/>After it, the resource will never be created."
-}
 #
 # ecs, security group,  vpc
 #
