@@ -33,28 +33,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail" {
   }
 }
 
-
-resource "aws_s3_bucket_acl" "cloudtrail" {
-  bucket = aws_s3_bucket.cloudtrail.id
-  acl    = "private"
-}
-
-
 # --------------------------
-# iam, acl
+# iam
 # -------------------------
-
-resource "aws_s3_bucket_public_access_block" "cloudtrail" {
-  count                   = var.temporary_s3_bucket_public_block == false ? 0 : 1
-  bucket                  = aws_s3_bucket.cloudtrail.id
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-  depends_on              = [aws_s3_bucket_policy.cloudtrail_s3]
-  # https://github.com/hashicorp/terraform-provider-aws/issues/7628
-}
-
 
 resource "aws_s3_bucket_policy" "cloudtrail_s3" {
   bucket = aws_s3_bucket.cloudtrail.id
