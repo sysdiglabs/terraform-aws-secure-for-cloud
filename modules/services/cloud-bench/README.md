@@ -27,8 +27,8 @@ This module will be deployed as a StackSet and it will take into account newly m
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.62.0 |
-| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | >= 0.5.29 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 4.64.0 |
+| <a name="provider_sysdig"></a> [sysdig](#provider\_sysdig) | 1.3.0 |
 
 ## Modules
 
