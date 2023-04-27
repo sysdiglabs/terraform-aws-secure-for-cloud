@@ -21,6 +21,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail" {
   }
 }
 
+resource "aws_s3_bucket_ownership_controls" "ownership" {
+  bucket = aws_s3_bucket.cloudtrail.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail" {
   bucket = aws_s3_bucket.cloudtrail.id
 
