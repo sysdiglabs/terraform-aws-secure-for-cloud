@@ -106,7 +106,7 @@ This accountID will be required in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_I
 
 #### 3.2 (Optional) S3 and Sysdig Workload are in different accounts
 
-If  `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` is different to the account where the S3 is located, we need to allow 
+If  `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` is different to the account where the S3 is located, we need to allow
 cross-account access through a role.
 
 Permission setup for SysdigSecureForCloud-S3AccessRole
@@ -129,13 +129,13 @@ Permission setup for SysdigSecureForCloud-S3AccessRole
 
 #### 3.3 Cloudtrail S3 ingestion through Event-Forward
 
-When Cloudtrail-SNS is not available, or the Cloudtrail-S3 events are in an account different to the management 
+When Cloudtrail-SNS is not available, or the Cloudtrail-S3 events are in an account different to the management
 account, we will rely on a S3 Event Forwarder, to allow the workload to ingest events more easily.
 
-Secure for Cloud requires an SQS queue from which it can ingest events, and this will provide 
+Secure for Cloud requires an SQS queue from which it can ingest events, and this will provide
 `CLOUDTRAIL_S3_SNS_SQS_ARN` and `CLOUDTRAIL_S3_SNS_SQS_URL` for later installation.
 
-We provide a module to create this 
+We provide a module to create this
 [Cloudtrail S3 bucket event-forwarder into an SNS>SQS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/infrastructure/cloudtrail_s3-sns-sqs)
 but you can do it manually too.
 
@@ -167,7 +167,7 @@ Inspect `terraform state list` to gather these two values, `CLOUDTRAIL_S3_SNS_SQ
 
 #### 4. Launch Terraform Manifest
 
-Let's create the Terraform manifest module parametrization, based on `examples/organizational`. 
+Let's create the Terraform manifest module parametrization, based on `examples/organizational`.
 <br/>Get detailed explanation of each variable bellow.
 
 ```terraform
@@ -221,7 +221,7 @@ module "sysdig-sfc" {
   existing_cloudtrail_config={
     cloudtrail_s3_sns_sqs_arn = "<CLOUDTRAIL_S3_SNS_SQS_ARN>"
     cloudtrail_s3_sns_sqs_url = "<CLOUDTRAIL_S3_SNS_SQS_URL>"
-    
+
     #  optional, only if CLOUDTRAIL_S3 and SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID are in different accounts
     cloudtrail_s3_role_arn    = "<CLOUDTRAIL_S3_ROLE_ARN>"
   }

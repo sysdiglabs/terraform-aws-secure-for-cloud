@@ -120,7 +120,7 @@ module "cloudtrail_s3_sns_sqs" {
 
 4. Kubernetes Multi-Account **AWS Permissions** to be able to handle S3/SQS operations
 
-Helm Cloud-Connector chart requires specific AWS credentials to be passed by parameter, a new user + access key will 
+Helm Cloud-Connector chart requires specific AWS credentials to be passed by parameter, a new user + access key will
 be created within account, to be able to fetch the events in the S3 bucket (1) or several S3 buckets (2)
 <br/><br/>
 WIP.

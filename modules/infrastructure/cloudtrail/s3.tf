@@ -21,6 +21,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail" {
   }
 }
 
+resource "aws_s3_bucket_ownership_controls" "owner_enforced" {
+  bucket = aws_s3_bucket.cloudtrail.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail" {
   bucket = aws_s3_bucket.cloudtrail.id
 
@@ -31,12 +39,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail" {
       days = var.s3_bucket_expiration_days
     }
   }
-}
-
-
-resource "aws_s3_bucket_acl" "cloudtrail" {
-  bucket = aws_s3_bucket.cloudtrail.id
-  acl    = "private"
 }
 
 
