@@ -137,7 +137,7 @@ To enable it, you configure the following:
 
 - SQS to ingest the events
 
-- Cloudtrail-enabled S3 bucket to allow cross-account read
+- Configure S3 bucket to allow cross-account read
 
 ### Prepare SQS
 
@@ -147,11 +147,11 @@ To enable it, you configure the following:
 
    For more information, see [Configuring Amazon SNS notifications for CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/configure-sns-notifications-for-cloudtrail.html).
 
-2. On your cluster, where Sysdig is deployed, create an SQS topic to ingest Cloudtrail events.
+2. On the account, where Sysdig is deployed, create an SQS topic to ingest Cloudtrail events.
 
-   1. Use the default configuration parameters
+   1. While configuration, accept the default parameters.
 
-   2. Due to cross-account limitations, enable `SNS:Subscribe` permissions on the queue:
+   2. Edit the **Access policy** and enable `SNS:Subscribe` permissions on the queue:
 
       ```json
       {
@@ -165,91 +165,64 @@ To enable it, you configure the following:
       }
       ```
 
-      For example:
+       This permission lifts the cross-account limitations.
 
-      ```
-      {
-        "Version": "2012-10-17",
-        "Id": "__default_policy_ID",
-        "Statement": [
-          {
-            "Sid": "AllowCrossAccountSNSSubscription",
-            "Effect": "Allow",
-            "Principal": {
-              "AWS": "237944556329"
-            },
-            "Action": "sns:Subscribe",
-            "Resource": "arn:aws:sqs:us-east-2:237944556329:SYSDIG_CLOUDTRAIL_SNS_SQS"
-          }
-        ]
-      }
-      ```
+   3. Save `SYSDIG_CLOUDTRAIL_SNS_SQS_URL` and `ARN_CLOUDTRAIL_SNS_SQS` for later use.
 
-      
+### Configure Cross-Account S3 Access
 
-      This will enable Cloudtrail-SNS topic to subscribe to the SQS queue.
+In the organizational account, configure the access credentials for cross-aacount access for the Cloudtrail-enabled S3 bucket.
 
-   3. Configure the Cloudtrail-SNS topic to subscribe to the SQS queue.
+1.   Create a new role named  `SysdigS3AccessRole` to retrieve S3 data. Save it as `ARN_ROLE_SYSDIG_S3_ACCESS`.
+   
+   ```yaml
+   {
+       "Sid": "AllowSysdigReadS3",
+       "Effect": "Allow",
+       "Action": [
+         "s3:GetObject"
+       ],
+       "Resource": "<ARN_CLOUDTRAIL_S3>/*"
+   }
+   ```
+   
+2. Provide the same retrieve permissions on the S3 bucket. To do so, add following statement to the Bucket policy:
 
-   4. Save `SYSDIG_CLOUDTRAIL_SNS_SQS_URL` and `ARN_CLOUDTRAIL_SNS_SQS` for later use.
-
-
-4. Configure the cross-aacount S3 access credentials.
-
-     1. In the organizational account where Cloudtrail-S3 bucket is placed, create a new `SysdigS3AccessRole` role to
-        handle the following permissions and save it as `ARN_ROLE_SYSDIG_S3_ACCESS`.
-
-        ```yaml
-        {
-            "Sid": "AllowSysdigReadS3",
-            "Effect": "Allow",
-            "Action": [
-              "s3:GetObject"
-            ],
-            "Resource": "<ARN_CLOUDTRAIL_S3>/*"
-        }
-        ```
-
-        
-
-     2. Perform the same permissions setup on the S3 bucket. Add following statement to the Bucket policy:
-
-        ```yaml
-        {
-            "Sid": "AllowSysdigReadS3",
-            "Effect": "Allow",
-            "Principal": {
-              "AWS": "<ARN_ROLE_SYSDIG_S3_ACCESS>"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "<ARN_CLOUDTRAIL_S3>/*"
-         }
-        ```
-
-        
-
-     3. Allow cross-account `assumeRole` Trust Relationship, for Sysdig Compute role to be able to make
-        use of this `SysdigS3AccessRole`:
-
-        ```yaml
-        {
-        "Sid": "AllowSysdigAssumeRole",
-        "Effect": "Allow",
-        "Principal": {
-        "AWS": "<ARN_SYSDIG_COMPUTE_ROLE>"
-        },
-        "Action": "sts:AssumeRole"
-        }	
-        ```
+   ```yaml
+   {
+       "Sid": "AllowSysdigReadS3",
+       "Effect": "Allow",
+       "Principal": {
+         "AWS": "<ARN_ROLE_SYSDIG_S3_ACCESS>"
+       },
+       "Action": "s3:GetObject",
+       "Resource": "<ARN_CLOUDTRAIL_S3>/*"
+    }
+   ```
 
    
 
-## Secure for Cloud Compute Deployment
+3. Allow cross-account `assumeRole` Trust Relationship as follows.  This will allow `SysdigComputeRole` to use the `SysdigS3AccessRole`:
+   
+   ```yaml
+   {
+   "Sid": "AllowSysdigAssumeRole",
+   "Effect": "Allow",
+   "Principal": {
+   "AWS": "<ARN_SYSDIG_COMPUTE_ROLE>"
+   },
+   "Action": "sts:AssumeRole"
+   }	
+   ```
 
-In the `SYSDIG_ACCOUNT_ID` account.
+## Deploy Sysdig Secure for Cloud
 
-We will setup the `SysdigComputeRole`, to be able to perform required actions by Secure for Cloud
-compute; work with the SQS and access S3 resources (this last one via assumeRole).
+### Provide Permissions to the Sysdig Compute Role 
+
+In the Sysdig AWS member account, edit the `SysdigComputeRole` that you have created and add permission to: 
+
+- Perform necessary actions by Secure for Cloud compute.
+- Work with SQS and access S3 resources. 
 
 ```json
 {
@@ -274,7 +247,7 @@ compute; work with the SQS and access S3 resources (this last one via assumeRole
 }
 ```
 
-Now we will deploy the compute component, depending on the compute service
+### Deploy Cloud Connector
 
 #### EKS
 
@@ -289,62 +262,66 @@ Now we will deploy the compute component, depending on the compute service
    - Secure for Cloud [does not manage IAM key-rotation, but find some suggestions to rotate access-key](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/infrastructure/permissions/iam-user#access-key-rotation)<br/><br/>
      -->
 
+1. Retrieve your `<SYSDIG_SECURE_ENDPOINT>` and `<SYSDIG_SECURE_API_TOKEN>`.
 
-If using Kubernetes, we will make use of the [Sysdig cloud-connector helm chart](https://charts.sysdig.com/charts/cloud-connector/) component.
-<br/>Locate your `<SYSDIG_SECURE_ENDPOINT>` and `<SYSDIG_SECURE_API_TOKEN>`.<br/> [Howto fetch ApiToken](https://docs.sysdig.com/en/docs/administration/administration-settings/user-profile-and-password/retrieve-the-sysdig-api-token)
+   See [Retrieve API Token](https://docs.sysdig.com/en/docs/administration/administration-settings/user-profile-and-password/retrieve-the-sysdig-api-token) for more information.
 
-Provided the following `values.yaml` template
+2. Use the [Sysdig cloud-connector helm chart](https://charts.sysdig.com/charts/cloud-connector/) to Locate your `<SYSDIG_SECURE_ENDPOINT>` and `<SYSDIG_SECURE_API_TOKEN>`.
 
-```yaml
-sysdig:
-  url: "https://secure.sysdig.com"
-  secureAPIToken: "SYSDIG_API_TOKEN"
-telemetryDeploymentMethod: "helm_aws_k8s_org"		# not required but would help us
-aws:
-    region: <SQS-AWS-REGION>
-ingestors:
-    - cloudtrail-sns-sqs:
-        queueURL:"<URL_CLOUDTRAIL_SNS_SQS>"             # step 3
-        assumeRole:"<ARN_ROLE_SYSDIG_S3_ACCESS>"        # step 4
-```
+   Use the following `values.yaml` template:
 
-We will install it
+   ```yaml
+   sysdig:
+     url: "https://secure.sysdig.com"
+     secureAPIToken: "SYSDIG_API_TOKEN"
+   telemetryDeploymentMethod: "helm_aws_k8s_org"		# not required but would help us
+   aws:
+       region: <SQS-AWS-REGION>
+   ingestors:
+       - cloudtrail-sns-sqs:
+           queueURL:"<URL_CLOUDTRAIL_SNS_SQS>"             # step 3
+           assumeRole:"<ARN_ROLE_SYSDIG_S3_ACCESS>"        # step 4
+   ```
 
-```shell
-$ helm upgrade --install --create-namespace -n sysdig-cloud-connector sysdig-cloud-connector sysdig/cloud-connector -f values.yaml
-```
+3. Run the following:
 
-Test it
+   ```
+   helm upgrade --install --create-namespace -n sysdig-cloud-connector sysdig-cloud-connector sysdig/cloud-connector -f values.yaml
+   ```
 
-```shell
-$ kubectl logs -f -n sysdig-cloud-connector deployment/sysdig-cloud-connector
-```
+4. To verify the installation, run:
 
-And if desired uninstall it
+   ```
+   kubectl logs -f -n sysdig-cloud-connector deployment/sysdig-cloud-connector
+   ```
 
-```shell
-$ helm uninstall -n sysdig-cloud-connector sysdig-cloud-connector
-```
+   ​	 If you want to uninstall,  run:
+
+   ```
+   helm uninstall -n sysdig-cloud-connector sysdig-cloud-connector
+   ```
 
 #### ECS
 
-If using , AWS ECS (Elastic Container Service), we will create a new Fargate Task.
+If you are using an ECS cluster to deploy Cloud Connector, create a new Fargate Task with the following.
 
-- TaskRole: Use previously created `SysdigComputeRole`
+- **TaskRole**: Use the `SysdigComputeRole` you have created earlier.
 
-- Task memory (GB): 0.5 and Task CPU (vCPU: 0.25 will suffice
+- **Task memory (GB)**:  0.5
 
-- Container definition
+- **Task CPU (vCPU)** :  0.25 
+
+- **Container definition**: Specify the following:
 
   - Image: `quay.io/sysdig/cloud-connector:latest`
 
-  - Port Mappings; bind port 5000 tcp protocol
+  - Port Mappings:  bind port 5000 TCP Protocol
 
-  - Environment variables
+  - Environment variables:
 
-    - SECURE_URL
-    - SECURE_API_TOKEN
-    - CONFIG:  A base64 encoded configuration of the cloud-connector service
+    - `SECURE_URL`: The URL associated with your Sysdig account. See [SaaS Regions and IP Ranges](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) for more information.
+    - `SECURE_API_TOKEN`: See [Retrieve API Token](https://docs.sysdig.com/en/docs/administration/administration-settings/user-profile-and-password/retrieve-the-sysdig-api-token) for more information.
+    - `CONFIG`:  A base64 encoded configuration of the `cloud-connector` service:
 
     ```yaml
     logging: info
@@ -387,10 +364,12 @@ ExecutionRole
 
 ## Verify Configuration
 
-Check within Sysdig Secure
+1. Log in to Sysdig Secure.
+2. Navigate to **Integrations** > **Cloud Accounts**.
+3. Navigate to **Insights** > **Cloud Activity**.
 
-- Integrations > Cloud Accounts
-- Insights > Cloud Activity
+## Learn More
 
-- [Official Docs Check Guide](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-gcp/#confirm-the-services-are-working)
-- [Forcing events](https://github.com/sysdiglabs/terraform-google-secure-for-cloud#forcing-events)
+- [Verify Services Are Working](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-gcp/#confirm-the-services-are-working)
+
+- [Forcing Events](https://github.com/sysdiglabs/terraform-google-secure-for-cloud#forcing-events)
