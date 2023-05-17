@@ -78,9 +78,7 @@ To fetch data from the S3 bucket, you create a role named `SysdigComputeRole` an
 
 1. Create `SysdigComputeRole` in your cluster. 
 
-2. Enable it to be used from within. 
-
-3. Do the following:
+2. Do the following:
 
    **EKS** cluster: Use the IAM authentication role mapping setup. 
 
