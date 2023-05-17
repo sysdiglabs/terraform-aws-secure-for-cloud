@@ -1,6 +1,6 @@
 # Multi-AWS Accounts with Organizational CloudTrail and SNS with S3 
 
-This use case describes setting up Secure for Cloud for a multi-AWS accounts environment with the following:
+This use case describes setting up Sysdig Secure for Cloud when you have multi-AWS accounts environment with the following:
 
 - AWS Management account with Organization CloudTrail
 - AWS member account with Amazon Simple Notification Service (SNS) and Amazon S3 Cloud Object Storage
