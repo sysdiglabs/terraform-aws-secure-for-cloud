@@ -21,6 +21,14 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "cloudtrail" {
   }
 }
 
+resource "aws_s3_bucket_ownership_controls" "owner_enforced" {
+  bucket = aws_s3_bucket.cloudtrail.id
+
+  rule {
+    object_ownership = "BucketOwnerEnforced"
+  }
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail" {
   bucket = aws_s3_bucket.cloudtrail.id
 
@@ -34,17 +42,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "cloudtrail" {
 }
 
 
-resource "aws_s3_bucket_acl" "cloudtrail" {
-  bucket = aws_s3_bucket.cloudtrail.id
-  acl    = "private"
-}
-
-
 # --------------------------
 # iam, acl
 # -------------------------
 
 resource "aws_s3_bucket_public_access_block" "cloudtrail" {
+  count                   = var.temporary_s3_bucket_public_block == false ? 0 : 1
   bucket                  = aws_s3_bucket.cloudtrail.id
   block_public_acls       = true
   block_public_policy     = true

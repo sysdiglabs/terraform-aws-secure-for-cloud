@@ -46,6 +46,12 @@ variable "cloudtrail_s3_bucket_expiration_days" {
   description = "Number of days that the logs will persist in the bucket"
 }
 
+variable "temporary_cloudtrail_s3_bucket_public_block" {
+  type        = bool
+  default     = true
+  description = "Create a S3 bucket public access block configuration.<br/>This is a temporary variable that will be removed once https://aws.amazon.com/blogs/aws/heads-up-amazon-s3-security-changes-are-coming-in-april-of-2023/ is made effective.<br/>After it, the resource will never be created."
+}
+
 variable "existing_cloudtrail_config" {
   type = object({
     cloudtrail_s3_arn         = optional(string)
@@ -120,12 +126,6 @@ variable "deploy_benchmark_organizational" {
   description = "true/false whether benchmark module should be deployed on organizational or single-account mode (1 role per org accounts if true, 1 role in default aws provider account if false)</li></ul>"
 }
 
-variable "benchmark_regions" {
-  type        = list(string)
-  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
-  default     = []
-}
-
 
 #---------------------------------
 # ecs, security group,  vpc
@@ -170,7 +170,6 @@ variable "ecs_task_memory" {
 }
 
 
-
 #
 # general
 #
@@ -187,4 +186,30 @@ variable "tags" {
   default = {
     "product" = "sysdig-secure-for-cloud"
   }
+}
+
+#
+# Autoscaling configurations
+#
+variable "enable_autoscaling" {
+  type        = bool
+  description = "Whether to enable autoscaling or not"
+  default     = false
+}
+
+variable "autoscaling_config" {
+  type = object({
+    min_replicas        = number
+    max_replicas        = number
+    upscale_threshold   = number
+    downscale_threshold = number
+  })
+
+  default = {
+    min_replicas        = 2
+    max_replicas        = 15
+    upscale_threshold   = 60
+    downscale_threshold = 30
+  }
+  description = "if enable_autoscaliing is enabled, ECS autoscaling configuration. for more insight check source code"
 }

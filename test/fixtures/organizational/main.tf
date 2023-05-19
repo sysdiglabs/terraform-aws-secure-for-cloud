@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     aws = {
-      version               = ">= 4.0.0"
+      # major version pinned until this is solved: hashicorp/terraform-provider-aws#29042
+      version               = ">= 4.0.0, <4.51.0"
       configuration_aliases = [aws.member]
     }
     sysdig = {
@@ -40,4 +41,12 @@ module "cloudvision_aws_organizational" {
   sysdig_secure_for_cloud_member_account_id = var.sysdig_secure_for_cloud_member_account_id
   deploy_image_scanning_ecr                 = true
   deploy_image_scanning_ecs                 = true
+
+  enable_autoscaling = true
+  autoscaling_config = {
+    min_replicas        = 1
+    max_replicas        = 4
+    upscale_threshold   = 60
+    downscale_threshold = 30
+  }
 }

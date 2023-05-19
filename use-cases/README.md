@@ -4,15 +4,18 @@ Secure for cloud is served through Terraform for [AWS](https://github.com/sysdig
 [GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud) and [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud) clouds,
 and for AWS in [Cloudformation](https://github.com/sysdiglabs/aws-templates-secure-for-cloud) too.
 
-### Compute Workload Type
 
-| Cloud | Example Options |
-| - | - |
-| AWS | K8S `-k8s`, ECS `-ecs`, AppRunner `-apprunner` |
-| GCP | K8S `-k8s`, CloudRun |
-| Azure | K8S `-k8s`, AzureContainerInstances |
+### Feature Summary
 
-**Which should I choose?**
+| Cloud | Single Setup | Organizational Setup | Event Source | Compute Deployment Options | Sysdig Role Setup | Image Scanning Options | Spawned Scanning Service
+| -- | --- | --- | --- | --- | --- | --- | --- | 
+| AWS | Account | Organization with member accounts | Cloudtrail | K8S `-k8s`, ECS `-ecs`, AppRunner `-apprunner` | IAM Role with Trusted Identity | ECS deployed images,<br/>ECR, Public Repositories | Codebuild project | 
+| GCP | Project | Organization with member projects | Project/Organization Sink,<br/> GCR PubSub Topic | K8S `-k8s`, CloudRun | Workload Identity Federation | CloudRun deployed images,<br/>GCR, Public Repositories |Cloudbuild task | 
+| Azure | Subscription | Tenant subscriptions| EventHub, Eventgrid | K8S `-k8s`, AzureContainerInstances (ACI) | Azure Lighthouse | ACI deployed images,<br/> ACR, Public Repositories | ACR Task |
+
+
+
+**Compute Deployment wise, which should I choose?**
 <br/>There are no preffered way, just take a technology you're familiar with. Otherwise, prefer non K8S, as it will be harder to maintain.
 <br/>For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-apprunner/README.md#prerequisites)
 <br/><br/>
@@ -44,12 +47,24 @@ Current examples were developed for simple use-case scenarios.
 If not Terraform nor Cloudformation suits, take a look at the `manual-*` prefixed use-cases.
 
 
+### all-features
+
+For [all-feature installation](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features), check
+
+
 |                   | `/examples/single-*`                                               | `/examples/organizational-*` |
 | --| -- | -- |
 | Deployment Type   | all Sysdig resources will be deployed within the selected account | Most Sysdig resources will be deployed within the selected account (just one), but some features, require resources to be deployed on all of the member-accounts (for Compliance and Image Scanning) . <br />One role is needed on the management account for cloudtrail-s3 event access |
-| Target          | will only analyse current account                                 |  handles all accounts (managed and member)|
+| Target          | will only analyse current account                                 |  handles all accounts (managed and member) + dynamically created new member accounts|
 | Drawbacks         | cannot re-use another account Cloudtrail data (unless its deployed on the same account where the sns/s3 bucket is) | for scanning, a per-member-account access role is required |
-| Optional resources usage limitations | - |  For organizational example, Cloudtrail optional resources must exist in the management account. For other setups check other alternative use-cases</br><ul><li>[manual deployment; cloudtrail-s3 bucket in another member account](./manual-org-three-way.md)</li><li>[terraform-based deployment; cloudtrail with cloudtrail-s3 bucket in another member account. k8s flavor](./org-three-way-k8s.md)</li><li>[terraform-based deployment; cloudtrail with cloudtrail-s3 bucket in another member account. ecs flavor](./org-three-way-ecs.md)</li></ul>|
-| More Info | [single-ecs](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs), [single-apprunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner), [single-k8s](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s) | [organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational) |
+| Optional resources usage limitations | - |  For organizational example, Cloudtrail resources cloudtrail-s3 and cloudtrail-sns, must exist in the management account. For other setups check other alternative use-cases</br><ul><li>[AWS manual deployment; cloudtrail-s3 bucket in another member account](./manual-org-three-way.md)</li><li>[AWS terraform-based deployment; cloudtrail with cloudtrail-s3 bucket in another member account. k8s flavor](./org-three-way-k8s.md)</li><li>[terraform-based deployment; cloudtrail with cloudtrail-s3 bucket in another member account. ecs flavor](./org-three-way-ecs.md)</li></ul>|
+| More Info | [AWS single-ecs](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs), [AWS single-apprunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner), [AWS single-k8s](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s) | [AWS organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational) |
 
 With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
+
+<br/>
+
+### unified-compliance only
+
+If you just want [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)
+check our guide on [Compliance role-only deployment with Terraform](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-agentless/)

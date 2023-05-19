@@ -79,7 +79,7 @@ For later usage, fetch `SYSDIG_AWS_EXTERNAL_ID` from one of the previously regis
 $ curl -s "https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID>?includeExternalId=true" \
 --header "Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>"
 ```
-From the resulting payload get the `externalId` attribute value.
+From the resulting payload get the `externalId` attribute value, it should be a 32character string mixed with letters and numbers with no dashes, ex.:`0ab697b38dec8fb0932903jasfh38309`
 
 <br/>
 

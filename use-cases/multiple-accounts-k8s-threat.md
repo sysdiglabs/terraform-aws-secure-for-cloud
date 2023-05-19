@@ -119,11 +119,12 @@ module "cloudtrail_s3_sns_sqs" {
 -->
 
 4. Kubernetes Multi-Account **AWS Permissions** to be able to handle S3/SQS operations
-Helm Cloud-Connector chart requires specific AWS credentials to be passed by parameter, a new user + access key will be created within account,
-to be able to fetch the events in the S3 bucket (1) or several S3 buckets (2)
 
+Helm Cloud-Connector chart requires specific AWS credentials to be passed by parameter, a new user + access key will
+be created within account, to be able to fetch the events in the S3 bucket (1) or several S3 buckets (2)
+<br/><br/>
 WIP.
-
+<br/><br/>
 We currently provide a module to create first use-case,
 [`modules/infrastructure/permissions/iam-user`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/infrastructure/permissions/iam-user) (1),
 but can work on providing a way to automatize the later (2)

@@ -1,5 +1,3 @@
-
-
 #---------------------------------
 # optionals - with defaults
 #---------------------------------
@@ -30,6 +28,12 @@ variable "cloudtrail_s3_bucket_expiration_days" {
   type        = number
   default     = 5
   description = "Number of days that the logs will persist in the bucket"
+}
+
+variable "temporary_cloudtrail_s3_bucket_public_block" {
+  type        = bool
+  default     = true
+  description = "Create a S3 bucket public access block configuration<br/>This is a temporary variable that will be removed once https://aws.amazon.com/blogs/aws/heads-up-amazon-s3-security-changes-are-coming-in-april-of-2023/ is made effective.<br/>After it, the resource will never be created."
 }
 #
 # ecs, security group,  vpc
@@ -106,12 +110,14 @@ variable "deploy_benchmark" {
   default     = true
 }
 
-variable "benchmark_regions" {
-  type        = list(string)
-  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
-  default     = []
+#
+# cloud connector connector configuration
+#
+variable "cloud_connector_image" {
+  type        = string
+  description = "Image to use for the cloud connector. If empty, the default image will be used."
+  default     = "quay.io/sysdig/cloud-connector:latest"
 }
-
 
 #
 # general
@@ -129,4 +135,30 @@ variable "tags" {
   default = {
     "product" = "sysdig-secure-for-cloud"
   }
+}
+
+#
+# Autoscaling configurations
+#
+variable "enable_autoscaling" {
+  type        = bool
+  description = "Whether to enable autoscaling or not"
+  default     = false
+}
+
+variable "autoscaling_config" {
+  type = object({
+    min_replicas        = number
+    max_replicas        = number
+    upscale_threshold   = number
+    downscale_threshold = number
+  })
+
+  default = {
+    min_replicas        = 1
+    max_replicas        = 10
+    upscale_threshold   = 60
+    downscale_threshold = 30
+  }
+  description = "if enable_autoscaliing is enabled, ECS autoscaling configuration. for more insight check source code"
 }

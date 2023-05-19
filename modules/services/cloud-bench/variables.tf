@@ -20,12 +20,6 @@ variable "region" {
   description = "Default region for resource creation in organization mode"
 }
 
-variable "benchmark_regions" {
-  type        = list(string)
-  description = "List of regions in which to run the benchmark. If empty, the task will contain all aws regions by default."
-  default     = []
-}
-
 variable "provision_caller_account" {
   type        = bool
   default     = true
