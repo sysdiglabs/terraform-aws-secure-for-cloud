@@ -1,5 +1,7 @@
 # Compliance
 
+
+## AWS
 On each account where compliance wants to be checked (`AWS_ACCOUNT_ID`), we need to provide a role for Sysdig to be able to impersonate and perform `SecurityAudit` tasks.
 
 In addition, we must make Sysdig aware of these accounts and role.
@@ -7,7 +9,7 @@ We will guide you to provide, on the Sysdig Secure SaaS backend, the following r
 - a cloud-account for each account of your organization where compliance is wanted to be checked
 - a task that will run `aws_foundations_bench-1.3.0` schema on previously defined accounts
 
-## Sysdig Side
+### Sysdig Side
 
 1. **Register cloud accounts** on Sysdig
 
@@ -81,7 +83,7 @@ From the resulting payload get the `externalId` attribute value, it should be a 
 
 <br/>
 
-## Customer's Side
+### Customer's Side
 
 Now create `SysdigCompliance` role on each account using the values gathered in previous step.
   - Add `arn:aws:iam::aws:policy/SecurityAudit` AWS managed policy
@@ -99,7 +101,7 @@ Now create `SysdigCompliance` role on each account using the values gathered in 
     }
     ```
 
-## End-To-End Validation
+### End-To-End Validation
 
 Validate if Sysdig <-> Customer infra connection is properly made using [`/cloud/accounts/{accountId}/validateRole`](https://secure.sysdig.com/swagger.html#tag/Cloud/paths/~1api~1cloud~1v2~1accounts~1{accountId}~1validateRole/get)
 
@@ -111,7 +113,7 @@ $ https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID>/valida
 You should get success or the reason of failure.
 
 
-## Testing
+### Testing
 
 Check within Sysdig Secure
 - Posture > Compliance  for the compliance task schedule
