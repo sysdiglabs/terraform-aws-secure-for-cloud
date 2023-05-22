@@ -1,120 +1,135 @@
-# Compliance
+# Manually onboard an AWS account for CSPM
 
+Please note: This method of installation will **only** support CSPM (Compliance). 
+The following features **will not work**: Threat Detection, Identity and Access, Image Scanning. 
+To install other features, please follow our full [Installation Guide](https://docs.sysdig.com/en/docs/installation/sysdig-secure/connect-cloud-accounts/aws/)
 
-## AWS
-On each account where compliance wants to be checked (`AWS_ACCOUNT_ID`), we need to provide a role for Sysdig to be able to impersonate and perform `SecurityAudit` tasks.
+In each AWS account where you would like to run CSPM, we must create an IAM Role with `SecurityAudit` permissions that Sysdig is able to assume.
 
-In addition, we must make Sysdig aware of these accounts and role.
-We will guide you to provide, on the Sysdig Secure SaaS backend, the following resources:
-- a cloud-account for each account of your organization where compliance is wanted to be checked
-- a task that will run `aws_foundations_bench-1.3.0` schema on previously defined accounts
+In addition, we must make Sysdig aware of these accounts and roles.
+These instructions will guide you to create the following resources on the Sysdig Secure SaaS backend:
+- An `account` representing the AWS account in which you would like to enable CSPM,
+- A trust-relationship `component` that represents the IAM Role in your AWS account,
+- A CSPM `feature` that indicates CSPM scans should be run against this account.
 
-### Sysdig Side
+## Preparation
 
-1. **Register cloud accounts** on Sysdig
+To learn more about how to use Sysdig Secure APIs, please see: [How to use development tools](https://docs.sysdig.com/en/docs/developer-tools/).
 
-For each account you want to provision for the Compliance feature, we need to register it on Sysdig Secure, so
-it can impersonate and perform `SecurityAudit` tasks.
+### 1) Fetch the **Sysdig Trusted Identity** and **ExternalID**
 
-For Sysdig Secure backend API communication [How to use development tools](https://docs.sysdig.com/en/docs/developer-tools/). Also, we have this [AWS provisioning script](./utils/sysdig_cloud_compliance_provisioning.sh) as reference, but we will explain it here too.
+These can be fetched in a single call to retrive the `TrustRelationshipPolicy` that will be used when creating an IAM role below.
+
 ```shell
-$ curl "https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts?upsert=true" \
---header "Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>" \
--X POST \
--H 'Accept: application/json' \
--H 'Content-Type: application/json' \
--d '{
- "accountId": "<AWS_ACCOUNT_ID>",
- "alias": "<AWS_ACCOUNT_ALIAS>",
- "provider": "aws",
- "roleAvailable": true,
- "roleName": "SysdigComplianceRole"
-}'
+$ curl -s 'https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/aws/trustedRoleDoc' \
+--header 'Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>'
 ```
-<br/>
 
-2. Register **Benchmark Task**
+Response pattern:
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::761931097553:role/us-east-1-production-secure-assume-role"
+      },
+      "Action": "sts:AssumeRole",
+      "Condition": {
+        "StringEquals": {
+          "sts:ExternalId": "8000e8d3b0f082c3f9a33e6ae6e39774"
+        }
+      }
+    }
+  ]
+}
+```
 
-Create a single task to scope the organization account ids (or just a single account) to be assessed with the
-`aws_foundations_bench-1.3.0` compliance framework.
+## Provision your AWS Account
 
-This script does not cover it, but specific regions can be scoped too. Check `Benchmarks-V2` REST-API for more detail
+### 1) Create IAM Role
+
+Sysdig secures your cloud environment by assuming an IAM Role you create within your AWS Account.
+
+1) Create a new IAM Role with a Custom trust policy. Set the value of the trust polity to the `TrustRelationshipPolicy` policy retrieved above.
+2) Attach the `arn:aws:iam::aws:policy/SecurityAudit` AWS managed policy.
+3) Give the role a unique name, and take note of this name for use later on.
+4) Add Tags and a Description as desired.
+
+## Provision Sysdig
+
+### 1) Create an AWS **account** representation
+
 ```shell
-$ curl -s "https://<SYSDIG_SECURE_ENDPOINT>/api/benchmarks/v2/tasks" \
+$ curl "https://<SYSDIG_SECURE_ENDPOINT>/api/cloudauth/v1/accounts" \
 --header "Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>" \
 -X POST \
 -H 'Accept: application/json' \
 -H 'Content-Type: application/json' \
 -d '{
-  "name": "Sysdig Secure for Cloud (AWS) - Organization",
-  "schedule": "0 3 * * *",
-  "schema": "aws_foundations_bench-1.2.0",
-  "scope": "aws.accountId in ('<AWS_ACCOUNT_ID_1>',...,'<AWS_ACCOUNT_ID_N>')'",
+  "providerId": "<AWS_ACCOUNT_ID>",
+  "provider": "PROVIDER_AWS",
   "enabled": true
 }'
 ```
-
+The response to this call will look something like:
+```json
+{
+  "id": "2fb94253-3a93-4d43-a739-2cb8c1c6f886",
+  "customerId": "123",
+  "enabled": true,
+  "providerId": "123456789012",
+  "provider": "PROVIDER_AWS",
+  "feature": {},
+  "createdAt": "2023-05-22T21:26:03.288075Z",
+  "updatedAt": "2023-05-22T21:26:03.288358Z"
+}
+```
+Take note of the `id` field, which is referenced in subsequent calls. Note this is **not the AWS AccountID**, which is stored in the `providerId` field.
 <br/>
 
-3. Get **Sysdig Federation Trusted Identity**
+### 2) Create a Trust Relationship **component**
 
-For later usage, fetch the Trusted Identity `SYSDIG_AWS_TRUSTED_IDENTITY_ARN`
+In this call, replace `<CLOUD_ACCOUNT_ID>` with the `id` field retrieved from the response in step 1. 
+Replace `<ROLE_NAME>` with the name of the IAM role created above. Note this is not the ARN, but the role name.
 
 ```shell
-$ curl -s 'https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/aws/trustedIdentity' \
---header 'Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>'
-```
-
-   Response pattern:
-```shell
-arn:aws:iam::SYSDIG_AWS_ACCOUNT_ID:role/SYSDIG_AWS_ROLE_NAME
-```
-
-<br/>
-
-4. Get **Sysdig ExternalId**
-
-For later usage, fetch `SYSDIG_AWS_EXTERNAL_ID` from one of the previously registered GCP accounts. All accounts will have same id (you only need to run it once).
-```shell
-$ curl -s "https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID>?includeExternalId=true" \
---header "Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>"
-```
-From the resulting payload get the `externalId` attribute value, it should be a 32character string mixed with letters and numbers with no dashes, ex.:`0ab697b38dec8fb0932903jasfh38309`
-
-<br/>
-
-### Customer's Side
-
-Now create `SysdigCompliance` role on each account using the values gathered in previous step.
-  - Add `arn:aws:iam::aws:policy/SecurityAudit` AWS managed policy
-  - Allow following Trusted-Identity
-    ```json
-    {
-      "Effect": "Allow",
-      "Action": "sts:AssumeRole",
-      "Principal": {
-        "AWS": [ "<SYSDIG_AWS_TRUSTED_IDENTITY_ARN>" ]
-      },
-      "Condition": {
-        "StringEquals": {"sts:ExternalId": "<SYSDIG_AWS_EXTERNAL_ID>"}
-      }
+$ curl -s "https://<SYSDIG_SECURE_ENDPOINT>/api/cloudauth/v1/accounts/<CLOUD_ACCOUNT_ID>/components" \
+--header "Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>" \
+-X POST \
+-H 'Accept: application/json' \
+-H 'Content-Type: application/json' \
+-d '{
+  "type": "COMPONENT_TRUSTED_ROLE",
+  "instance": "manual",
+  "trustedRoleMetadata": {
+    "aws": {
+      "roleName": "<ROLE_NAME>"
     }
-    ```
-
-### End-To-End Validation
-
-Validate if Sysdig <-> Customer infra connection is properly made using [`/cloud/accounts/{accountId}/validateRole`](https://secure.sysdig.com/swagger.html#tag/Cloud/paths/~1api~1cloud~1v2~1accounts~1{accountId}~1validateRole/get)
-
-```bash
-$ https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID>/validateRole \
---header 'Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>'
+  }
+}'
 ```
+<br/>
 
-You should get success or the reason of failure.
+### 3) Create a CSPM **feature** representation
+
+As before, replace `<CLOUD_ACCOUNT_ID>` with the `id` field retrieved from the response in step 1.
+```shell
+$ curl -s "https://<SYSDIG_SECURE_ENDPOINT>/api/cloudauth/v1/accounts/<CLOUD_ACCOUNT_ID>/feature/FEATURE_SECURE_CONFIG_POSTURE" \
+--header "Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>" \
+-X PUT \
+-H 'Accept: application/json' \
+-H 'Content-Type: application/json' \
+-d '{
+  "type": "FEATURE_SECURE_CONFIG_POSTURE",
+  "enabled": true,
+  "components": ["COMPONENT_TRUSTED_ROLE/manual"]
+}'
+```
+<br/>
+
+## Validation
 
 
-### Testing
-
-Check within Sysdig Secure
-- Posture > Compliance  for the compliance task schedule
-- [Official Docs Check Guide](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws/#confirm-the-services-are-working)
+Verify that your installation was successful by following these [CSPM Validation steps](https://docs.sysdig.com/en/docs/installation/sysdig-secure/connect-cloud-accounts/aws/#check-cspm). 
