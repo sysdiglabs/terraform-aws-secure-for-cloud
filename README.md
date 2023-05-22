@@ -137,7 +137,7 @@ uncheck 'Block all public access'`
 
 Remember that in case you add new rules to the policy you need to give it time to propagate the changes.
 
-In the `cloud-connector` logs you should see similar logs to these
+In the `cloud-connector` logs you should see similar logs to these (within the `console-notifier` component log)
 > A public access block for a bucket has been deleted (requesting  user=OrganizationAccountAccessRole, requesting IP=x.x.x.x, AWS  region=eu-central-1, bucket=***
 
 If that's not working as expected, some other questions can be checked
