@@ -4,7 +4,7 @@ To enable CSPM (Compliance) in your AWS account, you create the following resour
 
     - An `account` representing the AWS account for which you want to enable CSPM
     - A trust-relationship `component` that represents the IAM Role in your AWS account
-    - A CSPM feature that indicates CSPM scans should be run against this account
+    - A CSPM `feature` that indicates CSPM scans should be run against this account
  
 
 ## Guidelines
