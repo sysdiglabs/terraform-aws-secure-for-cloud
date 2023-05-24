@@ -1,6 +1,6 @@
 # Manually Onboard an AWS Account for CSPM
 
-To enable CSPM (Compliance) in your AWS account, you create the following resources on the Sysdig Secure SaaS backend:
+To enable [CSPM (Compliance)](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/) in your AWS account, you create the following resources on the Sysdig Secure SaaS backend:
 
 - An `account` representing the AWS account for which you want to enable CSPM
 - A trust-relationship `component` that represents the IAM Role in your AWS account
