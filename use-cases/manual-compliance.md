@@ -46,12 +46,12 @@ An example response to this call:
     {
       "Effect": "Allow",
       "Principal": {
-        "AWS": "arn:aws:iam::761931097553:role/us-east-1-production-secure-assume-role"
+        "AWS": "arn:aws:iam::123456789012:role/us-east-1-some-sysdig-role"
       },
       "Action": "sts:AssumeRole",
       "Condition": {
         "StringEquals": {
-          "sts:ExternalId": "8000e8d3b0f082c3f9a33e6ae6e39774"
+          "sts:ExternalId": "0123abc456defg7890hijk123lmn0774"
         }
       }
     }
