@@ -2,9 +2,9 @@
 
 To enable CSPM (Compliance) in your AWS account, you create the following resources on the Sysdig Secure SaaS backend:
 
-    - An `account` representing the AWS account for which you want to enable CSPM
-    - A trust-relationship `component` that represents the IAM Role in your AWS account
-    - A CSPM `feature` that indicates CSPM scans should be run against this account
+- An `account` representing the AWS account for which you want to enable CSPM
+- A trust-relationship `component` that represents the IAM Role in your AWS account
+- A CSPM `feature` that indicates CSPM scans should be run against this account
  
 
 ## Guidelines
@@ -12,7 +12,6 @@ To enable CSPM (Compliance) in your AWS account, you create the following resour
 - This method of installation will only support CSPM (Compliance).
 
 - The following features will not work:
-
     - Threat Detection
     - Identity and Access
     - Image Scanning
