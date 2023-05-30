@@ -1,40 +1,38 @@
-# OrganizationSetup - Existing Cloudtrail - Existing ECS/VPC/Subnet
+# AWS Organizational Setup with Cloudtrail
 
-## Use-Case explanation
+## Overview
 
-**Client Setup**
+**User Setup**
 
-- [X] organizational setup
-  - [X] organizational cloudtrail that reports to SNS and persists events in a managed-account stored S3 bucket
-  - [X] member account usage - all required and pre-existing resources exist in the same account
-    - cloudtrail/sns/s3 in the management account
-    - and pre-existing objects in the same account where Sysdig Secure for Cloud workload is to be deployed
-  - [ ] member account usage - all required resources are in scattered organizational member accounts
-- [X] pre-existing resources
-  - [X] organizational cloudtrail, reporting to an SNS topic and delivering events to the S3 bucket
-  - [X] ecs cluster/vpc/subnet we want to use to deploy Sysdig for Cloud workload
-  - [ ] k8s cluster we want to use to deploy Sysdig for Cloud workload
+- [X] AWS organizational account
+  - [X] Organizational Cloudtrail that reports to SNS and persists events in a managed-account S3 bucket
+  - [X] Member account usage: All the required and pre-existing resources exist in the same account
+    - Cloudtrail, SNS, and S3 in the Management account
+    - Pre-existing objects in the same account where Sysdig Secure for Cloud workload is to be deployed
+  - [ ] Member account usage: All the required resources reside in different member accounts
+- [X] Pre-existing resources
+  - [X] Organizational cloudtrail reporting to an SNS topic and delivering events to the S3 bucket
+  - [X] ECS cluster with VPC and subnet to deploy Sysdig for Cloud workload
+  - [ ] Kubernetes cluster to deploy Sysdig for Cloud workload
 
 **Sysdig Secure For Cloud Features**
 
-- [X] threat Detection
-  - [X] all accounts of the organization (management account included)
+- [X] Threat Detection
+  - [X] all accounts of the organization, including the Management account
 - [ ] image Scanning (?)
-  - [ ] ecr pushed images
-  - [ ] ecs running images
+  - [ ] ECR pushed images
+  - [ ] ECS running images
 - [ ] CSPM/Compliance (?)
 - [ ] CIEM (?)
 
 
 
 
-## Suggested setup
+## Preparation
 
-For this use-case we're going to use the [`./examples/organizational`](../examples/organizational/README.md) setup.
-In order for this setup to work, several roles and permissions are required.
-Before proceeding, please read the example README and check whether you comply with requirements.
+For this usecase, you will use the [`./examples/organizational`](../examples/organizational/README.md) setup. In order for this setup to work, several roles and permissions are required. Before proceeding, see the [readme](../examples/organizational/README.md)  and check whether you comply with the requirements.
 
-Please contact us if something requires to be adjusted.
+Contact Sysdig for support.
 
 
 ### Step by Step Example Guide
@@ -76,17 +74,17 @@ module "utils_ecs-vpc" {
 ```
 -->
 
-1. Configure `AWS_PROFILE` with an organizational Administration credentials
+1. Configure `AWS_PROFILE` with an organizational administration credentials.
 
-2. Choose an Organizational **Member account for Sysdig Workload** to be deployed.
-   - This accountID will be provided in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` parameter
-   - Use-case workload-related pre-existing resources (ecs,vpc,subnets) must live within this member account
+2. Choose an Organizational member account for Sysdig Workload to be deployed.
+   - Note the account ID of this account. This value will be provided in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` parameter.
+   - Workload resources (ECS, VPC, subnets) must be created in this member account.
 
-3. Use `organizational` example snippet with following parameters
+3. Use the  `organizational` example snippet with following parameters:
 
    - General
-     - `AWS_REGION` Same region is to be used for both organizational managed account and Sysdig workload member account resources.
-     - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` where Sysdig Workload is to be deployed under the pre-existing ECS
+     - `AWS_REGION` : Same region is to be used for both organizational managed account and Sysdig workload member account resources.
+     - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID`:  where Sysdig Workload is to be deployed under the pre-existing ECS
 
    - Existing Organizational Cloudtrail Setup
      - `CLOUDTRAIL_SNS_ARN`
