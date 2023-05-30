@@ -1,17 +1,18 @@
-# OrganizationalSetup - Three way Cross-Account - K8S
+# Organizational Setup for Kubernetes Three way Cross-Account
 
-## Use-Case explanation
+## Overview
 
 This use case will cover a three-way cross-account setup (typical from AWS ControlTower landing page).
 With EKS as workload-type.
-<br/>This is terraform-based guidelines, but can also check [Manual Organizational Setup - Three-Way Cross-Account ](./manual-org-three-way.md)
+
+This is terraform-based guidelines, but can also check [Manual Organizational Setup - Three-Way Cross-Account ](./manual-org-three-way.md)
 
 - **User Infrastructure Setup**:
 
 This is the scenario we're going to recreate
 
   1. Management Account / Accounts
-    - Eithere there is an Organizational Cloudtrail reporting to the log archive account
+    - Either there is an Organizational Cloudtrail reporting to the log archive account
     - Or several accounts reporting to the same log archive account
   2. Log Archive Account
     - Cloudtrail-S3 bucket, with event notification to an SNS > SQS
