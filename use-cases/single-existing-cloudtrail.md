@@ -1,8 +1,8 @@
-# SingleAccount - Existing Cloudtrail
+# Single Account with Cloudtrail
 
-## Use-Case explanation
+## Overview
 
-**Client Setup**
+**User Setup**
 
 - [X] single-account setup
 - [X] pre-existing resources
@@ -21,17 +21,16 @@
 - [ ] CSPM/Compliance (WIP?)
 - [ ] CIEM (WIP?)
 
-## Suggested setup
+## Preparation
 
-For this use-case we're going to use the [`./examples/single-account-ecs`](../../examples/single-account-ecs/README.md) setup.
-In order for this setup to work, all resources must be in the same AWS account and region.
-Before proceeding, please read the example README and check whether you comply with requirements.
+For this usecase, you will use the [`./examples/single-account-ecs`](../../examples/single-account-ecs/README.md)  setup. In order for this setup to work, several roles and permissions are required. Before proceeding, see the [readme](../../examples/single-account-ecs/README.md)  and check whether you comply with the requirements.
 
-Please contact us if something requires to be adjusted.
+Contact Sysdig for support.
+
 
 ### Step by Step Example Guide
 
-Use `single-account` example with **`cloudtrail_sns_arn` parameter**
+Use the `single-account` example with the **`cloudtrail_sns_arn` parameter**
 
 <!--
 manual testing pre-requirements
