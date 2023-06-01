@@ -1,35 +1,39 @@
-# OrganizationSetup - Single-Account deployment
+# Organization Setup: Single Account Deployment
 
-## Use-Case explanation
+## Overview
 
-This use case will cover the way of deploying  `examples/organizational` within a more limited scope (single-account)
+This use case will leverage the [`examples/organizational`](./examples/organizational/README.md) setup within a more limited scope (single-account). Therefore, the CloudTrail you will set up will be organizational.
 
- > Being able to **allow/deny member accounts** where SecureForCloud is deployed, in organizational example, is under
- > feature-request.
+ > Being able to allow/deny member accounts where Secure for Cloud is deployed is under development.
 
-### Scope and Limitations
+### Features
 
-- While the feature-request is being developed, this workaround will only cover following [features](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud#sysdig-secure-for-cloud-in-aws)
-  - [x] Thread Detection
-  - [x] Compliance
-  - [x] Identity and Access Management
-  - [ ] Image scanning
-- Because we will still rely on organizational setup, the **cloudtrail will still be organizational**
+This use case provides the following [Sysdig Secure For Cloud](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features) features:
 
-## Suggested setup
+- [Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/policies/threat-detect-policies/)
+- [Posture](https://docs.sysdig.com/en/docs/sysdig-secure/posture/)
+- [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/)
+- [Identity Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/identity-and-access/)
 
-We will rely on
+## Preparation
 
-- the `deploy_benchmark_organizational"` input variable of the example.
+You will use the following to enable single account deployment:
+
+### `deploy_benchmark_organizational`
+
+You will set the `deploy_benchmark_organizational"` variable to false in the terraform configuration.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_deploy_benchmark_organizational"></a> [deploy\_benchmark\_organizational](#input\_deploy\_benchmark\_organizational) | true/false whether benchmark module should be deployed on organizational or single-account mode (1 role per org accounts if true, 1 role in default aws provider account if false)</li></ul> | `bool` | `true` | no |
+| <a name="input_deploy_benchmark_organizational"></a> [deploy\_benchmark\_organizational](#input\_deploy\_benchmark\_organizational) | Determines if the benchmark module should be deployed on organizational or single-account mode. Creates one role per org accounts if true. Creates one role in the default aws provider account if false)</li></ul> | `bool` | `true` | no |
 
+### AWS Terraform Providers
 
-- the two aws terraform providers (default, member); here we will work two setups
-  1. to deploy compute and compliance role **just in one member account**, use [default use-case snippet](#terraform-snippet)
-  1. to deploy compute part **on management account**, use following provider setup on the [default use-case snippet](#terraform-snippet)<br/>
+You will work on the following setups: default and member terraform providers.
+
+  1. Member account: Use the [default use-case snippet](#terraform-snippet) to deploy compute and compliance role in a member account.
+  2. Management account: Use the [default use-case snippet](#terraform-snippet) to deploy compute  on the Management account.
+
     ```terraform
     provider "aws" {
       region = var.region

@@ -2,49 +2,46 @@
 
 ## Overview
 
-This use case covers securing a multi-account AWS environment with ECS as the workload type, typically created with the [AWS ControlTower landing zone](https://aws.amazon.com/controltower/features/). The guidelines are terraform-based; for instruction on setting up Secure for Cloud manually, see [Manual Organizational Setup - Three-Way Cross-Account ](./manual-org-three-way.md).
-
+This use case covers securing a multi-account AWS environment with ECS as the workload type, typically created with the [AWS ControlTower landing zone](https://aws.amazon.com/controltower/features/). The guidelines are terraform-based; for instruction on setting up Secure for Cloud manually, see [Manual Organizational Setup - Three-Way Cross-Account](./manual-org-three-way.md).
 
 ### User Setup
 
 - One or more Management Accounts with one of the following:
-   - Organizational CloudTrail reporting to the Log Archive Account
-   - Several accounts reporting to the same Log Archive Account
+  - Organizational CloudTrail reporting to the Log Archive Account
+  - Several accounts reporting to the same Log Archive Account
 
 - Log Archive Account
-   - CloudTrail-enabled S3 bucket with event notification to an SNS-SQS setup
+  - CloudTrail-enabled S3 bucket with event notification to an SNS-SQS setup
     Note: You can use single account as the Log Archive Account and the Member Account for the Sysdig for Secure workload
 
 - Member Account for the workload
-   - Sysdig Secure for Cloud deployment
-   - Optionally, re-use an existing VPC/subnet network setup
-
+  - Sysdig Secure for Cloud deployment
+  - Optionally, re-use an existing VPC/subnet network setup
 
 ### Sysdig Secure For Cloud Features
 
-This usecase provides the following [Sysdig Secure For Cloud](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features) features:
+This use case provides the following [Sysdig Secure For Cloud](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features) features:
 
 - [Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/policies/threat-detect-policies/)
 - [Posture](https://docs.sysdig.com/en/docs/sysdig-secure/posture/)
 - [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/)
 - [Identity Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/identity-and-access/)
 
-:warning: Cloud image scanning is not available for this use-case
+:warning: Cloud image scanning is not supported in this use case.
 
 ### Guidelines
 
-- Ensure that all existing resources are within same AWS region:
-   - CloudTrail-enabled S3
-   - CloudTrail-S3-SNS-SQS setup
-   - Sysdig Secure for Cloud workload
+- Ensure that all the existing resources are within same AWS region:
+  - CloudTrail-enabled S3
+  - CloudTrail-S3-SNS-SQS setup
+  - Sysdig Secure for Cloud workload
 
-- Set up IAM roles if cross-account resources are to be accessed
+- Set up IAM roles to access cross-account resources.
 
-- Optionally, for existing VPC/Subnet usage, use the optional variables. An ECS cluster is required to configure these two fields.
+- Optionally, for existing VPC/subnet usage, use the optional variables. An ECS cluster is required to configure these two fields.
 
 - Use the default [organizational example](./examples/organizational/README.md). This example gives instructions to work with managed account-level resources (CloudTrail, S3, SNS, and SQS)
 - Use an alternative event ingestion vía S3 event notification with a SNS-SQS forwarder
-
 
 ## Set Up Sysdig Secure for Cloud
 
@@ -93,10 +90,9 @@ log archive account - s3, sns, sqs
     }
 -->
 
-
 ### Configure AWS_PROFILE with an Organizational Administration Credentials
 
-Sysdig Secure for Cloud will create resources both on your management account and member accounts. See the following for more information:
+Sysdig Secure for Cloud will create resources both on your management and member accounts. See the following for more information:
 
 - [General Permissions](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud#required-permissions)
 - [Organizational Role Summary](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational#role-summary) for this specific scenario
@@ -109,9 +105,9 @@ Save the `accountID` for later use in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUN
 
 #### (Optional) Reuse Existing VPC/Subnet
 
-  - Create an ECS cluster and configure it with an existing VPC/Subnet configuration suiting your needs.
-  - Note your [Sysdig SaaS endpoint](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) and allow both outbound (for compute vulnerability report) and inbound (for scheduled compliance checkups) traffic.
-  - For an ECS-type deployment, create the [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
+- Create an ECS cluster and configure it with an existing VPC/Subnet configuration suiting your needs.
+- Note your [Sysdig SaaS endpoint](https://docs.sysdig.com/en/docs/administration/saas-regions-and-ip-ranges/) and allow both outbound (for compute vulnerability report) and inbound (for scheduled compliance checkups) traffic.
+- For an ECS-type deployment, create the [security-group setup](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/modules/services/cloud-connector-ecs/sec-group.tf)
 
 #### (Optional) Sysdig Workload and S3 in Different Accounts
 
@@ -133,8 +129,8 @@ If Sysdig workload (`SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID`) and S3 are set 
    ]
   }
   ```
-4. Save the role ARN as `CLOUDTRAIL_S3_ROLE_ARN`.
 
+4. Save the role ARN as `CLOUDTRAIL_S3_ROLE_ARN`.
 
 #### CloudTrail-S3 Ingestion Through Event Forwarding
 
@@ -175,35 +171,33 @@ Inspect `terraform state list` to collect the following:
 - `CLOUDTRAIL_S3_SNS_SQS_ARN`
 - `CLOUDTRAIL_S3_SNS_SQS_URL`.
 
-
 #### Launch Terraform Manifest
 
 Create the Terraform manifest using the [organizational example](./examples/organizational/README.md).
 
-#### Parameters
+##### Parameters
 
 - **General** parameters
-    - `AWS_REGION`: Use the same region for both Organizational account and Sysdig workload member account resources.
+  - `AWS_REGION`: Use the same region for both Organizational account and Sysdig workload member account resources.
 
        Region must be unique for all values and should match the location of the S3 bucket, SNS, and SQS
 
-    - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID`: The account where Sysdig workload is to be deployed, optionally, in a pre-existing ECS environment.
+  - `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID`: The account where Sysdig workload is to be deployed, optionally, in a pre-existing ECS environment.
 
 - **Cloudtrail S3 SNS-SQS** setup
 
   - `S3_BUCKET_ACCOUNT_ID`: To authenticate the AWS provider on the member account
   - `CLOUDTRAIL_S3_NAME`: The name of the CloudTrail S3 bucket
-  - `CLOUDTRAIL_S3_SNS_SQS_ARN`: The value collected while setting up [CloudTrail-S3 Ingestion Through Event Forwarding](#cloudTrail-S3-ingestion-through-event-forwarding).
-  - `CLOUDTRAIL_S3_SNS_SQS_URL` The value collected while setting  up [CloudTrail-S3 Ingestion Through Event Forwarding](#cloudTrail-S3-ingestion-through-event-forwarding).
+  - `CLOUDTRAIL_S3_SNS_SQS_ARN`: The value collected while setting up [CloudTrail-S3 Ingestion Through Event Forwarding](#cloudtrail-s3-ingestion-through-event-forwarding).
+  - `CLOUDTRAIL_S3_SNS_SQS_URL` The value collected while setting  up [CloudTrail-S3 Ingestion Through Event Forwarding](#cloudtrail-s3-ingestion-through-event-forwarding).
   - (Optional) `CLOUDTRAIL_S3_ROLE_ARN`: The ARN of the `SysdigSecureForCloud-S3AccessRole` created before for the ECS Task Role to access S3.
 
 - (Optional) Existing **ECS Cluster and networking** setup
-    - `ECS_CLUSTER_NAME`: For example, "sfc"
-    - `ECS_VPC_ID`:  For example, "vpc-0e91bfef6693f296b"
-    - `ECS_VPC_SUBNET_PRIVATE_ID_X`: Two subnets for the VPC. For example, "subnet-0c7d803ecdc88437b"
+  - `ECS_CLUSTER_NAME`: For example, "sfc"
+  - `ECS_VPC_ID`:  For example, "vpc-0e91bfef6693f296b"
+  - `ECS_VPC_SUBNET_PRIVATE_ID_X`: Two subnets for the VPC. For example, "subnet-0c7d803ecdc88437b"
 
 ##### Terraform Manifest
-
 
 ```terraform
 
@@ -262,7 +256,6 @@ module "sysdig-sfc" {
   }
 }
 ```
-
 
 #### (Optional) S3 Bucket and Sysdig Workload in Different Accounts
 

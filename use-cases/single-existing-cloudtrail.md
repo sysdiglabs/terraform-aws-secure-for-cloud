@@ -2,16 +2,15 @@
 
 ## Overview
 
-**User Setup**
+### User Setup
 
-- [X] single-account setup
-- [X] pre-existing resources
-  - [X] cloudtrail
-  - [ ] k8s cluster we want to use to deploy Sysdig for Cloud workload
-  - [ ] ecs cluster/vpc/subnet we want to use to deploy Sysdig for Cloud workload
+- [X] Single Account setup
+- [X] Pre-existing resources
+  - [X] CloudTrail
+  - [ ] Kubernetes cluster to deploy Sysdig for Cloud workload
+  - [ ] ECS cluster with VPC/subnet for the Sysdig for Cloud deployment
 
-
-**Sysdig Secure For Cloud Features**
+### Sysdig Secure For Cloud Features
 
 - [X] Threat Detection
   - [X] all accounts of the organization (management account included)
@@ -23,14 +22,13 @@
 
 ## Preparation
 
-For this usecase, you will use the [`./examples/single-account-ecs`](../../examples/single-account-ecs/README.md)  setup. In order for this setup to work, several roles and permissions are required. Before proceeding, see the [readme](../../examples/single-account-ecs/README.md)  and check whether you comply with the requirements.
+For this use case, you will use the [`./examples/single-account-ecs`](./examples/single-account-ecs/README.md) setup. In order for this setup to work, several roles and permissions are required. Before proceeding, see the [readme](./examples/single-account-ecs/README.md)  and check whether you comply with the requirements.
 
 Contact Sysdig for support.
 
+## Installation
 
-### Step by Step Example Guide
-
-Use the `single-account` example with the **`cloudtrail_sns_arn` parameter**
+Use the [`single-account`](./examples/single-account-ecs/README.md) example with the `cloudtrail_sns_arn` parameter:
 
 <!--
 manual testing pre-requirements
@@ -62,9 +60,6 @@ If cloudtrail is in another account
     }
 
 -->
-
-
-### Terraform Manifest Snippet
 
 ```terraform
 terraform {

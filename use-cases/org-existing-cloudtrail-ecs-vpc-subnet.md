@@ -2,7 +2,7 @@
 
 ## Overview
 
-**User Setup**
+### User Setup
 
 - [X] AWS organizational account
   - [X] Organizational Cloudtrail that reports to SNS and persists events in a managed-account S3 bucket
@@ -15,7 +15,7 @@
   - [X] ECS cluster with VPC and subnet to deploy Sysdig for Cloud workload
   - [ ] Kubernetes cluster to deploy Sysdig for Cloud workload
 
-**Sysdig Secure For Cloud Features**
+### Sysdig Secure For Cloud Features
 
 - [X] Threat Detection
   - [X] all accounts of the organization, including the Management account
@@ -25,15 +25,11 @@
 - [ ] CSPM/Compliance (?)
 - [ ] CIEM (?)
 
-
-
-
 ## Preparation
 
 For this usecase, you will use the [`./examples/organizational`](../examples/organizational/README.md) setup. In order for this setup to work, several roles and permissions are required. Before proceeding, see the [readme](../examples/organizational/README.md)  and check whether you comply with the requirements.
 
 Contact Sysdig for support.
-
 
 ### Step by Step Example Guide
 
@@ -100,7 +96,6 @@ module "utils_ecs-vpc" {
      - `ECS_CLUSTER_NAME` ex.: "sfc"
      - `ECS_VPC_ID` ex.: "vpc-0e91bfef6693f296b"
      - `ECS_VPC_SUBNET_PRIVATE_ID_X` Two subnets for the VPC. ex.: "subnet-0c7d803ecdc88437b"<br/><br/>
-
 
 ### Terraform Manifest Snippet
 
