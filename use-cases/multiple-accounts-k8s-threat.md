@@ -51,7 +51,7 @@ The ingestor processes a single SQS AWS queue with the events reported from:
 1. Define different **AWS providers**:
 
       WIP.
-       - ?? We need to know the account where Sysdig Secure for cloud workload will be deployed
+       - We need to know the account where Sysdig Secure for cloud workload will be deployed
        - And the accounts where the cloudtrail-S3 bucket(s) will be
     <!--
        - Populate  `REGION`. Currently, same region is to be used
