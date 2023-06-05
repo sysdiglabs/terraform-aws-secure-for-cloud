@@ -1,9 +1,9 @@
-# Multi-AWS Accounts with Organizational CloudTrail and SNS with S3
+# Organizational Setup with CloudTrail, SNS, and S3
 
 This use case describes setting up Secure for Cloud for a multi-AWS accounts environment with the following:
 
-- AWS Management account with Organization CloudTrail
-- AWS account with Amazon Simple Notification Service (SNS) and Amazon S3 is cloud object storage
+- AWS Organizational Management account with CloudTrail with Amazon Simple Notification Service (SNS)
+- AWS member account with Amazon S3 cloud object storage
 
 This setup will provide the following [Sysdig Secure for Cloud](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/) features:
 
@@ -32,7 +32,6 @@ This setup will provide the following [Sysdig Secure for Cloud](https://docs.sys
 
       See the **account-logging** module in the diagram given below.
 
-
   See the **account-management** and **account-logging** modules (`cloudtrail-sns` and `cloudtrail-s3` bucket) in the diagram given below.
 
 - AWS member account for Sysdig (`SYSDIG_ACCOUNT_ID`)
@@ -51,15 +50,13 @@ This setup will provide the following [Sysdig Secure for Cloud](https://docs.sys
 
     See the **account-compliance** module in the diagram given below.
 
-
-
 ## Overview
 
 In this setup, you will do the following:
 
 ![three-way k8s setup](./resources/org-three-way-with-sns.png)
 
--  AWS user account for logging:  In this account, you will create the Sysdig Access S3 Role,`SysdigS3AccessRole`, to retrieve data from the Cloudtail-enabled S3 bucket.
+- AWS user account for logging:  In this account, you will create the Sysdig Access S3 Role,`SysdigS3AccessRole`, to retrieve data from the Cloudtail-enabled S3 bucket.
 
 - AWS user account for Sysdig: In this account, you will create the following:
 
@@ -84,7 +81,6 @@ You configure this role to authenticate and provide permissions for fetching dat
 
 - [TaskRole](https://docs.aws.amazon.com/AmazonECS/latest/userguide/task-iam-roles.html) in ECS
 
-
 You can do it as follows:
 
 1. Create `SysdigComputeRole` in your cluster.
@@ -107,8 +103,6 @@ You can do it as follows:
        ]
    }
    ```
-
-
 
    **ECS**: Allow Trust relationship for the ECS Task usage.
 
@@ -180,7 +174,7 @@ To enable it, you configure the following:
 
 In the organizational account, configure the access credentials for cross-aacount access for the Cloudtrail-enabled S3 bucket.
 
-1.   Create a new role named  `SysdigS3AccessRole` to retrieve S3 data. Save it as `ARN_ROLE_SYSDIG_S3_ACCESS`.
+1. Create a new role named  `SysdigS3AccessRole` to retrieve S3 data. Save it as `ARN_ROLE_SYSDIG_S3_ACCESS`.
 
    ```yaml
    {
@@ -206,8 +200,6 @@ In the organizational account, configure the access credentials for cross-aacoun
        "Resource": "<ARN_CLOUDTRAIL_S3>/*"
     }
    ```
-
-
 
 3. Allow cross-account `assumeRole` Trust Relationship as follows.  This will allow `SysdigComputeRole` to use the `SysdigS3AccessRole`:
 
@@ -235,7 +227,7 @@ In the Sysdig AWS member account, edit the `SysdigComputeRole` that you have cre
 {
     "Version": "2012-10-17",
     "Statement": [
-	    {
+     {
             "Effect": "Allow",
             "Action": [
                 "SQS:ReceiveMessage",
@@ -258,8 +250,6 @@ In the Sysdig AWS member account, edit the `SysdigComputeRole` that you have cre
 
 #### EKS
 
-
-
 1. Retrieve your `<SYSDIG_SECURE_ENDPOINT>` and `<SYSDIG_SECURE_API_TOKEN>`.
 
    See [Retrieve API Token](https://docs.sysdig.com/en/docs/administration/administration-settings/user-profile-and-password/retrieve-the-sysdig-api-token) for more information.
@@ -272,7 +262,7 @@ In the Sysdig AWS member account, edit the `SysdigComputeRole` that you have cre
    sysdig:
      url: "https://secure.sysdig.com"
      secureAPIToken: "SYSDIG_API_TOKEN"
-   telemetryDeploymentMethod: "helm_aws_k8s_org"		# not required but would help us
+   telemetryDeploymentMethod: "helm_aws_k8s_org"  # not required but would help us
    aws:
        region: <SQS-AWS-REGION>
    ingestors:
@@ -281,7 +271,7 @@ In the Sysdig AWS member account, edit the `SysdigComputeRole` that you have cre
            assumeRole:"<ARN_ROLE_SYSDIG_S3_ACCESS>"        # step 4
    ```
 
-   For additional information on authentication options, see the  `serviceAccount.*` and `aws.*` values.
+   For additional information on authentication options, see the  `serviceAccount.*` and `aws.*` values in the [cloud-connector helm chart](https://charts.sysdig.com/charts/cloud-connector/).
 
 3. Run the following:
 
@@ -295,7 +285,7 @@ In the Sysdig AWS member account, edit the `SysdigComputeRole` that you have cre
    kubectl logs -f -n sysdig-cloud-connector deployment/sysdig-cloud-connector
    ```
 
-   ​	 If you want to uninstall,  run:
+   ​  If you want to uninstall,  run:
 
    ```
    helm uninstall -n sysdig-cloud-connector sysdig-cloud-connector
@@ -332,7 +322,6 @@ If you are using an ECS cluster to deploy Cloud Connector, create a new Fargate 
             assumeRole: <ARN_ROLE_SYSDIG_S3_ACCESS>
     ```
 
-
 ## Verify Configuration
 
 1. Log in to Sysdig Secure.
@@ -344,7 +333,6 @@ If you are using an ECS cluster to deploy Cloud Connector, create a new Fargate 
 - [Verify Services Are Working](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-gcp/#confirm-the-services-are-working)
 
 - [Forcing Events](https://github.com/sysdiglabs/terraform-google-secure-for-cloud#forcing-events)
-
 
 <!--
 
@@ -391,7 +379,6 @@ log archive account - s3, sns, sqs
     }
 -->
 
-
 <!--
 
 1. Kubernetes **Credentials** creation
@@ -427,7 +414,6 @@ log archive account - s3, sns, sqs
 AWS Systems Manager
 Application Manager
 CustomGroup: iru
-
 
 AWS::SSM::Parameter
 Type: SecureString
