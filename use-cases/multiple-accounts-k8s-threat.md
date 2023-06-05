@@ -1,31 +1,31 @@
-# Multi-AWS Accounts with Cloudtrail
+# Organizational Setup with Multiple Cloudtrail Connected to Single S3
 
 ## Overview
 
-**Current User Setup**
+### User Setup
 
 - [X] Multi-account setup
   - [X] Per-account cloudtrail, each reporting to their own S3 bucket
 - [X] Pre-existing resources
-    - [?] Multiple Cloudtrail-S3 buckets synced to a single S3 bucket to which an SQS is attached
-    - [?] Multiple Cloudtrail-S3 buckets reporting to same SQS
-    - [X] Kubernetes cluster you want to use to deploy Sysdig for Cloud workload
+  - [?] Multiple Cloudtrail-S3 buckets synced to a single S3 bucket to which an SQS is attached
+  - [?] Multiple Cloudtrail-S3 buckets reporting to same SQS
+  - [X] Kubernetes cluster you want to use to deploy Sysdig for Cloud workload
 - [X] Permission setup
-    - [?] Sysdig workload account usage: all the required and pre-existing resources exist in the same account
-    - [?] Sysdig workload account usage: all the required resources are in scattered accounts
+  - [?] Sysdig workload account usage: all the required and pre-existing resources exist in the same account
+  - [?] Sysdig workload account usage: all the required resources are in scattered accounts
 
-**Sysdig Secure For Cloud Features**
+### Sysdig Secure For Cloud Features
 
-From the [available features for Secure for cloud AWS ](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/aws/#available-features)
+From the [available features for Secure for cloud AWS](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/aws/#available-features)
 
 - [X] Threat detection
-    - [X] Account-specific
-    - [?] All individual Cloudtrail accounts need to be analysed
+  - [X] Account-specific
+  - [?] All individual Cloudtrail accounts need to be analysed
 - [ ] Image Scanning (ECR and ECS)
 - [ ] Compliance / Benchmark
 - [ ] CIEM
 
-**Other Requirements**
+### Other Requirements
 
 - [?] pre-existing kubernetes management vía service account (WIP)
 
@@ -38,11 +38,11 @@ From the [available features for Secure for cloud AWS ](https://docs.sysdig.com/
 
 ## Solution
 
-If you require only threat detection feature, and do not have an organizational Cloudtrail setup, but has multiple AWS accounts, use the instructions given in [cloud-connector `aws-cloudtrail-s3-sns-sqs` ingestor](https://charts.sysdig.com/charts/cloud-connector/#ingestors).
+If you require only threat detection feature for your multiple AWS accounts, and if you do not have an organizational Cloudtrail setup, use the instructions given in [cloud-connector `aws-cloudtrail-s3-sns-sqs` ingestor](https://charts.sysdig.com/charts/cloud-connector/#ingestors).
 
 The ingestor processes a single SQS AWS queue with the events reported from:
 
--  a single S3 bucket through an SNS topic
+- a single S3 bucket through an SNS topic
 
 - multiple S3 buckets with several SNS topics
 
@@ -53,7 +53,7 @@ The ingestor processes a single SQS AWS queue with the events reported from:
       WIP.
        - ?? We need to know the account where Sysdig Secure for cloud workload will be deployed
        - And the accounts where the cloudtrail-S3 bucket(s) will be
-      <!--
+    <!--
        - Populate  `REGION`. Currently, same region is to be used
        - Because we are going to provision resources on multiple accounts, we're gonna use **two AWS providers**
            - `aws.s3` for s3-sns-sqs resources to be deployed. IAM user-credentials, to be used for k8s must also be in S3 account
@@ -72,8 +72,7 @@ The ingestor processes a single SQS AWS queue with the events reported from:
       ...
       }
       ```
-      -->
-
+  -->
 
 2. Prepare the **Helm provider** definition.
 
@@ -91,15 +90,13 @@ The ingestor processes a single SQS AWS queue with the events reported from:
       }
       ```
 
-
-
 3. Configure the Cloudtrail-S3-SNS-SQS setup
 
       WIP.
 
       Create an SQS queue that will subscribe to:
 
-      -  Single S3-SNS setup
+      - Single S3-SNS setup
 
         For more information, see the [one S3-SNS-SQS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/infrastructure/cloudtrail_s3-sns-sqs) module.
 
@@ -107,7 +104,7 @@ The ingestor processes a single SQS AWS queue with the events reported from:
 
         We are working to provide a method to automatize this scenario.
 
-        <!--
+    <!--
             1. Populate  `CLOUDTRAIL_S3_NAME`
                <br/>ex.:
                 ```text
@@ -129,7 +126,7 @@ The ingestor processes a single SQS AWS queue with the events reported from:
           s3_event_notification_filter_prefix="<CLOUDTRAIL_S3_FILTER_PREFIX>"
         }
         ```
-        -->
+    -->
 
 4. Configure the Kubernetes multi-Account **AWS Permissions** to be able to handle S3/SQS operations:
 
@@ -137,7 +134,8 @@ The ingestor processes a single SQS AWS queue with the events reported from:
 
       WIP.
 
-        <!--
+      <!--
+
         ```terraform
         module "multi-account" {
            providers = {
@@ -150,12 +148,12 @@ The ingestor processes a single SQS AWS queue with the events reported from:
         }
         ```
         -->
-      
+
 5. Deploy the Sysdig workload on Kubernetes:
 
-   * Populate  `sysdig_secure_url`, `SYSDID_SECURE_API_TOKEN` and `REGION`
+   - Populate  `sysdig_secure_url`, `SYSDID_SECURE_API_TOKEN` and `REGION`
 
-   * WIP. Enable terraform module to be able to define [`nodeSelector` and `tolerations` parameters of the cloud-connector helm chart](https://charts.sysdig.com/charts/cloud-connector/#configuration)
+   - WIP. Enable terraform module to be able to define [`nodeSelector` and `tolerations` parameters of the cloud-connector helm chart](https://charts.sysdig.com/charts/cloud-connector/#configuration)
 
      ```yaml
      resource "helm_release" "cloud_connector" {
