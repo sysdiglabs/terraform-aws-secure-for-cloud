@@ -16,7 +16,7 @@ Secure for cloud is installed in AWS either by using [terraform](https://github.
 ## Which Compute Deployment Should I Choose?
 
 There are no preffered way, just take a technology you're familiar with. Otherwise, prefer non-K8S, as it will be harder to maintain.
-For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-apprunner/README.md#prerequisites)
+For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-apprunner/README.md#prerequisites).
 
 
 ## Available Options
