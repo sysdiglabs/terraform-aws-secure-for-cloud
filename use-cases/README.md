@@ -64,7 +64,8 @@ With both examples `single` and `org`, you can customize the desired features to
 
 <br/>
 
-### unified-compliance only
+### Unified-compliance only
 
 If you just want [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)
 check our guide on [Compliance role-only deployment with Terraform](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-agentless/)
+Alternatively, you can [configure it manually](./manual-compliance.md)
