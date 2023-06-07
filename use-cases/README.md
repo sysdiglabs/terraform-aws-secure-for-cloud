@@ -34,12 +34,11 @@ Make use of optionals to reuse pre-existing resources and prevent incurring in m
 
 ## Overview
 
-Current examples were developed for simple use-case scenarios.
-New use cases are appearing and once we consolidate a standard scenario, we will create new examples to accommodate new requirements.
-Check current list of use cases or use the [questionnaire](./_questionnaire.md) to let us know your needs.
+Current examples were developed for simple scenarios.
+As new use cases emerge, we will establish a standard scenario and create new examples to accommodate additional requirements.
+Check the current list of use cases or use the [questionnaire](./_questionnaire.md) to let us know your needs.
 
 If Terraform or Cloudformation suits your purpose, take a look at the `manual-*` prefixed use cases.
-
 
 ### Features
 
