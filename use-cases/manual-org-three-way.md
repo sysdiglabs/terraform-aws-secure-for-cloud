@@ -330,6 +330,8 @@ If you are using an ECS cluster to deploy Cloud Connector, create a new Fargate 
 
 ## Learn More
 
+- [Secure for Cloud Use Cases for AWS Environments](./README.md)
+
 - [Verify Services Are Working](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-gcp/#confirm-the-services-are-working)
 
 - [Forcing Events](https://github.com/sysdiglabs/terraform-google-secure-for-cloud#forcing-events)
