@@ -3,7 +3,7 @@
 This use case describes setting up Secure for Cloud for a multi-AWS accounts environment with the following:
 
 - AWS Organizational Management account with CloudTrail with Amazon Simple Notification Service (SNS)
-- AWS member account with Amazon S3 cloud object storage
+- AWS member account with Amazon S3 cloud object storage; bucket is not in the management account of the organization, but on a different logging
 
 This setup will provide the following [Sysdig Secure for Cloud](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/) features:
 
