@@ -1,7 +1,6 @@
-# Secure for Cloud Use Cases for AWS Environments
+# Secure for Cloud Use Cases
 
-Secure for cloud is installed in AWS either by using [terraform](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud) or by using a [Cloudformation](https://github.com/sysdiglabs/aws-templates-secure-for-cloud) template.
-
+## General; AWS, GCP and Azure
 
 ### Feature Summary
 
@@ -13,13 +12,13 @@ Secure for cloud is installed in AWS either by using [terraform](https://github.
 
 
 
-## Which Compute Deployment Should I Choose?
+#### Which Compute Deployment Should I Choose?
 
 There are no preffered way, just take a technology you're familiar with. Otherwise, prefer non-K8S, as it will be harder to maintain.
 For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-apprunner/README.md#prerequisites).
 
 
-## Available Options
+### Pre-Existing Resource Usage
 
 Make use of optionals to reuse pre-existing resources and prevent incurring in more costs.
 
@@ -32,13 +31,20 @@ Make use of optionals to reuse pre-existing resources and prevent incurring in m
 | | ACR | `registry_name`, `registry_resource_group_name` | - |
 | * | Compute Workload | - | All clouds allow Sysdig Secure for cloud to be deployed on a pre-existing K8S cluster|
 
-## Overview
+### Overview
 
 Current examples were developed for simple scenarios.
 As new use cases emerge, we will establish a standard scenario and create new examples to accommodate additional requirements.
 Check the current list of use cases or use the [questionnaire](./_questionnaire.md) to let us know your needs.
 
 If Terraform or Cloudformation suits your purpose, take a look at the `manual-*` prefixed use cases.
+
+
+<br/><br/>
+## AWS-Specific
+
+Secure for cloud is installed in AWS either by using [terraform](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud) or by using a [Cloudformation](https://github.com/sysdiglabs/aws-templates-secure-for-cloud) template.
+
 
 ### Features
 
@@ -50,7 +56,7 @@ For [complete feature installation](https://docs.sysdig.com/en/docs/sysdig-secur
 | Deployment Type   | all Sysdig resources will be deployed within the selected account | Most Sysdig resources will be deployed within the selected account (just one), but some features, require resources to be deployed on all of the member-accounts (for Compliance and Image Scanning) . <br />One role is needed on the management account for cloudtrail-s3 event access |
 | Target          | will only analyse current account                                 |  handles all accounts (managed and member) + dynamically created new member accounts|
 | Drawbacks         | cannot re-use another account Cloudtrail data (unless its deployed on the same account where the sns/s3 bucket is) | for scanning, a per-member-account access role is required |
-| Optional resources usage limitations | - |  For organizational example, Cloudtrail resources cloudtrail-s3 and cloudtrail-sns, must exist in the management account. For other setups check other alternative use-cases</br><ul><li>[AWS manual deployment; cloudtrail-s3 bucket in another member account](./manual-org-three-way.md)</li><li>[AWS terraform-based deployment; cloudtrail with cloudtrail-s3 bucket in another member account. k8s flavor](./org-three-way-k8s.md)</li><li>[terraform-based deployment; cloudtrail with cloudtrail-s3 bucket in another member account. ecs flavor](./org-three-way-ecs.md)</li></ul>|
+| Optional resources usage limitations | - |  For organizational example, Cloudtrail resources cloudtrail-s3 and cloudtrail-sns, must exist in the management account. For other setups check other alternative use-cases</br><ul><li>[manual deployment; cloudtrail-s3 bucket in another member account](./manual-org-three-way.md)</li><li>[terraform-based deployment; cloudtrail with cloudtrail-s3 bucket in another member account. k8s flavor](./org-three-way-k8s.md)</li><li>[terraform-based deployment; cloudtrail with cloudtrail-s3 bucket in another member account. ecs flavor](./org-three-way-ecs.md)</li><li>[terraform-based; re-use ecs/vpc/subnet](./org-existing-cloudtrail-ecs-vpc-subnet.md)</li></ul>|
 | More Info | [AWS single-ecs](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs), [AWS single-apprunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner), [AWS single-k8s](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s) | [AWS organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational) |
 
 With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
