@@ -1,8 +1,6 @@
-# Secure for Cloud for AWS Use-Cases
+# Secure for Cloud Use Cases for AWS Environments
 
-Secure for cloud is served through Terraform for [AWS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud)
-[GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud) and [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud) clouds,
-and for AWS in [Cloudformation](https://github.com/sysdiglabs/aws-templates-secure-for-cloud) too.
+Secure for cloud is installed in AWS either by using [terraform](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud) or by using a [Cloudformation](https://github.com/sysdiglabs/aws-templates-secure-for-cloud) template.
 
 
 ### Feature Summary
@@ -15,15 +13,15 @@ and for AWS in [Cloudformation](https://github.com/sysdiglabs/aws-templates-secu
 
 
 
-**Compute Deployment wise, which should I choose?**
-<br/>There are no preffered way, just take a technology you're familiar with. Otherwise, prefer non K8S, as it will be harder to maintain.
-<br/>For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-apprunner/README.md#prerequisites)
-<br/><br/>
+## Which Compute Deployment Should I Choose?
+
+There are no preffered way, just take a technology you're familiar with. Otherwise, prefer non-K8S, as it will be harder to maintain.
+For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-apprunner/README.md#prerequisites).
 
 
-## Available Optionals
+## Available Options
 
-Make use of optionals to allow the re-use of pre-existing resources, and avoid incurring in more costs.
+Make use of optionals to reuse pre-existing resources and prevent incurring in more costs.
 
 |  Cloud |  Optionals | Related Input Vars | Other |
 | -- | --| -- | -- |
@@ -34,22 +32,17 @@ Make use of optionals to allow the re-use of pre-existing resources, and avoid i
 | | ACR | `registry_name`, `registry_resource_group_name` | - |
 | * | Compute Workload | - | All clouds allow Sysdig Secure for cloud to be deployed on a pre-existing K8S cluster|
 
+## Overview
 
-<br/><br/>
+Current examples were developed for simple scenarios.
+As new use cases emerge, we will establish a standard scenario and create new examples to accommodate additional requirements.
+Check the current list of use cases or use the [questionnaire](./_questionnaire.md) to let us know your needs.
 
-## Use-Case summary
+If Terraform or Cloudformation suits your purpose, take a look at the `manual-*` prefixed use cases.
 
+### Features
 
-Current examples were developed for simple use-case scenarios.
-<br/>New use-cases are appearing and once we consolidate a standard scenario, we will create new examples to accommodate new requirements.
-<br/>Check current use-case list or use the [questionnaire](./_questionnaire.md) to let us know your needs.
-
-If not Terraform nor Cloudformation suits, take a look at the `manual-*` prefixed use-cases.
-
-
-### all-features
-
-For [all-feature installation](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features), check
+For [complete feature installation](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features), check
 
 
 |                   | `/examples/single-*`                                               | `/examples/organizational-*` |
@@ -62,10 +55,10 @@ For [all-feature installation](https://docs.sysdig.com/en/docs/sysdig-secure/sys
 
 With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
 
-<br/>
 
-### Unified-compliance only
+
+### Unified Compliance 
 
 If you just want [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)
-check our guide on [Compliance role-only deployment with Terraform](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-agentless/)
-Alternatively, you can [configure it manually](./manual-compliance.md)
+see [Compliance role-only deployment with Terraform](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-agentless/)
+<br/>Alternatively, you can [configure it manually](./manual-compliance.md)
