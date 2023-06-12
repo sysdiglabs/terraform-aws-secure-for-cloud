@@ -1,6 +1,8 @@
-# AWS Organizational Setup with Cloudtrail
+# AWS Organizational Setup with Existing ECS Environment
 
 ## Overview
+
+This usecase covers securing an AWS organizational setup consisting an existing ECS cluster with its own VPC and subnet.
 
 ### User Setup
 
@@ -74,7 +76,7 @@ module "utils_ecs-vpc" {
 
 2. Choose an Organizational member account for Sysdig Workload to be deployed.
    - Note the account ID of this account. This value will be provided in the `SYSDIG_SECURE_FOR_CLOUD_MEMBER_ACCOUNT_ID` parameter.
-   - Workload resources (ECS, VPC, subnets) must be created in this member account.
+   - Ensure that workload resources (ECS, VPC, subnets) exist in this member account.
 
 3. Use the  `organizational` example snippet with following parameters:
 
