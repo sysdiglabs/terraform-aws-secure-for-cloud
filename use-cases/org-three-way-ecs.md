@@ -1,4 +1,4 @@
-# Organizational Setup: Multiple Accounts and ECS
+# Organizational Setup: Three-Way Accounts and ECS
 
 ## Overview
 
