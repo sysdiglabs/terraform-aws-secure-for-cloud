@@ -1,9 +1,8 @@
-# Organizational Setup for Kubernetes Three way Cross-Account
+# Organizational Setup: Three way Cross-Account and Kubernetes
 
 ## Overview
 
-This use case will cover a three-way cross-account setup (typical from AWS ControlTower landing page).
-With EKS as workload-type.
+This use case will cover a three-way cross-account setup (typical from AWS ControlTower landing page) with EKS as workload-type.
 
 This is terraform-based guidelines, but can also check [Manual Organizational Setup - Three-Way Cross-Account ](./manual-org-three-way.md)
 
