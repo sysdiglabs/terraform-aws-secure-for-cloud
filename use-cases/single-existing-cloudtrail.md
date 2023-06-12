@@ -1,4 +1,4 @@
-# Single Account with Cloudtrail
+# Single Account with Existing Cloudtrail
 
 ## Overview
 
