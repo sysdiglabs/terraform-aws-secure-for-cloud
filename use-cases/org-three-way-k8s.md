@@ -2,7 +2,7 @@
 
 ## Overview
 
-This use case will cover a three-way cross-account setup (typical from AWS ControlTower landing page) with EKS as workload-type.
+This use case will cover a three-way cross-account setup (typical from AWS ControlTower landing page) with workload on EKS.
 
 This is terraform-based guidelines, but can also check [Manual Organizational Setup - Three-Way Cross-Account ](./manual-org-three-way.md)
 
