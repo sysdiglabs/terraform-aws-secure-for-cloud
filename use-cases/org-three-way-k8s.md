@@ -1,4 +1,4 @@
-# Organizational Setup: Three way Cross-Account and Kubernetes
+# Organizational Setup: Three-Way Accounts and Kubernetes
 
 ## Overview
 
