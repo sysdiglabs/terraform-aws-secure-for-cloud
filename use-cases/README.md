@@ -1,6 +1,6 @@
 # Secure for Cloud Use Cases
 
-## General; AWS, GCP and Azure
+## Cloud Platforms
 
 ### Feature Summary
 
@@ -11,8 +11,7 @@
 | Azure | Subscription | Tenant subscriptions| EventHub, Eventgrid | K8S `-k8s`, AzureContainerInstances (ACI) | Azure Lighthouse | ACI deployed images,<br/> ACR, Public Repositories | ACR Task |
 
 
-
-#### Which Compute Deployment Should I Choose?
+### Which Compute Deployment Should I Choose?
 
 There are no preffered way, just take a technology you're familiar with. Otherwise, prefer non-K8S, as it will be harder to maintain.
 For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-apprunner/README.md#prerequisites).
@@ -39,12 +38,9 @@ Check the current list of use cases or use the [questionnaire](./_questionnaire.
 
 If Terraform or Cloudformation suits your purpose, take a look at the `manual-*` prefixed use cases.
 
-
-<br/><br/>
-## AWS-Specific
+## AWS-Specific Guidelines
 
 Secure for cloud is installed in AWS either by using [terraform](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud) or by using a [Cloudformation](https://github.com/sysdiglabs/aws-templates-secure-for-cloud) template.
-
 
 ### Features
 
@@ -60,8 +56,6 @@ For [complete feature installation](https://docs.sysdig.com/en/docs/sysdig-secur
 | More Info | [AWS single-ecs](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs), [AWS single-apprunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner), [AWS single-k8s](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s) | [AWS organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational) |
 
 With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
-
-
 
 ### Unified Compliance 
 
