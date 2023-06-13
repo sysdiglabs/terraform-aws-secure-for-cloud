@@ -1,17 +1,16 @@
-# SingleAccount - Existing Cloudtrail
+# Single Account with Existing Cloudtrail
 
-## Use-Case explanation
+## Overview
 
-**Client Setup**
+### User Setup
 
-- [X] single-account setup
-- [X] pre-existing resources
-  - [X] cloudtrail
-  - [ ] k8s cluster we want to use to deploy Sysdig for Cloud workload
-  - [ ] ecs cluster/vpc/subnet we want to use to deploy Sysdig for Cloud workload
+- [X] Single Account setup
+- [X] Pre-existing resources
+  - [X] CloudTrail
+  - [ ] Kubernetes cluster to deploy Sysdig for Cloud workload
+  - [ ] ECS cluster with VPC/subnet for the Sysdig for Cloud deployment
 
-
-**Sysdig Secure For Cloud Features**
+### Sysdig Secure For Cloud Features
 
 - [X] Threat Detection
   - [X] all accounts of the organization (management account included)
@@ -21,17 +20,15 @@
 - [ ] CSPM/Compliance (WIP?)
 - [ ] CIEM (WIP?)
 
-## Suggested setup
+## Preparation
 
-For this use-case we're going to use the [`./examples/single-account-ecs`](../../examples/single-account-ecs/README.md) setup.
-In order for this setup to work, all resources must be in the same AWS account and region.
-Before proceeding, please read the example README and check whether you comply with requirements.
+For this use case, you will use the [`./examples/single-account-ecs`](./examples/single-account-ecs/README.md) setup. In order for this setup to work, several roles and permissions are required. Before proceeding, see the [readme](./examples/single-account-ecs/README.md)  and check whether you comply with the requirements.
 
-Please contact us if something requires to be adjusted.
+Contact Sysdig for support.
 
-### Step by Step Example Guide
+## Installation
 
-Use `single-account` example with **`cloudtrail_sns_arn` parameter**
+Use the [`single-account`](./examples/single-account-ecs/README.md) example with the `cloudtrail_sns_arn` parameter:
 
 <!--
 manual testing pre-requirements
@@ -63,9 +60,6 @@ If cloudtrail is in another account
     }
 
 -->
-
-
-### Terraform Manifest Snippet
 
 ```terraform
 terraform {
