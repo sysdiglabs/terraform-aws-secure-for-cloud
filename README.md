@@ -70,6 +70,16 @@ This would be an overall schema of the **created resources**, for the default se
 
 ### Runtime Permissions
 
+Note: service wiring required extra permissions are not stated here (ex.: ECS service requires a runtime and execution role)
+
+**Compliance**
+
+IAM Role and IAM Policies (`arn:aws:iam::aws:policy/SecurityAudit`)  to allow Sysdig to run Compliance tasks. More details on its module [cloud-bench](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/modules/services/cloud-bench)
+
+```shell
+sts:AssumeRole
+```
+
 **Threat-Detection specific**
 
 ```shell
