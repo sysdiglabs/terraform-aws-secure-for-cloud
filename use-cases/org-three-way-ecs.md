@@ -2,7 +2,7 @@
 
 ## Overview
 
-This use case covers securing a multi-account AWS environment with workload on ECS, typically created with the [AWS ControlTower landing zone](https://aws.amazon.com/controltower/features/). 
+This use case covers securing a multi-account AWS environment with workload on ECS, typically created with the [AWS ControlTower landing zone](https://aws.amazon.com/controltower/features/).
 
 The guidelines are terraform-based. For instruction on setting up Secure for Cloud manually, see [Manual Organizational Setup - Three-Way Cross-Account](./manual-org-three-way.md).
 
