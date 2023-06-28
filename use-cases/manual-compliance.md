@@ -5,7 +5,7 @@ To enable [CSPM (Compliance)](https://docs.sysdig.com/en/docs/sysdig-secure/post
 - An `account` representing the AWS account for which you want to enable CSPM
 - A trust-relationship `component` that represents the IAM Role in your AWS account
 - A CSPM `feature` that indicates CSPM scans should be run against this account
- 
+
 
 ## Guidelines
 

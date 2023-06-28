@@ -51,7 +51,7 @@ The ingestor processes a single SQS AWS queue with the events reported from:
 1. Define different **AWS providers**:
 
     WIP.
-     
+
     - We need to know the account where Sysdig Secure for cloud workload will be deployed
     - And the accounts where the cloudtrail-S3 bucket(s) will be
     <!--
@@ -66,7 +66,7 @@ The ingestor processes a single SQS AWS queue with the events reported from:
       region = "<REGION>"
       ...
       }
-      
+
       provider "aws" {
       alias = "sfc"
       region = "<REGION>"
@@ -158,72 +158,72 @@ The ingestor processes a single SQS AWS queue with the events reported from:
 
      ```yaml
      resource "helm_release" "cloud_connector" {
-     
+
        provider = helm
-     
+
        name = "cloud-connector"
-     
+
        repository = "https://charts.sysdig.com"
        chart      = "cloud-connector"
-     
+
        create_namespace = true
        namespace        = "sysdig"
-     
+
        set {
          name  = "image.pullPolicy"
          value = "Always"
        }
-     
+
        set {
          name  = "sysdig.url"
          value =  "<sysdig_secure_url>"
        }
-     
+
        set_sensitive {
          name  = "sysdig.secureAPIToken"
          value = "<SYSDIG_SECURE_API_TOKEN>"
        }
-     
+
        set_sensitive {
          name  = "aws.accessKeyId"
          value = "<AWS_ACCESS_KEY>"
        }
-     
+
        set_sensitive {
          name  = "aws.secretAccessKey"
          value = "<AWS_SECRET_ACCESS_KEY>"
        }
-     
+
        set {
          name  = "aws.region"
          value = "<REGION>"
        }
-     
+
        set {
          name  = "nodeSelector.<NODE_SELECTOR_LABEL>"
          value = "<NODE_SELECTOR_LABEL_VALUE>"
        }
-     
+
        set {
          name  = "tolerations[0].key"
          value = "<TOLERATION_KEY>"
        }
-     
+
        set {
          name  = "tolerations[0].operator"
          value = "<TOLERATION_OPERATOR>"
        }
-     
+
        set {
          name  = "tolerations[0].value"
          value = "<TOLERATION_VALUE>"
        }
-     
+
        set {
          name  = "tolerations[0].effect"
          value = "<TOLERATION_EFFECT>"
        }
-     
+
        values = [
          <<CONFIG
      logging: info

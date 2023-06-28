@@ -42,7 +42,7 @@ This setup will provide the following [Sysdig Secure for Cloud](https://docs.sys
 
 - AWS member account for Compliance
 
-  - Sysdig Compliance Role:`aws:SecurityAudit policy`.  
+  - Sysdig Compliance Role:`aws:SecurityAudit policy`.
 
     For more information, see [Creating IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create.html).
 

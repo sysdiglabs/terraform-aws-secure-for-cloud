@@ -5,9 +5,9 @@
 ### Feature Summary
 
 | Cloud | Single Setup | Organizational Setup | Event Source | Compute Deployment Options | Sysdig Role Setup | Image Scanning Options | Spawned Scanning Service
-| -- | --- | --- | --- | --- | --- | --- | --- | 
-| AWS | Account | Organization with member accounts | Cloudtrail | K8S `-k8s`, ECS `-ecs`, AppRunner `-apprunner` | IAM Role with Trusted Identity | ECS deployed images,<br/>ECR, Public Repositories | Codebuild project | 
-| GCP | Project | Organization with member projects | Project/Organization Sink,<br/> GCR PubSub Topic | K8S `-k8s`, CloudRun | Workload Identity Federation | CloudRun deployed images,<br/>GCR, Public Repositories |Cloudbuild task | 
+| -- | --- | --- | --- | --- | --- | --- | --- |
+| AWS | Account | Organization with member accounts | Cloudtrail | K8S `-k8s`, ECS `-ecs`, AppRunner `-apprunner` | IAM Role with Trusted Identity | ECS deployed images,<br/>ECR, Public Repositories | Codebuild project |
+| GCP | Project | Organization with member projects | Project/Organization Sink,<br/> GCR PubSub Topic | K8S `-k8s`, CloudRun | Workload Identity Federation | CloudRun deployed images,<br/>GCR, Public Repositories |Cloudbuild task |
 | Azure | Subscription | Tenant subscriptions| EventHub, Eventgrid | K8S `-k8s`, AzureContainerInstances (ACI) | Azure Lighthouse | ACI deployed images,<br/> ACR, Public Repositories | ACR Task |
 
 
@@ -57,7 +57,7 @@ For [complete feature installation](https://docs.sysdig.com/en/docs/sysdig-secur
 
 With both examples `single` and `org`, you can customize the desired features to de deployed with the `deploy_*` input vars to avoid deploying more than wanted.
 
-### Unified Compliance 
+### Unified Compliance
 
 If you just want [CIS Unified Compliance Benchmarks](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)
 see [Compliance role-only deployment with Terraform](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-agentless/)
