@@ -285,7 +285,7 @@ arn = "arn:aws:iam::****:role/sfc-organizational-ECSTaskRole"
 
 ##### Set Up Cloudtrail-S3-SNS-SQS
 
-Add following permissions to the `CLOUDTRAIL_S3_SNS_SQS`:
+Add following permissions to the `CLOUDTRAIL_S3_SNS_SQS`, by eddting the **Access policy**, to enable `SYSDIG_ECS_TASK_ROLE_ARN` perform the required actions:
 
 ```text
     {
