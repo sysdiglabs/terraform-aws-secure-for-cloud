@@ -34,3 +34,9 @@ variable "tags" {
     "product" = "sysdig-secure-for-cloud"
   }
 }
+
+variable "permissions_boundary_arn" {
+  type        = string
+  description = "ARN of a permissions boundary policy to attach to the cloudbench role"
+  default     = null
+}

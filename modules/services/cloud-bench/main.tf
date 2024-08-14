@@ -69,9 +69,10 @@ data "aws_iam_policy_document" "trust_relationship" {
 resource "aws_iam_role" "cloudbench_role" {
   count = var.is_organizational && !var.provision_caller_account ? 0 : 1
 
-  name               = var.name
-  assume_role_policy = data.aws_iam_policy_document.trust_relationship.json
-  tags               = var.tags
+  name                 = var.name
+  assume_role_policy   = data.aws_iam_policy_document.trust_relationship.json
+  tags                 = var.tags
+  permissions_boundary = var.permissions_boundary_arn
 }
 
 
