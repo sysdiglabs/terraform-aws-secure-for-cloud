@@ -11,21 +11,8 @@ This use case will leverage the [`examples/organizational`](./examples/organizat
 This use case provides the following [Sysdig Secure For Cloud](https://docs.sysdig.com/en/docs/sysdig-secure/sysdig-secure-for-cloud/#features) features:
 
 - [Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/policies/threat-detect-policies/)
-- [Posture](https://docs.sysdig.com/en/docs/sysdig-secure/posture/)
-- [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/)
-- [Identity Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/identity-and-access/)
 
 ## Preparation
-
-You will use the following to enable single account deployment:
-
-### `deploy_benchmark_organizational`
-
-You will set the `deploy_benchmark_organizational"` variable to false in the terraform configuration.
-
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_deploy_benchmark_organizational"></a> [deploy\_benchmark\_organizational](#input\_deploy\_benchmark\_organizational) | Determines if the benchmark module should be deployed on organizational or single-account mode. Creates one role per org accounts if true. Creates one role in the default aws provider account if false)</li></ul> | `bool` | `true` | no |
 
 ### AWS Terraform Providers
 
@@ -89,7 +76,6 @@ module "secure_for_cloud_organizational" {
     source = "sysdiglabs/secure-for-cloud/aws//examples/organizational"
 
     sysdig_secure_for_cloud_member_account_id = "<ORG_MEMBER_SFC_ACCOUNT_ID>"
-    deploy_benchmark_organizational = false
     ...
 }
 ```

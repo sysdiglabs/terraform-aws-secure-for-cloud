@@ -3,7 +3,6 @@
 - Use **conventional commits** | https://www.conventionalcommits.org/en/v1.0.0
   - Current suggested **scopes** to be used within feat(scope), fix(scope), ...
     - threat
-    - bench
     - scan
     - docs
     - tests

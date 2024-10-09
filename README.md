@@ -1,54 +1,19 @@
-# Sysdig Secure for Cloud in AWS
+# Sunset Notice
 
-Terraform module that deploys the [**Sysdig Secure for Cloud** stack in **AWS**](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/deploy-sysdig-secure-for-cloud-on-aws).
-<br/>
-
-Provides unified threat-detection, compliance, forensics and analysis through these major components:
-
-* **[Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/insights/)**: Tracks abnormal and suspicious activities in your cloud environment based on Falco language. Managed through `cloud-connector` module. <br/>
-
-* **[Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/compliance-unified-/)**: Enables the evaluation of standard compliance frameworks. Requires just `cloud-bench` module. <br/>
-
-* **[Identity and Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/identity-and-access/)**: Analyses user access overly permissive policies. Requires both modules  `cloud-connector` and `cloud-bench`. <br/>
-
-* **[Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/)**: Automatically scans all container images pushed to the registry (ECR) and the images that run on the AWS workload (currently ECS). Managed through `cloud-connector`. <br/>Disabled by Default, can be enabled through `deploy_image_scanning_ecr` and `deploy_image_scanning_ecs` input variable parameters.<br/>
-
-For other Cloud providers check: [GCP](https://github.com/sysdiglabs/terraform-google-secure-for-cloud), [Azure](https://github.com/sysdiglabs/terraform-azurerm-secure-for-cloud)
-
-<br/>
-
+> [!CAUTION]
+> Sysdig released a new onboarding experience for AWS in September 2024. We recommend connecting your cloud accounts by [following these instructions](https://docs.sysdig.com/en/docs/sysdig-secure/connect-cloud-accounts/).
+> 
+> This repository should be used solely in cases where Agentless Threat Detection cannot be used.
 
 ## Usage
 
-There are several ways to deploy Secure for Cloud in you AWS infrastructure,
-- **[`/examples`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples)** for the most common scenarios
+There are several ways to deploy Agent based Cloud Detection and Response (CDR) in your AWS infrastructure:
   - [Single Account on ECS](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs/)
   - [Single Account on AppRunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner/)
   - [Single-Account with a pre-existing Kubernetes Cluster](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s/)
   - [Organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational/)
-  - Many module,examples and use-cases, we provide ways to **re-use existing resources (as optionals)** in your
-    infrastructure. Check input summary on each example/module.
-
-- **[`/use-cases`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/use-cases)** with self-baked customer-specific alternative scenarios.
-<br/>
-
-Find specific overall service arquitecture diagrams attached to each example/use-case.
-
-In the long-term our purpose is to evaluate those use-cases and if they're common enough, convert them into examples to make their usage easier.
-
-If you're unsure about what/how to use this module, please fill the [questionnaire](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/use-cases/_questionnaire.md) report as an issue and let us know your context, we will be happy to help.
-
-### Notice
-
-* [AWS regions](https://docs.aws.amazon.com/general/latest/gr/rande.html#regional-endpoints)
-* **Resource creation inventory** Find all the resources created by Sysdig examples in the resource-group `sysdig-secure-for-cloud` (AWS Resource Group & Tag Editor) <br/>
-* All Sysdig Secure for Cloud features but [Image Scanning](https://docs.sysdig.com/en/docs/sysdig-secure/scanning/) are enabled by default. You can enable it through `deploy_scanning` input variable parameters.<br/>
-  - **Management Account ECR image scanning** is not support since it's [not a best practice](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_best-practices_mgmt-acct.html#best-practices_mgmt-use) to have an ECR in the management account. However, we have a workaround to [solve this problem](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud#q-aws-scanning-images-pushed-to-management-account-ecr-are-not-scanned) in case you need to scan images pushed to the management account ECR.
-* **Deployment cost** This example will create resources that cost money.<br/>Run `terraform destroy` when you don't need them anymore
-* For **free subscription** users, beware that organizational examples may not deploy properly due to the [1 cloud-account limitation](https://docs.sysdig.com/en/docs/administration/administration-settings/subscription/#cloud-billing-free-tier). Open an Issue so we can help you here!
-
-
-<br/>
+  
+If you're unsure about how to use this module, please contact your Sysdig representative. Our experts will guide you through the process and assist you in setting up your account securely and correctly.
 
 ## Required Permissions
 
@@ -332,22 +297,6 @@ In order to validate the trust-relationship expect no errows on following API.
 $ curl -v https://<SYSDIG_SECURE_ENDPOINT>/api/cloud/v2/accounts/<AWS_ACCOUNT_ID>/validateRole \
 --header 'Authorization: Bearer <SYSDIG_SECURE_API_TOKEN>'
 ```
-
-### Q-Benchmark: Getting Error: Not enough privileges to complete the action, Access is denied
-
-```
-Error: Not enough privileges to complete the action, Access is denied
-│
-│   with module.secure -for-cloud_organizational.module.cloud_bench_org[0].sysdig_secure_benchmark_task.benchmark_task,
-│   on.terraform / modules / secure -for-cloud_organizational / modules / services / cloud - bench / main.tf line 55, in resource "sysdig_secure_benchmark_task" "benchmark_task":
-
-│ Error: error waiting for CloudFormation StackSet(sysdig - secure - cloudbench) update: unexpected state 'FAILED', wanted target 'SUCCEEDED'.last error: Operation(terraform - 20221130212414336200000001) Results: 6 errors occurred:
-│       * Account(***) Region(us - east - 1) Status(SUCCEEDED) Status Reason: No updates are to be performed.
-│       * Account(***) Region(us - east - 1) Status(FAILED) Status Reason: Account *** should have
-'stacksets-exec-70e2f8a88d368a5d3df60f4eb8c247dc' role with trust relationship to Role 'aws-service-role/stacksets.cloudformation.amazonaws.com/AWSServiceRoleForCloudFormationStackSetsOrgAdmin
-```
-
-A: For **Organizational** Setup for cloudbench (deployed through management account / delegated administrator vía stackset) make sure it's being deployed in the management account. [enable organizational trusted access to stackset](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-enable-trusted-access.html) as part of the [prerequisites for stackset operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
 
 ### Q-RuntimeThreat Detection: Getting error 403 `"could not load rule set from Sysdig Secure: ruleprovider#newPartialRuleSet | error loading default-rules: error from Sysdig Secure API: 403`
 

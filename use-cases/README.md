@@ -4,16 +4,16 @@
 
 ### Feature Summary
 
-| Cloud | Single Setup | Organizational Setup | Event Source | Compute Deployment Options | Sysdig Role Setup | Image Scanning Options | Spawned Scanning Service
-| -- | --- | --- | --- | --- | --- | --- | --- |
-| AWS | Account | Organization with member accounts | Cloudtrail | K8S `-k8s`, ECS `-ecs`, AppRunner `-apprunner` | IAM Role with Trusted Identity | ECS deployed images,<br/>ECR, Public Repositories | Codebuild project |
-| GCP | Project | Organization with member projects | Project/Organization Sink,<br/> GCR PubSub Topic | K8S `-k8s`, CloudRun | Workload Identity Federation | CloudRun deployed images,<br/>GCR, Public Repositories |Cloudbuild task |
-| Azure | Subscription | Tenant subscriptions| EventHub, Eventgrid | K8S `-k8s`, AzureContainerInstances (ACI) | Azure Lighthouse | ACI deployed images,<br/> ACR, Public Repositories | ACR Task |
+| Cloud | Single Setup | Organizational Setup              | Event Source                                     | Compute Deployment Options                     | Sysdig Role Setup              | Image Scanning Options                                 | Spawned Scanning Service |
+|-------|--------------|-----------------------------------|--------------------------------------------------|------------------------------------------------|--------------------------------|--------------------------------------------------------|--------------------------|
+| AWS   | Account      | Organization with member accounts | Cloudtrail                                       | K8S `-k8s`, ECS `-ecs`, AppRunner `-apprunner` | IAM Role with Trusted Identity | ECS deployed images,<br/>ECR, Public Repositories      | Codebuild project        |
+| GCP   | Project      | Organization with member projects | Project/Organization Sink,<br/> GCR PubSub Topic | K8S `-k8s`, CloudRun                           | Workload Identity Federation   | CloudRun deployed images,<br/>GCR, Public Repositories | Cloudbuild task          |
+| Azure | Subscription | Tenant subscriptions              | EventHub, Eventgrid                              | K8S `-k8s`, AzureContainerInstances (ACI)      | Azure Lighthouse               | ACI deployed images,<br/> ACR, Public Repositories     | ACR Task                 |
 
 
 ### Which Compute Deployment Should I Choose?
 
-There are no preffered way, just take a technology you're familiar with. Otherwise, prefer non-K8S, as it will be harder to maintain.
+There are no preferred way, just take a technology you're familiar with. Otherwise, prefer non-K8S, as it will be harder to maintain.
 For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/examples/single-account-apprunner/README.md#prerequisites).
 
 
@@ -21,14 +21,14 @@ For AWS, beware of [AppRunner region limitations](https://github.com/sysdiglabs/
 
 Make use of optionals to reuse pre-existing resources and prevent incurring in more costs.
 
-|  Cloud |  Optionals | Related Input Vars | Other |
-| -- | --| -- | -- |
-| AWS  | Cloudtrail | single: [`cloudtrail_sns_arn`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs#input_cloudtrail_sns_arn)<br/>organizational: [`existing_cloudtrail_config`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational#input_existing_cloudtrail_config) |  For organizational example, optional resources must exist in the management account. For other setups check other alternative use-cases |
-| | ECS, VPC, Subnet | `ecs_cluster_name`, `ecs_vpc_id`, `ecs_vpc_subnets_private_ids` | if used, the three are mandatory  |
-| GCP | - | - | - |
-| Azure | ResourceGroup | `resource_group_name` | - |
-| | ACR | `registry_name`, `registry_resource_group_name` | - |
-| * | Compute Workload | - | All clouds allow Sysdig Secure for cloud to be deployed on a pre-existing K8S cluster|
+| Cloud | Optionals        | Related Input Vars                                                                                                                                                                                                                                                                                                                                  | Other                                                                                                                                   |
+|-------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| AWS   | Cloudtrail       | single: [`cloudtrail_sns_arn`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-ecs#input_cloudtrail_sns_arn)<br/>organizational: [`existing_cloudtrail_config`](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational#input_existing_cloudtrail_config) | For organizational example, optional resources must exist in the management account. For other setups check other alternative use-cases |
+|       | ECS, VPC, Subnet | `ecs_cluster_name`, `ecs_vpc_id`, `ecs_vpc_subnets_private_ids`                                                                                                                                                                                                                                                                                     | if used, the three are mandatory                                                                                                        |
+| GCP   | -                | -                                                                                                                                                                                                                                                                                                                                                   | -                                                                                                                                       |
+| Azure | ResourceGroup    | `resource_group_name`                                                                                                                                                                                                                                                                                                                               | -                                                                                                                                       |
+|       | ACR              | `registry_name`, `registry_resource_group_name`                                                                                                                                                                                                                                                                                                     | -                                                                                                                                       |
+| *     | Compute Workload | -                                                                                                                                                                                                                                                                                                                                                   | All clouds allow Sysdig Secure for cloud to be deployed on a pre-existing K8S cluster                                                   |
 
 ### Overview
 

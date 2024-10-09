@@ -49,16 +49,6 @@ variable "deploy_image_scanning_ecs" {
 }
 
 #
-# benchmark configuration
-#
-
-variable "deploy_benchmark" {
-  type        = bool
-  description = "Whether to deploy or not the cloud benchmarking"
-  default     = true
-}
-
-#
 # general
 #
 

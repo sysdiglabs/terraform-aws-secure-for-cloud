@@ -110,23 +110,6 @@ variable "deploy_image_scanning_ecs" {
 }
 
 
-#
-# benchmark configuration
-#
-
-variable "deploy_benchmark" {
-  type        = bool
-  description = "Whether to deploy or not the cloud benchmarking"
-  default     = true
-}
-
-variable "deploy_benchmark_organizational" {
-  type        = bool
-  default     = true
-  description = "true/false whether benchmark module should be deployed on organizational or single-account mode (1 role per org accounts if true, 1 role in default aws provider account if false)</li></ul>"
-}
-
-
 #---------------------------------
 # ecs, security group,  vpc
 #---------------------------------
