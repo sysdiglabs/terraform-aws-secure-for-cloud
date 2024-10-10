@@ -8,9 +8,6 @@ This use case describes setting up Secure for Cloud for a multi-AWS accounts env
 This setup will provide the following [Sysdig Secure for Cloud](https://docs.sysdig.com/en/docs/installation/sysdig-secure-for-cloud/) features:
 
 - [Threat Detection](https://docs.sysdig.com/en/docs/sysdig-secure/policies/threat-detect-policies/)
-- [Posture](https://docs.sysdig.com/en/docs/sysdig-secure/posture/)
-- [Compliance](https://docs.sysdig.com/en/docs/sysdig-secure/posture/compliance/)
-- [Identity Access Management](https://docs.sysdig.com/en/docs/sysdig-secure/posture/identity-and-access/)
 
 ## Prerequisites
 
@@ -40,16 +37,6 @@ This setup will provide the following [Sysdig Secure for Cloud](https://docs.sys
 
     See **account-management** and **account-security** modules in the diagram given below.
 
-- AWS member account for Compliance
-
-  - Sysdig Compliance Role:`aws:SecurityAudit policy`.
-
-    For more information, see [Creating IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create.html).
-
-    This IAM Role provisions permissions pertaining to enable audit trail for compliance.
-
-    See the **account-compliance** module in the diagram given below.
-
 ## Overview
 
 In this setup, you will do the following:
@@ -65,11 +52,6 @@ In this setup, you will do the following:
     See the **account-security** modules in the diagram given below.
 
   - A topic for `cloudtrail-sns-sqs` setting from the organizational Cloudtrail into Cloud Connector compute module.
-
-We recommend that you perform the operations in the following order:
-
-1. Deploy the Cloud Connector. This configuration enables Threat Detection.
-2. Configure the Compliance role, `aws:SecurityAudit policy`,  if required.
 
 ## Create Sysdig Compute Role
 

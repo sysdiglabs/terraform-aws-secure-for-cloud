@@ -22,7 +22,6 @@ From the [available features for Secure for cloud AWS](https://docs.sysdig.com/e
   - [X] Account-specific
   - [?] All individual Cloudtrail accounts need to be analysed
 - [ ] Image Scanning (ECR and ECS)
-- [ ] Compliance / Benchmark
 - [ ] CIEM
 
 ### Other Requirements

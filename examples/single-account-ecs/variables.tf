@@ -99,17 +99,6 @@ variable "deploy_image_scanning_ecs" {
   default     = false
 }
 
-
-#
-# benchmark configuration
-#
-
-variable "deploy_benchmark" {
-  type        = bool
-  description = "Whether to deploy or not the cloud benchmarking"
-  default     = true
-}
-
 #
 # cloud connector connector configuration
 #
