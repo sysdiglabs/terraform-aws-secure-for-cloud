@@ -94,7 +94,6 @@ $ terraform apply
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_cloud_bench"></a> [cloud\_bench](#module\_cloud\_bench) | ../../modules/services/cloud-bench | n/a |
 | <a name="module_cloud_connector_sqs"></a> [cloud\_connector\_sqs](#module\_cloud\_connector\_sqs) | ../../modules/infrastructure/sqs-sns-subscription | n/a |
 | <a name="module_cloudtrail"></a> [cloudtrail](#module\_cloudtrail) | ../../modules/infrastructure/cloudtrail | n/a |
 | <a name="module_codebuild"></a> [codebuild](#module\_codebuild) | ../../modules/infrastructure/codebuild | n/a |
@@ -118,7 +117,6 @@ $ terraform apply
 | <a name="input_cloudtrail_kms_enable"></a> [cloudtrail\_kms\_enable](#input\_cloudtrail\_kms\_enable) | true/false whether s3 should be encrypted. testing/economization purpose. | `bool` | `true` | no |
 | <a name="input_cloudtrail_sns_arn"></a> [cloudtrail\_sns\_arn](#input\_cloudtrail\_sns\_arn) | ARN of a pre-existing cloudtrail\_sns. If defaulted, a new cloudtrail will be created. If specified, deployment region must match Cloudtrail S3 bucket region | `string` | `"create"` | no |
 | <a name="input_deploy_aws_iam_user"></a> [deploy\_aws\_iam\_user](#input\_deploy\_aws\_iam\_user) | true/false whether to deploy an iam user. if set to false, check [required role permissions](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/blob/master/resources/policy-single-account-k8s-aws.json) | `bool` | `true` | no |
-| <a name="input_deploy_benchmark"></a> [deploy\_benchmark](#input\_deploy\_benchmark) | Whether to deploy or not the cloud benchmarking | `bool` | `true` | no |
 | <a name="input_deploy_beta_image_scanning_ecr"></a> [deploy\_beta\_image\_scanning\_ecr](#input\_deploy\_beta\_image\_scanning\_ecr) | true/false whether to deploy the beta image scanning on ECR pushed images (experimental and unsupported) | `bool` | `false` | no |
 | <a name="input_deploy_image_scanning_ecr"></a> [deploy\_image\_scanning\_ecr](#input\_deploy\_image\_scanning\_ecr) | true/false whether to deploy the image scanning on ECR pushed images | `bool` | `false` | no |
 | <a name="input_deploy_image_scanning_ecs"></a> [deploy\_image\_scanning\_ecs](#input\_deploy\_image\_scanning\_ecs) | true/false whether to deploy the image scanning on ECS running images | `bool` | `false` | no |

@@ -36,7 +36,7 @@ This setup will provide the following [Sysdig Secure for Cloud](https://docs.sys
   - EKS or ECS cluster to deploy Sysdig Secure for Cloud (Cloud Connector)
 
     See **account-management** and **account-security** modules in the diagram given below.
-  
+
 ## Overview
 
 In this setup, you will do the following:

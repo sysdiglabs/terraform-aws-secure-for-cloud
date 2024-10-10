@@ -2,7 +2,7 @@
 
 > [!CAUTION]
 > Sysdig released a new onboarding experience for AWS in September 2024. We recommend connecting your cloud accounts by [following these instructions](https://docs.sysdig.com/en/docs/sysdig-secure/connect-cloud-accounts/).
-> 
+>
 > This repository should be used solely in cases where Agentless Threat Detection cannot be used.
 
 ## Usage
@@ -12,7 +12,7 @@ There are several ways to deploy Agent based Cloud Detection and Response (CDR) 
   - [Single Account on AppRunner](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-apprunner/)
   - [Single-Account with a pre-existing Kubernetes Cluster](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/single-account-k8s/)
   - [Organizational](https://github.com/sysdiglabs/terraform-aws-secure-for-cloud/tree/master/examples/organizational/)
-  
+
 If you're unsure about how to use this module, please contact your Sysdig representative. Our experts will guide you through the process and assist you in setting up your account securely and correctly.
 
 ## Required Permissions
