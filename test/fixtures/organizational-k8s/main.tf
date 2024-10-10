@@ -4,7 +4,7 @@ terraform {
       source = "sysdiglabs/sysdig"
     }
     aws = {
-      source  = "hashicorp/aws"
+      source = "hashicorp/aws"
     }
   }
 }
